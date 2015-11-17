@@ -1,0 +1,2153 @@
+                                      1 ;--------------------------------------------------------
+                                      2 ; File Created by SDCC : free open source ANSI-C Compiler
+                                      3 ; Version 3.5.5 #9380 (Linux)
+                                      4 ; This file was generated Tue Nov 17 16:52:50 2015
+                                      5 ;--------------------------------------------------------
+                                      6 	.module usb_core
+                                      7 	.optsdcc -mmcs51 --model-large
+                                      8 	
+                                      9 ;--------------------------------------------------------
+                                     10 ; Public variables in this module
+                                     11 ;--------------------------------------------------------
+                                     12 	.globl _usb_class_get_string_descriptor
+                                     13 	.globl _usb_arch_send_pending
+                                     14 	.globl _usb_arch_get_global_events
+                                     15 	.globl _usb_arch_set_global_event_process
+                                     16 	.globl _usb_arch_set_address
+                                     17 	.globl _usb_arch_get_ep_status
+                                     18 	.globl _usb_arch_set_configuration
+                                     19 	.globl _usb_arch_halt_endpoint
+                                     20 	.globl _usb_arch_control_stall
+                                     21 	.globl _usb_arch_discard_all_buffers
+                                     22 	.globl _usb_arch_disable_endpoint
+                                     23 	.globl _usb_arch_setup_interrupt_endpoint
+                                     24 	.globl _usb_arch_setup_bulk_endpoint
+                                     25 	.globl _usb_arch_setup
+                                     26 	.globl _usb_get_ep_events
+                                     27 	.globl _usb_set_ep_event_process
+                                     28 	.globl _usb_submit_xmit_buffer
+                                     29 	.globl _usb_submit_recv_buffer
+                                     30 	.globl _process_poll
+                                     31 	.globl _process_start
+                                     32 	.globl _usb_process
+                                     33 	.globl _usb_setup_buffer
+                                     34 	.globl _usb_set_global_event_process
+                                     35 	.globl _usb_get_global_events
+                                     36 	.globl _usb_send_ctrl_response
+                                     37 	.globl _usb_error_stall
+                                     38 	.globl _usb_send_ctrl_status
+                                     39 	.globl _usb_get_ctrl_data
+                                     40 	.globl _usb_setup
+                                     41 	.globl _usb_register_request_handler
+                                     42 	.globl _usb_prepend_request_handler
+                                     43 	.globl _usb_get_current_configuration
+                                     44 	.globl _usb_setup_bulk_endpoint
+                                     45 	.globl _usb_setup_interrupt_endpoint
+                                     46 	.globl _usb_disable_endpoint
+                                     47 	.globl _usb_discard_all_buffers
+                                     48 	.globl _usb_halt_endpoint
+                                     49 	.globl _usb_send_pending
+                                     50 ;--------------------------------------------------------
+                                     51 ; special function registers
+                                     52 ;--------------------------------------------------------
+                                     53 	.area RSEG    (ABS,DATA)
+      000000                         54 	.org 0x0000
+                                     55 ;--------------------------------------------------------
+                                     56 ; special function bits
+                                     57 ;--------------------------------------------------------
+                                     58 	.area RSEG    (ABS,DATA)
+      000000                         59 	.org 0x0000
+                                     60 ;--------------------------------------------------------
+                                     61 ; overlayable register banks
+                                     62 ;--------------------------------------------------------
+                                     63 	.area REG_BANK_0	(REL,OVR,DATA)
+      000000                         64 	.ds 8
+                                     65 ;--------------------------------------------------------
+                                     66 ; internal ram data
+                                     67 ;--------------------------------------------------------
+                                     68 	.area DSEG    (DATA)
+                                     69 ;--------------------------------------------------------
+                                     70 ; overlayable items in internal ram 
+                                     71 ;--------------------------------------------------------
+                                     72 ;--------------------------------------------------------
+                                     73 ; indirectly addressable internal ram data
+                                     74 ;--------------------------------------------------------
+                                     75 	.area ISEG    (DATA)
+                                     76 ;--------------------------------------------------------
+                                     77 ; absolute internal ram data
+                                     78 ;--------------------------------------------------------
+                                     79 	.area IABS    (ABS,DATA)
+                                     80 	.area IABS    (ABS,DATA)
+                                     81 ;--------------------------------------------------------
+                                     82 ; bit data
+                                     83 ;--------------------------------------------------------
+                                     84 	.area BSEG    (BIT)
+                                     85 ;--------------------------------------------------------
+                                     86 ; paged external ram data
+                                     87 ;--------------------------------------------------------
+                                     88 	.area PSEG    (PAG,XDATA)
+                                     89 ;--------------------------------------------------------
+                                     90 ; external ram data
+                                     91 ;--------------------------------------------------------
+                                     92 	.area XSEG    (XDATA)
+      000000                         93 _usb_setup_buffer::
+      000000                         94 	.ds 8
+      000008                         95 _ctrl_buffer:
+      000008                         96 	.ds 14
+      000016                         97 _usb_device_status:
+      000016                         98 	.ds 2
+      000018                         99 _usb_configuration_value:
+      000018                        100 	.ds 1
+      000019                        101 _get_endpoint_status_status_1_104:
+      000019                        102 	.ds 2
+                                    103 ;--------------------------------------------------------
+                                    104 ; absolute external ram data
+                                    105 ;--------------------------------------------------------
+                                    106 	.area XABS    (ABS,XDATA)
+                                    107 ;--------------------------------------------------------
+                                    108 ; external initialized ram data
+                                    109 ;--------------------------------------------------------
+                                    110 	.area XISEG   (XDATA)
+      000000                        111 _usb_request_handler_hooks:
+      000000                        112 	.ds 3
+      000003                        113 _usb_flags:
+      000003                        114 	.ds 1
+      000004                        115 _global_user_event_pocess:
+      000004                        116 	.ds 3
+      000007                        117 _global_user_events:
+      000007                        118 	.ds 2
+      000009                        119 _error_stall:
+      000009                        120 	.ds 1
+      00000A                        121 _data_callback:
+      00000A                        122 	.ds 2
+      00000C                        123 _ctrl_data:
+      00000C                        124 	.ds 3
+      00000F                        125 _ctrl_data_len:
+      00000F                        126 	.ds 2
+      000011                        127 _standard_request_hook:
+      000011                        128 	.ds 6
+      000017                        129 _usb_process::
+      000017                        130 	.ds 9
+                                    131 	.area HOME    (CODE)
+                                    132 	.area GSINIT0 (CODE)
+                                    133 	.area GSINIT1 (CODE)
+                                    134 	.area GSINIT2 (CODE)
+                                    135 	.area GSINIT3 (CODE)
+                                    136 	.area GSINIT4 (CODE)
+                                    137 	.area GSINIT5 (CODE)
+                                    138 	.area GSINIT  (CODE)
+                                    139 	.area GSFINAL (CODE)
+                                    140 	.area CSEG    (CODE)
+                                    141 ;--------------------------------------------------------
+                                    142 ; global & static initialisations
+                                    143 ;--------------------------------------------------------
+                                    144 	.area HOME    (CODE)
+                                    145 	.area GSINIT  (CODE)
+                                    146 	.area GSFINAL (CODE)
+                                    147 	.area GSINIT  (CODE)
+                                    148 ;--------------------------------------------------------
+                                    149 ; Home
+                                    150 ;--------------------------------------------------------
+                                    151 	.area HOME    (CODE)
+                                    152 	.area HOME    (CODE)
+                                    153 ;--------------------------------------------------------
+                                    154 ; code
+                                    155 ;--------------------------------------------------------
+                                    156 	.area CSEG    (CODE)
+                                    157 ;------------------------------------------------------------
+                                    158 ;Allocation info for local variables in function 'usb_set_global_event_process'
+                                    159 ;------------------------------------------------------------
+                                    160 ;p                         Allocated to registers 
+                                    161 ;------------------------------------------------------------
+                                    162 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:42: usb_set_global_event_process(struct process *p)
+                                    163 ;	-----------------------------------------
+                                    164 ;	 function usb_set_global_event_process
+                                    165 ;	-----------------------------------------
+      000000                        166 _usb_set_global_event_process:
+                           000007   167 	ar7 = 0x07
+                           000006   168 	ar6 = 0x06
+                           000005   169 	ar5 = 0x05
+                           000004   170 	ar4 = 0x04
+                           000003   171 	ar3 = 0x03
+                           000002   172 	ar2 = 0x02
+                           000001   173 	ar1 = 0x01
+                           000000   174 	ar0 = 0x00
+      000000 AF F0            [24]  175 	mov	r7,b
+      000002 AE 83            [24]  176 	mov	r6,dph
+      000004 E5 82            [12]  177 	mov	a,dpl
+      000006 90r00r04         [24]  178 	mov	dptr,#_global_user_event_pocess
+      000009 F0               [24]  179 	movx	@dptr,a
+      00000A EE               [12]  180 	mov	a,r6
+      00000B A3               [24]  181 	inc	dptr
+      00000C F0               [24]  182 	movx	@dptr,a
+      00000D EF               [12]  183 	mov	a,r7
+      00000E A3               [24]  184 	inc	dptr
+      00000F F0               [24]  185 	movx	@dptr,a
+                                    186 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:44: global_user_event_pocess = p;
+      000010 22               [24]  187 	ret
+                                    188 ;------------------------------------------------------------
+                                    189 ;Allocation info for local variables in function 'usb_get_global_events'
+                                    190 ;------------------------------------------------------------
+                                    191 ;e                         Allocated to registers r6 r7 
+                                    192 ;------------------------------------------------------------
+                                    193 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:47: usb_get_global_events(void)
+                                    194 ;	-----------------------------------------
+                                    195 ;	 function usb_get_global_events
+                                    196 ;	-----------------------------------------
+      000011                        197 _usb_get_global_events:
+                                    198 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:49: unsigned int e = global_user_events;
+      000011 90r00r07         [24]  199 	mov	dptr,#_global_user_events
+      000014 E0               [24]  200 	movx	a,@dptr
+      000015 FE               [12]  201 	mov	r6,a
+      000016 A3               [24]  202 	inc	dptr
+      000017 E0               [24]  203 	movx	a,@dptr
+      000018 FF               [12]  204 	mov	r7,a
+                                    205 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:50: global_user_events = 0;
+      000019 90r00r07         [24]  206 	mov	dptr,#_global_user_events
+      00001C E4               [12]  207 	clr	a
+      00001D F0               [24]  208 	movx	@dptr,a
+      00001E A3               [24]  209 	inc	dptr
+      00001F F0               [24]  210 	movx	@dptr,a
+                                    211 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:51: return e;
+      000020 8E 82            [24]  212 	mov	dpl,r6
+      000022 8F 83            [24]  213 	mov	dph,r7
+      000024 22               [24]  214 	ret
+                                    215 ;------------------------------------------------------------
+                                    216 ;Allocation info for local variables in function 'notify_user'
+                                    217 ;------------------------------------------------------------
+                                    218 ;e                         Allocated to registers r6 r7 
+                                    219 ;------------------------------------------------------------
+                                    220 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:55: notify_user(unsigned int e)
+                                    221 ;	-----------------------------------------
+                                    222 ;	 function notify_user
+                                    223 ;	-----------------------------------------
+      000025                        224 _notify_user:
+      000025 AE 82            [24]  225 	mov	r6,dpl
+      000027 AF 83            [24]  226 	mov	r7,dph
+                                    227 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:57: global_user_events |= e;
+      000029 90r00r07         [24]  228 	mov	dptr,#_global_user_events
+      00002C E0               [24]  229 	movx	a,@dptr
+      00002D FC               [12]  230 	mov	r4,a
+      00002E A3               [24]  231 	inc	dptr
+      00002F E0               [24]  232 	movx	a,@dptr
+      000030 FD               [12]  233 	mov	r5,a
+      000031 90r00r07         [24]  234 	mov	dptr,#_global_user_events
+      000034 EE               [12]  235 	mov	a,r6
+      000035 4C               [12]  236 	orl	a,r4
+      000036 F0               [24]  237 	movx	@dptr,a
+      000037 EF               [12]  238 	mov	a,r7
+      000038 4D               [12]  239 	orl	a,r5
+      000039 A3               [24]  240 	inc	dptr
+      00003A F0               [24]  241 	movx	@dptr,a
+                                    242 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:58: if(global_user_event_pocess) {
+      00003B 90r00r04         [24]  243 	mov	dptr,#_global_user_event_pocess
+      00003E E0               [24]  244 	movx	a,@dptr
+      00003F FD               [12]  245 	mov	r5,a
+      000040 A3               [24]  246 	inc	dptr
+      000041 E0               [24]  247 	movx	a,@dptr
+      000042 FE               [12]  248 	mov	r6,a
+      000043 A3               [24]  249 	inc	dptr
+      000044 E0               [24]  250 	movx	a,@dptr
+      000045 FF               [12]  251 	mov	r7,a
+      000046 90r00r04         [24]  252 	mov	dptr,#_global_user_event_pocess
+      000049 E0               [24]  253 	movx	a,@dptr
+      00004A F5 F0            [12]  254 	mov	b,a
+      00004C A3               [24]  255 	inc	dptr
+      00004D E0               [24]  256 	movx	a,@dptr
+      00004E 45 F0            [12]  257 	orl	a,b
+      000050 60 09            [24]  258 	jz	00103$
+                                    259 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:59: process_poll(global_user_event_pocess);
+      000052 8D 82            [24]  260 	mov	dpl,r5
+      000054 8E 83            [24]  261 	mov	dph,r6
+      000056 8F F0            [24]  262 	mov	b,r7
+      000058 02r00r00         [24]  263 	ljmp	_process_poll
+      00005B                        264 00103$:
+      00005B 22               [24]  265 	ret
+                                    266 ;------------------------------------------------------------
+                                    267 ;Allocation info for local variables in function 'usb_send_ctrl_response'
+                                    268 ;------------------------------------------------------------
+                                    269 ;len                       Allocated to stack - sp -3
+                                    270 ;data                      Allocated to registers r5 r6 r7 
+                                    271 ;------------------------------------------------------------
+                                    272 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:64: usb_send_ctrl_response(const uint8_t * data, unsigned int len)
+                                    273 ;	-----------------------------------------
+                                    274 ;	 function usb_send_ctrl_response
+                                    275 ;	-----------------------------------------
+      00005C                        276 _usb_send_ctrl_response:
+      00005C AD 82            [24]  277 	mov	r5,dpl
+      00005E AE 83            [24]  278 	mov	r6,dph
+      000060 AF F0            [24]  279 	mov	r7,b
+                                    280 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:66: if(ctrl_buffer.flags & USB_BUFFER_SUBMITTED)
+      000062 90r00r10         [24]  281 	mov	dptr,#(_ctrl_buffer + 0x0008)
+      000065 E0               [24]  282 	movx	a,@dptr
+      000066 FB               [12]  283 	mov	r3,a
+      000067 A3               [24]  284 	inc	dptr
+      000068 E0               [24]  285 	movx	a,@dptr
+      000069 FC               [12]  286 	mov	r4,a
+      00006A EB               [12]  287 	mov	a,r3
+      00006B 30 E0 01         [24]  288 	jnb	acc.0,00102$
+                                    289 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:67: return;
+      00006E 22               [24]  290 	ret
+      00006F                        291 00102$:
+                                    292 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:68: if(len >= usb_setup_buffer.wLength) {
+      00006F 90r00r06         [24]  293 	mov	dptr,#(_usb_setup_buffer + 0x0006)
+      000072 E0               [24]  294 	movx	a,@dptr
+      000073 FB               [12]  295 	mov	r3,a
+      000074 A3               [24]  296 	inc	dptr
+      000075 E0               [24]  297 	movx	a,@dptr
+      000076 FC               [12]  298 	mov	r4,a
+      000077 E5 81            [12]  299 	mov	a,sp
+      000079 24 FD            [12]  300 	add	a,#0xfd
+      00007B F8               [12]  301 	mov	r0,a
+      00007C C3               [12]  302 	clr	c
+      00007D E6               [12]  303 	mov	a,@r0
+      00007E 9B               [12]  304 	subb	a,r3
+      00007F 08               [12]  305 	inc	r0
+      000080 E6               [12]  306 	mov	a,@r0
+      000081 9C               [12]  307 	subb	a,r4
+      000082 40 0A            [24]  308 	jc	00104$
+                                    309 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:69: len = usb_setup_buffer.wLength;     /* Truncate if too long */
+      000084 E5 81            [12]  310 	mov	a,sp
+      000086 24 FD            [12]  311 	add	a,#0xfd
+      000088 F8               [12]  312 	mov	r0,a
+      000089 A6 03            [24]  313 	mov	@r0,ar3
+      00008B 08               [12]  314 	inc	r0
+      00008C A6 04            [24]  315 	mov	@r0,ar4
+      00008E                        316 00104$:
+                                    317 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:71: ctrl_buffer.flags = USB_BUFFER_NOTIFY | USB_BUFFER_IN;
+      00008E 90r00r10         [24]  318 	mov	dptr,#(_ctrl_buffer + 0x0008)
+      000091 74 48            [12]  319 	mov	a,#0x48
+      000093 F0               [24]  320 	movx	@dptr,a
+      000094 E4               [12]  321 	clr	a
+      000095 A3               [24]  322 	inc	dptr
+      000096 F0               [24]  323 	movx	@dptr,a
+                                    324 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:72: if(len < usb_setup_buffer.wLength) {
+      000097 90r00r06         [24]  325 	mov	dptr,#(_usb_setup_buffer + 0x0006)
+      00009A E0               [24]  326 	movx	a,@dptr
+      00009B FB               [12]  327 	mov	r3,a
+      00009C A3               [24]  328 	inc	dptr
+      00009D E0               [24]  329 	movx	a,@dptr
+      00009E FC               [12]  330 	mov	r4,a
+      00009F E5 81            [12]  331 	mov	a,sp
+      0000A1 24 FD            [12]  332 	add	a,#0xfd
+      0000A3 F8               [12]  333 	mov	r0,a
+      0000A4 C3               [12]  334 	clr	c
+      0000A5 E6               [12]  335 	mov	a,@r0
+      0000A6 9B               [12]  336 	subb	a,r3
+      0000A7 08               [12]  337 	inc	r0
+      0000A8 E6               [12]  338 	mov	a,@r0
+      0000A9 9C               [12]  339 	subb	a,r4
+      0000AA 50 13            [24]  340 	jnc	00106$
+                                    341 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:73: ctrl_buffer.flags |= USB_BUFFER_SHORT_END;
+      0000AC 90r00r10         [24]  342 	mov	dptr,#(_ctrl_buffer + 0x0008)
+      0000AF E0               [24]  343 	movx	a,@dptr
+      0000B0 FB               [12]  344 	mov	r3,a
+      0000B1 A3               [24]  345 	inc	dptr
+      0000B2 E0               [24]  346 	movx	a,@dptr
+      0000B3 FC               [12]  347 	mov	r4,a
+      0000B4 43 03 02         [24]  348 	orl	ar3,#0x02
+      0000B7 90r00r10         [24]  349 	mov	dptr,#(_ctrl_buffer + 0x0008)
+      0000BA EB               [12]  350 	mov	a,r3
+      0000BB F0               [24]  351 	movx	@dptr,a
+      0000BC EC               [12]  352 	mov	a,r4
+      0000BD A3               [24]  353 	inc	dptr
+      0000BE F0               [24]  354 	movx	@dptr,a
+      0000BF                        355 00106$:
+                                    356 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:75: ctrl_buffer.next = NULL;
+      0000BF 90r00r08         [24]  357 	mov	dptr,#_ctrl_buffer
+      0000C2 E4               [12]  358 	clr	a
+      0000C3 F0               [24]  359 	movx	@dptr,a
+      0000C4 A3               [24]  360 	inc	dptr
+      0000C5 F0               [24]  361 	movx	@dptr,a
+      0000C6 A3               [24]  362 	inc	dptr
+      0000C7 F0               [24]  363 	movx	@dptr,a
+                                    364 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:76: ctrl_buffer.data = (uint8_t *) data;
+      0000C8 90r00r0B         [24]  365 	mov	dptr,#(_ctrl_buffer + 0x0003)
+      0000CB ED               [12]  366 	mov	a,r5
+      0000CC F0               [24]  367 	movx	@dptr,a
+      0000CD EE               [12]  368 	mov	a,r6
+      0000CE A3               [24]  369 	inc	dptr
+      0000CF F0               [24]  370 	movx	@dptr,a
+      0000D0 EF               [12]  371 	mov	a,r7
+      0000D1 A3               [24]  372 	inc	dptr
+      0000D2 F0               [24]  373 	movx	@dptr,a
+                                    374 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:77: ctrl_buffer.left = len;
+      0000D3 90r00r0E         [24]  375 	mov	dptr,#(_ctrl_buffer + 0x0006)
+      0000D6 E5 81            [12]  376 	mov	a,sp
+      0000D8 24 FD            [12]  377 	add	a,#0xfd
+      0000DA F8               [12]  378 	mov	r0,a
+      0000DB E6               [12]  379 	mov	a,@r0
+      0000DC F0               [24]  380 	movx	@dptr,a
+      0000DD 08               [12]  381 	inc	r0
+      0000DE E6               [12]  382 	mov	a,@r0
+      0000DF A3               [24]  383 	inc	dptr
+      0000E0 F0               [24]  384 	movx	@dptr,a
+                                    385 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:78: ctrl_buffer.id = IN_ID;
+      0000E1 90r00r12         [24]  386 	mov	dptr,#(_ctrl_buffer + 0x000a)
+      0000E4 74 03            [12]  387 	mov	a,#0x03
+      0000E6 F0               [24]  388 	movx	@dptr,a
+      0000E7 E4               [12]  389 	clr	a
+      0000E8 A3               [24]  390 	inc	dptr
+      0000E9 F0               [24]  391 	movx	@dptr,a
+      0000EA A3               [24]  392 	inc	dptr
+      0000EB F0               [24]  393 	movx	@dptr,a
+      0000EC A3               [24]  394 	inc	dptr
+      0000ED F0               [24]  395 	movx	@dptr,a
+                                    396 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:79: usb_submit_xmit_buffer(0, &ctrl_buffer);
+      0000EE 74r08            [12]  397 	mov	a,#_ctrl_buffer
+      0000F0 C0 E0            [24]  398 	push	acc
+      0000F2 74s00            [12]  399 	mov	a,#(_ctrl_buffer >> 8)
+      0000F4 C0 E0            [24]  400 	push	acc
+      0000F6 E4               [12]  401 	clr	a
+      0000F7 C0 E0            [24]  402 	push	acc
+      0000F9 75 82 00         [24]  403 	mov	dpl,#0x00
+      0000FC 12r00r00         [24]  404 	lcall	_usb_submit_xmit_buffer
+      0000FF 15 81            [12]  405 	dec	sp
+      000101 15 81            [12]  406 	dec	sp
+      000103 15 81            [12]  407 	dec	sp
+      000105 22               [24]  408 	ret
+                                    409 ;------------------------------------------------------------
+                                    410 ;Allocation info for local variables in function 'usb_error_stall'
+                                    411 ;------------------------------------------------------------
+                                    412 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:85: usb_error_stall()
+                                    413 ;	-----------------------------------------
+                                    414 ;	 function usb_error_stall
+                                    415 ;	-----------------------------------------
+      000106                        416 _usb_error_stall:
+                                    417 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:87: error_stall = 1;
+      000106 90r00r09         [24]  418 	mov	dptr,#_error_stall
+      000109 74 01            [12]  419 	mov	a,#0x01
+      00010B F0               [24]  420 	movx	@dptr,a
+                                    421 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:88: usb_arch_control_stall(0);
+      00010C 75 82 00         [24]  422 	mov	dpl,#0x00
+      00010F 02r00r00         [24]  423 	ljmp	_usb_arch_control_stall
+                                    424 ;------------------------------------------------------------
+                                    425 ;Allocation info for local variables in function 'usb_send_ctrl_status'
+                                    426 ;------------------------------------------------------------
+                                    427 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:92: usb_send_ctrl_status()
+                                    428 ;	-----------------------------------------
+                                    429 ;	 function usb_send_ctrl_status
+                                    430 ;	-----------------------------------------
+      000112                        431 _usb_send_ctrl_status:
+                                    432 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:94: if(ctrl_buffer.flags & USB_BUFFER_SUBMITTED)
+      000112 90r00r10         [24]  433 	mov	dptr,#(_ctrl_buffer + 0x0008)
+      000115 E0               [24]  434 	movx	a,@dptr
+      000116 FE               [12]  435 	mov	r6,a
+      000117 A3               [24]  436 	inc	dptr
+      000118 E0               [24]  437 	movx	a,@dptr
+      000119 FF               [12]  438 	mov	r7,a
+      00011A EE               [12]  439 	mov	a,r6
+      00011B 30 E0 01         [24]  440 	jnb	acc.0,00102$
+                                    441 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:95: return;
+      00011E 22               [24]  442 	ret
+      00011F                        443 00102$:
+                                    444 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:96: ctrl_buffer.flags = USB_BUFFER_NOTIFY | USB_BUFFER_IN;
+      00011F 90r00r10         [24]  445 	mov	dptr,#(_ctrl_buffer + 0x0008)
+      000122 74 48            [12]  446 	mov	a,#0x48
+      000124 F0               [24]  447 	movx	@dptr,a
+      000125 E4               [12]  448 	clr	a
+      000126 A3               [24]  449 	inc	dptr
+      000127 F0               [24]  450 	movx	@dptr,a
+                                    451 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:97: ctrl_buffer.next = NULL;
+      000128 90r00r08         [24]  452 	mov	dptr,#_ctrl_buffer
+      00012B F0               [24]  453 	movx	@dptr,a
+      00012C A3               [24]  454 	inc	dptr
+      00012D F0               [24]  455 	movx	@dptr,a
+      00012E A3               [24]  456 	inc	dptr
+      00012F F0               [24]  457 	movx	@dptr,a
+                                    458 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:98: ctrl_buffer.data = NULL;
+      000130 90r00r0B         [24]  459 	mov	dptr,#(_ctrl_buffer + 0x0003)
+      000133 F0               [24]  460 	movx	@dptr,a
+      000134 A3               [24]  461 	inc	dptr
+      000135 F0               [24]  462 	movx	@dptr,a
+      000136 A3               [24]  463 	inc	dptr
+      000137 F0               [24]  464 	movx	@dptr,a
+                                    465 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:99: ctrl_buffer.left = 0;
+      000138 90r00r0E         [24]  466 	mov	dptr,#(_ctrl_buffer + 0x0006)
+      00013B F0               [24]  467 	movx	@dptr,a
+      00013C A3               [24]  468 	inc	dptr
+      00013D F0               [24]  469 	movx	@dptr,a
+                                    470 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:100: ctrl_buffer.id = STATUS_IN_ID;
+      00013E 90r00r12         [24]  471 	mov	dptr,#(_ctrl_buffer + 0x000a)
+      000141 74 05            [12]  472 	mov	a,#0x05
+      000143 F0               [24]  473 	movx	@dptr,a
+      000144 E4               [12]  474 	clr	a
+      000145 A3               [24]  475 	inc	dptr
+      000146 F0               [24]  476 	movx	@dptr,a
+      000147 A3               [24]  477 	inc	dptr
+      000148 F0               [24]  478 	movx	@dptr,a
+      000149 A3               [24]  479 	inc	dptr
+      00014A F0               [24]  480 	movx	@dptr,a
+                                    481 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:101: usb_submit_xmit_buffer(0, &ctrl_buffer);
+      00014B 74r08            [12]  482 	mov	a,#_ctrl_buffer
+      00014D C0 E0            [24]  483 	push	acc
+      00014F 74s00            [12]  484 	mov	a,#(_ctrl_buffer >> 8)
+      000151 C0 E0            [24]  485 	push	acc
+      000153 E4               [12]  486 	clr	a
+      000154 C0 E0            [24]  487 	push	acc
+      000156 75 82 00         [24]  488 	mov	dpl,#0x00
+      000159 12r00r00         [24]  489 	lcall	_usb_submit_xmit_buffer
+      00015C 15 81            [12]  490 	dec	sp
+      00015E 15 81            [12]  491 	dec	sp
+      000160 15 81            [12]  492 	dec	sp
+      000162 22               [24]  493 	ret
+                                    494 ;------------------------------------------------------------
+                                    495 ;Allocation info for local variables in function 'usb_get_ctrl_data'
+                                    496 ;------------------------------------------------------------
+                                    497 ;length                    Allocated to stack - sp -3
+                                    498 ;cb                        Allocated to stack - sp -5
+                                    499 ;data                      Allocated to registers r5 r6 r7 
+                                    500 ;------------------------------------------------------------
+                                    501 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:111: usb_get_ctrl_data(uint8_t * data, unsigned int length,
+                                    502 ;	-----------------------------------------
+                                    503 ;	 function usb_get_ctrl_data
+                                    504 ;	-----------------------------------------
+      000163                        505 _usb_get_ctrl_data:
+      000163 AD 82            [24]  506 	mov	r5,dpl
+      000165 AE 83            [24]  507 	mov	r6,dph
+      000167 AF F0            [24]  508 	mov	r7,b
+                                    509 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:114: if(ctrl_buffer.flags & USB_BUFFER_SUBMITTED)
+      000169 90r00r10         [24]  510 	mov	dptr,#(_ctrl_buffer + 0x0008)
+      00016C E0               [24]  511 	movx	a,@dptr
+      00016D FB               [12]  512 	mov	r3,a
+      00016E A3               [24]  513 	inc	dptr
+      00016F E0               [24]  514 	movx	a,@dptr
+      000170 FC               [12]  515 	mov	r4,a
+      000171 EB               [12]  516 	mov	a,r3
+      000172 30 E0 01         [24]  517 	jnb	acc.0,00102$
+                                    518 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:115: return;
+      000175 22               [24]  519 	ret
+      000176                        520 00102$:
+                                    521 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:117: data_callback = cb;
+      000176 E5 81            [12]  522 	mov	a,sp
+      000178 24 FB            [12]  523 	add	a,#0xfb
+      00017A F8               [12]  524 	mov	r0,a
+      00017B 90r00r0A         [24]  525 	mov	dptr,#_data_callback
+      00017E E6               [12]  526 	mov	a,@r0
+      00017F F0               [24]  527 	movx	@dptr,a
+      000180 08               [12]  528 	inc	r0
+      000181 E6               [12]  529 	mov	a,@r0
+      000182 A3               [24]  530 	inc	dptr
+      000183 F0               [24]  531 	movx	@dptr,a
+                                    532 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:118: ctrl_data = data;
+      000184 90r00r0C         [24]  533 	mov	dptr,#_ctrl_data
+      000187 ED               [12]  534 	mov	a,r5
+      000188 F0               [24]  535 	movx	@dptr,a
+      000189 EE               [12]  536 	mov	a,r6
+      00018A A3               [24]  537 	inc	dptr
+      00018B F0               [24]  538 	movx	@dptr,a
+      00018C EF               [12]  539 	mov	a,r7
+      00018D A3               [24]  540 	inc	dptr
+      00018E F0               [24]  541 	movx	@dptr,a
+                                    542 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:119: ctrl_data_len = length;
+      00018F E5 81            [12]  543 	mov	a,sp
+      000191 24 FD            [12]  544 	add	a,#0xfd
+      000193 F8               [12]  545 	mov	r0,a
+      000194 86 03            [24]  546 	mov	ar3,@r0
+      000196 08               [12]  547 	inc	r0
+      000197 86 04            [24]  548 	mov	ar4,@r0
+      000199 90r00r0F         [24]  549 	mov	dptr,#_ctrl_data_len
+      00019C EB               [12]  550 	mov	a,r3
+      00019D F0               [24]  551 	movx	@dptr,a
+      00019E EC               [12]  552 	mov	a,r4
+      00019F A3               [24]  553 	inc	dptr
+      0001A0 F0               [24]  554 	movx	@dptr,a
+                                    555 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:120: ctrl_buffer.flags = USB_BUFFER_NOTIFY;
+      0001A1 90r00r10         [24]  556 	mov	dptr,#(_ctrl_buffer + 0x0008)
+      0001A4 74 08            [12]  557 	mov	a,#0x08
+      0001A6 F0               [24]  558 	movx	@dptr,a
+      0001A7 E4               [12]  559 	clr	a
+      0001A8 A3               [24]  560 	inc	dptr
+      0001A9 F0               [24]  561 	movx	@dptr,a
+                                    562 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:121: ctrl_buffer.next = NULL;
+      0001AA 90r00r08         [24]  563 	mov	dptr,#_ctrl_buffer
+      0001AD F0               [24]  564 	movx	@dptr,a
+      0001AE A3               [24]  565 	inc	dptr
+      0001AF F0               [24]  566 	movx	@dptr,a
+      0001B0 A3               [24]  567 	inc	dptr
+      0001B1 F0               [24]  568 	movx	@dptr,a
+                                    569 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:122: ctrl_buffer.data = data;
+      0001B2 90r00r0B         [24]  570 	mov	dptr,#(_ctrl_buffer + 0x0003)
+      0001B5 ED               [12]  571 	mov	a,r5
+      0001B6 F0               [24]  572 	movx	@dptr,a
+      0001B7 EE               [12]  573 	mov	a,r6
+      0001B8 A3               [24]  574 	inc	dptr
+      0001B9 F0               [24]  575 	movx	@dptr,a
+      0001BA EF               [12]  576 	mov	a,r7
+      0001BB A3               [24]  577 	inc	dptr
+      0001BC F0               [24]  578 	movx	@dptr,a
+                                    579 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:123: ctrl_buffer.left = length;
+      0001BD 90r00r0E         [24]  580 	mov	dptr,#(_ctrl_buffer + 0x0006)
+      0001C0 EB               [12]  581 	mov	a,r3
+      0001C1 F0               [24]  582 	movx	@dptr,a
+      0001C2 EC               [12]  583 	mov	a,r4
+      0001C3 A3               [24]  584 	inc	dptr
+      0001C4 F0               [24]  585 	movx	@dptr,a
+                                    586 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:124: ctrl_buffer.id = OUT_ID;
+      0001C5 90r00r12         [24]  587 	mov	dptr,#(_ctrl_buffer + 0x000a)
+      0001C8 74 02            [12]  588 	mov	a,#0x02
+      0001CA F0               [24]  589 	movx	@dptr,a
+      0001CB E4               [12]  590 	clr	a
+      0001CC A3               [24]  591 	inc	dptr
+      0001CD F0               [24]  592 	movx	@dptr,a
+      0001CE A3               [24]  593 	inc	dptr
+      0001CF F0               [24]  594 	movx	@dptr,a
+      0001D0 A3               [24]  595 	inc	dptr
+      0001D1 F0               [24]  596 	movx	@dptr,a
+                                    597 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:125: usb_submit_recv_buffer(0, &ctrl_buffer);
+      0001D2 74r08            [12]  598 	mov	a,#_ctrl_buffer
+      0001D4 C0 E0            [24]  599 	push	acc
+      0001D6 74s00            [12]  600 	mov	a,#(_ctrl_buffer >> 8)
+      0001D8 C0 E0            [24]  601 	push	acc
+      0001DA E4               [12]  602 	clr	a
+      0001DB C0 E0            [24]  603 	push	acc
+      0001DD 75 82 00         [24]  604 	mov	dpl,#0x00
+      0001E0 12r00r00         [24]  605 	lcall	_usb_submit_recv_buffer
+      0001E3 15 81            [12]  606 	dec	sp
+      0001E5 15 81            [12]  607 	dec	sp
+      0001E7 15 81            [12]  608 	dec	sp
+      0001E9 22               [24]  609 	ret
+                                    610 ;------------------------------------------------------------
+                                    611 ;Allocation info for local variables in function 'get_device_descriptor'
+                                    612 ;------------------------------------------------------------
+                                    613 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:138: get_device_descriptor()
+                                    614 ;	-----------------------------------------
+                                    615 ;	 function get_device_descriptor
+                                    616 ;	-----------------------------------------
+      0001EA                        617 _get_device_descriptor:
+                                    618 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:140: usb_send_ctrl_response((unsigned char *)&device_descriptor,
+      0001EA 74 12            [12]  619 	mov	a,#0x12
+      0001EC C0 E0            [24]  620 	push	acc
+      0001EE E4               [12]  621 	clr	a
+      0001EF C0 E0            [24]  622 	push	acc
+      0001F1 90r00r00         [24]  623 	mov	dptr,#_device_descriptor
+      0001F4 75 F0 80         [24]  624 	mov	b,#0x80
+      0001F7 12r00r5C         [24]  625 	lcall	_usb_send_ctrl_response
+      0001FA 15 81            [12]  626 	dec	sp
+      0001FC 15 81            [12]  627 	dec	sp
+      0001FE 22               [24]  628 	ret
+                                    629 ;------------------------------------------------------------
+                                    630 ;Allocation info for local variables in function 'get_string_descriptor'
+                                    631 ;------------------------------------------------------------
+                                    632 ;descriptor                Allocated to registers r5 r6 r7 
+                                    633 ;------------------------------------------------------------
+                                    634 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:145: get_string_descriptor()
+                                    635 ;	-----------------------------------------
+                                    636 ;	 function get_string_descriptor
+                                    637 ;	-----------------------------------------
+      0001FF                        638 _get_string_descriptor:
+                                    639 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:186: LOW_BYTE(usb_setup_buffer.wValue));
+      0001FF 90r00r02         [24]  640 	mov	dptr,#(_usb_setup_buffer + 0x0002)
+      000202 E0               [24]  641 	movx	a,@dptr
+      000203 FE               [12]  642 	mov	r6,a
+      000204 A3               [24]  643 	inc	dptr
+      000205 E0               [24]  644 	movx	a,@dptr
+                                    645 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:185: usb_class_get_string_descriptor(usb_setup_buffer.wIndex,
+      000206 90r00r04         [24]  646 	mov	dptr,#(_usb_setup_buffer + 0x0004)
+      000209 E0               [24]  647 	movx	a,@dptr
+      00020A FD               [12]  648 	mov	r5,a
+      00020B A3               [24]  649 	inc	dptr
+      00020C E0               [24]  650 	movx	a,@dptr
+      00020D FF               [12]  651 	mov	r7,a
+      00020E C0 06            [24]  652 	push	ar6
+      000210 8D 82            [24]  653 	mov	dpl,r5
+      000212 8F 83            [24]  654 	mov	dph,r7
+      000214 12r00r00         [24]  655 	lcall	_usb_class_get_string_descriptor
+      000217 AD 82            [24]  656 	mov	r5,dpl
+      000219 AE 83            [24]  657 	mov	r6,dph
+      00021B AF F0            [24]  658 	mov	r7,b
+      00021D 15 81            [12]  659 	dec	sp
+                                    660 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:187: if(!descriptor) {
+      00021F ED               [12]  661 	mov	a,r5
+      000220 4E               [12]  662 	orl	a,r6
+      000221 70 03            [24]  663 	jnz	00102$
+                                    664 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:188: usb_error_stall();
+                                    665 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:189: return;
+      000223 02r01r06         [24]  666 	ljmp	_usb_error_stall
+      000226                        667 00102$:
+                                    668 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:192: descriptor->bLength);
+      000226 8D 82            [24]  669 	mov	dpl,r5
+      000228 8E 83            [24]  670 	mov	dph,r6
+      00022A 8F F0            [24]  671 	mov	b,r7
+      00022C 12r00r00         [24]  672 	lcall	__gptrget
+      00022F FC               [12]  673 	mov	r4,a
+      000230 7B 00            [12]  674 	mov	r3,#0x00
+                                    675 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:191: usb_send_ctrl_response((const unsigned char *)descriptor,
+      000232 C0 04            [24]  676 	push	ar4
+      000234 C0 03            [24]  677 	push	ar3
+      000236 8D 82            [24]  678 	mov	dpl,r5
+      000238 8E 83            [24]  679 	mov	dph,r6
+      00023A 8F F0            [24]  680 	mov	b,r7
+      00023C 12r00r5C         [24]  681 	lcall	_usb_send_ctrl_response
+      00023F 15 81            [12]  682 	dec	sp
+      000241 15 81            [12]  683 	dec	sp
+      000243 22               [24]  684 	ret
+                                    685 ;------------------------------------------------------------
+                                    686 ;Allocation info for local variables in function 'get_configuration_descriptor'
+                                    687 ;------------------------------------------------------------
+                                    688 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:197: get_configuration_descriptor()
+                                    689 ;	-----------------------------------------
+                                    690 ;	 function get_configuration_descriptor
+                                    691 ;	-----------------------------------------
+      000244                        692 _get_configuration_descriptor:
+                                    693 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:200: configuration_head->wTotalLength);
+      000244 90r00r00         [24]  694 	mov	dptr,#_configuration_head
+      000247 E0               [24]  695 	movx	a,@dptr
+      000248 FD               [12]  696 	mov	r5,a
+      000249 A3               [24]  697 	inc	dptr
+      00024A E0               [24]  698 	movx	a,@dptr
+      00024B FE               [12]  699 	mov	r6,a
+      00024C A3               [24]  700 	inc	dptr
+      00024D E0               [24]  701 	movx	a,@dptr
+      00024E FF               [12]  702 	mov	r7,a
+      00024F 74 02            [12]  703 	mov	a,#0x02
+      000251 2D               [12]  704 	add	a,r5
+      000252 FA               [12]  705 	mov	r2,a
+      000253 E4               [12]  706 	clr	a
+      000254 3E               [12]  707 	addc	a,r6
+      000255 FB               [12]  708 	mov	r3,a
+      000256 8F 04            [24]  709 	mov	ar4,r7
+      000258 8A 82            [24]  710 	mov	dpl,r2
+      00025A 8B 83            [24]  711 	mov	dph,r3
+      00025C 8C F0            [24]  712 	mov	b,r4
+      00025E 12r00r00         [24]  713 	lcall	__gptrget
+      000261 FA               [12]  714 	mov	r2,a
+      000262 A3               [24]  715 	inc	dptr
+      000263 12r00r00         [24]  716 	lcall	__gptrget
+      000266 FB               [12]  717 	mov	r3,a
+                                    718 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:199: usb_send_ctrl_response((unsigned char *)configuration_head,
+      000267 C0 02            [24]  719 	push	ar2
+      000269 C0 03            [24]  720 	push	ar3
+      00026B 8D 82            [24]  721 	mov	dpl,r5
+      00026D 8E 83            [24]  722 	mov	dph,r6
+      00026F 8F F0            [24]  723 	mov	b,r7
+      000271 12r00r5C         [24]  724 	lcall	_usb_send_ctrl_response
+      000274 15 81            [12]  725 	dec	sp
+      000276 15 81            [12]  726 	dec	sp
+      000278 22               [24]  727 	ret
+                                    728 ;------------------------------------------------------------
+                                    729 ;Allocation info for local variables in function 'get_configuration'
+                                    730 ;------------------------------------------------------------
+                                    731 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:204: get_configuration()
+                                    732 ;	-----------------------------------------
+                                    733 ;	 function get_configuration
+                                    734 ;	-----------------------------------------
+      000279                        735 _get_configuration:
+                                    736 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:206: usb_send_ctrl_response((unsigned char *)&usb_configuration_value,
+      000279 74 01            [12]  737 	mov	a,#0x01
+      00027B C0 E0            [24]  738 	push	acc
+      00027D E4               [12]  739 	clr	a
+      00027E C0 E0            [24]  740 	push	acc
+      000280 90r00r18         [24]  741 	mov	dptr,#_usb_configuration_value
+      000283 75 F0 00         [24]  742 	mov	b,#0x00
+      000286 12r00r5C         [24]  743 	lcall	_usb_send_ctrl_response
+      000289 15 81            [12]  744 	dec	sp
+      00028B 15 81            [12]  745 	dec	sp
+      00028D 22               [24]  746 	ret
+                                    747 ;------------------------------------------------------------
+                                    748 ;Allocation info for local variables in function 'set_configuration'
+                                    749 ;------------------------------------------------------------
+                                    750 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:212: set_configuration()
+                                    751 ;	-----------------------------------------
+                                    752 ;	 function set_configuration
+                                    753 ;	-----------------------------------------
+      00028E                        754 _set_configuration:
+                                    755 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:214: notify_user(USB_EVENT_CONFIG);
+      00028E 90 00 01         [24]  756 	mov	dptr,#0x0001
+      000291 12r00r25         [24]  757 	lcall	_notify_user
+                                    758 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:215: if(usb_configuration_value != LOW_BYTE(usb_setup_buffer.wValue)) {
+      000294 90r00r02         [24]  759 	mov	dptr,#(_usb_setup_buffer + 0x0002)
+      000297 E0               [24]  760 	movx	a,@dptr
+      000298 FE               [12]  761 	mov	r6,a
+      000299 A3               [24]  762 	inc	dptr
+      00029A E0               [24]  763 	movx	a,@dptr
+      00029B 90r00r18         [24]  764 	mov	dptr,#_usb_configuration_value
+      00029E E0               [24]  765 	movx	a,@dptr
+      00029F FF               [12]  766 	mov	r7,a
+      0002A0 B5 06 02         [24]  767 	cjne	a,ar6,00109$
+      0002A3 80 11            [24]  768 	sjmp	00102$
+      0002A5                        769 00109$:
+                                    770 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:216: usb_configuration_value = LOW_BYTE(usb_setup_buffer.wValue);
+      0002A5 90r00r18         [24]  771 	mov	dptr,#_usb_configuration_value
+      0002A8 EE               [12]  772 	mov	a,r6
+      0002A9 F0               [24]  773 	movx	@dptr,a
+                                    774 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:217: usb_arch_set_configuration(usb_configuration_value);
+      0002AA 8E 82            [24]  775 	mov	dpl,r6
+      0002AC 12r00r00         [24]  776 	lcall	_usb_arch_set_configuration
+                                    777 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:218: usb_send_ctrl_status();
+      0002AF 12r01r12         [24]  778 	lcall	_usb_send_ctrl_status
+                                    779 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:219: return 1;
+      0002B2 90 00 01         [24]  780 	mov	dptr,#0x0001
+      0002B5 22               [24]  781 	ret
+      0002B6                        782 00102$:
+                                    783 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:221: usb_send_ctrl_status();
+      0002B6 12r01r12         [24]  784 	lcall	_usb_send_ctrl_status
+                                    785 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:222: return 0;
+      0002B9 90 00 00         [24]  786 	mov	dptr,#0x0000
+      0002BC 22               [24]  787 	ret
+                                    788 ;------------------------------------------------------------
+                                    789 ;Allocation info for local variables in function 'get_device_status'
+                                    790 ;------------------------------------------------------------
+                                    791 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:227: get_device_status()
+                                    792 ;	-----------------------------------------
+                                    793 ;	 function get_device_status
+                                    794 ;	-----------------------------------------
+      0002BD                        795 _get_device_status:
+                                    796 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:230: usb_send_ctrl_response((const unsigned char *)&usb_device_status,
+      0002BD 74 02            [12]  797 	mov	a,#0x02
+      0002BF C0 E0            [24]  798 	push	acc
+      0002C1 E4               [12]  799 	clr	a
+      0002C2 C0 E0            [24]  800 	push	acc
+      0002C4 90r00r16         [24]  801 	mov	dptr,#_usb_device_status
+      0002C7 75 F0 00         [24]  802 	mov	b,#0x00
+      0002CA 12r00r5C         [24]  803 	lcall	_usb_send_ctrl_response
+      0002CD 15 81            [12]  804 	dec	sp
+      0002CF 15 81            [12]  805 	dec	sp
+      0002D1 22               [24]  806 	ret
+                                    807 ;------------------------------------------------------------
+                                    808 ;Allocation info for local variables in function 'get_endpoint_status'
+                                    809 ;------------------------------------------------------------
+                                    810 ;status                    Allocated with name '_get_endpoint_status_status_1_104'
+                                    811 ;------------------------------------------------------------
+                                    812 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:235: get_endpoint_status()
+                                    813 ;	-----------------------------------------
+                                    814 ;	 function get_endpoint_status
+                                    815 ;	-----------------------------------------
+      0002D2                        816 _get_endpoint_status:
+                                    817 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:240: if((usb_setup_buffer.wIndex & 0x7f) == 0) {
+      0002D2 90r00r04         [24]  818 	mov	dptr,#(_usb_setup_buffer + 0x0004)
+      0002D5 E0               [24]  819 	movx	a,@dptr
+      0002D6 FE               [12]  820 	mov	r6,a
+      0002D7 A3               [24]  821 	inc	dptr
+      0002D8 E0               [24]  822 	movx	a,@dptr
+      0002D9 FF               [12]  823 	mov	r7,a
+      0002DA EE               [12]  824 	mov	a,r6
+      0002DB 54 7F            [12]  825 	anl	a,#0x7F
+      0002DD 60 02            [24]  826 	jz	00110$
+      0002DF 80 15            [24]  827 	sjmp	00102$
+      0002E1                        828 00110$:
+                                    829 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:241: usb_send_ctrl_response((const unsigned char *)&zero_word,
+      0002E1 74 02            [12]  830 	mov	a,#0x02
+      0002E3 C0 E0            [24]  831 	push	acc
+      0002E5 E4               [12]  832 	clr	a
+      0002E6 C0 E0            [24]  833 	push	acc
+      0002E8 90r00r01         [24]  834 	mov	dptr,#_zero_word
+      0002EB 75 F0 80         [24]  835 	mov	b,#0x80
+      0002EE 12r00r5C         [24]  836 	lcall	_usb_send_ctrl_response
+      0002F1 15 81            [12]  837 	dec	sp
+      0002F3 15 81            [12]  838 	dec	sp
+      0002F5 22               [24]  839 	ret
+      0002F6                        840 00102$:
+                                    841 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:244: status = usb_arch_get_ep_status(usb_setup_buffer.wIndex);
+      0002F6 8E 82            [24]  842 	mov	dpl,r6
+      0002F8 12r00r00         [24]  843 	lcall	_usb_arch_get_ep_status
+      0002FB E5 82            [12]  844 	mov	a,dpl
+      0002FD 85 83 F0         [24]  845 	mov	b,dph
+      000300 90r00r19         [24]  846 	mov	dptr,#_get_endpoint_status_status_1_104
+      000303 F0               [24]  847 	movx	@dptr,a
+      000304 E5 F0            [12]  848 	mov	a,b
+      000306 A3               [24]  849 	inc	dptr
+      000307 F0               [24]  850 	movx	@dptr,a
+                                    851 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:245: usb_send_ctrl_response((uint8_t *) & status, sizeof(status));
+      000308 74 02            [12]  852 	mov	a,#0x02
+      00030A C0 E0            [24]  853 	push	acc
+      00030C E4               [12]  854 	clr	a
+      00030D C0 E0            [24]  855 	push	acc
+      00030F 90r00r19         [24]  856 	mov	dptr,#_get_endpoint_status_status_1_104
+      000312 75 F0 00         [24]  857 	mov	b,#0x00
+      000315 12r00r5C         [24]  858 	lcall	_usb_send_ctrl_response
+      000318 15 81            [12]  859 	dec	sp
+      00031A 15 81            [12]  860 	dec	sp
+      00031C 22               [24]  861 	ret
+                                    862 ;------------------------------------------------------------
+                                    863 ;Allocation info for local variables in function 'get_interface_status'
+                                    864 ;------------------------------------------------------------
+                                    865 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:250: get_interface_status()
+                                    866 ;	-----------------------------------------
+                                    867 ;	 function get_interface_status
+                                    868 ;	-----------------------------------------
+      00031D                        869 _get_interface_status:
+                                    870 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:253: usb_send_ctrl_response((const unsigned char *)&zero_word,
+      00031D 74 02            [12]  871 	mov	a,#0x02
+      00031F C0 E0            [24]  872 	push	acc
+      000321 E4               [12]  873 	clr	a
+      000322 C0 E0            [24]  874 	push	acc
+      000324 90r00r01         [24]  875 	mov	dptr,#_zero_word
+      000327 75 F0 80         [24]  876 	mov	b,#0x80
+      00032A 12r00r5C         [24]  877 	lcall	_usb_send_ctrl_response
+      00032D 15 81            [12]  878 	dec	sp
+      00032F 15 81            [12]  879 	dec	sp
+      000331 22               [24]  880 	ret
+                                    881 ;------------------------------------------------------------
+                                    882 ;Allocation info for local variables in function 'get_interface'
+                                    883 ;------------------------------------------------------------
+                                    884 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:258: get_interface()
+                                    885 ;	-----------------------------------------
+                                    886 ;	 function get_interface
+                                    887 ;	-----------------------------------------
+      000332                        888 _get_interface:
+                                    889 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:261: if(usb_configuration_value == 0)
+      000332 90r00r18         [24]  890 	mov	dptr,#_usb_configuration_value
+      000335 E0               [24]  891 	movx	a,@dptr
+      000336 FF               [12]  892 	mov	r7,a
+      000337 70 03            [24]  893 	jnz	00102$
+                                    894 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:262: usb_error_stall();
+      000339 02r01r06         [24]  895 	ljmp	_usb_error_stall
+      00033C                        896 00102$:
+                                    897 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:264: usb_send_ctrl_response(&zero_byte, sizeof(zero_byte));
+      00033C 74 01            [12]  898 	mov	a,#0x01
+      00033E C0 E0            [24]  899 	push	acc
+      000340 E4               [12]  900 	clr	a
+      000341 C0 E0            [24]  901 	push	acc
+      000343 90r00r00         [24]  902 	mov	dptr,#_zero_byte
+      000346 75 F0 80         [24]  903 	mov	b,#0x80
+      000349 12r00r5C         [24]  904 	lcall	_usb_send_ctrl_response
+      00034C 15 81            [12]  905 	dec	sp
+      00034E 15 81            [12]  906 	dec	sp
+      000350 22               [24]  907 	ret
+                                    908 ;------------------------------------------------------------
+                                    909 ;Allocation info for local variables in function 'handle_standard_requests'
+                                    910 ;------------------------------------------------------------
+                                    911 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:270: handle_standard_requests()
+                                    912 ;	-----------------------------------------
+                                    913 ;	 function handle_standard_requests
+                                    914 ;	-----------------------------------------
+      000351                        915 _handle_standard_requests:
+                                    916 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:272: switch (usb_setup_buffer.bmRequestType) {
+      000351 90r00r00         [24]  917 	mov	dptr,#_usb_setup_buffer
+      000354 E0               [24]  918 	movx	a,@dptr
+      000355 FF               [12]  919 	mov	r7,a
+      000356 BF 00 03         [24]  920 	cjne	r7,#0x00,00204$
+      000359 02r03rFA         [24]  921 	ljmp	00121$
+      00035C                        922 00204$:
+      00035C BF 01 03         [24]  923 	cjne	r7,#0x01,00205$
+      00035F 02r04r22         [24]  924 	ljmp	00128$
+      000362                        925 00205$:
+      000362 BF 02 03         [24]  926 	cjne	r7,#0x02,00206$
+      000365 02r04r33         [24]  927 	ljmp	00132$
+      000368                        928 00206$:
+      000368 BF 80 02         [24]  929 	cjne	r7,#0x80,00207$
+      00036B 80 0E            [24]  930 	sjmp	00101$
+      00036D                        931 00207$:
+      00036D BF 81 02         [24]  932 	cjne	r7,#0x81,00208$
+      000370 80 62            [24]  933 	sjmp	00113$
+      000372                        934 00208$:
+      000372 BF 82 03         [24]  935 	cjne	r7,#0x82,00209$
+      000375 02r03rE7         [24]  936 	ljmp	00117$
+      000378                        937 00209$:
+      000378 02r04r76         [24]  938 	ljmp	00140$
+                                    939 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:273: case 0x80:                   /* standard device IN requests */
+      00037B                        940 00101$:
+                                    941 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:274: switch (usb_setup_buffer.bRequest) {
+      00037B 90r00r01         [24]  942 	mov	dptr,#(_usb_setup_buffer + 0x0001)
+      00037E E0               [24]  943 	movx	a,@dptr
+      00037F FF               [12]  944 	mov	r7,a
+      000380 60 42            [24]  945 	jz	00109$
+      000382 BF 06 02         [24]  946 	cjne	r7,#0x06,00211$
+      000385 80 0A            [24]  947 	sjmp	00102$
+      000387                        948 00211$:
+      000387 BF 08 02         [24]  949 	cjne	r7,#0x08,00212$
+      00038A 80 32            [24]  950 	sjmp	00108$
+      00038C                        951 00212$:
+                                    952 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:275: case GET_DESCRIPTOR:
+      00038C BF 0A 41         [24]  953 	cjne	r7,#0x0A,00111$
+      00038F 80 39            [24]  954 	sjmp	00110$
+      000391                        955 00102$:
+                                    956 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:276: switch (HIGH_BYTE(usb_setup_buffer.wValue)) {
+      000391 90r00r02         [24]  957 	mov	dptr,#(_usb_setup_buffer + 0x0002)
+      000394 E0               [24]  958 	movx	a,@dptr
+      000395 FE               [12]  959 	mov	r6,a
+      000396 A3               [24]  960 	inc	dptr
+      000397 E0               [24]  961 	movx	a,@dptr
+      000398 FF               [12]  962 	mov	r7,a
+      000399 BF 01 02         [24]  963 	cjne	r7,#0x01,00214$
+      00039C 80 0A            [24]  964 	sjmp	00103$
+      00039E                        965 00214$:
+      00039E BF 02 02         [24]  966 	cjne	r7,#0x02,00215$
+      0003A1 80 0B            [24]  967 	sjmp	00104$
+      0003A3                        968 00215$:
+                                    969 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:277: case DEVICE:
+      0003A3 BF 03 14         [24]  970 	cjne	r7,#0x03,00106$
+      0003A6 80 0C            [24]  971 	sjmp	00105$
+      0003A8                        972 00103$:
+                                    973 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:278: get_device_descriptor();
+      0003A8 12r01rEA         [24]  974 	lcall	_get_device_descriptor
+                                    975 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:279: break;
+      0003AB 02r04r7A         [24]  976 	ljmp	00141$
+                                    977 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:280: case CONFIGURATION:
+      0003AE                        978 00104$:
+                                    979 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:281: get_configuration_descriptor();
+      0003AE 12r02r44         [24]  980 	lcall	_get_configuration_descriptor
+                                    981 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:282: break;
+      0003B1 02r04r7A         [24]  982 	ljmp	00141$
+                                    983 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:283: case STRING:
+      0003B4                        984 00105$:
+                                    985 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:284: get_string_descriptor();
+      0003B4 12r01rFF         [24]  986 	lcall	_get_string_descriptor
+                                    987 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:285: break;
+      0003B7 02r04r7A         [24]  988 	ljmp	00141$
+                                    989 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:286: default:
+      0003BA                        990 00106$:
+                                    991 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:288: return 0;
+      0003BA 90 00 00         [24]  992 	mov	dptr,#0x0000
+      0003BD 22               [24]  993 	ret
+                                    994 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:291: case GET_CONFIGURATION:
+      0003BE                        995 00108$:
+                                    996 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:292: get_configuration();
+      0003BE 12r02r79         [24]  997 	lcall	_get_configuration
+                                    998 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:293: break;
+      0003C1 02r04r7A         [24]  999 	ljmp	00141$
+                                   1000 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:294: case GET_STATUS:
+      0003C4                       1001 00109$:
+                                   1002 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:295: get_device_status();
+      0003C4 12r02rBD         [24] 1003 	lcall	_get_device_status
+                                   1004 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:296: break;
+      0003C7 02r04r7A         [24] 1005 	ljmp	00141$
+                                   1006 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:297: case GET_INTERFACE:
+      0003CA                       1007 00110$:
+                                   1008 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:298: get_interface();
+      0003CA 12r03r32         [24] 1009 	lcall	_get_interface
+                                   1010 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:299: break;
+      0003CD 02r04r7A         [24] 1011 	ljmp	00141$
+                                   1012 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:300: default:
+      0003D0                       1013 00111$:
+                                   1014 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:301: return 0;
+      0003D0 90 00 00         [24] 1015 	mov	dptr,#0x0000
+      0003D3 22               [24] 1016 	ret
+                                   1017 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:304: case 0x81:                   /* standard interface IN requests */
+      0003D4                       1018 00113$:
+                                   1019 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:305: switch (usb_setup_buffer.bRequest) {
+      0003D4 90r00r01         [24] 1020 	mov	dptr,#(_usb_setup_buffer + 0x0001)
+      0003D7 E0               [24] 1021 	movx	a,@dptr
+      0003D8 FF               [12] 1022 	mov	r7,a
+      0003D9 60 02            [24] 1023 	jz	00218$
+      0003DB 80 06            [24] 1024 	sjmp	00115$
+      0003DD                       1025 00218$:
+                                   1026 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:307: get_interface_status();
+      0003DD 12r03r1D         [24] 1027 	lcall	_get_interface_status
+                                   1028 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:308: break;
+      0003E0 02r04r7A         [24] 1029 	ljmp	00141$
+                                   1030 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:318: default:
+      0003E3                       1031 00115$:
+                                   1032 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:319: return 0;
+      0003E3 90 00 00         [24] 1033 	mov	dptr,#0x0000
+      0003E6 22               [24] 1034 	ret
+                                   1035 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:322: case 0x82:                   /* standard endpoint IN requests */
+      0003E7                       1036 00117$:
+                                   1037 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:323: switch (usb_setup_buffer.bRequest) {
+      0003E7 90r00r01         [24] 1038 	mov	dptr,#(_usb_setup_buffer + 0x0001)
+      0003EA E0               [24] 1039 	movx	a,@dptr
+      0003EB FF               [12] 1040 	mov	r7,a
+      0003EC 60 02            [24] 1041 	jz	00220$
+      0003EE 80 06            [24] 1042 	sjmp	00119$
+      0003F0                       1043 00220$:
+                                   1044 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:325: get_endpoint_status();
+      0003F0 12r02rD2         [24] 1045 	lcall	_get_endpoint_status
+                                   1046 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:326: break;
+      0003F3 02r04r7A         [24] 1047 	ljmp	00141$
+                                   1048 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:327: default:
+      0003F6                       1049 00119$:
+                                   1050 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:328: return 0;
+      0003F6 90 00 00         [24] 1051 	mov	dptr,#0x0000
+      0003F9 22               [24] 1052 	ret
+                                   1053 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:331: case 0x00:                   /* standard device OUT requests */
+      0003FA                       1054 00121$:
+                                   1055 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:332: switch (usb_setup_buffer.bRequest) {
+      0003FA 90r00r01         [24] 1056 	mov	dptr,#(_usb_setup_buffer + 0x0001)
+      0003FD E0               [24] 1057 	movx	a,@dptr
+      0003FE FF               [12] 1058 	mov	r7,a
+      0003FF BF 05 02         [24] 1059 	cjne	r7,#0x05,00221$
+      000402 80 05            [24] 1060 	sjmp	00122$
+      000404                       1061 00221$:
+                                   1062 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:333: case SET_ADDRESS:
+      000404 BF 09 17         [24] 1063 	cjne	r7,#0x09,00126$
+      000407 80 0F            [24] 1064 	sjmp	00123$
+      000409                       1065 00122$:
+                                   1066 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:335: usb_flags |= USB_FLAG_ADDRESS_PENDING;
+      000409 90r00r03         [24] 1067 	mov	dptr,#_usb_flags
+      00040C E0               [24] 1068 	movx	a,@dptr
+      00040D FF               [12] 1069 	mov	r7,a
+      00040E 74 01            [12] 1070 	mov	a,#0x01
+      000410 4F               [12] 1071 	orl	a,r7
+      000411 F0               [24] 1072 	movx	@dptr,a
+                                   1073 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:338: usb_send_ctrl_status();
+      000412 12r01r12         [24] 1074 	lcall	_usb_send_ctrl_status
+                                   1075 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:339: break;
+      000415 02r04r7A         [24] 1076 	ljmp	00141$
+                                   1077 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:349: case SET_CONFIGURATION:
+      000418                       1078 00123$:
+                                   1079 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:350: if(set_configuration()) {
+      000418 12r02r8E         [24] 1080 	lcall	_set_configuration
+                                   1081 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:356: break;
+      00041B 02r04r7A         [24] 1082 	ljmp	00141$
+                                   1083 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:357: default:
+      00041E                       1084 00126$:
+                                   1085 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:358: return 0;
+      00041E 90 00 00         [24] 1086 	mov	dptr,#0x0000
+      000421 22               [24] 1087 	ret
+                                   1088 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:361: case 0x01:                   /* standard interface OUT requests */
+      000422                       1089 00128$:
+                                   1090 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:362: switch (usb_setup_buffer.bRequest) {
+      000422 90r00r01         [24] 1091 	mov	dptr,#(_usb_setup_buffer + 0x0001)
+      000425 E0               [24] 1092 	movx	a,@dptr
+      000426 FF               [12] 1093 	mov	r7,a
+      000427 BF 0B 05         [24] 1094 	cjne	r7,#0x0B,00130$
+                                   1095 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:365: usb_send_ctrl_status();
+      00042A 12r01r12         [24] 1096 	lcall	_usb_send_ctrl_status
+                                   1097 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:366: break;
+                                   1098 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:367: default:
+      00042D 80 4B            [24] 1099 	sjmp	00141$
+      00042F                       1100 00130$:
+                                   1101 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:368: return 0;
+      00042F 90 00 00         [24] 1102 	mov	dptr,#0x0000
+                                   1103 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:371: case 0x02:                   /* standard endpoint OUT requests */
+      000432 22               [24] 1104 	ret
+      000433                       1105 00132$:
+                                   1106 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:372: switch (usb_setup_buffer.bRequest) {
+      000433 90r00r01         [24] 1107 	mov	dptr,#(_usb_setup_buffer + 0x0001)
+      000436 E0               [24] 1108 	movx	a,@dptr
+      000437 FF               [12] 1109 	mov	r7,a
+      000438 BF 01 02         [24] 1110 	cjne	r7,#0x01,00225$
+      00043B 80 03            [24] 1111 	sjmp	00134$
+      00043D                       1112 00225$:
+      00043D BF 03 32         [24] 1113 	cjne	r7,#0x03,00138$
+                                   1114 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:374: case CLEAR_FEATURE:
+      000440                       1115 00134$:
+                                   1116 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:375: if(usb_setup_buffer.wValue == ENDPOINT_HALT_FEATURE) {
+      000440 90r00r02         [24] 1117 	mov	dptr,#(_usb_setup_buffer + 0x0002)
+      000443 E0               [24] 1118 	movx	a,@dptr
+      000444 FD               [12] 1119 	mov	r5,a
+      000445 A3               [24] 1120 	inc	dptr
+      000446 E0               [24] 1121 	movx	a,@dptr
+      000447 FE               [12] 1122 	mov	r6,a
+      000448 4D               [12] 1123 	orl	a,r5
+                                   1124 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:377: usb_setup_buffer.bRequest == SET_FEATURE);
+      000449 70 22            [24] 1125 	jnz	00136$
+      00044B BF 03 01         [24] 1126 	cjne	r7,#0x03,00229$
+      00044E 04               [12] 1127 	inc	a
+      00044F                       1128 00229$:
+      00044F FF               [12] 1129 	mov	r7,a
+      000450 33               [12] 1130 	rlc	a
+      000451 95 E0            [12] 1131 	subb	a,acc
+      000453 FE               [12] 1132 	mov	r6,a
+                                   1133 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:376: usb_arch_halt_endpoint(usb_setup_buffer.wIndex,
+      000454 90r00r04         [24] 1134 	mov	dptr,#(_usb_setup_buffer + 0x0004)
+      000457 E0               [24] 1135 	movx	a,@dptr
+      000458 FC               [12] 1136 	mov	r4,a
+      000459 A3               [24] 1137 	inc	dptr
+      00045A E0               [24] 1138 	movx	a,@dptr
+      00045B C0 07            [24] 1139 	push	ar7
+      00045D C0 06            [24] 1140 	push	ar6
+      00045F 8C 82            [24] 1141 	mov	dpl,r4
+      000461 12r00r00         [24] 1142 	lcall	_usb_arch_halt_endpoint
+      000464 15 81            [12] 1143 	dec	sp
+      000466 15 81            [12] 1144 	dec	sp
+                                   1145 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:378: usb_send_ctrl_status();
+      000468 12r01r12         [24] 1146 	lcall	_usb_send_ctrl_status
+      00046B 80 0D            [24] 1147 	sjmp	00141$
+      00046D                       1148 00136$:
+                                   1149 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:380: usb_error_stall();
+      00046D 12r01r06         [24] 1150 	lcall	_usb_error_stall
+                                   1151 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:382: break;
+                                   1152 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:383: default:
+      000470 80 08            [24] 1153 	sjmp	00141$
+      000472                       1154 00138$:
+                                   1155 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:384: return 0;
+      000472 90 00 00         [24] 1156 	mov	dptr,#0x0000
+                                   1157 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:413: default:
+      000475 22               [24] 1158 	ret
+      000476                       1159 00140$:
+                                   1160 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:414: return 0;
+      000476 90 00 00         [24] 1161 	mov	dptr,#0x0000
+                                   1162 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:415: }
+      000479 22               [24] 1163 	ret
+      00047A                       1164 00141$:
+                                   1165 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:416: return 1;
+      00047A 90 00 01         [24] 1166 	mov	dptr,#0x0001
+      00047D 22               [24] 1167 	ret
+                                   1168 ;------------------------------------------------------------
+                                   1169 ;Allocation info for local variables in function 'submit_setup'
+                                   1170 ;------------------------------------------------------------
+                                   1171 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:433: submit_setup(void)
+                                   1172 ;	-----------------------------------------
+                                   1173 ;	 function submit_setup
+                                   1174 ;	-----------------------------------------
+      00047E                       1175 _submit_setup:
+                                   1176 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:435: ctrl_buffer.next = NULL;
+      00047E 90r00r08         [24] 1177 	mov	dptr,#_ctrl_buffer
+      000481 E4               [12] 1178 	clr	a
+      000482 F0               [24] 1179 	movx	@dptr,a
+      000483 A3               [24] 1180 	inc	dptr
+      000484 F0               [24] 1181 	movx	@dptr,a
+      000485 A3               [24] 1182 	inc	dptr
+      000486 F0               [24] 1183 	movx	@dptr,a
+                                   1184 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:436: ctrl_buffer.data = (uint8_t *) & usb_setup_buffer;
+      000487 90r00r0B         [24] 1185 	mov	dptr,#(_ctrl_buffer + 0x0003)
+      00048A 74r00            [12] 1186 	mov	a,#_usb_setup_buffer
+      00048C F0               [24] 1187 	movx	@dptr,a
+      00048D 74s00            [12] 1188 	mov	a,#(_usb_setup_buffer >> 8)
+      00048F A3               [24] 1189 	inc	dptr
+      000490 F0               [24] 1190 	movx	@dptr,a
+      000491 E4               [12] 1191 	clr	a
+      000492 A3               [24] 1192 	inc	dptr
+      000493 F0               [24] 1193 	movx	@dptr,a
+                                   1194 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:437: ctrl_buffer.left = sizeof(usb_setup_buffer);
+      000494 90r00r0E         [24] 1195 	mov	dptr,#(_ctrl_buffer + 0x0006)
+      000497 74 08            [12] 1196 	mov	a,#0x08
+      000499 F0               [24] 1197 	movx	@dptr,a
+      00049A E4               [12] 1198 	clr	a
+      00049B A3               [24] 1199 	inc	dptr
+      00049C F0               [24] 1200 	movx	@dptr,a
+                                   1201 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:438: ctrl_buffer.flags = (USB_BUFFER_PACKET_END | USB_BUFFER_SETUP
+      00049D 90r00r10         [24] 1202 	mov	dptr,#(_ctrl_buffer + 0x0008)
+      0004A0 74 2C            [12] 1203 	mov	a,#0x2C
+      0004A2 F0               [24] 1204 	movx	@dptr,a
+      0004A3 E4               [12] 1205 	clr	a
+      0004A4 A3               [24] 1206 	inc	dptr
+      0004A5 F0               [24] 1207 	movx	@dptr,a
+                                   1208 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:440: ctrl_buffer.id = SETUP_ID;
+      0004A6 90r00r12         [24] 1209 	mov	dptr,#(_ctrl_buffer + 0x000a)
+      0004A9 04               [12] 1210 	inc	a
+      0004AA F0               [24] 1211 	movx	@dptr,a
+      0004AB E4               [12] 1212 	clr	a
+      0004AC A3               [24] 1213 	inc	dptr
+      0004AD F0               [24] 1214 	movx	@dptr,a
+      0004AE A3               [24] 1215 	inc	dptr
+      0004AF F0               [24] 1216 	movx	@dptr,a
+      0004B0 A3               [24] 1217 	inc	dptr
+      0004B1 F0               [24] 1218 	movx	@dptr,a
+                                   1219 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:441: usb_submit_recv_buffer(0, &ctrl_buffer);
+      0004B2 74r08            [12] 1220 	mov	a,#_ctrl_buffer
+      0004B4 C0 E0            [24] 1221 	push	acc
+      0004B6 74s00            [12] 1222 	mov	a,#(_ctrl_buffer >> 8)
+      0004B8 C0 E0            [24] 1223 	push	acc
+      0004BA E4               [12] 1224 	clr	a
+      0004BB C0 E0            [24] 1225 	push	acc
+      0004BD 75 82 00         [24] 1226 	mov	dpl,#0x00
+      0004C0 12r00r00         [24] 1227 	lcall	_usb_submit_recv_buffer
+      0004C3 15 81            [12] 1228 	dec	sp
+      0004C5 15 81            [12] 1229 	dec	sp
+      0004C7 15 81            [12] 1230 	dec	sp
+      0004C9 22               [24] 1231 	ret
+                                   1232 ;------------------------------------------------------------
+                                   1233 ;Allocation info for local variables in function 'process_thread_usb_process'
+                                   1234 ;------------------------------------------------------------
+                                   1235 ;ev                        Allocated to stack - sp -8
+                                   1236 ;data                      Allocated to stack - sp -11
+                                   1237 ;process_pt                Allocated to stack - sp -5
+                                   1238 ;PT_YIELD_FLAG             Allocated to registers r4 
+                                   1239 ;events                    Allocated to registers r3 r4 
+                                   1240 ;hook                      Allocated to registers r2 r3 r4 
+                                   1241 ;i                         Allocated to stack - sp -2
+                                   1242 ;handler                   Allocated to stack - sp -2
+                                   1243 ;------------------------------------------------------------
+                                   1244 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:446: PROCESS_THREAD(usb_process, ev, data)
+                                   1245 ;	-----------------------------------------
+                                   1246 ;	 function process_thread_usb_process
+                                   1247 ;	-----------------------------------------
+      0004CA                       1248 _process_thread_usb_process:
+      0004CA C0 82            [24] 1249 	push	dpl
+      0004CC C0 83            [24] 1250 	push	dph
+      0004CE C0 F0            [24] 1251 	push	b
+      0004D0 05 81            [12] 1252 	inc	sp
+      0004D2 05 81            [12] 1253 	inc	sp
+      0004D4 05 81            [12] 1254 	inc	sp
+                                   1255 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:448: PROCESS_BEGIN();
+      0004D6 7C 01            [12] 1256 	mov	r4,#0x01
+      0004D8 E5 81            [12] 1257 	mov	a,sp
+      0004DA 24 FB            [12] 1258 	add	a,#0xfb
+      0004DC F8               [12] 1259 	mov	r0,a
+      0004DD 86 82            [24] 1260 	mov	dpl,@r0
+      0004DF 08               [12] 1261 	inc	r0
+      0004E0 86 83            [24] 1262 	mov	dph,@r0
+      0004E2 08               [12] 1263 	inc	r0
+      0004E3 86 F0            [24] 1264 	mov	b,@r0
+      0004E5 12r00r00         [24] 1265 	lcall	__gptrget
+      0004E8 FA               [12] 1266 	mov	r2,a
+      0004E9 A3               [24] 1267 	inc	dptr
+      0004EA 12r00r00         [24] 1268 	lcall	__gptrget
+      0004ED FB               [12] 1269 	mov	r3,a
+      0004EE BA 00 05         [24] 1270 	cjne	r2,#0x00,00262$
+      0004F1 BB 00 02         [24] 1271 	cjne	r3,#0x00,00262$
+      0004F4 80 0B            [24] 1272 	sjmp	00164$
+      0004F6                       1273 00262$:
+      0004F6 BA C3 05         [24] 1274 	cjne	r2,#0xC3,00263$
+      0004F9 BB 01 02         [24] 1275 	cjne	r3,#0x01,00263$
+      0004FC 80 1D            [24] 1276 	sjmp	00102$
+      0004FE                       1277 00263$:
+      0004FE 02r08r25         [24] 1278 	ljmp	00166$
+                                   1279 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:450: while(1) {
+      000501                       1280 00164$:
+                                   1281 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:451: PROCESS_WAIT_EVENT();
+      000501 7C 00            [12] 1282 	mov	r4,#0x00
+      000503 E5 81            [12] 1283 	mov	a,sp
+      000505 24 FB            [12] 1284 	add	a,#0xfb
+      000507 F8               [12] 1285 	mov	r0,a
+      000508 86 82            [24] 1286 	mov	dpl,@r0
+      00050A 08               [12] 1287 	inc	r0
+      00050B 86 83            [24] 1288 	mov	dph,@r0
+      00050D 08               [12] 1289 	inc	r0
+      00050E 86 F0            [24] 1290 	mov	b,@r0
+      000510 74 C3            [12] 1291 	mov	a,#0xC3
+      000512 12r00r00         [24] 1292 	lcall	__gptrput
+      000515 A3               [24] 1293 	inc	dptr
+      000516 74 01            [12] 1294 	mov	a,#0x01
+      000518 12r00r00         [24] 1295 	lcall	__gptrput
+      00051B                       1296 00102$:
+      00051B EC               [12] 1297 	mov	a,r4
+      00051C 70 06            [24] 1298 	jnz	00106$
+      00051E 75 82 01         [24] 1299 	mov	dpl,#0x01
+      000521 02r08r3D         [24] 1300 	ljmp	00170$
+      000524                       1301 00106$:
+                                   1302 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:452: if(ev == PROCESS_EVENT_EXIT)
+      000524 E5 81            [12] 1303 	mov	a,sp
+      000526 24 F8            [12] 1304 	add	a,#0xf8
+      000528 F8               [12] 1305 	mov	r0,a
+      000529 B6 83 03         [24] 1306 	cjne	@r0,#0x83,00265$
+      00052C 02r08r25         [24] 1307 	ljmp	00166$
+      00052F                       1308 00265$:
+                                   1309 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:454: if(ev == PROCESS_EVENT_POLL) {
+      00052F E5 81            [12] 1310 	mov	a,sp
+      000531 24 F8            [12] 1311 	add	a,#0xf8
+      000533 F8               [12] 1312 	mov	r0,a
+      000534 B6 82 CA         [24] 1313 	cjne	@r0,#0x82,00164$
+                                   1314 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:455: unsigned int events = usb_arch_get_global_events();
+      000537 12r00r00         [24] 1315 	lcall	_usb_arch_get_global_events
+      00053A AB 82            [24] 1316 	mov	r3,dpl
+      00053C AC 83            [24] 1317 	mov	r4,dph
+                                   1318 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:457: if(events) {
+      00053E EB               [12] 1319 	mov	a,r3
+      00053F 4C               [12] 1320 	orl	a,r4
+      000540 60 36            [24] 1321 	jz	00117$
+                                   1322 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:458: if(events & USB_EVENT_RESET) {
+      000542 EB               [12] 1323 	mov	a,r3
+      000543 30 E3 16         [24] 1324 	jnb	acc.3,00111$
+                                   1325 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:459: submit_setup();
+      000546 C0 04            [24] 1326 	push	ar4
+      000548 C0 03            [24] 1327 	push	ar3
+      00054A 12r04r7E         [24] 1328 	lcall	_submit_setup
+                                   1329 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:460: usb_configuration_value = 0;
+      00054D 90r00r18         [24] 1330 	mov	dptr,#_usb_configuration_value
+      000550 E4               [12] 1331 	clr	a
+      000551 F0               [24] 1332 	movx	@dptr,a
+                                   1333 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:461: notify_user(USB_EVENT_RESET);
+      000552 90 00 08         [24] 1334 	mov	dptr,#0x0008
+      000555 12r00r25         [24] 1335 	lcall	_notify_user
+      000558 D0 03            [24] 1336 	pop	ar3
+      00055A D0 04            [24] 1337 	pop	ar4
+      00055C                       1338 00111$:
+                                   1339 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:463: if(events & USB_EVENT_SUSPEND) {
+      00055C EB               [12] 1340 	mov	a,r3
+      00055D 30 E1 0E         [24] 1341 	jnb	acc.1,00113$
+                                   1342 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:464: notify_user(USB_EVENT_SUSPEND);
+      000560 90 00 02         [24] 1343 	mov	dptr,#0x0002
+      000563 C0 04            [24] 1344 	push	ar4
+      000565 C0 03            [24] 1345 	push	ar3
+      000567 12r00r25         [24] 1346 	lcall	_notify_user
+      00056A D0 03            [24] 1347 	pop	ar3
+      00056C D0 04            [24] 1348 	pop	ar4
+      00056E                       1349 00113$:
+                                   1350 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:466: if(events & USB_EVENT_RESUME) {
+      00056E EB               [12] 1351 	mov	a,r3
+      00056F 30 E2 06         [24] 1352 	jnb	acc.2,00117$
+                                   1353 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:467: notify_user(USB_EVENT_RESUME);
+      000572 90 00 04         [24] 1354 	mov	dptr,#0x0004
+      000575 12r00r25         [24] 1355 	lcall	_notify_user
+      000578                       1356 00117$:
+                                   1357 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:471: events = usb_get_ep_events(0);
+      000578 75 82 00         [24] 1358 	mov	dpl,#0x00
+      00057B 12r00r00         [24] 1359 	lcall	_usb_get_ep_events
+      00057E AA 82            [24] 1360 	mov	r2,dpl
+      000580 AF 83            [24] 1361 	mov	r7,dph
+      000582 8A 03            [24] 1362 	mov	ar3,r2
+      000584 8F 04            [24] 1363 	mov	ar4,r7
+                                   1364 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:472: if(events) {
+      000586 EB               [12] 1365 	mov	a,r3
+      000587 4C               [12] 1366 	orl	a,r4
+      000588 70 03            [24] 1367 	jnz	00272$
+      00058A 02r05r01         [24] 1368 	ljmp	00164$
+      00058D                       1369 00272$:
+                                   1370 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:473: if((events & USB_EP_EVENT_NOTIFICATION)
+      00058D EB               [12] 1371 	mov	a,r3
+      00058E 20 E0 03         [24] 1372 	jb	acc.0,00273$
+      000591 02r05r01         [24] 1373 	ljmp	00164$
+      000594                       1374 00273$:
+                                   1375 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:474: && !(ctrl_buffer.flags & USB_BUFFER_SUBMITTED)) {
+      000594 90r00r10         [24] 1376 	mov	dptr,#(_ctrl_buffer + 0x0008)
+      000597 E0               [24] 1377 	movx	a,@dptr
+      000598 FB               [12] 1378 	mov	r3,a
+      000599 A3               [24] 1379 	inc	dptr
+      00059A E0               [24] 1380 	movx	a,@dptr
+      00059B FC               [12] 1381 	mov	r4,a
+      00059C EB               [12] 1382 	mov	a,r3
+      00059D 30 E0 03         [24] 1383 	jnb	acc.0,00274$
+      0005A0 02r05r01         [24] 1384 	ljmp	00164$
+      0005A3                       1385 00274$:
+                                   1386 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:476: if(ctrl_buffer.flags & USB_BUFFER_FAILED) {
+      0005A3 EB               [12] 1387 	mov	a,r3
+      0005A4 30 E7 06         [24] 1388 	jnb	acc.7,00154$
+                                   1389 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:480: submit_setup();
+      0005A7 12r04r7E         [24] 1390 	lcall	_submit_setup
+      0005AA 02r05r01         [24] 1391 	ljmp	00164$
+      0005AD                       1392 00154$:
+                                   1393 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:481: } else if(ctrl_buffer.flags & USB_BUFFER_SETUP) {
+      0005AD EB               [12] 1394 	mov	a,r3
+      0005AE 20 E5 03         [24] 1395 	jb	acc.5,00276$
+      0005B1 02r07r01         [24] 1396 	ljmp	00151$
+      0005B4                       1397 00276$:
+                                   1398 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:482: struct USBRequestHandlerHook *hook = usb_request_handler_hooks;
+      0005B4 90r00r00         [24] 1399 	mov	dptr,#_usb_request_handler_hooks
+      0005B7 E0               [24] 1400 	movx	a,@dptr
+      0005B8 FA               [12] 1401 	mov	r2,a
+      0005B9 A3               [24] 1402 	inc	dptr
+      0005BA E0               [24] 1403 	movx	a,@dptr
+      0005BB FB               [12] 1404 	mov	r3,a
+      0005BC A3               [24] 1405 	inc	dptr
+      0005BD E0               [24] 1406 	movx	a,@dptr
+      0005BE FC               [12] 1407 	mov	r4,a
+                                   1408 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:488: for(i = 0; i < 8; i++)
+      0005BF A8 81            [24] 1409 	mov	r0,sp
+      0005C1 18               [12] 1410 	dec	r0
+      0005C2 18               [12] 1411 	dec	r0
+      0005C3 76 08            [12] 1412 	mov	@r0,#0x08
+      0005C5 08               [12] 1413 	inc	r0
+      0005C6 76 00            [12] 1414 	mov	@r0,#0x00
+      0005C8                       1415 00169$:
+      0005C8 A8 81            [24] 1416 	mov	r0,sp
+      0005CA 18               [12] 1417 	dec	r0
+      0005CB 18               [12] 1418 	dec	r0
+      0005CC E6               [12] 1419 	mov	a,@r0
+      0005CD 24 FF            [12] 1420 	add	a,#0xFF
+      0005CF FD               [12] 1421 	mov	r5,a
+      0005D0 08               [12] 1422 	inc	r0
+      0005D1 E6               [12] 1423 	mov	a,@r0
+      0005D2 34 FF            [12] 1424 	addc	a,#0xFF
+      0005D4 FF               [12] 1425 	mov	r7,a
+      0005D5 A8 81            [24] 1426 	mov	r0,sp
+      0005D7 18               [12] 1427 	dec	r0
+      0005D8 18               [12] 1428 	dec	r0
+      0005D9 A6 05            [24] 1429 	mov	@r0,ar5
+      0005DB 08               [12] 1430 	inc	r0
+      0005DC A6 07            [24] 1431 	mov	@r0,ar7
+      0005DE ED               [12] 1432 	mov	a,r5
+      0005DF 4F               [12] 1433 	orl	a,r7
+      0005E0 70 E6            [24] 1434 	jnz	00169$
+                                   1435 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:493: while(hook) {
+      0005E2                       1436 00124$:
+      0005E2 EA               [12] 1437 	mov	a,r2
+      0005E3 4B               [12] 1438 	orl	a,r3
+      0005E4 70 03            [24] 1439 	jnz	00278$
+      0005E6 02r06rE6         [24] 1440 	ljmp	00126$
+      0005E9                       1441 00278$:
+                                   1442 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:494: const struct USBRequestHandler *handler = hook->handler;
+      0005E9 74 03            [12] 1443 	mov	a,#0x03
+      0005EB 2A               [12] 1444 	add	a,r2
+      0005EC FD               [12] 1445 	mov	r5,a
+      0005ED E4               [12] 1446 	clr	a
+      0005EE 3B               [12] 1447 	addc	a,r3
+      0005EF FE               [12] 1448 	mov	r6,a
+      0005F0 8C 07            [24] 1449 	mov	ar7,r4
+      0005F2 8D 82            [24] 1450 	mov	dpl,r5
+      0005F4 8E 83            [24] 1451 	mov	dph,r6
+      0005F6 8F F0            [24] 1452 	mov	b,r7
+      0005F8 A8 81            [24] 1453 	mov	r0,sp
+      0005FA 18               [12] 1454 	dec	r0
+      0005FB 18               [12] 1455 	dec	r0
+      0005FC 12r00r00         [24] 1456 	lcall	__gptrget
+      0005FF F6               [12] 1457 	mov	@r0,a
+      000600 A3               [24] 1458 	inc	dptr
+      000601 12r00r00         [24] 1459 	lcall	__gptrget
+      000604 08               [12] 1460 	inc	r0
+      000605 F6               [12] 1461 	mov	@r0,a
+      000606 A3               [24] 1462 	inc	dptr
+      000607 12r00r00         [24] 1463 	lcall	__gptrget
+      00060A 08               [12] 1464 	inc	r0
+      00060B F6               [12] 1465 	mov	@r0,a
+                                   1466 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:497: if(((handler->request_type ^ usb_setup_buffer.bmRequestType)
+      00060C C0 02            [24] 1467 	push	ar2
+      00060E C0 03            [24] 1468 	push	ar3
+      000610 C0 04            [24] 1469 	push	ar4
+      000612 E5 81            [12] 1470 	mov	a,sp
+      000614 24 FB            [12] 1471 	add	a,#0xfb
+      000616 F8               [12] 1472 	mov	r0,a
+      000617 86 82            [24] 1473 	mov	dpl,@r0
+      000619 08               [12] 1474 	inc	r0
+      00061A 86 83            [24] 1475 	mov	dph,@r0
+      00061C 08               [12] 1476 	inc	r0
+      00061D 86 F0            [24] 1477 	mov	b,@r0
+      00061F 12r00r00         [24] 1478 	lcall	__gptrget
+      000622 FC               [12] 1479 	mov	r4,a
+      000623 90r00r00         [24] 1480 	mov	dptr,#_usb_setup_buffer
+      000626 E0               [24] 1481 	movx	a,@dptr
+      000627 62 04            [12] 1482 	xrl	ar4,a
+                                   1483 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:498: & handler->request_type_mask) == 0
+      000629 E5 81            [12] 1484 	mov	a,sp
+      00062B 24 FB            [12] 1485 	add	a,#0xfb
+      00062D F8               [12] 1486 	mov	r0,a
+      00062E 74 01            [12] 1487 	mov	a,#0x01
+      000630 26               [12] 1488 	add	a,@r0
+      000631 FA               [12] 1489 	mov	r2,a
+      000632 E4               [12] 1490 	clr	a
+      000633 08               [12] 1491 	inc	r0
+      000634 36               [12] 1492 	addc	a,@r0
+      000635 FB               [12] 1493 	mov	r3,a
+      000636 08               [12] 1494 	inc	r0
+      000637 86 07            [24] 1495 	mov	ar7,@r0
+      000639 8A 82            [24] 1496 	mov	dpl,r2
+      00063B 8B 83            [24] 1497 	mov	dph,r3
+      00063D 8F F0            [24] 1498 	mov	b,r7
+      00063F 12r00r00         [24] 1499 	lcall	__gptrget
+      000642 5C               [12] 1500 	anl	a,r4
+      000643 D0 04            [24] 1501 	pop	ar4
+      000645 D0 03            [24] 1502 	pop	ar3
+      000647 D0 02            [24] 1503 	pop	ar2
+      000649 60 03            [24] 1504 	jz	00279$
+      00064B 02r06rCF         [24] 1505 	ljmp	00122$
+      00064E                       1506 00279$:
+                                   1507 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:499: && ((handler->request ^ usb_setup_buffer.bRequest)
+      00064E C0 02            [24] 1508 	push	ar2
+      000650 C0 03            [24] 1509 	push	ar3
+      000652 C0 04            [24] 1510 	push	ar4
+      000654 E5 81            [12] 1511 	mov	a,sp
+      000656 24 FB            [12] 1512 	add	a,#0xfb
+      000658 F8               [12] 1513 	mov	r0,a
+      000659 74 02            [12] 1514 	mov	a,#0x02
+      00065B 26               [12] 1515 	add	a,@r0
+      00065C FD               [12] 1516 	mov	r5,a
+      00065D E4               [12] 1517 	clr	a
+      00065E 08               [12] 1518 	inc	r0
+      00065F 36               [12] 1519 	addc	a,@r0
+      000660 FE               [12] 1520 	mov	r6,a
+      000661 08               [12] 1521 	inc	r0
+      000662 86 07            [24] 1522 	mov	ar7,@r0
+      000664 8D 82            [24] 1523 	mov	dpl,r5
+      000666 8E 83            [24] 1524 	mov	dph,r6
+      000668 8F F0            [24] 1525 	mov	b,r7
+      00066A 12r00r00         [24] 1526 	lcall	__gptrget
+      00066D FD               [12] 1527 	mov	r5,a
+      00066E 90r00r01         [24] 1528 	mov	dptr,#(_usb_setup_buffer + 0x0001)
+      000671 E0               [24] 1529 	movx	a,@dptr
+      000672 62 05            [12] 1530 	xrl	ar5,a
+                                   1531 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:500: & handler->request_mask) == 0) {
+      000674 E5 81            [12] 1532 	mov	a,sp
+      000676 24 FB            [12] 1533 	add	a,#0xfb
+      000678 F8               [12] 1534 	mov	r0,a
+      000679 74 03            [12] 1535 	mov	a,#0x03
+      00067B 26               [12] 1536 	add	a,@r0
+      00067C FC               [12] 1537 	mov	r4,a
+      00067D E4               [12] 1538 	clr	a
+      00067E 08               [12] 1539 	inc	r0
+      00067F 36               [12] 1540 	addc	a,@r0
+      000680 FE               [12] 1541 	mov	r6,a
+      000681 08               [12] 1542 	inc	r0
+      000682 86 07            [24] 1543 	mov	ar7,@r0
+      000684 8C 82            [24] 1544 	mov	dpl,r4
+      000686 8E 83            [24] 1545 	mov	dph,r6
+      000688 8F F0            [24] 1546 	mov	b,r7
+      00068A 12r00r00         [24] 1547 	lcall	__gptrget
+      00068D 5D               [12] 1548 	anl	a,r5
+      00068E D0 04            [24] 1549 	pop	ar4
+      000690 D0 03            [24] 1550 	pop	ar3
+      000692 D0 02            [24] 1551 	pop	ar2
+      000694 70 39            [24] 1552 	jnz	00122$
+                                   1553 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:501: if(handler->handler_func())
+      000696 A8 81            [24] 1554 	mov	r0,sp
+      000698 18               [12] 1555 	dec	r0
+      000699 18               [12] 1556 	dec	r0
+      00069A 74 04            [12] 1557 	mov	a,#0x04
+      00069C 26               [12] 1558 	add	a,@r0
+      00069D FD               [12] 1559 	mov	r5,a
+      00069E E4               [12] 1560 	clr	a
+      00069F 08               [12] 1561 	inc	r0
+      0006A0 36               [12] 1562 	addc	a,@r0
+      0006A1 FE               [12] 1563 	mov	r6,a
+      0006A2 08               [12] 1564 	inc	r0
+      0006A3 86 07            [24] 1565 	mov	ar7,@r0
+      0006A5 8D 82            [24] 1566 	mov	dpl,r5
+      0006A7 8E 83            [24] 1567 	mov	dph,r6
+      0006A9 8F F0            [24] 1568 	mov	b,r7
+      0006AB 12r00r00         [24] 1569 	lcall	__gptrget
+      0006AE FD               [12] 1570 	mov	r5,a
+      0006AF A3               [24] 1571 	inc	dptr
+      0006B0 12r00r00         [24] 1572 	lcall	__gptrget
+      0006B3 FE               [12] 1573 	mov	r6,a
+      0006B4 C0 04            [24] 1574 	push	ar4
+      0006B6 C0 03            [24] 1575 	push	ar3
+      0006B8 C0 02            [24] 1576 	push	ar2
+      0006BA 8D 82            [24] 1577 	mov	dpl,r5
+      0006BC 8E 83            [24] 1578 	mov	dph,r6
+      0006BE 12r00r00         [24] 1579 	lcall	__sdcc_call_dptr
+      0006C1 AD 82            [24] 1580 	mov	r5,dpl
+      0006C3 AE 83            [24] 1581 	mov	r6,dph
+      0006C5 D0 02            [24] 1582 	pop	ar2
+      0006C7 D0 03            [24] 1583 	pop	ar3
+      0006C9 D0 04            [24] 1584 	pop	ar4
+      0006CB ED               [12] 1585 	mov	a,r5
+      0006CC 4E               [12] 1586 	orl	a,r6
+      0006CD 70 17            [24] 1587 	jnz	00126$
+                                   1588 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:502: break;
+      0006CF                       1589 00122$:
+                                   1590 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:504: hook = hook->next;
+      0006CF 8A 82            [24] 1591 	mov	dpl,r2
+      0006D1 8B 83            [24] 1592 	mov	dph,r3
+      0006D3 8C F0            [24] 1593 	mov	b,r4
+      0006D5 12r00r00         [24] 1594 	lcall	__gptrget
+      0006D8 FA               [12] 1595 	mov	r2,a
+      0006D9 A3               [24] 1596 	inc	dptr
+      0006DA 12r00r00         [24] 1597 	lcall	__gptrget
+      0006DD FB               [12] 1598 	mov	r3,a
+      0006DE A3               [24] 1599 	inc	dptr
+      0006DF 12r00r00         [24] 1600 	lcall	__gptrget
+      0006E2 FC               [12] 1601 	mov	r4,a
+      0006E3 02r05rE2         [24] 1602 	ljmp	00124$
+      0006E6                       1603 00126$:
+                                   1604 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:506: if(!hook) {
+      0006E6 EA               [12] 1605 	mov	a,r2
+      0006E7 4B               [12] 1606 	orl	a,r3
+      0006E8 70 03            [24] 1607 	jnz	00128$
+                                   1608 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:508: usb_error_stall();
+      0006EA 12r01r06         [24] 1609 	lcall	_usb_error_stall
+      0006ED                       1610 00128$:
+                                   1611 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:516: if(error_stall) {
+      0006ED 90r00r09         [24] 1612 	mov	dptr,#_error_stall
+      0006F0 E0               [24] 1613 	movx	a,@dptr
+      0006F1 70 03            [24] 1614 	jnz	00283$
+      0006F3 02r05r01         [24] 1615 	ljmp	00164$
+      0006F6                       1616 00283$:
+                                   1617 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:517: error_stall = 0;
+      0006F6 90r00r09         [24] 1618 	mov	dptr,#_error_stall
+      0006F9 E4               [12] 1619 	clr	a
+      0006FA F0               [24] 1620 	movx	@dptr,a
+                                   1621 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:518: submit_setup();
+      0006FB 12r04r7E         [24] 1622 	lcall	_submit_setup
+      0006FE 02r05r01         [24] 1623 	ljmp	00164$
+      000701                       1624 00151$:
+                                   1625 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:521: if(ctrl_buffer.id == IN_ID) {
+      000701 90r00r12         [24] 1626 	mov	dptr,#(_ctrl_buffer + 0x000a)
+      000704 E0               [24] 1627 	movx	a,@dptr
+      000705 FC               [12] 1628 	mov	r4,a
+      000706 A3               [24] 1629 	inc	dptr
+      000707 E0               [24] 1630 	movx	a,@dptr
+      000708 FD               [12] 1631 	mov	r5,a
+      000709 A3               [24] 1632 	inc	dptr
+      00070A E0               [24] 1633 	movx	a,@dptr
+      00070B FE               [12] 1634 	mov	r6,a
+      00070C A3               [24] 1635 	inc	dptr
+      00070D E0               [24] 1636 	movx	a,@dptr
+      00070E FF               [12] 1637 	mov	r7,a
+      00070F BC 03 4F         [24] 1638 	cjne	r4,#0x03,00148$
+      000712 BD 00 4C         [24] 1639 	cjne	r5,#0x00,00148$
+      000715 BE 00 49         [24] 1640 	cjne	r6,#0x00,00148$
+      000718 BF 00 46         [24] 1641 	cjne	r7,#0x00,00148$
+                                   1642 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:524: ctrl_buffer.flags = USB_BUFFER_NOTIFY;
+      00071B 90r00r10         [24] 1643 	mov	dptr,#(_ctrl_buffer + 0x0008)
+      00071E 74 08            [12] 1644 	mov	a,#0x08
+      000720 F0               [24] 1645 	movx	@dptr,a
+      000721 E4               [12] 1646 	clr	a
+      000722 A3               [24] 1647 	inc	dptr
+      000723 F0               [24] 1648 	movx	@dptr,a
+                                   1649 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:525: ctrl_buffer.next = NULL;
+      000724 90r00r08         [24] 1650 	mov	dptr,#_ctrl_buffer
+      000727 F0               [24] 1651 	movx	@dptr,a
+      000728 A3               [24] 1652 	inc	dptr
+      000729 F0               [24] 1653 	movx	@dptr,a
+      00072A A3               [24] 1654 	inc	dptr
+      00072B F0               [24] 1655 	movx	@dptr,a
+                                   1656 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:526: ctrl_buffer.data = NULL;
+      00072C 90r00r0B         [24] 1657 	mov	dptr,#(_ctrl_buffer + 0x0003)
+      00072F F0               [24] 1658 	movx	@dptr,a
+      000730 A3               [24] 1659 	inc	dptr
+      000731 F0               [24] 1660 	movx	@dptr,a
+      000732 A3               [24] 1661 	inc	dptr
+      000733 F0               [24] 1662 	movx	@dptr,a
+                                   1663 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:527: ctrl_buffer.left = 0;
+      000734 90r00r0E         [24] 1664 	mov	dptr,#(_ctrl_buffer + 0x0006)
+      000737 F0               [24] 1665 	movx	@dptr,a
+      000738 A3               [24] 1666 	inc	dptr
+      000739 F0               [24] 1667 	movx	@dptr,a
+                                   1668 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:528: ctrl_buffer.id = STATUS_OUT_ID;
+      00073A 90r00r12         [24] 1669 	mov	dptr,#(_ctrl_buffer + 0x000a)
+      00073D 74 04            [12] 1670 	mov	a,#0x04
+      00073F F0               [24] 1671 	movx	@dptr,a
+      000740 E4               [12] 1672 	clr	a
+      000741 A3               [24] 1673 	inc	dptr
+      000742 F0               [24] 1674 	movx	@dptr,a
+      000743 A3               [24] 1675 	inc	dptr
+      000744 F0               [24] 1676 	movx	@dptr,a
+      000745 A3               [24] 1677 	inc	dptr
+      000746 F0               [24] 1678 	movx	@dptr,a
+                                   1679 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:529: usb_submit_recv_buffer(0, &ctrl_buffer);
+      000747 74r08            [12] 1680 	mov	a,#_ctrl_buffer
+      000749 C0 E0            [24] 1681 	push	acc
+      00074B 74s00            [12] 1682 	mov	a,#(_ctrl_buffer >> 8)
+      00074D C0 E0            [24] 1683 	push	acc
+      00074F E4               [12] 1684 	clr	a
+      000750 C0 E0            [24] 1685 	push	acc
+      000752 75 82 00         [24] 1686 	mov	dpl,#0x00
+      000755 12r00r00         [24] 1687 	lcall	_usb_submit_recv_buffer
+      000758 15 81            [12] 1688 	dec	sp
+      00075A 15 81            [12] 1689 	dec	sp
+      00075C 15 81            [12] 1690 	dec	sp
+      00075E 02r05r01         [24] 1691 	ljmp	00164$
+      000761                       1692 00148$:
+                                   1693 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:530: } else if(ctrl_buffer.id == STATUS_OUT_ID) {
+      000761 90r00r12         [24] 1694 	mov	dptr,#(_ctrl_buffer + 0x000a)
+      000764 E0               [24] 1695 	movx	a,@dptr
+      000765 FC               [12] 1696 	mov	r4,a
+      000766 A3               [24] 1697 	inc	dptr
+      000767 E0               [24] 1698 	movx	a,@dptr
+      000768 FD               [12] 1699 	mov	r5,a
+      000769 A3               [24] 1700 	inc	dptr
+      00076A E0               [24] 1701 	movx	a,@dptr
+      00076B FE               [12] 1702 	mov	r6,a
+      00076C A3               [24] 1703 	inc	dptr
+      00076D E0               [24] 1704 	movx	a,@dptr
+      00076E FF               [12] 1705 	mov	r7,a
+      00076F BC 04 0F         [24] 1706 	cjne	r4,#0x04,00145$
+      000772 BD 00 0C         [24] 1707 	cjne	r5,#0x00,00145$
+      000775 BE 00 09         [24] 1708 	cjne	r6,#0x00,00145$
+      000778 BF 00 06         [24] 1709 	cjne	r7,#0x00,00145$
+                                   1710 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:532: submit_setup();
+      00077B 12r04r7E         [24] 1711 	lcall	_submit_setup
+      00077E 02r05r01         [24] 1712 	ljmp	00164$
+      000781                       1713 00145$:
+                                   1714 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:533: } else if(ctrl_buffer.id == STATUS_IN_ID) {
+      000781 BC 05 3B         [24] 1715 	cjne	r4,#0x05,00142$
+      000784 BD 00 38         [24] 1716 	cjne	r5,#0x00,00142$
+      000787 BE 00 35         [24] 1717 	cjne	r6,#0x00,00142$
+      00078A BF 00 32         [24] 1718 	cjne	r7,#0x00,00142$
+                                   1719 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:535: if(usb_flags & USB_FLAG_ADDRESS_PENDING) {
+      00078D 90r00r03         [24] 1720 	mov	dptr,#_usb_flags
+      000790 E0               [24] 1721 	movx	a,@dptr
+      000791 FB               [12] 1722 	mov	r3,a
+      000792 30 E0 24         [24] 1723 	jnb	acc.0,00135$
+                                   1724 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:536: while(usb_send_pending(0));
+      000795                       1725 00131$:
+      000795 75 82 00         [24] 1726 	mov	dpl,#0x00
+      000798 12r09r57         [24] 1727 	lcall	_usb_send_pending
+      00079B E5 82            [12] 1728 	mov	a,dpl
+      00079D 85 83 F0         [24] 1729 	mov	b,dph
+      0007A0 45 F0            [12] 1730 	orl	a,b
+      0007A2 70 F1            [24] 1731 	jnz	00131$
+                                   1732 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:537: usb_arch_set_address(LOW_BYTE(usb_setup_buffer.wValue));
+      0007A4 90r00r02         [24] 1733 	mov	dptr,#(_usb_setup_buffer + 0x0002)
+      0007A7 E0               [24] 1734 	movx	a,@dptr
+      0007A8 FA               [12] 1735 	mov	r2,a
+      0007A9 A3               [24] 1736 	inc	dptr
+      0007AA E0               [24] 1737 	movx	a,@dptr
+      0007AB 8A 82            [24] 1738 	mov	dpl,r2
+      0007AD 12r00r00         [24] 1739 	lcall	_usb_arch_set_address
+                                   1740 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:538: usb_flags &= ~USB_FLAG_ADDRESS_PENDING;
+      0007B0 90r00r03         [24] 1741 	mov	dptr,#_usb_flags
+      0007B3 E0               [24] 1742 	movx	a,@dptr
+      0007B4 FB               [12] 1743 	mov	r3,a
+      0007B5 74 FE            [12] 1744 	mov	a,#0xFE
+      0007B7 5B               [12] 1745 	anl	a,r3
+      0007B8 F0               [24] 1746 	movx	@dptr,a
+      0007B9                       1747 00135$:
+                                   1748 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:540: submit_setup();
+      0007B9 12r04r7E         [24] 1749 	lcall	_submit_setup
+      0007BC 02r05r01         [24] 1750 	ljmp	00164$
+      0007BF                       1751 00142$:
+                                   1752 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:541: } else if(ctrl_buffer.id == OUT_ID) {
+      0007BF BC 02 0B         [24] 1753 	cjne	r4,#0x02,00292$
+      0007C2 BD 00 08         [24] 1754 	cjne	r5,#0x00,00292$
+      0007C5 BE 00 05         [24] 1755 	cjne	r6,#0x00,00292$
+      0007C8 BF 00 02         [24] 1756 	cjne	r7,#0x00,00292$
+      0007CB 80 03            [24] 1757 	sjmp	00293$
+      0007CD                       1758 00292$:
+      0007CD 02r05r01         [24] 1759 	ljmp	00164$
+      0007D0                       1760 00293$:
+                                   1761 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:543: if(data_callback) {
+      0007D0 90r00r0A         [24] 1762 	mov	dptr,#_data_callback
+      0007D3 E0               [24] 1763 	movx	a,@dptr
+      0007D4 F5 F0            [12] 1764 	mov	b,a
+      0007D6 A3               [24] 1765 	inc	dptr
+      0007D7 E0               [24] 1766 	movx	a,@dptr
+      0007D8 45 F0            [12] 1767 	orl	a,b
+      0007DA 60 43            [24] 1768 	jz	00137$
+                                   1769 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:544: data_callback(ctrl_data, ctrl_data_len - ctrl_buffer.left);
+      0007DC 90r00r0E         [24] 1770 	mov	dptr,#(_ctrl_buffer + 0x0006)
+      0007DF E0               [24] 1771 	movx	a,@dptr
+      0007E0 FE               [12] 1772 	mov	r6,a
+      0007E1 A3               [24] 1773 	inc	dptr
+      0007E2 E0               [24] 1774 	movx	a,@dptr
+      0007E3 FF               [12] 1775 	mov	r7,a
+      0007E4 90r00r0F         [24] 1776 	mov	dptr,#_ctrl_data_len
+      0007E7 E0               [24] 1777 	movx	a,@dptr
+      0007E8 FC               [12] 1778 	mov	r4,a
+      0007E9 A3               [24] 1779 	inc	dptr
+      0007EA E0               [24] 1780 	movx	a,@dptr
+      0007EB FD               [12] 1781 	mov	r5,a
+      0007EC EC               [12] 1782 	mov	a,r4
+      0007ED C3               [12] 1783 	clr	c
+      0007EE 9E               [12] 1784 	subb	a,r6
+      0007EF FE               [12] 1785 	mov	r6,a
+      0007F0 ED               [12] 1786 	mov	a,r5
+      0007F1 9F               [12] 1787 	subb	a,r7
+      0007F2 FF               [12] 1788 	mov	r7,a
+      0007F3 90r00r0C         [24] 1789 	mov	dptr,#_ctrl_data
+      0007F6 E0               [24] 1790 	movx	a,@dptr
+      0007F7 FB               [12] 1791 	mov	r3,a
+      0007F8 A3               [24] 1792 	inc	dptr
+      0007F9 E0               [24] 1793 	movx	a,@dptr
+      0007FA FC               [12] 1794 	mov	r4,a
+      0007FB A3               [24] 1795 	inc	dptr
+      0007FC E0               [24] 1796 	movx	a,@dptr
+      0007FD FD               [12] 1797 	mov	r5,a
+      0007FE C0 06            [24] 1798 	push	ar6
+      000800 C0 07            [24] 1799 	push	ar7
+      000802 12r08r07         [24] 1800 	lcall	00295$
+      000805 80 11            [24] 1801 	sjmp	00296$
+      000807                       1802 00295$:
+      000807 90r00r0A         [24] 1803 	mov	dptr,#_data_callback
+      00080A E0               [24] 1804 	movx	a,@dptr
+      00080B C0 E0            [24] 1805 	push	acc
+      00080D A3               [24] 1806 	inc	dptr
+      00080E E0               [24] 1807 	movx	a,@dptr
+      00080F C0 E0            [24] 1808 	push	acc
+      000811 8B 82            [24] 1809 	mov	dpl,r3
+      000813 8C 83            [24] 1810 	mov	dph,r4
+      000815 8D F0            [24] 1811 	mov	b,r5
+      000817 22               [24] 1812 	ret
+      000818                       1813 00296$:
+      000818 15 81            [12] 1814 	dec	sp
+      00081A 15 81            [12] 1815 	dec	sp
+      00081C 02r05r01         [24] 1816 	ljmp	00164$
+      00081F                       1817 00137$:
+                                   1818 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:546: usb_send_ctrl_status();
+      00081F 12r01r12         [24] 1819 	lcall	_usb_send_ctrl_status
+      000822 02r05r01         [24] 1820 	ljmp	00164$
+                                   1821 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:554: PROCESS_END();
+      000825                       1822 00166$:
+      000825 E5 81            [12] 1823 	mov	a,sp
+      000827 24 FB            [12] 1824 	add	a,#0xfb
+      000829 F8               [12] 1825 	mov	r0,a
+      00082A 86 82            [24] 1826 	mov	dpl,@r0
+      00082C 08               [12] 1827 	inc	r0
+      00082D 86 83            [24] 1828 	mov	dph,@r0
+      00082F 08               [12] 1829 	inc	r0
+      000830 86 F0            [24] 1830 	mov	b,@r0
+      000832 E4               [12] 1831 	clr	a
+      000833 12r00r00         [24] 1832 	lcall	__gptrput
+      000836 A3               [24] 1833 	inc	dptr
+      000837 12r00r00         [24] 1834 	lcall	__gptrput
+      00083A 75 82 03         [24] 1835 	mov	dpl,#0x03
+      00083D                       1836 00170$:
+      00083D E5 81            [12] 1837 	mov	a,sp
+      00083F 24 FA            [12] 1838 	add	a,#0xFA
+      000841 F5 81            [12] 1839 	mov	sp,a
+      000843 22               [24] 1840 	ret
+                                   1841 ;------------------------------------------------------------
+                                   1842 ;Allocation info for local variables in function 'usb_setup'
+                                   1843 ;------------------------------------------------------------
+                                   1844 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:559: usb_setup(void)
+                                   1845 ;	-----------------------------------------
+                                   1846 ;	 function usb_setup
+                                   1847 ;	-----------------------------------------
+      000844                       1848 _usb_setup:
+                                   1849 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:561: usb_arch_setup();
+      000844 12r00r00         [24] 1850 	lcall	_usb_arch_setup
+                                   1851 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:562: process_start(&usb_process, NULL);
+      000847 E4               [12] 1852 	clr	a
+      000848 C0 E0            [24] 1853 	push	acc
+      00084A C0 E0            [24] 1854 	push	acc
+      00084C C0 E0            [24] 1855 	push	acc
+      00084E 90r00r17         [24] 1856 	mov	dptr,#_usb_process
+      000851 75 F0 00         [24] 1857 	mov	b,#0x00
+      000854 12r00r00         [24] 1858 	lcall	_process_start
+      000857 15 81            [12] 1859 	dec	sp
+      000859 15 81            [12] 1860 	dec	sp
+      00085B 15 81            [12] 1861 	dec	sp
+                                   1862 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:563: usb_arch_set_global_event_process(&usb_process);
+      00085D 90r00r17         [24] 1863 	mov	dptr,#_usb_process
+      000860 75 F0 00         [24] 1864 	mov	b,#0x00
+      000863 12r00r00         [24] 1865 	lcall	_usb_arch_set_global_event_process
+                                   1866 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:564: usb_set_ep_event_process(0, &usb_process);
+      000866 74r17            [12] 1867 	mov	a,#_usb_process
+      000868 C0 E0            [24] 1868 	push	acc
+      00086A 74s00            [12] 1869 	mov	a,#(_usb_process >> 8)
+      00086C C0 E0            [24] 1870 	push	acc
+      00086E E4               [12] 1871 	clr	a
+      00086F C0 E0            [24] 1872 	push	acc
+      000871 75 82 00         [24] 1873 	mov	dpl,#0x00
+      000874 12r00r00         [24] 1874 	lcall	_usb_set_ep_event_process
+      000877 15 81            [12] 1875 	dec	sp
+      000879 15 81            [12] 1876 	dec	sp
+      00087B 15 81            [12] 1877 	dec	sp
+                                   1878 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:566: usb_register_request_handler(&standard_request_hook);
+      00087D 90r00r11         [24] 1879 	mov	dptr,#_standard_request_hook
+      000880 75 F0 00         [24] 1880 	mov	b,#0x00
+      000883 02r08r86         [24] 1881 	ljmp	_usb_register_request_handler
+                                   1882 ;------------------------------------------------------------
+                                   1883 ;Allocation info for local variables in function 'usb_register_request_handler'
+                                   1884 ;------------------------------------------------------------
+                                   1885 ;hook                      Allocated to stack - sp -2
+                                   1886 ;prevp                     Allocated to registers r2 r3 r4 
+                                   1887 ;------------------------------------------------------------
+                                   1888 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:570: usb_register_request_handler(struct USBRequestHandlerHook *hook)
+                                   1889 ;	-----------------------------------------
+                                   1890 ;	 function usb_register_request_handler
+                                   1891 ;	-----------------------------------------
+      000886                       1892 _usb_register_request_handler:
+      000886 C0 82            [24] 1893 	push	dpl
+      000888 C0 83            [24] 1894 	push	dph
+      00088A C0 F0            [24] 1895 	push	b
+                                   1896 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:572: struct USBRequestHandlerHook **prevp = &usb_request_handler_hooks;
+      00088C 7Ar00            [12] 1897 	mov	r2,#_usb_request_handler_hooks
+      00088E 7Bs00            [12] 1898 	mov	r3,#(_usb_request_handler_hooks >> 8)
+      000890 7C 00            [12] 1899 	mov	r4,#0x00
+                                   1900 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:574: while(*prevp) {
+      000892                       1901 00101$:
+      000892 8A 82            [24] 1902 	mov	dpl,r2
+      000894 8B 83            [24] 1903 	mov	dph,r3
+      000896 8C F0            [24] 1904 	mov	b,r4
+      000898 12r00r00         [24] 1905 	lcall	__gptrget
+      00089B FD               [12] 1906 	mov	r5,a
+      00089C A3               [24] 1907 	inc	dptr
+      00089D 12r00r00         [24] 1908 	lcall	__gptrget
+      0008A0 FE               [12] 1909 	mov	r6,a
+      0008A1 A3               [24] 1910 	inc	dptr
+      0008A2 12r00r00         [24] 1911 	lcall	__gptrget
+      0008A5 FF               [12] 1912 	mov	r7,a
+      0008A6 ED               [12] 1913 	mov	a,r5
+      0008A7 4E               [12] 1914 	orl	a,r6
+      0008A8 60 08            [24] 1915 	jz	00103$
+                                   1916 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:575: prevp = &(*prevp)->next;
+      0008AA 8D 02            [24] 1917 	mov	ar2,r5
+      0008AC 8E 03            [24] 1918 	mov	ar3,r6
+      0008AE 8F 04            [24] 1919 	mov	ar4,r7
+      0008B0 80 E0            [24] 1920 	sjmp	00101$
+      0008B2                       1921 00103$:
+                                   1922 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:578: *prevp = hook;
+      0008B2 8A 82            [24] 1923 	mov	dpl,r2
+      0008B4 8B 83            [24] 1924 	mov	dph,r3
+      0008B6 8C F0            [24] 1925 	mov	b,r4
+      0008B8 A8 81            [24] 1926 	mov	r0,sp
+      0008BA 18               [12] 1927 	dec	r0
+      0008BB 18               [12] 1928 	dec	r0
+      0008BC E6               [12] 1929 	mov	a,@r0
+      0008BD 12r00r00         [24] 1930 	lcall	__gptrput
+      0008C0 A3               [24] 1931 	inc	dptr
+      0008C1 08               [12] 1932 	inc	r0
+      0008C2 E6               [12] 1933 	mov	a,@r0
+      0008C3 12r00r00         [24] 1934 	lcall	__gptrput
+      0008C6 A3               [24] 1935 	inc	dptr
+      0008C7 08               [12] 1936 	inc	r0
+      0008C8 E6               [12] 1937 	mov	a,@r0
+      0008C9 12r00r00         [24] 1938 	lcall	__gptrput
+                                   1939 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:579: hook->next = NULL;
+      0008CC A8 81            [24] 1940 	mov	r0,sp
+      0008CE 18               [12] 1941 	dec	r0
+      0008CF 18               [12] 1942 	dec	r0
+      0008D0 86 82            [24] 1943 	mov	dpl,@r0
+      0008D2 08               [12] 1944 	inc	r0
+      0008D3 86 83            [24] 1945 	mov	dph,@r0
+      0008D5 08               [12] 1946 	inc	r0
+      0008D6 86 F0            [24] 1947 	mov	b,@r0
+      0008D8 E4               [12] 1948 	clr	a
+      0008D9 12r00r00         [24] 1949 	lcall	__gptrput
+      0008DC A3               [24] 1950 	inc	dptr
+      0008DD 12r00r00         [24] 1951 	lcall	__gptrput
+      0008E0 A3               [24] 1952 	inc	dptr
+      0008E1 12r00r00         [24] 1953 	lcall	__gptrput
+      0008E4 15 81            [12] 1954 	dec	sp
+      0008E6 15 81            [12] 1955 	dec	sp
+      0008E8 15 81            [12] 1956 	dec	sp
+      0008EA 22               [24] 1957 	ret
+                                   1958 ;------------------------------------------------------------
+                                   1959 ;Allocation info for local variables in function 'usb_prepend_request_handler'
+                                   1960 ;------------------------------------------------------------
+                                   1961 ;hook                      Allocated to registers r5 r6 r7 
+                                   1962 ;------------------------------------------------------------
+                                   1963 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:583: usb_prepend_request_handler(struct USBRequestHandlerHook *hook)
+                                   1964 ;	-----------------------------------------
+                                   1965 ;	 function usb_prepend_request_handler
+                                   1966 ;	-----------------------------------------
+      0008EB                       1967 _usb_prepend_request_handler:
+      0008EB AD 82            [24] 1968 	mov	r5,dpl
+      0008ED AE 83            [24] 1969 	mov	r6,dph
+      0008EF AF F0            [24] 1970 	mov	r7,b
+                                   1971 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:585: hook->next = usb_request_handler_hooks;
+      0008F1 90r00r00         [24] 1972 	mov	dptr,#_usb_request_handler_hooks
+      0008F4 E0               [24] 1973 	movx	a,@dptr
+      0008F5 FA               [12] 1974 	mov	r2,a
+      0008F6 A3               [24] 1975 	inc	dptr
+      0008F7 E0               [24] 1976 	movx	a,@dptr
+      0008F8 FB               [12] 1977 	mov	r3,a
+      0008F9 A3               [24] 1978 	inc	dptr
+      0008FA E0               [24] 1979 	movx	a,@dptr
+      0008FB FC               [12] 1980 	mov	r4,a
+      0008FC 8D 82            [24] 1981 	mov	dpl,r5
+      0008FE 8E 83            [24] 1982 	mov	dph,r6
+      000900 8F F0            [24] 1983 	mov	b,r7
+      000902 EA               [12] 1984 	mov	a,r2
+      000903 12r00r00         [24] 1985 	lcall	__gptrput
+      000906 A3               [24] 1986 	inc	dptr
+      000907 EB               [12] 1987 	mov	a,r3
+      000908 12r00r00         [24] 1988 	lcall	__gptrput
+      00090B A3               [24] 1989 	inc	dptr
+      00090C EC               [12] 1990 	mov	a,r4
+      00090D 12r00r00         [24] 1991 	lcall	__gptrput
+                                   1992 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:586: usb_request_handler_hooks = hook;
+      000910 90r00r00         [24] 1993 	mov	dptr,#_usb_request_handler_hooks
+      000913 ED               [12] 1994 	mov	a,r5
+      000914 F0               [24] 1995 	movx	@dptr,a
+      000915 EE               [12] 1996 	mov	a,r6
+      000916 A3               [24] 1997 	inc	dptr
+      000917 F0               [24] 1998 	movx	@dptr,a
+      000918 EF               [12] 1999 	mov	a,r7
+      000919 A3               [24] 2000 	inc	dptr
+      00091A F0               [24] 2001 	movx	@dptr,a
+      00091B 22               [24] 2002 	ret
+                                   2003 ;------------------------------------------------------------
+                                   2004 ;Allocation info for local variables in function 'usb_get_current_configuration'
+                                   2005 ;------------------------------------------------------------
+                                   2006 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:591: usb_get_current_configuration(void)
+                                   2007 ;	-----------------------------------------
+                                   2008 ;	 function usb_get_current_configuration
+                                   2009 ;	-----------------------------------------
+      00091C                       2010 _usb_get_current_configuration:
+                                   2011 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:593: return usb_configuration_value;
+      00091C 90r00r18         [24] 2012 	mov	dptr,#_usb_configuration_value
+      00091F E0               [24] 2013 	movx	a,@dptr
+      000920 FF               [12] 2014 	mov	r7,a
+      000921 7E 00            [12] 2015 	mov	r6,#0x00
+      000923 8F 82            [24] 2016 	mov	dpl,r7
+      000925 8E 83            [24] 2017 	mov	dph,r6
+      000927 22               [24] 2018 	ret
+                                   2019 ;------------------------------------------------------------
+                                   2020 ;Allocation info for local variables in function 'usb_setup_bulk_endpoint'
+                                   2021 ;------------------------------------------------------------
+                                   2022 ;addr                      Allocated to registers r7 
+                                   2023 ;------------------------------------------------------------
+                                   2024 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:597: usb_setup_bulk_endpoint(unsigned char addr)
+                                   2025 ;	-----------------------------------------
+                                   2026 ;	 function usb_setup_bulk_endpoint
+                                   2027 ;	-----------------------------------------
+      000928                       2028 _usb_setup_bulk_endpoint:
+                                   2029 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:599: usb_arch_setup_bulk_endpoint(addr);
+      000928 02r00r00         [24] 2030 	ljmp	_usb_arch_setup_bulk_endpoint
+                                   2031 ;------------------------------------------------------------
+                                   2032 ;Allocation info for local variables in function 'usb_setup_interrupt_endpoint'
+                                   2033 ;------------------------------------------------------------
+                                   2034 ;addr                      Allocated to registers r7 
+                                   2035 ;------------------------------------------------------------
+                                   2036 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:603: usb_setup_interrupt_endpoint(unsigned char addr)
+                                   2037 ;	-----------------------------------------
+                                   2038 ;	 function usb_setup_interrupt_endpoint
+                                   2039 ;	-----------------------------------------
+      00092B                       2040 _usb_setup_interrupt_endpoint:
+                                   2041 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:605: usb_arch_setup_interrupt_endpoint(addr);
+      00092B 02r00r00         [24] 2042 	ljmp	_usb_arch_setup_interrupt_endpoint
+                                   2043 ;------------------------------------------------------------
+                                   2044 ;Allocation info for local variables in function 'usb_disable_endpoint'
+                                   2045 ;------------------------------------------------------------
+                                   2046 ;addr                      Allocated to registers r7 
+                                   2047 ;------------------------------------------------------------
+                                   2048 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:609: usb_disable_endpoint(uint8_t addr)
+                                   2049 ;	-----------------------------------------
+                                   2050 ;	 function usb_disable_endpoint
+                                   2051 ;	-----------------------------------------
+      00092E                       2052 _usb_disable_endpoint:
+                                   2053 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:611: usb_arch_discard_all_buffers(addr);
+      00092E AF 82            [24] 2054 	mov  r7,dpl
+      000930 C0 07            [24] 2055 	push	ar7
+      000932 12r00r00         [24] 2056 	lcall	_usb_arch_discard_all_buffers
+      000935 D0 07            [24] 2057 	pop	ar7
+                                   2058 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:612: usb_arch_disable_endpoint(addr);
+      000937 8F 82            [24] 2059 	mov	dpl,r7
+      000939 02r00r00         [24] 2060 	ljmp	_usb_arch_disable_endpoint
+                                   2061 ;------------------------------------------------------------
+                                   2062 ;Allocation info for local variables in function 'usb_discard_all_buffers'
+                                   2063 ;------------------------------------------------------------
+                                   2064 ;addr                      Allocated to registers r7 
+                                   2065 ;------------------------------------------------------------
+                                   2066 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:616: usb_discard_all_buffers(uint8_t addr)
+                                   2067 ;	-----------------------------------------
+                                   2068 ;	 function usb_discard_all_buffers
+                                   2069 ;	-----------------------------------------
+      00093C                       2070 _usb_discard_all_buffers:
+                                   2071 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:618: usb_arch_discard_all_buffers(addr);
+      00093C 02r00r00         [24] 2072 	ljmp	_usb_arch_discard_all_buffers
+                                   2073 ;------------------------------------------------------------
+                                   2074 ;Allocation info for local variables in function 'usb_halt_endpoint'
+                                   2075 ;------------------------------------------------------------
+                                   2076 ;halt                      Allocated to stack - sp -3
+                                   2077 ;addr                      Allocated to registers r7 
+                                   2078 ;------------------------------------------------------------
+                                   2079 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:622: usb_halt_endpoint(uint8_t addr, int halt)
+                                   2080 ;	-----------------------------------------
+                                   2081 ;	 function usb_halt_endpoint
+                                   2082 ;	-----------------------------------------
+      00093F                       2083 _usb_halt_endpoint:
+      00093F AF 82            [24] 2084 	mov	r7,dpl
+                                   2085 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:624: usb_arch_halt_endpoint(addr, halt);
+      000941 E5 81            [12] 2086 	mov	a,sp
+      000943 24 FD            [12] 2087 	add	a,#0xfd
+      000945 F8               [12] 2088 	mov	r0,a
+      000946 E6               [12] 2089 	mov	a,@r0
+      000947 C0 E0            [24] 2090 	push	acc
+      000949 08               [12] 2091 	inc	r0
+      00094A E6               [12] 2092 	mov	a,@r0
+      00094B C0 E0            [24] 2093 	push	acc
+      00094D 8F 82            [24] 2094 	mov	dpl,r7
+      00094F 12r00r00         [24] 2095 	lcall	_usb_arch_halt_endpoint
+      000952 15 81            [12] 2096 	dec	sp
+      000954 15 81            [12] 2097 	dec	sp
+      000956 22               [24] 2098 	ret
+                                   2099 ;------------------------------------------------------------
+                                   2100 ;Allocation info for local variables in function 'usb_send_pending'
+                                   2101 ;------------------------------------------------------------
+                                   2102 ;addr                      Allocated to registers r7 
+                                   2103 ;------------------------------------------------------------
+                                   2104 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:628: usb_send_pending(uint8_t addr)
+                                   2105 ;	-----------------------------------------
+                                   2106 ;	 function usb_send_pending
+                                   2107 ;	-----------------------------------------
+      000957                       2108 _usb_send_pending:
+                                   2109 ;	/opt/contiki/cpu/cc253x/usb/common/usb-core.c:630: return usb_arch_send_pending(addr);
+      000957 02r00r00         [24] 2110 	ljmp	_usb_arch_send_pending
+                                   2111 	.area CSEG    (CODE)
+                                   2112 	.area CONST   (CODE)
+      000000                       2113 _zero_byte:
+      000000 00                    2114 	.db #0x00	; 0
+      000001                       2115 _zero_word:
+      000001 00 00                 2116 	.byte #0x00,#0x00	; 0
+      000003                       2117 _standard_request_handler:
+      000003 00                    2118 	.db #0x00	; 0
+      000004 60                    2119 	.db #0x60	; 96
+      000005 00                    2120 	.db #0x00	; 0
+      000006 00                    2121 	.db #0x00	; 0
+      000007r51s03                 2122 	.byte _handle_standard_requests, (_handle_standard_requests >> 8)
+                                   2123 	.area XINIT   (CODE)
+      000000                       2124 __xinit__usb_request_handler_hooks:
+                                   2125 ; generic printIvalPtr
+      000000 00 00 00              2126 	.byte #0x00,#0x00,#0x00
+      000003                       2127 __xinit__usb_flags:
+      000003 00                    2128 	.db #0x00	; 0
+      000004                       2129 __xinit__global_user_event_pocess:
+                                   2130 ; generic printIvalPtr
+      000004 00 00 00              2131 	.byte #0x00,#0x00,#0x00
+      000007                       2132 __xinit__global_user_events:
+      000007 00 00                 2133 	.byte #0x00,#0x00	; 0
+      000009                       2134 __xinit__error_stall:
+      000009 00                    2135 	.db #0x00	; 0
+      00000A                       2136 __xinit__data_callback:
+      00000A 00 00                 2137 	.byte #0x00,#0x00
+      00000C                       2138 __xinit__ctrl_data:
+      00000C 00 00 00              2139 	.byte #0x00,#0x00,#0x00
+      00000F                       2140 __xinit__ctrl_data_len:
+      00000F 00 00                 2141 	.byte #0x00,#0x00	; 0
+      000011                       2142 __xinit__standard_request_hook:
+                                   2143 ; generic printIvalPtr
+      000011 00 00 00              2144 	.byte #0x00,#0x00,#0x00
+      000014r03s00 80              2145 	.byte _standard_request_handler, (_standard_request_handler >> 8),#0x80
+      000017                       2146 __xinit__usb_process:
+                                   2147 ; generic printIvalPtr
+      000017 00 00 00              2148 	.byte #0x00,#0x00,#0x00
+      00001ArCAs04                 2149 	.byte _process_thread_usb_process, (_process_thread_usb_process >> 8)
+      00001C 00 00                 2150 	.byte #0x00, #0x00
+      00001E 00                    2151 	.db #0x00	; 0
+      00001F 00                    2152 	.db #0x00	; 0
+                                   2153 	.area CABS    (ABS,CODE)

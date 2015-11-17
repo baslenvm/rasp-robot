@@ -1,0 +1,2398 @@
+                                      1 ;--------------------------------------------------------
+                                      2 ; File Created by SDCC : free open source ANSI-C Compiler
+                                      3 ; Version 3.5.5 #9380 (Linux)
+                                      4 ; This file was generated Wed Nov 18 02:57:34 2015
+                                      5 ;--------------------------------------------------------
+                                      6 	.module udp_socket
+                                      7 	.optsdcc -mmcs51 --model-huge
+                                      8 	
+                                      9 ;--------------------------------------------------------
+                                     10 ; Public variables in this module
+                                     11 ;--------------------------------------------------------
+                                     12 	.globl _uip_udp_packet_sendto
+                                     13 	.globl _uip_udp_packet_send
+                                     14 	.globl _udp_new
+                                     15 	.globl _process_start
+                                     16 	.globl _memcpy
+                                     17 	.globl _ACTIVE
+                                     18 	.globl _TX_BYTE
+                                     19 	.globl _RX_BYTE
+                                     20 	.globl _ERR
+                                     21 	.globl _FE
+                                     22 	.globl _SLAVE
+                                     23 	.globl _RE
+                                     24 	.globl _MODE
+                                     25 	.globl _T3OVFIF
+                                     26 	.globl _T3CH0IF
+                                     27 	.globl _T3CH1IF
+                                     28 	.globl _T4OVFIF
+                                     29 	.globl _T4CH0IF
+                                     30 	.globl _T4CH1IF
+                                     31 	.globl _OVFIM
+                                     32 	.globl _B_0
+                                     33 	.globl _B_1
+                                     34 	.globl _B_2
+                                     35 	.globl _B_3
+                                     36 	.globl _B_4
+                                     37 	.globl _B_5
+                                     38 	.globl _B_6
+                                     39 	.globl _B_7
+                                     40 	.globl _P2IF
+                                     41 	.globl _UTX0IF
+                                     42 	.globl _UTX1IF
+                                     43 	.globl _P1IF
+                                     44 	.globl _WDTIF
+                                     45 	.globl _ACC_0
+                                     46 	.globl _ACC_1
+                                     47 	.globl _ACC_2
+                                     48 	.globl _ACC_3
+                                     49 	.globl _ACC_4
+                                     50 	.globl _ACC_5
+                                     51 	.globl _ACC_6
+                                     52 	.globl _ACC_7
+                                     53 	.globl _P
+                                     54 	.globl _F1
+                                     55 	.globl _OV
+                                     56 	.globl _RS0
+                                     57 	.globl _RS1
+                                     58 	.globl _F0
+                                     59 	.globl _AC
+                                     60 	.globl _CY
+                                     61 	.globl _DMAIF
+                                     62 	.globl _T1IF
+                                     63 	.globl _T2IF
+                                     64 	.globl _T3IF
+                                     65 	.globl _T4IF
+                                     66 	.globl _P0IF
+                                     67 	.globl _STIF
+                                     68 	.globl _DMAIE
+                                     69 	.globl _T1IE
+                                     70 	.globl _T2IE
+                                     71 	.globl _T3IE
+                                     72 	.globl _T4IE
+                                     73 	.globl _P0IE
+                                     74 	.globl _RFERRIE
+                                     75 	.globl _ADCIE
+                                     76 	.globl _URX0IE
+                                     77 	.globl _URX1IE
+                                     78 	.globl _ENCIE
+                                     79 	.globl _STIE
+                                     80 	.globl _EA
+                                     81 	.globl _P2_0
+                                     82 	.globl _P2_1
+                                     83 	.globl _P2_2
+                                     84 	.globl _P2_3
+                                     85 	.globl _P2_4
+                                     86 	.globl _P2_5
+                                     87 	.globl _P2_6
+                                     88 	.globl _P2_7
+                                     89 	.globl _ENCIF_0
+                                     90 	.globl _ENCIF_1
+                                     91 	.globl _P1_0
+                                     92 	.globl _P1_1
+                                     93 	.globl _P1_2
+                                     94 	.globl _P1_3
+                                     95 	.globl _P1_4
+                                     96 	.globl _P1_5
+                                     97 	.globl _P1_6
+                                     98 	.globl _P1_7
+                                     99 	.globl _IT0
+                                    100 	.globl _RFERRIF
+                                    101 	.globl _IT1
+                                    102 	.globl _URX0IF
+                                    103 	.globl _ADCIF
+                                    104 	.globl _URX1IF
+                                    105 	.globl _P0_0
+                                    106 	.globl _P0_1
+                                    107 	.globl _P0_2
+                                    108 	.globl _P0_3
+                                    109 	.globl _P0_4
+                                    110 	.globl _P0_5
+                                    111 	.globl _P0_6
+                                    112 	.globl _P0_7
+                                    113 	.globl _WDCTL
+                                    114 	.globl _U1GCR
+                                    115 	.globl _U1UCR
+                                    116 	.globl _U1BAUD
+                                    117 	.globl _U1DBUF
+                                    118 	.globl _U1CSR
+                                    119 	.globl _U0GCR
+                                    120 	.globl _U0UCR
+                                    121 	.globl _U0BAUD
+                                    122 	.globl _U0DBUF
+                                    123 	.globl _U0CSR
+                                    124 	.globl _TIMIF
+                                    125 	.globl _T4CC1
+                                    126 	.globl _T4CCTL1
+                                    127 	.globl _T4CC0
+                                    128 	.globl _T4CCTL0
+                                    129 	.globl _T4CTL
+                                    130 	.globl _T4CNT
+                                    131 	.globl _T3CC1
+                                    132 	.globl _T3CCTL1
+                                    133 	.globl _T3CC0
+                                    134 	.globl _T3CCTL0
+                                    135 	.globl _T3CTL
+                                    136 	.globl _T3CNT
+                                    137 	.globl _T2MSEL
+                                    138 	.globl _T2IRQM
+                                    139 	.globl _T2MOVF2
+                                    140 	.globl _T2MOVF1
+                                    141 	.globl _T2MOVF0
+                                    142 	.globl _T2M1
+                                    143 	.globl _T2M0
+                                    144 	.globl _T2IRQF
+                                    145 	.globl _T2EVTCFG
+                                    146 	.globl _T2CTRL
+                                    147 	.globl _T1STAT
+                                    148 	.globl _T1CCTL2
+                                    149 	.globl _T1CCTL1
+                                    150 	.globl _T1CCTL0
+                                    151 	.globl _T1CTL
+                                    152 	.globl _T1CNTH
+                                    153 	.globl _T1CNTL
+                                    154 	.globl _T1CC2H
+                                    155 	.globl _T1CC2L
+                                    156 	.globl _T1CC1H
+                                    157 	.globl _T1CC1L
+                                    158 	.globl _T1CC0H
+                                    159 	.globl _T1CC0L
+                                    160 	.globl _CLKCONSTA
+                                    161 	.globl _CLKCONCMD
+                                    162 	.globl _SLEEPSTA
+                                    163 	.globl _SLEEPCMD
+                                    164 	.globl _STLOAD
+                                    165 	.globl _ST2
+                                    166 	.globl _ST1
+                                    167 	.globl _ST0
+                                    168 	.globl _RFERRF
+                                    169 	.globl _RFIRQF0
+                                    170 	.globl _RFST
+                                    171 	.globl _RFD
+                                    172 	.globl _RFIRQF1
+                                    173 	.globl _PSBANK
+                                    174 	.globl _FMAP
+                                    175 	.globl _MEMCTR
+                                    176 	.globl __XPAGE
+                                    177 	.globl _MPAGE
+                                    178 	.globl _PMUX
+                                    179 	.globl _P2DIR
+                                    180 	.globl _P1DIR
+                                    181 	.globl _P0DIR
+                                    182 	.globl _P2INP
+                                    183 	.globl _P1INP
+                                    184 	.globl _P2SEL
+                                    185 	.globl _P1SEL
+                                    186 	.globl _P0SEL
+                                    187 	.globl _APCFG
+                                    188 	.globl _PERCFG
+                                    189 	.globl _P0INP
+                                    190 	.globl _P2IEN
+                                    191 	.globl _P1IEN
+                                    192 	.globl _P0IEN
+                                    193 	.globl _PICTL
+                                    194 	.globl _P2IFG
+                                    195 	.globl _P1IFG
+                                    196 	.globl _P0IFG
+                                    197 	.globl _DMAREQ
+                                    198 	.globl _DMAARM
+                                    199 	.globl _DMA0CFGH
+                                    200 	.globl _DMA0CFGL
+                                    201 	.globl _DMA1CFGH
+                                    202 	.globl _DMA1CFGL
+                                    203 	.globl _DMAIRQ
+                                    204 	.globl _ENCCS
+                                    205 	.globl _ENCDO
+                                    206 	.globl _ENCDI
+                                    207 	.globl _RNDH
+                                    208 	.globl _RNDL
+                                    209 	.globl _ADCH
+                                    210 	.globl _ADCL
+                                    211 	.globl _ADCCON3
+                                    212 	.globl _ADCCON2
+                                    213 	.globl _ADCCON1
+                                    214 	.globl _B
+                                    215 	.globl _IRCON2
+                                    216 	.globl _ACC
+                                    217 	.globl _PSW
+                                    218 	.globl _IRCON
+                                    219 	.globl _IP1
+                                    220 	.globl _IEN1
+                                    221 	.globl _IP0
+                                    222 	.globl _IEN0
+                                    223 	.globl _P2
+                                    224 	.globl _S1CON
+                                    225 	.globl _IEN2
+                                    226 	.globl _S0CON
+                                    227 	.globl _DPS
+                                    228 	.globl _P1
+                                    229 	.globl _TCON
+                                    230 	.globl _PCON
+                                    231 	.globl _DPH1
+                                    232 	.globl _DPL1
+                                    233 	.globl _DPH0
+                                    234 	.globl _DPL0
+                                    235 	.globl _SP
+                                    236 	.globl _P0
+                                    237 	.globl _udp_socket_process
+                                    238 	.globl _X_IEEE_ADDR
+                                    239 	.globl _X_INFOPAGE
+                                    240 	.globl _X_P2DIR
+                                    241 	.globl _X_P1DIR
+                                    242 	.globl _X_P0DIR
+                                    243 	.globl _X_U1GCR
+                                    244 	.globl _X_U1UCR
+                                    245 	.globl _X_U1BAUD
+                                    246 	.globl _X_U1DBUF
+                                    247 	.globl _X_U1CSR
+                                    248 	.globl _X_P2INP
+                                    249 	.globl _X_P1INP
+                                    250 	.globl _X_P2SEL
+                                    251 	.globl _X_P1SEL
+                                    252 	.globl _X_P0SEL
+                                    253 	.globl _X_APCFG
+                                    254 	.globl _X_PERCFG
+                                    255 	.globl _X_T4CC1
+                                    256 	.globl _X_T4CCTL1
+                                    257 	.globl _X_T4CC0
+                                    258 	.globl _X_T4CCTL0
+                                    259 	.globl _X_T4CTL
+                                    260 	.globl _X_T4CNT
+                                    261 	.globl _X_RFIRQF0
+                                    262 	.globl _X_T1CCTL2
+                                    263 	.globl _X_T1CCTL1
+                                    264 	.globl _X_T1CCTL0
+                                    265 	.globl _X_T1CTL
+                                    266 	.globl _X_T1CNTH
+                                    267 	.globl _X_T1CNTL
+                                    268 	.globl _X_RFST
+                                    269 	.globl _X_T1CC2H
+                                    270 	.globl _X_T1CC2L
+                                    271 	.globl _X_T1CC1H
+                                    272 	.globl _X_T1CC1L
+                                    273 	.globl _X_T1CC0H
+                                    274 	.globl _X_T1CC0L
+                                    275 	.globl _X_RFD
+                                    276 	.globl _X_TIMIF
+                                    277 	.globl _X_DMAREQ
+                                    278 	.globl _X_DMAARM
+                                    279 	.globl _X_DMA0CFGH
+                                    280 	.globl _X_DMA0CFGL
+                                    281 	.globl _X_DMA1CFGH
+                                    282 	.globl _X_DMA1CFGL
+                                    283 	.globl _X_DMAIRQ
+                                    284 	.globl _X_T3CC1
+                                    285 	.globl _X_T3CCTL1
+                                    286 	.globl _X_T3CC0
+                                    287 	.globl _X_T3CCTL0
+                                    288 	.globl _X_T3CTL
+                                    289 	.globl _X_T3CNT
+                                    290 	.globl _X_WDCTL
+                                    291 	.globl _X_MEMCTR
+                                    292 	.globl _X_CLKCONCMD
+                                    293 	.globl _X_U0GCR
+                                    294 	.globl _X_U0UCR
+                                    295 	.globl _X_T2MSEL
+                                    296 	.globl _X_U0BAUD
+                                    297 	.globl _X_U0DBUF
+                                    298 	.globl _X_RFERRF
+                                    299 	.globl _X_SLEEPCMD
+                                    300 	.globl _X_RNDH
+                                    301 	.globl _X_RNDL
+                                    302 	.globl _X_ADCH
+                                    303 	.globl _X_ADCL
+                                    304 	.globl _X_ADCCON3
+                                    305 	.globl _X_ADCCON2
+                                    306 	.globl _X_ADCCON1
+                                    307 	.globl _X_ENCCS
+                                    308 	.globl _X_ENCDO
+                                    309 	.globl _X_ENCDI
+                                    310 	.globl _X_T1STAT
+                                    311 	.globl _X_PMUX
+                                    312 	.globl _X_STLOAD
+                                    313 	.globl _X_P2IEN
+                                    314 	.globl _X_P0IEN
+                                    315 	.globl _X_T2IRQM
+                                    316 	.globl _X_T2MOVF2
+                                    317 	.globl _X_T2MOVF1
+                                    318 	.globl _X_T2MOVF0
+                                    319 	.globl _X_T2M1
+                                    320 	.globl _X_T2M0
+                                    321 	.globl _X_T2IRQF
+                                    322 	.globl _X_P2
+                                    323 	.globl _X_PSBANK
+                                    324 	.globl _X_FMAP
+                                    325 	.globl _X_CLKCONSTA
+                                    326 	.globl _X_SLEEPSTA
+                                    327 	.globl _X_T2EVTCFG
+                                    328 	.globl _X_ST2
+                                    329 	.globl _X_ST1
+                                    330 	.globl _X_ST0
+                                    331 	.globl _X_T2CTRL
+                                    332 	.globl _X__XPAGE
+                                    333 	.globl _X_MPAGE
+                                    334 	.globl _X_RFIRQF1
+                                    335 	.globl _X_P1
+                                    336 	.globl _X_P0INP
+                                    337 	.globl _X_P1IEN
+                                    338 	.globl _X_PICTL
+                                    339 	.globl _X_P2IFG
+                                    340 	.globl _X_P1IFG
+                                    341 	.globl _X_P0IFG
+                                    342 	.globl _X_U0CSR
+                                    343 	.globl _X_P0
+                                    344 	.globl _USBF5
+                                    345 	.globl _USBF4
+                                    346 	.globl _USBF3
+                                    347 	.globl _USBF2
+                                    348 	.globl _USBF1
+                                    349 	.globl _USBF0
+                                    350 	.globl _USBCNTH
+                                    351 	.globl _USBCNTL
+                                    352 	.globl _USBCNT0
+                                    353 	.globl _USBCSOH
+                                    354 	.globl _USBCSOL
+                                    355 	.globl _USBMAXO
+                                    356 	.globl _USBCSIH
+                                    357 	.globl _USBCSIL
+                                    358 	.globl _USBCS0
+                                    359 	.globl _USBMAXI
+                                    360 	.globl _USBCTRL
+                                    361 	.globl _USBINDEX
+                                    362 	.globl _USBFRMH
+                                    363 	.globl _USBFRML
+                                    364 	.globl _USBCIE
+                                    365 	.globl _USBOIE
+                                    366 	.globl _USBIIE
+                                    367 	.globl _USBCIF
+                                    368 	.globl _USBOIF
+                                    369 	.globl _USBIIF
+                                    370 	.globl _USBPOW
+                                    371 	.globl _USBADDR
+                                    372 	.globl _CSPT
+                                    373 	.globl _CSPZ
+                                    374 	.globl _CSPY
+                                    375 	.globl _CSPX
+                                    376 	.globl _CSPSTAT
+                                    377 	.globl _CSPCTRL
+                                    378 	.globl _CSPPROG23
+                                    379 	.globl _CSPPROG22
+                                    380 	.globl _CSPPROG21
+                                    381 	.globl _CSPPROG20
+                                    382 	.globl _CSPPROG19
+                                    383 	.globl _CSPPROG18
+                                    384 	.globl _CSPPROG17
+                                    385 	.globl _CSPPROG16
+                                    386 	.globl _CSPPROG15
+                                    387 	.globl _CSPPROG14
+                                    388 	.globl _CSPPROG13
+                                    389 	.globl _CSPPROG12
+                                    390 	.globl _CSPPROG11
+                                    391 	.globl _CSPPROG10
+                                    392 	.globl _CSPPROG9
+                                    393 	.globl _CSPPROG8
+                                    394 	.globl _CSPPROG7
+                                    395 	.globl _CSPPROG6
+                                    396 	.globl _CSPPROG5
+                                    397 	.globl _CSPPROG4
+                                    398 	.globl _CSPPROG3
+                                    399 	.globl _CSPPROG2
+                                    400 	.globl _CSPPROG1
+                                    401 	.globl _CSPPROG0
+                                    402 	.globl _RFC_OBS_CTRL2
+                                    403 	.globl _RFC_OBS_CTRL1
+                                    404 	.globl _RFC_OBS_CTRL0
+                                    405 	.globl _TXFILTCFG
+                                    406 	.globl _PTEST1
+                                    407 	.globl _PTEST0
+                                    408 	.globl _ATEST
+                                    409 	.globl _DACTEST2
+                                    410 	.globl _DACTEST1
+                                    411 	.globl _DACTEST0
+                                    412 	.globl _MDMTEST1
+                                    413 	.globl _MDMTEST0
+                                    414 	.globl _ADCTEST2
+                                    415 	.globl _ADCTEST1
+                                    416 	.globl _ADCTEST0
+                                    417 	.globl _AGCCTRL3
+                                    418 	.globl _AGCCTRL2
+                                    419 	.globl _AGCCTRL1
+                                    420 	.globl _AGCCTRL0
+                                    421 	.globl _FSCAL3
+                                    422 	.globl _FSCAL2
+                                    423 	.globl _FSCAL1
+                                    424 	.globl _FSCAL0
+                                    425 	.globl _FSCTRL
+                                    426 	.globl _RXCTRL
+                                    427 	.globl _FREQEST
+                                    428 	.globl _MDMCTRL1
+                                    429 	.globl _MDMCTRL0
+                                    430 	.globl _RFRND
+                                    431 	.globl _RFERRM
+                                    432 	.globl _RFIRQM1
+                                    433 	.globl _RFIRQM0
+                                    434 	.globl _TXLAST_PTR
+                                    435 	.globl _TXFIRST_PTR
+                                    436 	.globl _RXP1_PTR
+                                    437 	.globl _RXLAST_PTR
+                                    438 	.globl _RXFIRST_PTR
+                                    439 	.globl _TXFIFOCNT
+                                    440 	.globl _RXFIFOCNT
+                                    441 	.globl _RXFIRST
+                                    442 	.globl _RSSISTAT
+                                    443 	.globl _RSSI
+                                    444 	.globl _CCACTRL1
+                                    445 	.globl _CCACTRL0
+                                    446 	.globl _FSMCTRL
+                                    447 	.globl _FIFOPCTRL
+                                    448 	.globl _FSMSTAT1
+                                    449 	.globl _FSMSTAT0
+                                    450 	.globl _TXCTRL
+                                    451 	.globl _TXPOWER
+                                    452 	.globl _FREQCTRL
+                                    453 	.globl _FREQTUNE
+                                    454 	.globl _RXMASKCLR
+                                    455 	.globl _RXMASKSET
+                                    456 	.globl _RXENABLE
+                                    457 	.globl _FRMCTRL1
+                                    458 	.globl _FRMCTRL0
+                                    459 	.globl _SRCEXTEN2
+                                    460 	.globl _SRCEXTEN1
+                                    461 	.globl _SRCEXTEN0
+                                    462 	.globl _SRCSHORTEN2
+                                    463 	.globl _SRCSHORTEN1
+                                    464 	.globl _SRCSHORTEN0
+                                    465 	.globl _SRCMATCH
+                                    466 	.globl _FRMFILT1
+                                    467 	.globl _FRMFILT0
+                                    468 	.globl _SHORT_ADDR1
+                                    469 	.globl _SHORT_ADDR0
+                                    470 	.globl _PAN_ID1
+                                    471 	.globl _PAN_ID0
+                                    472 	.globl _EXT_ADDR7
+                                    473 	.globl _EXT_ADDR6
+                                    474 	.globl _EXT_ADDR5
+                                    475 	.globl _EXT_ADDR4
+                                    476 	.globl _EXT_ADDR3
+                                    477 	.globl _EXT_ADDR2
+                                    478 	.globl _EXT_ADDR1
+                                    479 	.globl _EXT_ADDR0
+                                    480 	.globl _SRCSHORTPENDEN2
+                                    481 	.globl _SRCSHORTPENDEN1
+                                    482 	.globl _SRCSHORTPENDEN0
+                                    483 	.globl _SRCEXTPENDEN2
+                                    484 	.globl _SRCEXTPENDEN1
+                                    485 	.globl _SRCEXTPENDEN0
+                                    486 	.globl _SRCRESINDEX
+                                    487 	.globl _SRCRESMASK2
+                                    488 	.globl _SRCRESMASK1
+                                    489 	.globl _SRCRESMASK0
+                                    490 	.globl _SRC_ADDR_TABLE
+                                    491 	.globl _TXFIFO
+                                    492 	.globl _RXFIFO
+                                    493 	.globl _RFCORE_RAM
+                                    494 	.globl _CMPCTL
+                                    495 	.globl _OPAMPS
+                                    496 	.globl _OPAMPC
+                                    497 	.globl _STCV2
+                                    498 	.globl _STCV1
+                                    499 	.globl _STCV0
+                                    500 	.globl _STCS
+                                    501 	.globl _STCC
+                                    502 	.globl _T1CC4H
+                                    503 	.globl _T1CC4L
+                                    504 	.globl _T1CC3H
+                                    505 	.globl _T1CC3L
+                                    506 	.globl _XX_T1CC2H
+                                    507 	.globl _XX_T1CC2L
+                                    508 	.globl _XX_T1CC1H
+                                    509 	.globl _XX_T1CC1L
+                                    510 	.globl _XX_T1CC0H
+                                    511 	.globl _XX_T1CC0L
+                                    512 	.globl _T1CCTL4
+                                    513 	.globl _T1CCTL3
+                                    514 	.globl _XX_T1CCTL2
+                                    515 	.globl _XX_T1CCTL1
+                                    516 	.globl _XX_T1CCTL0
+                                    517 	.globl _CLD
+                                    518 	.globl _IRCTL
+                                    519 	.globl _CHIPINFO1
+                                    520 	.globl _CHIPINFO0
+                                    521 	.globl _FWDATA
+                                    522 	.globl _FADDRH
+                                    523 	.globl _FADDRL
+                                    524 	.globl _FCTL
+                                    525 	.globl _IVCTRL
+                                    526 	.globl _BATTMON
+                                    527 	.globl _SRCRC
+                                    528 	.globl _DBGDATA
+                                    529 	.globl _TESTREG0
+                                    530 	.globl _CHIPID
+                                    531 	.globl _CHVER
+                                    532 	.globl _OBSSEL5
+                                    533 	.globl _OBSSEL4
+                                    534 	.globl _OBSSEL3
+                                    535 	.globl _OBSSEL2
+                                    536 	.globl _OBSSEL1
+                                    537 	.globl _OBSSEL0
+                                    538 	.globl _I2CIO
+                                    539 	.globl _I2CWC
+                                    540 	.globl _I2CADDR
+                                    541 	.globl _I2CDATA
+                                    542 	.globl _I2CSTAT
+                                    543 	.globl _I2CCFG
+                                    544 	.globl _OPAMPMC
+                                    545 	.globl _MONMUX
+                                    546 	.globl _udp_socket_register
+                                    547 	.globl _udp_socket_close
+                                    548 	.globl _udp_socket_bind
+                                    549 	.globl _udp_socket_connect
+                                    550 	.globl _udp_socket_send
+                                    551 	.globl _udp_socket_sendto
+                                    552 ;--------------------------------------------------------
+                                    553 ; special function registers
+                                    554 ;--------------------------------------------------------
+                                    555 	.area RSEG    (ABS,DATA)
+      000000                        556 	.org 0x0000
+                           000080   557 _P0	=	0x0080
+                           000081   558 _SP	=	0x0081
+                           000082   559 _DPL0	=	0x0082
+                           000083   560 _DPH0	=	0x0083
+                           000084   561 _DPL1	=	0x0084
+                           000085   562 _DPH1	=	0x0085
+                           000087   563 _PCON	=	0x0087
+                           000088   564 _TCON	=	0x0088
+                           000090   565 _P1	=	0x0090
+                           000092   566 _DPS	=	0x0092
+                           000098   567 _S0CON	=	0x0098
+                           00009A   568 _IEN2	=	0x009a
+                           00009B   569 _S1CON	=	0x009b
+                           0000A0   570 _P2	=	0x00a0
+                           0000A8   571 _IEN0	=	0x00a8
+                           0000A9   572 _IP0	=	0x00a9
+                           0000B8   573 _IEN1	=	0x00b8
+                           0000B9   574 _IP1	=	0x00b9
+                           0000C0   575 _IRCON	=	0x00c0
+                           0000D0   576 _PSW	=	0x00d0
+                           0000E0   577 _ACC	=	0x00e0
+                           0000E8   578 _IRCON2	=	0x00e8
+                           0000F0   579 _B	=	0x00f0
+                           0000B4   580 _ADCCON1	=	0x00b4
+                           0000B5   581 _ADCCON2	=	0x00b5
+                           0000B6   582 _ADCCON3	=	0x00b6
+                           0000BA   583 _ADCL	=	0x00ba
+                           0000BB   584 _ADCH	=	0x00bb
+                           0000BC   585 _RNDL	=	0x00bc
+                           0000BD   586 _RNDH	=	0x00bd
+                           0000B1   587 _ENCDI	=	0x00b1
+                           0000B2   588 _ENCDO	=	0x00b2
+                           0000B3   589 _ENCCS	=	0x00b3
+                           0000D1   590 _DMAIRQ	=	0x00d1
+                           0000D2   591 _DMA1CFGL	=	0x00d2
+                           0000D3   592 _DMA1CFGH	=	0x00d3
+                           0000D4   593 _DMA0CFGL	=	0x00d4
+                           0000D5   594 _DMA0CFGH	=	0x00d5
+                           0000D6   595 _DMAARM	=	0x00d6
+                           0000D7   596 _DMAREQ	=	0x00d7
+                           000089   597 _P0IFG	=	0x0089
+                           00008A   598 _P1IFG	=	0x008a
+                           00008B   599 _P2IFG	=	0x008b
+                           00008C   600 _PICTL	=	0x008c
+                           0000AB   601 _P0IEN	=	0x00ab
+                           00008D   602 _P1IEN	=	0x008d
+                           0000AC   603 _P2IEN	=	0x00ac
+                           00008F   604 _P0INP	=	0x008f
+                           0000F1   605 _PERCFG	=	0x00f1
+                           0000F2   606 _APCFG	=	0x00f2
+                           0000F3   607 _P0SEL	=	0x00f3
+                           0000F4   608 _P1SEL	=	0x00f4
+                           0000F5   609 _P2SEL	=	0x00f5
+                           0000F6   610 _P1INP	=	0x00f6
+                           0000F7   611 _P2INP	=	0x00f7
+                           0000FD   612 _P0DIR	=	0x00fd
+                           0000FE   613 _P1DIR	=	0x00fe
+                           0000FF   614 _P2DIR	=	0x00ff
+                           0000AE   615 _PMUX	=	0x00ae
+                           000093   616 _MPAGE	=	0x0093
+                           000093   617 __XPAGE	=	0x0093
+                           0000C7   618 _MEMCTR	=	0x00c7
+                           00009F   619 _FMAP	=	0x009f
+                           00009F   620 _PSBANK	=	0x009f
+                           000091   621 _RFIRQF1	=	0x0091
+                           0000D9   622 _RFD	=	0x00d9
+                           0000E1   623 _RFST	=	0x00e1
+                           0000E9   624 _RFIRQF0	=	0x00e9
+                           0000BF   625 _RFERRF	=	0x00bf
+                           000095   626 _ST0	=	0x0095
+                           000096   627 _ST1	=	0x0096
+                           000097   628 _ST2	=	0x0097
+                           0000AD   629 _STLOAD	=	0x00ad
+                           0000BE   630 _SLEEPCMD	=	0x00be
+                           00009D   631 _SLEEPSTA	=	0x009d
+                           0000C6   632 _CLKCONCMD	=	0x00c6
+                           00009E   633 _CLKCONSTA	=	0x009e
+                           0000DA   634 _T1CC0L	=	0x00da
+                           0000DB   635 _T1CC0H	=	0x00db
+                           0000DC   636 _T1CC1L	=	0x00dc
+                           0000DD   637 _T1CC1H	=	0x00dd
+                           0000DE   638 _T1CC2L	=	0x00de
+                           0000DF   639 _T1CC2H	=	0x00df
+                           0000E2   640 _T1CNTL	=	0x00e2
+                           0000E3   641 _T1CNTH	=	0x00e3
+                           0000E4   642 _T1CTL	=	0x00e4
+                           0000E5   643 _T1CCTL0	=	0x00e5
+                           0000E6   644 _T1CCTL1	=	0x00e6
+                           0000E7   645 _T1CCTL2	=	0x00e7
+                           0000AF   646 _T1STAT	=	0x00af
+                           000094   647 _T2CTRL	=	0x0094
+                           00009C   648 _T2EVTCFG	=	0x009c
+                           0000A1   649 _T2IRQF	=	0x00a1
+                           0000A2   650 _T2M0	=	0x00a2
+                           0000A3   651 _T2M1	=	0x00a3
+                           0000A4   652 _T2MOVF0	=	0x00a4
+                           0000A5   653 _T2MOVF1	=	0x00a5
+                           0000A6   654 _T2MOVF2	=	0x00a6
+                           0000A7   655 _T2IRQM	=	0x00a7
+                           0000C3   656 _T2MSEL	=	0x00c3
+                           0000CA   657 _T3CNT	=	0x00ca
+                           0000CB   658 _T3CTL	=	0x00cb
+                           0000CC   659 _T3CCTL0	=	0x00cc
+                           0000CD   660 _T3CC0	=	0x00cd
+                           0000CE   661 _T3CCTL1	=	0x00ce
+                           0000CF   662 _T3CC1	=	0x00cf
+                           0000EA   663 _T4CNT	=	0x00ea
+                           0000EB   664 _T4CTL	=	0x00eb
+                           0000EC   665 _T4CCTL0	=	0x00ec
+                           0000ED   666 _T4CC0	=	0x00ed
+                           0000EE   667 _T4CCTL1	=	0x00ee
+                           0000EF   668 _T4CC1	=	0x00ef
+                           0000D8   669 _TIMIF	=	0x00d8
+                           000086   670 _U0CSR	=	0x0086
+                           0000C1   671 _U0DBUF	=	0x00c1
+                           0000C2   672 _U0BAUD	=	0x00c2
+                           0000C4   673 _U0UCR	=	0x00c4
+                           0000C5   674 _U0GCR	=	0x00c5
+                           0000F8   675 _U1CSR	=	0x00f8
+                           0000F9   676 _U1DBUF	=	0x00f9
+                           0000FA   677 _U1BAUD	=	0x00fa
+                           0000FB   678 _U1UCR	=	0x00fb
+                           0000FC   679 _U1GCR	=	0x00fc
+                           0000C9   680 _WDCTL	=	0x00c9
+                                    681 ;--------------------------------------------------------
+                                    682 ; special function bits
+                                    683 ;--------------------------------------------------------
+                                    684 	.area RSEG    (ABS,DATA)
+      000000                        685 	.org 0x0000
+                           000087   686 _P0_7	=	0x0087
+                           000086   687 _P0_6	=	0x0086
+                           000085   688 _P0_5	=	0x0085
+                           000084   689 _P0_4	=	0x0084
+                           000083   690 _P0_3	=	0x0083
+                           000082   691 _P0_2	=	0x0082
+                           000081   692 _P0_1	=	0x0081
+                           000080   693 _P0_0	=	0x0080
+                           00008F   694 _URX1IF	=	0x008f
+                           00008D   695 _ADCIF	=	0x008d
+                           00008B   696 _URX0IF	=	0x008b
+                           00008A   697 _IT1	=	0x008a
+                           000089   698 _RFERRIF	=	0x0089
+                           000088   699 _IT0	=	0x0088
+                           000097   700 _P1_7	=	0x0097
+                           000096   701 _P1_6	=	0x0096
+                           000095   702 _P1_5	=	0x0095
+                           000094   703 _P1_4	=	0x0094
+                           000093   704 _P1_3	=	0x0093
+                           000092   705 _P1_2	=	0x0092
+                           000091   706 _P1_1	=	0x0091
+                           000090   707 _P1_0	=	0x0090
+                           000099   708 _ENCIF_1	=	0x0099
+                           000098   709 _ENCIF_0	=	0x0098
+                           0000A7   710 _P2_7	=	0x00a7
+                           0000A6   711 _P2_6	=	0x00a6
+                           0000A5   712 _P2_5	=	0x00a5
+                           0000A4   713 _P2_4	=	0x00a4
+                           0000A3   714 _P2_3	=	0x00a3
+                           0000A2   715 _P2_2	=	0x00a2
+                           0000A1   716 _P2_1	=	0x00a1
+                           0000A0   717 _P2_0	=	0x00a0
+                           0000AF   718 _EA	=	0x00af
+                           0000AD   719 _STIE	=	0x00ad
+                           0000AC   720 _ENCIE	=	0x00ac
+                           0000AB   721 _URX1IE	=	0x00ab
+                           0000AA   722 _URX0IE	=	0x00aa
+                           0000A9   723 _ADCIE	=	0x00a9
+                           0000A8   724 _RFERRIE	=	0x00a8
+                           0000BD   725 _P0IE	=	0x00bd
+                           0000BC   726 _T4IE	=	0x00bc
+                           0000BB   727 _T3IE	=	0x00bb
+                           0000BA   728 _T2IE	=	0x00ba
+                           0000B9   729 _T1IE	=	0x00b9
+                           0000B8   730 _DMAIE	=	0x00b8
+                           0000C7   731 _STIF	=	0x00c7
+                           0000C5   732 _P0IF	=	0x00c5
+                           0000C4   733 _T4IF	=	0x00c4
+                           0000C3   734 _T3IF	=	0x00c3
+                           0000C2   735 _T2IF	=	0x00c2
+                           0000C1   736 _T1IF	=	0x00c1
+                           0000C0   737 _DMAIF	=	0x00c0
+                           0000D7   738 _CY	=	0x00d7
+                           0000D6   739 _AC	=	0x00d6
+                           0000D5   740 _F0	=	0x00d5
+                           0000D4   741 _RS1	=	0x00d4
+                           0000D3   742 _RS0	=	0x00d3
+                           0000D2   743 _OV	=	0x00d2
+                           0000D1   744 _F1	=	0x00d1
+                           0000D0   745 _P	=	0x00d0
+                           0000E7   746 _ACC_7	=	0x00e7
+                           0000E6   747 _ACC_6	=	0x00e6
+                           0000E5   748 _ACC_5	=	0x00e5
+                           0000E4   749 _ACC_4	=	0x00e4
+                           0000E3   750 _ACC_3	=	0x00e3
+                           0000E2   751 _ACC_2	=	0x00e2
+                           0000E1   752 _ACC_1	=	0x00e1
+                           0000E0   753 _ACC_0	=	0x00e0
+                           0000EC   754 _WDTIF	=	0x00ec
+                           0000EB   755 _P1IF	=	0x00eb
+                           0000EA   756 _UTX1IF	=	0x00ea
+                           0000E9   757 _UTX0IF	=	0x00e9
+                           0000E8   758 _P2IF	=	0x00e8
+                           0000F7   759 _B_7	=	0x00f7
+                           0000F6   760 _B_6	=	0x00f6
+                           0000F5   761 _B_5	=	0x00f5
+                           0000F4   762 _B_4	=	0x00f4
+                           0000F3   763 _B_3	=	0x00f3
+                           0000F2   764 _B_2	=	0x00f2
+                           0000F1   765 _B_1	=	0x00f1
+                           0000F0   766 _B_0	=	0x00f0
+                           0000DE   767 _OVFIM	=	0x00de
+                           0000DD   768 _T4CH1IF	=	0x00dd
+                           0000DC   769 _T4CH0IF	=	0x00dc
+                           0000DB   770 _T4OVFIF	=	0x00db
+                           0000DA   771 _T3CH1IF	=	0x00da
+                           0000D9   772 _T3CH0IF	=	0x00d9
+                           0000D8   773 _T3OVFIF	=	0x00d8
+                           0000FF   774 _MODE	=	0x00ff
+                           0000FE   775 _RE	=	0x00fe
+                           0000FD   776 _SLAVE	=	0x00fd
+                           0000FC   777 _FE	=	0x00fc
+                           0000FB   778 _ERR	=	0x00fb
+                           0000FA   779 _RX_BYTE	=	0x00fa
+                           0000F9   780 _TX_BYTE	=	0x00f9
+                           0000F8   781 _ACTIVE	=	0x00f8
+                                    782 ;--------------------------------------------------------
+                                    783 ; overlayable register banks
+                                    784 ;--------------------------------------------------------
+                                    785 	.area REG_BANK_0	(REL,OVR,DATA)
+      000000                        786 	.ds 8
+                                    787 ;--------------------------------------------------------
+                                    788 ; internal ram data
+                                    789 ;--------------------------------------------------------
+                                    790 	.area DSEG    (DATA)
+                                    791 ;--------------------------------------------------------
+                                    792 ; overlayable items in internal ram 
+                                    793 ;--------------------------------------------------------
+                                    794 ;--------------------------------------------------------
+                                    795 ; indirectly addressable internal ram data
+                                    796 ;--------------------------------------------------------
+                                    797 	.area ISEG    (DATA)
+                                    798 ;--------------------------------------------------------
+                                    799 ; absolute internal ram data
+                                    800 ;--------------------------------------------------------
+                                    801 	.area IABS    (ABS,DATA)
+                                    802 	.area IABS    (ABS,DATA)
+                                    803 ;--------------------------------------------------------
+                                    804 ; bit data
+                                    805 ;--------------------------------------------------------
+                                    806 	.area BSEG    (BIT)
+                                    807 ;--------------------------------------------------------
+                                    808 ; paged external ram data
+                                    809 ;--------------------------------------------------------
+                                    810 	.area PSEG    (PAG,XDATA)
+                                    811 ;--------------------------------------------------------
+                                    812 ; external ram data
+                                    813 ;--------------------------------------------------------
+                                    814 	.area XSEG    (XDATA)
+                           0061A6   815 _MONMUX	=	0x61a6
+                           0061A6   816 _OPAMPMC	=	0x61a6
+                           006230   817 _I2CCFG	=	0x6230
+                           006231   818 _I2CSTAT	=	0x6231
+                           006232   819 _I2CDATA	=	0x6232
+                           006233   820 _I2CADDR	=	0x6233
+                           006234   821 _I2CWC	=	0x6234
+                           006235   822 _I2CIO	=	0x6235
+                           006243   823 _OBSSEL0	=	0x6243
+                           006244   824 _OBSSEL1	=	0x6244
+                           006245   825 _OBSSEL2	=	0x6245
+                           006246   826 _OBSSEL3	=	0x6246
+                           006247   827 _OBSSEL4	=	0x6247
+                           006248   828 _OBSSEL5	=	0x6248
+                           006249   829 _CHVER	=	0x6249
+                           00624A   830 _CHIPID	=	0x624a
+                           00624B   831 _TESTREG0	=	0x624b
+                           006260   832 _DBGDATA	=	0x6260
+                           006262   833 _SRCRC	=	0x6262
+                           006264   834 _BATTMON	=	0x6264
+                           006265   835 _IVCTRL	=	0x6265
+                           006270   836 _FCTL	=	0x6270
+                           006271   837 _FADDRL	=	0x6271
+                           006272   838 _FADDRH	=	0x6272
+                           006273   839 _FWDATA	=	0x6273
+                           006276   840 _CHIPINFO0	=	0x6276
+                           006277   841 _CHIPINFO1	=	0x6277
+                           006281   842 _IRCTL	=	0x6281
+                           006290   843 _CLD	=	0x6290
+                           0062A0   844 _XX_T1CCTL0	=	0x62a0
+                           0062A1   845 _XX_T1CCTL1	=	0x62a1
+                           0062A2   846 _XX_T1CCTL2	=	0x62a2
+                           0062A3   847 _T1CCTL3	=	0x62a3
+                           0062A4   848 _T1CCTL4	=	0x62a4
+                           0062A6   849 _XX_T1CC0L	=	0x62a6
+                           0062A7   850 _XX_T1CC0H	=	0x62a7
+                           0062A8   851 _XX_T1CC1L	=	0x62a8
+                           0062A9   852 _XX_T1CC1H	=	0x62a9
+                           0062AA   853 _XX_T1CC2L	=	0x62aa
+                           0062AB   854 _XX_T1CC2H	=	0x62ab
+                           0062AC   855 _T1CC3L	=	0x62ac
+                           0062AD   856 _T1CC3H	=	0x62ad
+                           0062AE   857 _T1CC4L	=	0x62ae
+                           0062AF   858 _T1CC4H	=	0x62af
+                           0062B0   859 _STCC	=	0x62b0
+                           0062B1   860 _STCS	=	0x62b1
+                           0062B2   861 _STCV0	=	0x62b2
+                           0062B3   862 _STCV1	=	0x62b3
+                           0062B4   863 _STCV2	=	0x62b4
+                           0062C0   864 _OPAMPC	=	0x62c0
+                           0062C1   865 _OPAMPS	=	0x62c1
+                           0062D0   866 _CMPCTL	=	0x62d0
+                           006000   867 _RFCORE_RAM	=	0x6000
+                           006000   868 _RXFIFO	=	0x6000
+                           006080   869 _TXFIFO	=	0x6080
+                           006100   870 _SRC_ADDR_TABLE	=	0x6100
+                           006160   871 _SRCRESMASK0	=	0x6160
+                           006161   872 _SRCRESMASK1	=	0x6161
+                           006162   873 _SRCRESMASK2	=	0x6162
+                           006163   874 _SRCRESINDEX	=	0x6163
+                           006164   875 _SRCEXTPENDEN0	=	0x6164
+                           006165   876 _SRCEXTPENDEN1	=	0x6165
+                           006166   877 _SRCEXTPENDEN2	=	0x6166
+                           006167   878 _SRCSHORTPENDEN0	=	0x6167
+                           006168   879 _SRCSHORTPENDEN1	=	0x6168
+                           006169   880 _SRCSHORTPENDEN2	=	0x6169
+                           00616A   881 _EXT_ADDR0	=	0x616a
+                           00616B   882 _EXT_ADDR1	=	0x616b
+                           00616C   883 _EXT_ADDR2	=	0x616c
+                           00616D   884 _EXT_ADDR3	=	0x616d
+                           00616E   885 _EXT_ADDR4	=	0x616e
+                           00616F   886 _EXT_ADDR5	=	0x616f
+                           006170   887 _EXT_ADDR6	=	0x6170
+                           006171   888 _EXT_ADDR7	=	0x6171
+                           006172   889 _PAN_ID0	=	0x6172
+                           006173   890 _PAN_ID1	=	0x6173
+                           006174   891 _SHORT_ADDR0	=	0x6174
+                           006175   892 _SHORT_ADDR1	=	0x6175
+                           006180   893 _FRMFILT0	=	0x6180
+                           006181   894 _FRMFILT1	=	0x6181
+                           006182   895 _SRCMATCH	=	0x6182
+                           006183   896 _SRCSHORTEN0	=	0x6183
+                           006184   897 _SRCSHORTEN1	=	0x6184
+                           006185   898 _SRCSHORTEN2	=	0x6185
+                           006186   899 _SRCEXTEN0	=	0x6186
+                           006187   900 _SRCEXTEN1	=	0x6187
+                           006188   901 _SRCEXTEN2	=	0x6188
+                           006189   902 _FRMCTRL0	=	0x6189
+                           00618A   903 _FRMCTRL1	=	0x618a
+                           00618B   904 _RXENABLE	=	0x618b
+                           00618C   905 _RXMASKSET	=	0x618c
+                           00618D   906 _RXMASKCLR	=	0x618d
+                           00618E   907 _FREQTUNE	=	0x618e
+                           00618F   908 _FREQCTRL	=	0x618f
+                           006190   909 _TXPOWER	=	0x6190
+                           006191   910 _TXCTRL	=	0x6191
+                           006192   911 _FSMSTAT0	=	0x6192
+                           006193   912 _FSMSTAT1	=	0x6193
+                           006194   913 _FIFOPCTRL	=	0x6194
+                           006195   914 _FSMCTRL	=	0x6195
+                           006196   915 _CCACTRL0	=	0x6196
+                           006197   916 _CCACTRL1	=	0x6197
+                           006198   917 _RSSI	=	0x6198
+                           006199   918 _RSSISTAT	=	0x6199
+                           00619A   919 _RXFIRST	=	0x619a
+                           00619B   920 _RXFIFOCNT	=	0x619b
+                           00619C   921 _TXFIFOCNT	=	0x619c
+                           00619D   922 _RXFIRST_PTR	=	0x619d
+                           00619E   923 _RXLAST_PTR	=	0x619e
+                           00619F   924 _RXP1_PTR	=	0x619f
+                           0061A1   925 _TXFIRST_PTR	=	0x61a1
+                           0061A2   926 _TXLAST_PTR	=	0x61a2
+                           0061A3   927 _RFIRQM0	=	0x61a3
+                           0061A4   928 _RFIRQM1	=	0x61a4
+                           0061A5   929 _RFERRM	=	0x61a5
+                           0061A7   930 _RFRND	=	0x61a7
+                           0061A8   931 _MDMCTRL0	=	0x61a8
+                           0061A9   932 _MDMCTRL1	=	0x61a9
+                           0061AA   933 _FREQEST	=	0x61aa
+                           0061AB   934 _RXCTRL	=	0x61ab
+                           0061AC   935 _FSCTRL	=	0x61ac
+                           0061AD   936 _FSCAL0	=	0x61ad
+                           0061AE   937 _FSCAL1	=	0x61ae
+                           0061AF   938 _FSCAL2	=	0x61af
+                           0061B0   939 _FSCAL3	=	0x61b0
+                           0061B1   940 _AGCCTRL0	=	0x61b1
+                           0061B2   941 _AGCCTRL1	=	0x61b2
+                           0061B3   942 _AGCCTRL2	=	0x61b3
+                           0061B4   943 _AGCCTRL3	=	0x61b4
+                           0061B5   944 _ADCTEST0	=	0x61b5
+                           0061B6   945 _ADCTEST1	=	0x61b6
+                           0061B7   946 _ADCTEST2	=	0x61b7
+                           0061B8   947 _MDMTEST0	=	0x61b8
+                           0061B9   948 _MDMTEST1	=	0x61b9
+                           0061BA   949 _DACTEST0	=	0x61ba
+                           0061BB   950 _DACTEST1	=	0x61bb
+                           0061BC   951 _DACTEST2	=	0x61bc
+                           0061BD   952 _ATEST	=	0x61bd
+                           0061BE   953 _PTEST0	=	0x61be
+                           0061BF   954 _PTEST1	=	0x61bf
+                           0061FA   955 _TXFILTCFG	=	0x61fa
+                           0061EB   956 _RFC_OBS_CTRL0	=	0x61eb
+                           0061EC   957 _RFC_OBS_CTRL1	=	0x61ec
+                           0061ED   958 _RFC_OBS_CTRL2	=	0x61ed
+                           0061C0   959 _CSPPROG0	=	0x61c0
+                           0061C1   960 _CSPPROG1	=	0x61c1
+                           0061C2   961 _CSPPROG2	=	0x61c2
+                           0061C3   962 _CSPPROG3	=	0x61c3
+                           0061C4   963 _CSPPROG4	=	0x61c4
+                           0061C5   964 _CSPPROG5	=	0x61c5
+                           0061C6   965 _CSPPROG6	=	0x61c6
+                           0061C7   966 _CSPPROG7	=	0x61c7
+                           0061C8   967 _CSPPROG8	=	0x61c8
+                           0061C9   968 _CSPPROG9	=	0x61c9
+                           0061CA   969 _CSPPROG10	=	0x61ca
+                           0061CB   970 _CSPPROG11	=	0x61cb
+                           0061CC   971 _CSPPROG12	=	0x61cc
+                           0061CD   972 _CSPPROG13	=	0x61cd
+                           0061CE   973 _CSPPROG14	=	0x61ce
+                           0061CF   974 _CSPPROG15	=	0x61cf
+                           0061D0   975 _CSPPROG16	=	0x61d0
+                           0061D1   976 _CSPPROG17	=	0x61d1
+                           0061D2   977 _CSPPROG18	=	0x61d2
+                           0061D3   978 _CSPPROG19	=	0x61d3
+                           0061D4   979 _CSPPROG20	=	0x61d4
+                           0061D5   980 _CSPPROG21	=	0x61d5
+                           0061D6   981 _CSPPROG22	=	0x61d6
+                           0061D7   982 _CSPPROG23	=	0x61d7
+                           0061E0   983 _CSPCTRL	=	0x61e0
+                           0061E1   984 _CSPSTAT	=	0x61e1
+                           0061E2   985 _CSPX	=	0x61e2
+                           0061E3   986 _CSPY	=	0x61e3
+                           0061E4   987 _CSPZ	=	0x61e4
+                           0061E5   988 _CSPT	=	0x61e5
+                           006200   989 _USBADDR	=	0x6200
+                           006201   990 _USBPOW	=	0x6201
+                           006202   991 _USBIIF	=	0x6202
+                           006204   992 _USBOIF	=	0x6204
+                           006206   993 _USBCIF	=	0x6206
+                           006207   994 _USBIIE	=	0x6207
+                           006209   995 _USBOIE	=	0x6209
+                           00620B   996 _USBCIE	=	0x620b
+                           00620C   997 _USBFRML	=	0x620c
+                           00620D   998 _USBFRMH	=	0x620d
+                           00620E   999 _USBINDEX	=	0x620e
+                           00620F  1000 _USBCTRL	=	0x620f
+                           006210  1001 _USBMAXI	=	0x6210
+                           006211  1002 _USBCS0	=	0x6211
+                           006211  1003 _USBCSIL	=	0x6211
+                           006212  1004 _USBCSIH	=	0x6212
+                           006213  1005 _USBMAXO	=	0x6213
+                           006214  1006 _USBCSOL	=	0x6214
+                           006215  1007 _USBCSOH	=	0x6215
+                           006216  1008 _USBCNT0	=	0x6216
+                           006216  1009 _USBCNTL	=	0x6216
+                           006217  1010 _USBCNTH	=	0x6217
+                           006220  1011 _USBF0	=	0x6220
+                           006222  1012 _USBF1	=	0x6222
+                           006224  1013 _USBF2	=	0x6224
+                           006226  1014 _USBF3	=	0x6226
+                           006228  1015 _USBF4	=	0x6228
+                           00622A  1016 _USBF5	=	0x622a
+                           007080  1017 _X_P0	=	0x7080
+                           007086  1018 _X_U0CSR	=	0x7086
+                           007089  1019 _X_P0IFG	=	0x7089
+                           00708A  1020 _X_P1IFG	=	0x708a
+                           00708B  1021 _X_P2IFG	=	0x708b
+                           00708C  1022 _X_PICTL	=	0x708c
+                           00708D  1023 _X_P1IEN	=	0x708d
+                           00708F  1024 _X_P0INP	=	0x708f
+                           007090  1025 _X_P1	=	0x7090
+                           007091  1026 _X_RFIRQF1	=	0x7091
+                           007093  1027 _X_MPAGE	=	0x7093
+                           007093  1028 _X__XPAGE	=	0x7093
+                           007094  1029 _X_T2CTRL	=	0x7094
+                           007095  1030 _X_ST0	=	0x7095
+                           007096  1031 _X_ST1	=	0x7096
+                           007097  1032 _X_ST2	=	0x7097
+                           00709C  1033 _X_T2EVTCFG	=	0x709c
+                           00709D  1034 _X_SLEEPSTA	=	0x709d
+                           00709E  1035 _X_CLKCONSTA	=	0x709e
+                           00709F  1036 _X_FMAP	=	0x709f
+                           00709F  1037 _X_PSBANK	=	0x709f
+                           0070A0  1038 _X_P2	=	0x70a0
+                           0070A1  1039 _X_T2IRQF	=	0x70a1
+                           0070A2  1040 _X_T2M0	=	0x70a2
+                           0070A3  1041 _X_T2M1	=	0x70a3
+                           0070A4  1042 _X_T2MOVF0	=	0x70a4
+                           0070A5  1043 _X_T2MOVF1	=	0x70a5
+                           0070A6  1044 _X_T2MOVF2	=	0x70a6
+                           0070A7  1045 _X_T2IRQM	=	0x70a7
+                           0070AB  1046 _X_P0IEN	=	0x70ab
+                           0070AC  1047 _X_P2IEN	=	0x70ac
+                           0070AD  1048 _X_STLOAD	=	0x70ad
+                           0070AE  1049 _X_PMUX	=	0x70ae
+                           0070AF  1050 _X_T1STAT	=	0x70af
+                           0070B1  1051 _X_ENCDI	=	0x70b1
+                           0070B2  1052 _X_ENCDO	=	0x70b2
+                           0070B3  1053 _X_ENCCS	=	0x70b3
+                           0070B4  1054 _X_ADCCON1	=	0x70b4
+                           0070B5  1055 _X_ADCCON2	=	0x70b5
+                           0070B6  1056 _X_ADCCON3	=	0x70b6
+                           0070BA  1057 _X_ADCL	=	0x70ba
+                           0070BB  1058 _X_ADCH	=	0x70bb
+                           0070BC  1059 _X_RNDL	=	0x70bc
+                           0070BD  1060 _X_RNDH	=	0x70bd
+                           0070BE  1061 _X_SLEEPCMD	=	0x70be
+                           0070BF  1062 _X_RFERRF	=	0x70bf
+                           0070C1  1063 _X_U0DBUF	=	0x70c1
+                           0070C2  1064 _X_U0BAUD	=	0x70c2
+                           0070C3  1065 _X_T2MSEL	=	0x70c3
+                           0070C4  1066 _X_U0UCR	=	0x70c4
+                           0070C5  1067 _X_U0GCR	=	0x70c5
+                           0070C6  1068 _X_CLKCONCMD	=	0x70c6
+                           0070C7  1069 _X_MEMCTR	=	0x70c7
+                           0070C9  1070 _X_WDCTL	=	0x70c9
+                           0070CA  1071 _X_T3CNT	=	0x70ca
+                           0070CB  1072 _X_T3CTL	=	0x70cb
+                           0070CC  1073 _X_T3CCTL0	=	0x70cc
+                           0070CD  1074 _X_T3CC0	=	0x70cd
+                           0070CE  1075 _X_T3CCTL1	=	0x70ce
+                           0070CF  1076 _X_T3CC1	=	0x70cf
+                           0070D1  1077 _X_DMAIRQ	=	0x70d1
+                           0070D2  1078 _X_DMA1CFGL	=	0x70d2
+                           0070D3  1079 _X_DMA1CFGH	=	0x70d3
+                           0070D4  1080 _X_DMA0CFGL	=	0x70d4
+                           0070D5  1081 _X_DMA0CFGH	=	0x70d5
+                           0070D6  1082 _X_DMAARM	=	0x70d6
+                           0070D7  1083 _X_DMAREQ	=	0x70d7
+                           0070D8  1084 _X_TIMIF	=	0x70d8
+                           0070D9  1085 _X_RFD	=	0x70d9
+                           0070DA  1086 _X_T1CC0L	=	0x70da
+                           0070DB  1087 _X_T1CC0H	=	0x70db
+                           0070DC  1088 _X_T1CC1L	=	0x70dc
+                           0070DD  1089 _X_T1CC1H	=	0x70dd
+                           0070DE  1090 _X_T1CC2L	=	0x70de
+                           0070DF  1091 _X_T1CC2H	=	0x70df
+                           0070E1  1092 _X_RFST	=	0x70e1
+                           0070E2  1093 _X_T1CNTL	=	0x70e2
+                           0070E3  1094 _X_T1CNTH	=	0x70e3
+                           0070E4  1095 _X_T1CTL	=	0x70e4
+                           0070E5  1096 _X_T1CCTL0	=	0x70e5
+                           0070E6  1097 _X_T1CCTL1	=	0x70e6
+                           0070E7  1098 _X_T1CCTL2	=	0x70e7
+                           0070E9  1099 _X_RFIRQF0	=	0x70e9
+                           0070EA  1100 _X_T4CNT	=	0x70ea
+                           0070EB  1101 _X_T4CTL	=	0x70eb
+                           0070EC  1102 _X_T4CCTL0	=	0x70ec
+                           0070ED  1103 _X_T4CC0	=	0x70ed
+                           0070EE  1104 _X_T4CCTL1	=	0x70ee
+                           0070EF  1105 _X_T4CC1	=	0x70ef
+                           0070F1  1106 _X_PERCFG	=	0x70f1
+                           0070F2  1107 _X_APCFG	=	0x70f2
+                           0070F3  1108 _X_P0SEL	=	0x70f3
+                           0070F4  1109 _X_P1SEL	=	0x70f4
+                           0070F5  1110 _X_P2SEL	=	0x70f5
+                           0070F6  1111 _X_P1INP	=	0x70f6
+                           0070F7  1112 _X_P2INP	=	0x70f7
+                           0070F8  1113 _X_U1CSR	=	0x70f8
+                           0070F9  1114 _X_U1DBUF	=	0x70f9
+                           0070FA  1115 _X_U1BAUD	=	0x70fa
+                           0070FB  1116 _X_U1UCR	=	0x70fb
+                           0070FC  1117 _X_U1GCR	=	0x70fc
+                           0070FD  1118 _X_P0DIR	=	0x70fd
+                           0070FE  1119 _X_P1DIR	=	0x70fe
+                           0070FF  1120 _X_P2DIR	=	0x70ff
+                           007800  1121 _X_INFOPAGE	=	0x7800
+                           00780C  1122 _X_IEEE_ADDR	=	0x780c
+      000000                       1123 _buf:
+      000000                       1124 	.ds 240
+      0000F0                       1125 _init_inited_1_542:
+      0000F0                       1126 	.ds 1
+                                   1127 ;--------------------------------------------------------
+                                   1128 ; absolute external ram data
+                                   1129 ;--------------------------------------------------------
+                                   1130 	.area XABS    (ABS,XDATA)
+                                   1131 ;--------------------------------------------------------
+                                   1132 ; external initialized ram data
+                                   1133 ;--------------------------------------------------------
+                                   1134 	.area XISEG   (XDATA)
+      000000                       1135 _udp_socket_process::
+      000000                       1136 	.ds 10
+                                   1137 	.area HOME    (CODE)
+                                   1138 	.area GSINIT0 (CODE)
+                                   1139 	.area GSINIT1 (CODE)
+                                   1140 	.area GSINIT2 (CODE)
+                                   1141 	.area GSINIT3 (CODE)
+                                   1142 	.area GSINIT4 (CODE)
+                                   1143 	.area GSINIT5 (CODE)
+                                   1144 	.area GSINIT  (CODE)
+                                   1145 	.area GSFINAL (CODE)
+                                   1146 	.area CSEG    (CODE)
+                                   1147 ;--------------------------------------------------------
+                                   1148 ; global & static initialisations
+                                   1149 ;--------------------------------------------------------
+                                   1150 	.area HOME    (CODE)
+                                   1151 	.area GSINIT  (CODE)
+                                   1152 	.area GSFINAL (CODE)
+                                   1153 	.area GSINIT  (CODE)
+                                   1154 ;------------------------------------------------------------
+                                   1155 ;Allocation info for local variables in function 'init'
+                                   1156 ;------------------------------------------------------------
+                                   1157 ;inited                    Allocated with name '_init_inited_1_542'
+                                   1158 ;------------------------------------------------------------
+                                   1159 ;	/opt/contiki/core/net/ip/udp-socket.c:48: static uint8_t inited = 0;
+      000000 90r00rF0         [24] 1160 	mov	dptr,#_init_inited_1_542
+      000003 E4               [12] 1161 	clr	a
+      000004 F0               [24] 1162 	movx	@dptr,a
+                                   1163 ;--------------------------------------------------------
+                                   1164 ; Home
+                                   1165 ;--------------------------------------------------------
+                                   1166 	.area HOME    (CODE)
+                                   1167 	.area HOME    (CODE)
+                                   1168 ;--------------------------------------------------------
+                                   1169 ; code
+                                   1170 ;--------------------------------------------------------
+                                   1171 	.area BANK1   (CODE)
+                                   1172 ;------------------------------------------------------------
+                                   1173 ;Allocation info for local variables in function 'init'
+                                   1174 ;------------------------------------------------------------
+                                   1175 ;inited                    Allocated with name '_init_inited_1_542'
+                                   1176 ;------------------------------------------------------------
+                                   1177 ;	/opt/contiki/core/net/ip/udp-socket.c:46: init(void)
+                                   1178 ;	-----------------------------------------
+                                   1179 ;	 function init
+                                   1180 ;	-----------------------------------------
+      000000                       1181 _init:
+                           000007  1182 	ar7 = 0x07
+                           000006  1183 	ar6 = 0x06
+                           000005  1184 	ar5 = 0x05
+                           000004  1185 	ar4 = 0x04
+                           000003  1186 	ar3 = 0x03
+                           000002  1187 	ar2 = 0x02
+                           000001  1188 	ar1 = 0x01
+                           000000  1189 	ar0 = 0x00
+                                   1190 ;	/opt/contiki/core/net/ip/udp-socket.c:49: if(!inited) {
+      000000 90r00rF0         [24] 1191 	mov	dptr,#_init_inited_1_542
+      000003 E0               [24] 1192 	movx	a,@dptr
+      000004 70 22            [24] 1193 	jnz	00103$
+                                   1194 ;	/opt/contiki/core/net/ip/udp-socket.c:50: inited = 1;
+      000006 90r00rF0         [24] 1195 	mov	dptr,#_init_inited_1_542
+      000009 74 01            [12] 1196 	mov	a,#0x01
+      00000B F0               [24] 1197 	movx	@dptr,a
+                                   1198 ;	/opt/contiki/core/net/ip/udp-socket.c:51: process_start(&udp_socket_process, NULL);
+      00000C E4               [12] 1199 	clr	a
+      00000D C0 E0            [24] 1200 	push	acc
+      00000F C0 E0            [24] 1201 	push	acc
+      000011 C0 E0            [24] 1202 	push	acc
+      000013 90r00r00         [24] 1203 	mov	dptr,#_udp_socket_process
+      000016 75 F0 00         [24] 1204 	mov	b,#0x00
+      000019 78r00            [12] 1205 	mov	r0,#_process_start
+      00001B 79s00            [12] 1206 	mov	r1,#(_process_start >> 8)
+      00001D 7As00            [12] 1207 	mov	r2,#(_process_start >> 16)
+      00001F 12r00r00         [24] 1208 	lcall	__sdcc_banked_call
+      000022 15 81            [12] 1209 	dec	sp
+      000024 15 81            [12] 1210 	dec	sp
+      000026 15 81            [12] 1211 	dec	sp
+      000028                       1212 00103$:
+      000028 02r00r00         [24] 1213 	ljmp	__sdcc_banked_ret
+                                   1214 ;------------------------------------------------------------
+                                   1215 ;Allocation info for local variables in function 'udp_socket_register'
+                                   1216 ;------------------------------------------------------------
+                                   1217 ;ptr                       Allocated to stack - sp -11
+                                   1218 ;input_callback            Allocated to stack - sp -14
+                                   1219 ;c                         Allocated to stack - sp -5
+                                   1220 ;tmp_current               Allocated to stack - sp -2
+                                   1221 ;------------------------------------------------------------
+                                   1222 ;	/opt/contiki/core/net/ip/udp-socket.c:56: udp_socket_register(struct udp_socket *c,
+                                   1223 ;	-----------------------------------------
+                                   1224 ;	 function udp_socket_register
+                                   1225 ;	-----------------------------------------
+      00002B                       1226 _udp_socket_register:
+      00002B C0 82            [24] 1227 	push	dpl
+      00002D C0 83            [24] 1228 	push	dph
+      00002F C0 F0            [24] 1229 	push	b
+      000031 05 81            [12] 1230 	inc	sp
+      000033 05 81            [12] 1231 	inc	sp
+      000035 05 81            [12] 1232 	inc	sp
+                                   1233 ;	/opt/contiki/core/net/ip/udp-socket.c:60: init();
+      000037 78r00            [12] 1234 	mov	r0,#_init
+      000039 79s00            [12] 1235 	mov	r1,#(_init >> 8)
+      00003B 7As00            [12] 1236 	mov	r2,#(_init >> 16)
+      00003D 12r00r00         [24] 1237 	lcall	__sdcc_banked_call
+                                   1238 ;	/opt/contiki/core/net/ip/udp-socket.c:62: if(c == NULL) {
+      000040 E5 81            [12] 1239 	mov	a,sp
+      000042 24 FB            [12] 1240 	add	a,#0xfb
+      000044 F8               [12] 1241 	mov	r0,a
+      000045 E6               [12] 1242 	mov	a,@r0
+      000046 08               [12] 1243 	inc	r0
+      000047 46               [12] 1244 	orl	a,@r0
+      000048 70 06            [24] 1245 	jnz	00102$
+                                   1246 ;	/opt/contiki/core/net/ip/udp-socket.c:63: return -1;
+      00004A 90 FF FF         [24] 1247 	mov	dptr,#0xFFFF
+      00004D 02r01r84         [24] 1248 	ljmp	00105$
+      000050                       1249 00102$:
+                                   1250 ;	/opt/contiki/core/net/ip/udp-socket.c:65: c->ptr = ptr;
+      000050 E5 81            [12] 1251 	mov	a,sp
+      000052 24 FB            [12] 1252 	add	a,#0xfb
+      000054 F8               [12] 1253 	mov	r0,a
+      000055 74 03            [12] 1254 	mov	a,#0x03
+      000057 26               [12] 1255 	add	a,@r0
+      000058 FA               [12] 1256 	mov	r2,a
+      000059 E4               [12] 1257 	clr	a
+      00005A 08               [12] 1258 	inc	r0
+      00005B 36               [12] 1259 	addc	a,@r0
+      00005C FB               [12] 1260 	mov	r3,a
+      00005D 08               [12] 1261 	inc	r0
+      00005E 86 04            [24] 1262 	mov	ar4,@r0
+      000060 8A 82            [24] 1263 	mov	dpl,r2
+      000062 8B 83            [24] 1264 	mov	dph,r3
+      000064 8C F0            [24] 1265 	mov	b,r4
+      000066 E5 81            [12] 1266 	mov	a,sp
+      000068 24 F5            [12] 1267 	add	a,#0xf5
+      00006A F8               [12] 1268 	mov	r0,a
+      00006B E6               [12] 1269 	mov	a,@r0
+      00006C 12r00r00         [24] 1270 	lcall	__gptrput
+      00006F A3               [24] 1271 	inc	dptr
+      000070 08               [12] 1272 	inc	r0
+      000071 E6               [12] 1273 	mov	a,@r0
+      000072 12r00r00         [24] 1274 	lcall	__gptrput
+      000075 A3               [24] 1275 	inc	dptr
+      000076 08               [12] 1276 	inc	r0
+      000077 E6               [12] 1277 	mov	a,@r0
+      000078 12r00r00         [24] 1278 	lcall	__gptrput
+                                   1279 ;	/opt/contiki/core/net/ip/udp-socket.c:66: c->input_callback = input_callback;
+      00007B E5 81            [12] 1280 	mov	a,sp
+      00007D 24 FB            [12] 1281 	add	a,#0xfb
+      00007F F8               [12] 1282 	mov	r0,a
+      000080 86 82            [24] 1283 	mov	dpl,@r0
+      000082 08               [12] 1284 	inc	r0
+      000083 86 83            [24] 1285 	mov	dph,@r0
+      000085 08               [12] 1286 	inc	r0
+      000086 86 F0            [24] 1287 	mov	b,@r0
+      000088 E5 81            [12] 1288 	mov	a,sp
+      00008A 24 F2            [12] 1289 	add	a,#0xf2
+      00008C F9               [12] 1290 	mov	r1,a
+      00008D E7               [12] 1291 	mov	a,@r1
+      00008E 12r00r00         [24] 1292 	lcall	__gptrput
+      000091 A3               [24] 1293 	inc	dptr
+      000092 09               [12] 1294 	inc	r1
+      000093 E7               [12] 1295 	mov	a,@r1
+      000094 12r00r00         [24] 1296 	lcall	__gptrput
+      000097 A3               [24] 1297 	inc	dptr
+      000098 09               [12] 1298 	inc	r1
+      000099 E7               [12] 1299 	mov	a,@r1
+      00009A 12r00r00         [24] 1300 	lcall	__gptrput
+                                   1301 ;	/opt/contiki/core/net/ip/udp-socket.c:68: c->p = PROCESS_CURRENT();
+      00009D E5 81            [12] 1302 	mov	a,sp
+      00009F 24 FB            [12] 1303 	add	a,#0xfb
+      0000A1 F8               [12] 1304 	mov	r0,a
+      0000A2 74 06            [12] 1305 	mov	a,#0x06
+      0000A4 26               [12] 1306 	add	a,@r0
+      0000A5 FA               [12] 1307 	mov	r2,a
+      0000A6 E4               [12] 1308 	clr	a
+      0000A7 08               [12] 1309 	inc	r0
+      0000A8 36               [12] 1310 	addc	a,@r0
+      0000A9 FB               [12] 1311 	mov	r3,a
+      0000AA 08               [12] 1312 	inc	r0
+      0000AB 86 04            [24] 1313 	mov	ar4,@r0
+      0000AD 90r00r00         [24] 1314 	mov	dptr,#_process_current
+      0000B0 E0               [24] 1315 	movx	a,@dptr
+      0000B1 FD               [12] 1316 	mov	r5,a
+      0000B2 A3               [24] 1317 	inc	dptr
+      0000B3 E0               [24] 1318 	movx	a,@dptr
+      0000B4 FE               [12] 1319 	mov	r6,a
+      0000B5 A3               [24] 1320 	inc	dptr
+      0000B6 E0               [24] 1321 	movx	a,@dptr
+      0000B7 FF               [12] 1322 	mov	r7,a
+      0000B8 8A 82            [24] 1323 	mov	dpl,r2
+      0000BA 8B 83            [24] 1324 	mov	dph,r3
+      0000BC 8C F0            [24] 1325 	mov	b,r4
+      0000BE ED               [12] 1326 	mov	a,r5
+      0000BF 12r00r00         [24] 1327 	lcall	__gptrput
+      0000C2 A3               [24] 1328 	inc	dptr
+      0000C3 EE               [12] 1329 	mov	a,r6
+      0000C4 12r00r00         [24] 1330 	lcall	__gptrput
+      0000C7 A3               [24] 1331 	inc	dptr
+      0000C8 EF               [12] 1332 	mov	a,r7
+      0000C9 12r00r00         [24] 1333 	lcall	__gptrput
+                                   1334 ;	/opt/contiki/core/net/ip/udp-socket.c:69: PROCESS_CONTEXT_BEGIN(&udp_socket_process);
+      0000CC 90r00r00         [24] 1335 	mov	dptr,#_process_current
+      0000CF E0               [24] 1336 	movx	a,@dptr
+      0000D0 FD               [12] 1337 	mov	r5,a
+      0000D1 A3               [24] 1338 	inc	dptr
+      0000D2 E0               [24] 1339 	movx	a,@dptr
+      0000D3 FE               [12] 1340 	mov	r6,a
+      0000D4 A3               [24] 1341 	inc	dptr
+      0000D5 E0               [24] 1342 	movx	a,@dptr
+      0000D6 FF               [12] 1343 	mov	r7,a
+      0000D7 A8 81            [24] 1344 	mov	r0,sp
+      0000D9 18               [12] 1345 	dec	r0
+      0000DA 18               [12] 1346 	dec	r0
+      0000DB A6 05            [24] 1347 	mov	@r0,ar5
+      0000DD 08               [12] 1348 	inc	r0
+      0000DE A6 06            [24] 1349 	mov	@r0,ar6
+      0000E0 08               [12] 1350 	inc	r0
+      0000E1 A6 07            [24] 1351 	mov	@r0,ar7
+      0000E3 90r00r00         [24] 1352 	mov	dptr,#_process_current
+      0000E6 74r00            [12] 1353 	mov	a,#_udp_socket_process
+      0000E8 F0               [24] 1354 	movx	@dptr,a
+      0000E9 74s00            [12] 1355 	mov	a,#(_udp_socket_process >> 8)
+      0000EB A3               [24] 1356 	inc	dptr
+      0000EC F0               [24] 1357 	movx	@dptr,a
+      0000ED E4               [12] 1358 	clr	a
+      0000EE A3               [24] 1359 	inc	dptr
+      0000EF F0               [24] 1360 	movx	@dptr,a
+                                   1361 ;	/opt/contiki/core/net/ip/udp-socket.c:70: c->udp_conn = udp_new(NULL, 0, c);
+      0000F0 E5 81            [12] 1362 	mov	a,sp
+      0000F2 24 FB            [12] 1363 	add	a,#0xfb
+      0000F4 F8               [12] 1364 	mov	r0,a
+      0000F5 74 09            [12] 1365 	mov	a,#0x09
+      0000F7 26               [12] 1366 	add	a,@r0
+      0000F8 FA               [12] 1367 	mov	r2,a
+      0000F9 E4               [12] 1368 	clr	a
+      0000FA 08               [12] 1369 	inc	r0
+      0000FB 36               [12] 1370 	addc	a,@r0
+      0000FC FB               [12] 1371 	mov	r3,a
+      0000FD 08               [12] 1372 	inc	r0
+      0000FE 86 04            [24] 1373 	mov	ar4,@r0
+      000100 E5 81            [12] 1374 	mov	a,sp
+      000102 24 FB            [12] 1375 	add	a,#0xfb
+      000104 F8               [12] 1376 	mov	r0,a
+      000105 86 05            [24] 1377 	mov	ar5,@r0
+      000107 08               [12] 1378 	inc	r0
+      000108 86 06            [24] 1379 	mov	ar6,@r0
+      00010A 08               [12] 1380 	inc	r0
+      00010B 86 07            [24] 1381 	mov	ar7,@r0
+      00010D C0 04            [24] 1382 	push	ar4
+      00010F C0 03            [24] 1383 	push	ar3
+      000111 C0 02            [24] 1384 	push	ar2
+      000113 C0 05            [24] 1385 	push	ar5
+      000115 C0 06            [24] 1386 	push	ar6
+      000117 C0 07            [24] 1387 	push	ar7
+      000119 E4               [12] 1388 	clr	a
+      00011A C0 E0            [24] 1389 	push	acc
+      00011C C0 E0            [24] 1390 	push	acc
+      00011E 90 00 00         [24] 1391 	mov	dptr,#0x0000
+      000121 75 F0 00         [24] 1392 	mov	b,#0x00
+      000124 78r00            [12] 1393 	mov	r0,#_udp_new
+      000126 79s00            [12] 1394 	mov	r1,#(_udp_new >> 8)
+      000128 7As00            [12] 1395 	mov	r2,#(_udp_new >> 16)
+      00012A 12r00r00         [24] 1396 	lcall	__sdcc_banked_call
+      00012D AD 82            [24] 1397 	mov	r5,dpl
+      00012F AE 83            [24] 1398 	mov	r6,dph
+      000131 AF F0            [24] 1399 	mov	r7,b
+      000133 E5 81            [12] 1400 	mov	a,sp
+      000135 24 FB            [12] 1401 	add	a,#0xfb
+      000137 F5 81            [12] 1402 	mov	sp,a
+      000139 D0 02            [24] 1403 	pop	ar2
+      00013B D0 03            [24] 1404 	pop	ar3
+      00013D D0 04            [24] 1405 	pop	ar4
+      00013F 8A 82            [24] 1406 	mov	dpl,r2
+      000141 8B 83            [24] 1407 	mov	dph,r3
+      000143 8C F0            [24] 1408 	mov	b,r4
+      000145 ED               [12] 1409 	mov	a,r5
+      000146 12r00r00         [24] 1410 	lcall	__gptrput
+      000149 A3               [24] 1411 	inc	dptr
+      00014A EE               [12] 1412 	mov	a,r6
+      00014B 12r00r00         [24] 1413 	lcall	__gptrput
+      00014E A3               [24] 1414 	inc	dptr
+      00014F EF               [12] 1415 	mov	a,r7
+      000150 12r00r00         [24] 1416 	lcall	__gptrput
+                                   1417 ;	/opt/contiki/core/net/ip/udp-socket.c:71: PROCESS_CONTEXT_END();
+      000153 A8 81            [24] 1418 	mov	r0,sp
+      000155 18               [12] 1419 	dec	r0
+      000156 18               [12] 1420 	dec	r0
+      000157 90r00r00         [24] 1421 	mov	dptr,#_process_current
+      00015A E6               [12] 1422 	mov	a,@r0
+      00015B F0               [24] 1423 	movx	@dptr,a
+      00015C 08               [12] 1424 	inc	r0
+      00015D E6               [12] 1425 	mov	a,@r0
+      00015E A3               [24] 1426 	inc	dptr
+      00015F F0               [24] 1427 	movx	@dptr,a
+      000160 08               [12] 1428 	inc	r0
+      000161 E6               [12] 1429 	mov	a,@r0
+      000162 A3               [24] 1430 	inc	dptr
+      000163 F0               [24] 1431 	movx	@dptr,a
+                                   1432 ;	/opt/contiki/core/net/ip/udp-socket.c:73: if(c->udp_conn == NULL) {
+      000164 8A 82            [24] 1433 	mov	dpl,r2
+      000166 8B 83            [24] 1434 	mov	dph,r3
+      000168 8C F0            [24] 1435 	mov	b,r4
+      00016A 12r00r00         [24] 1436 	lcall	__gptrget
+      00016D FA               [12] 1437 	mov	r2,a
+      00016E A3               [24] 1438 	inc	dptr
+      00016F 12r00r00         [24] 1439 	lcall	__gptrget
+      000172 FB               [12] 1440 	mov	r3,a
+      000173 A3               [24] 1441 	inc	dptr
+      000174 12r00r00         [24] 1442 	lcall	__gptrget
+      000177 FC               [12] 1443 	mov	r4,a
+      000178 EA               [12] 1444 	mov	a,r2
+      000179 4B               [12] 1445 	orl	a,r3
+      00017A 70 05            [24] 1446 	jnz	00104$
+                                   1447 ;	/opt/contiki/core/net/ip/udp-socket.c:74: return -1;
+      00017C 90 FF FF         [24] 1448 	mov	dptr,#0xFFFF
+      00017F 80 03            [24] 1449 	sjmp	00105$
+      000181                       1450 00104$:
+                                   1451 ;	/opt/contiki/core/net/ip/udp-socket.c:76: return 1;
+      000181 90 00 01         [24] 1452 	mov	dptr,#0x0001
+      000184                       1453 00105$:
+      000184 E5 81            [12] 1454 	mov	a,sp
+      000186 24 FA            [12] 1455 	add	a,#0xFA
+      000188 F5 81            [12] 1456 	mov	sp,a
+      00018A 02r00r00         [24] 1457 	ljmp	__sdcc_banked_ret
+                                   1458 ;------------------------------------------------------------
+                                   1459 ;Allocation info for local variables in function 'udp_socket_close'
+                                   1460 ;------------------------------------------------------------
+                                   1461 ;c                         Allocated to registers r5 r6 r7 
+                                   1462 ;------------------------------------------------------------
+                                   1463 ;	/opt/contiki/core/net/ip/udp-socket.c:80: udp_socket_close(struct udp_socket *c)
+                                   1464 ;	-----------------------------------------
+                                   1465 ;	 function udp_socket_close
+                                   1466 ;	-----------------------------------------
+      00018D                       1467 _udp_socket_close:
+      00018D AD 82            [24] 1468 	mov	r5,dpl
+      00018F AE 83            [24] 1469 	mov	r6,dph
+      000191 AF F0            [24] 1470 	mov	r7,b
+                                   1471 ;	/opt/contiki/core/net/ip/udp-socket.c:82: if(c == NULL) {
+      000193 ED               [12] 1472 	mov	a,r5
+      000194 4E               [12] 1473 	orl	a,r6
+      000195 70 05            [24] 1474 	jnz	00102$
+                                   1475 ;	/opt/contiki/core/net/ip/udp-socket.c:83: return -1;
+      000197 90 FF FF         [24] 1476 	mov	dptr,#0xFFFF
+      00019A 80 3C            [24] 1477 	sjmp	00105$
+      00019C                       1478 00102$:
+                                   1479 ;	/opt/contiki/core/net/ip/udp-socket.c:85: if(c->udp_conn != NULL) {
+      00019C 74 09            [12] 1480 	mov	a,#0x09
+      00019E 2D               [12] 1481 	add	a,r5
+      00019F FD               [12] 1482 	mov	r5,a
+      0001A0 E4               [12] 1483 	clr	a
+      0001A1 3E               [12] 1484 	addc	a,r6
+      0001A2 FE               [12] 1485 	mov	r6,a
+      0001A3 8D 82            [24] 1486 	mov	dpl,r5
+      0001A5 8E 83            [24] 1487 	mov	dph,r6
+      0001A7 8F F0            [24] 1488 	mov	b,r7
+      0001A9 12r00r00         [24] 1489 	lcall	__gptrget
+      0001AC FD               [12] 1490 	mov	r5,a
+      0001AD A3               [24] 1491 	inc	dptr
+      0001AE 12r00r00         [24] 1492 	lcall	__gptrget
+      0001B1 FE               [12] 1493 	mov	r6,a
+      0001B2 A3               [24] 1494 	inc	dptr
+      0001B3 12r00r00         [24] 1495 	lcall	__gptrget
+      0001B6 FF               [12] 1496 	mov	r7,a
+      0001B7 ED               [12] 1497 	mov	a,r5
+      0001B8 4E               [12] 1498 	orl	a,r6
+      0001B9 60 1A            [24] 1499 	jz	00104$
+                                   1500 ;	/opt/contiki/core/net/ip/udp-socket.c:86: uip_udp_remove(c->udp_conn);
+      0001BB 74 10            [12] 1501 	mov	a,#0x10
+      0001BD 2D               [12] 1502 	add	a,r5
+      0001BE FD               [12] 1503 	mov	r5,a
+      0001BF E4               [12] 1504 	clr	a
+      0001C0 3E               [12] 1505 	addc	a,r6
+      0001C1 FE               [12] 1506 	mov	r6,a
+      0001C2 8D 82            [24] 1507 	mov	dpl,r5
+      0001C4 8E 83            [24] 1508 	mov	dph,r6
+      0001C6 8F F0            [24] 1509 	mov	b,r7
+      0001C8 E4               [12] 1510 	clr	a
+      0001C9 12r00r00         [24] 1511 	lcall	__gptrput
+      0001CC A3               [24] 1512 	inc	dptr
+      0001CD 12r00r00         [24] 1513 	lcall	__gptrput
+                                   1514 ;	/opt/contiki/core/net/ip/udp-socket.c:87: return 1;
+      0001D0 90 00 01         [24] 1515 	mov	dptr,#0x0001
+      0001D3 80 03            [24] 1516 	sjmp	00105$
+      0001D5                       1517 00104$:
+                                   1518 ;	/opt/contiki/core/net/ip/udp-socket.c:89: return -1;
+      0001D5 90 FF FF         [24] 1519 	mov	dptr,#0xFFFF
+      0001D8                       1520 00105$:
+      0001D8 02r00r00         [24] 1521 	ljmp	__sdcc_banked_ret
+                                   1522 ;------------------------------------------------------------
+                                   1523 ;Allocation info for local variables in function 'udp_socket_bind'
+                                   1524 ;------------------------------------------------------------
+                                   1525 ;local_port                Allocated to stack - sp -6
+                                   1526 ;c                         Allocated to registers r5 r6 r7 
+                                   1527 ;sloc0                     Allocated to stack - sp -1
+                                   1528 ;------------------------------------------------------------
+                                   1529 ;	/opt/contiki/core/net/ip/udp-socket.c:93: udp_socket_bind(struct udp_socket *c,
+                                   1530 ;	-----------------------------------------
+                                   1531 ;	 function udp_socket_bind
+                                   1532 ;	-----------------------------------------
+      0001DB                       1533 _udp_socket_bind:
+      0001DB 05 81            [12] 1534 	inc	sp
+      0001DD 05 81            [12] 1535 	inc	sp
+      0001DF AD 82            [24] 1536 	mov	r5,dpl
+      0001E1 AE 83            [24] 1537 	mov	r6,dph
+      0001E3 AF F0            [24] 1538 	mov	r7,b
+                                   1539 ;	/opt/contiki/core/net/ip/udp-socket.c:96: if(c == NULL || c->udp_conn == NULL) {
+      0001E5 ED               [12] 1540 	mov	a,r5
+      0001E6 4E               [12] 1541 	orl	a,r6
+      0001E7 60 1F            [24] 1542 	jz	00101$
+      0001E9 74 09            [12] 1543 	mov	a,#0x09
+      0001EB 2D               [12] 1544 	add	a,r5
+      0001EC FD               [12] 1545 	mov	r5,a
+      0001ED E4               [12] 1546 	clr	a
+      0001EE 3E               [12] 1547 	addc	a,r6
+      0001EF FE               [12] 1548 	mov	r6,a
+      0001F0 8D 82            [24] 1549 	mov	dpl,r5
+      0001F2 8E 83            [24] 1550 	mov	dph,r6
+      0001F4 8F F0            [24] 1551 	mov	b,r7
+      0001F6 12r00r00         [24] 1552 	lcall	__gptrget
+      0001F9 FD               [12] 1553 	mov	r5,a
+      0001FA A3               [24] 1554 	inc	dptr
+      0001FB 12r00r00         [24] 1555 	lcall	__gptrget
+      0001FE FE               [12] 1556 	mov	r6,a
+      0001FF A3               [24] 1557 	inc	dptr
+      000200 12r00r00         [24] 1558 	lcall	__gptrget
+      000203 FF               [12] 1559 	mov	r7,a
+      000204 ED               [12] 1560 	mov	a,r5
+      000205 4E               [12] 1561 	orl	a,r6
+      000206 70 05            [24] 1562 	jnz	00102$
+      000208                       1563 00101$:
+                                   1564 ;	/opt/contiki/core/net/ip/udp-socket.c:97: return -1;
+      000208 90 FF FF         [24] 1565 	mov	dptr,#0xFFFF
+      00020B 80 3B            [24] 1566 	sjmp	00104$
+      00020D                       1567 00102$:
+                                   1568 ;	/opt/contiki/core/net/ip/udp-socket.c:99: udp_bind(c->udp_conn, UIP_HTONS(local_port));
+      00020D 74 10            [12] 1569 	mov	a,#0x10
+      00020F 2D               [12] 1570 	add	a,r5
+      000210 FD               [12] 1571 	mov	r5,a
+      000211 E4               [12] 1572 	clr	a
+      000212 3E               [12] 1573 	addc	a,r6
+      000213 FE               [12] 1574 	mov	r6,a
+      000214 E5 81            [12] 1575 	mov	a,sp
+      000216 24 FA            [12] 1576 	add	a,#0xfa
+      000218 F8               [12] 1577 	mov	r0,a
+      000219 A9 81            [24] 1578 	mov	r1,sp
+      00021B 19               [12] 1579 	dec	r1
+      00021C E6               [12] 1580 	mov	a,@r0
+      00021D 09               [12] 1581 	inc	r1
+      00021E F7               [12] 1582 	mov	@r1,a
+      00021F 19               [12] 1583 	dec	r1
+      000220 77 00            [12] 1584 	mov	@r1,#0x00
+      000222 E5 81            [12] 1585 	mov	a,sp
+      000224 24 FA            [12] 1586 	add	a,#0xfa
+      000226 F8               [12] 1587 	mov	r0,a
+      000227 08               [12] 1588 	inc	r0
+      000228 86 02            [24] 1589 	mov	ar2,@r0
+      00022A 7C 00            [12] 1590 	mov	r4,#0x00
+      00022C A8 81            [24] 1591 	mov	r0,sp
+      00022E 18               [12] 1592 	dec	r0
+      00022F E6               [12] 1593 	mov	a,@r0
+      000230 42 02            [12] 1594 	orl	ar2,a
+      000232 08               [12] 1595 	inc	r0
+      000233 E6               [12] 1596 	mov	a,@r0
+      000234 42 04            [12] 1597 	orl	ar4,a
+      000236 8D 82            [24] 1598 	mov	dpl,r5
+      000238 8E 83            [24] 1599 	mov	dph,r6
+      00023A 8F F0            [24] 1600 	mov	b,r7
+      00023C EA               [12] 1601 	mov	a,r2
+      00023D 12r00r00         [24] 1602 	lcall	__gptrput
+      000240 A3               [24] 1603 	inc	dptr
+      000241 EC               [12] 1604 	mov	a,r4
+      000242 12r00r00         [24] 1605 	lcall	__gptrput
+                                   1606 ;	/opt/contiki/core/net/ip/udp-socket.c:101: return 1;
+      000245 90 00 01         [24] 1607 	mov	dptr,#0x0001
+      000248                       1608 00104$:
+      000248 15 81            [12] 1609 	dec	sp
+      00024A 15 81            [12] 1610 	dec	sp
+      00024C 02r00r00         [24] 1611 	ljmp	__sdcc_banked_ret
+                                   1612 ;------------------------------------------------------------
+                                   1613 ;Allocation info for local variables in function 'udp_socket_connect'
+                                   1614 ;------------------------------------------------------------
+                                   1615 ;remote_addr               Allocated to stack - sp -7
+                                   1616 ;remote_port               Allocated to stack - sp -9
+                                   1617 ;c                         Allocated to registers r5 r6 r7 
+                                   1618 ;sloc0                     Allocated to stack - sp -1
+                                   1619 ;------------------------------------------------------------
+                                   1620 ;	/opt/contiki/core/net/ip/udp-socket.c:105: udp_socket_connect(struct udp_socket *c,
+                                   1621 ;	-----------------------------------------
+                                   1622 ;	 function udp_socket_connect
+                                   1623 ;	-----------------------------------------
+      00024F                       1624 _udp_socket_connect:
+      00024F 05 81            [12] 1625 	inc	sp
+      000251 05 81            [12] 1626 	inc	sp
+      000253 AD 82            [24] 1627 	mov	r5,dpl
+      000255 AE 83            [24] 1628 	mov	r6,dph
+      000257 AF F0            [24] 1629 	mov	r7,b
+                                   1630 ;	/opt/contiki/core/net/ip/udp-socket.c:109: if(c == NULL || c->udp_conn == NULL) {
+      000259 ED               [12] 1631 	mov	a,r5
+      00025A 4E               [12] 1632 	orl	a,r6
+      00025B 60 1F            [24] 1633 	jz	00101$
+      00025D 74 09            [12] 1634 	mov	a,#0x09
+      00025F 2D               [12] 1635 	add	a,r5
+      000260 FD               [12] 1636 	mov	r5,a
+      000261 E4               [12] 1637 	clr	a
+      000262 3E               [12] 1638 	addc	a,r6
+      000263 FE               [12] 1639 	mov	r6,a
+      000264 8D 82            [24] 1640 	mov	dpl,r5
+      000266 8E 83            [24] 1641 	mov	dph,r6
+      000268 8F F0            [24] 1642 	mov	b,r7
+      00026A 12r00r00         [24] 1643 	lcall	__gptrget
+      00026D FA               [12] 1644 	mov	r2,a
+      00026E A3               [24] 1645 	inc	dptr
+      00026F 12r00r00         [24] 1646 	lcall	__gptrget
+      000272 FB               [12] 1647 	mov	r3,a
+      000273 A3               [24] 1648 	inc	dptr
+      000274 12r00r00         [24] 1649 	lcall	__gptrget
+      000277 FC               [12] 1650 	mov	r4,a
+      000278 EA               [12] 1651 	mov	a,r2
+      000279 4B               [12] 1652 	orl	a,r3
+      00027A 70 06            [24] 1653 	jnz	00102$
+      00027C                       1654 00101$:
+                                   1655 ;	/opt/contiki/core/net/ip/udp-socket.c:110: return -1;
+      00027C 90 FF FF         [24] 1656 	mov	dptr,#0xFFFF
+      00027F 02r03r22         [24] 1657 	ljmp	00106$
+      000282                       1658 00102$:
+                                   1659 ;	/opt/contiki/core/net/ip/udp-socket.c:113: if(remote_addr != NULL) {
+      000282 E5 81            [12] 1660 	mov	a,sp
+      000284 24 F9            [12] 1661 	add	a,#0xf9
+      000286 F8               [12] 1662 	mov	r0,a
+      000287 E6               [12] 1663 	mov	a,@r0
+      000288 08               [12] 1664 	inc	r0
+      000289 46               [12] 1665 	orl	a,@r0
+      00028A 60 47            [24] 1666 	jz	00105$
+                                   1667 ;	/opt/contiki/core/net/ip/udp-socket.c:114: uip_ipaddr_copy(&c->udp_conn->ripaddr, remote_addr);
+      00028C C0 05            [24] 1668 	push	ar5
+      00028E C0 06            [24] 1669 	push	ar6
+      000290 C0 07            [24] 1670 	push	ar7
+      000292 E5 81            [12] 1671 	mov	a,sp
+      000294 24 F6            [12] 1672 	add	a,#0xf6
+      000296 F8               [12] 1673 	mov	r0,a
+      000297 86 05            [24] 1674 	mov	ar5,@r0
+      000299 08               [12] 1675 	inc	r0
+      00029A 86 06            [24] 1676 	mov	ar6,@r0
+      00029C 08               [12] 1677 	inc	r0
+      00029D 86 07            [24] 1678 	mov	ar7,@r0
+      00029F C0 07            [24] 1679 	push	ar7
+      0002A1 C0 06            [24] 1680 	push	ar6
+      0002A3 C0 05            [24] 1681 	push	ar5
+      0002A5 74 10            [12] 1682 	mov	a,#0x10
+      0002A7 C0 E0            [24] 1683 	push	acc
+      0002A9 E4               [12] 1684 	clr	a
+      0002AA C0 E0            [24] 1685 	push	acc
+      0002AC C0 05            [24] 1686 	push	ar5
+      0002AE C0 06            [24] 1687 	push	ar6
+      0002B0 C0 07            [24] 1688 	push	ar7
+      0002B2 8A 82            [24] 1689 	mov	dpl,r2
+      0002B4 8B 83            [24] 1690 	mov	dph,r3
+      0002B6 8C F0            [24] 1691 	mov	b,r4
+      0002B8 78r00            [12] 1692 	mov	r0,#_memcpy
+      0002BA 79s00            [12] 1693 	mov	r1,#(_memcpy >> 8)
+      0002BC 7As00            [12] 1694 	mov	r2,#(_memcpy >> 16)
+      0002BE 12r00r00         [24] 1695 	lcall	__sdcc_banked_call
+      0002C1 E5 81            [12] 1696 	mov	a,sp
+      0002C3 24 FB            [12] 1697 	add	a,#0xfb
+      0002C5 F5 81            [12] 1698 	mov	sp,a
+      0002C7 D0 05            [24] 1699 	pop	ar5
+      0002C9 D0 06            [24] 1700 	pop	ar6
+      0002CB D0 07            [24] 1701 	pop	ar7
+                                   1702 ;	/opt/contiki/core/net/ip/udp-socket.c:117: return 1;
+      0002CD D0 07            [24] 1703 	pop	ar7
+      0002CF D0 06            [24] 1704 	pop	ar6
+      0002D1 D0 05            [24] 1705 	pop	ar5
+                                   1706 ;	/opt/contiki/core/net/ip/udp-socket.c:114: uip_ipaddr_copy(&c->udp_conn->ripaddr, remote_addr);
+      0002D3                       1707 00105$:
+                                   1708 ;	/opt/contiki/core/net/ip/udp-socket.c:116: c->udp_conn->rport = UIP_HTONS(remote_port);
+      0002D3 8D 82            [24] 1709 	mov	dpl,r5
+      0002D5 8E 83            [24] 1710 	mov	dph,r6
+      0002D7 8F F0            [24] 1711 	mov	b,r7
+      0002D9 12r00r00         [24] 1712 	lcall	__gptrget
+      0002DC FD               [12] 1713 	mov	r5,a
+      0002DD A3               [24] 1714 	inc	dptr
+      0002DE 12r00r00         [24] 1715 	lcall	__gptrget
+      0002E1 FE               [12] 1716 	mov	r6,a
+      0002E2 A3               [24] 1717 	inc	dptr
+      0002E3 12r00r00         [24] 1718 	lcall	__gptrget
+      0002E6 FF               [12] 1719 	mov	r7,a
+      0002E7 74 12            [12] 1720 	mov	a,#0x12
+      0002E9 2D               [12] 1721 	add	a,r5
+      0002EA FD               [12] 1722 	mov	r5,a
+      0002EB E4               [12] 1723 	clr	a
+      0002EC 3E               [12] 1724 	addc	a,r6
+      0002ED FE               [12] 1725 	mov	r6,a
+      0002EE E5 81            [12] 1726 	mov	a,sp
+      0002F0 24 F7            [12] 1727 	add	a,#0xf7
+      0002F2 F8               [12] 1728 	mov	r0,a
+      0002F3 A9 81            [24] 1729 	mov	r1,sp
+      0002F5 19               [12] 1730 	dec	r1
+      0002F6 E6               [12] 1731 	mov	a,@r0
+      0002F7 09               [12] 1732 	inc	r1
+      0002F8 F7               [12] 1733 	mov	@r1,a
+      0002F9 19               [12] 1734 	dec	r1
+      0002FA 77 00            [12] 1735 	mov	@r1,#0x00
+      0002FC E5 81            [12] 1736 	mov	a,sp
+      0002FE 24 F7            [12] 1737 	add	a,#0xf7
+      000300 F8               [12] 1738 	mov	r0,a
+      000301 08               [12] 1739 	inc	r0
+      000302 86 02            [24] 1740 	mov	ar2,@r0
+      000304 7C 00            [12] 1741 	mov	r4,#0x00
+      000306 A8 81            [24] 1742 	mov	r0,sp
+      000308 18               [12] 1743 	dec	r0
+      000309 E6               [12] 1744 	mov	a,@r0
+      00030A 42 02            [12] 1745 	orl	ar2,a
+      00030C 08               [12] 1746 	inc	r0
+      00030D E6               [12] 1747 	mov	a,@r0
+      00030E 42 04            [12] 1748 	orl	ar4,a
+      000310 8D 82            [24] 1749 	mov	dpl,r5
+      000312 8E 83            [24] 1750 	mov	dph,r6
+      000314 8F F0            [24] 1751 	mov	b,r7
+      000316 EA               [12] 1752 	mov	a,r2
+      000317 12r00r00         [24] 1753 	lcall	__gptrput
+      00031A A3               [24] 1754 	inc	dptr
+      00031B EC               [12] 1755 	mov	a,r4
+      00031C 12r00r00         [24] 1756 	lcall	__gptrput
+                                   1757 ;	/opt/contiki/core/net/ip/udp-socket.c:117: return 1;
+      00031F 90 00 01         [24] 1758 	mov	dptr,#0x0001
+      000322                       1759 00106$:
+      000322 15 81            [12] 1760 	dec	sp
+      000324 15 81            [12] 1761 	dec	sp
+      000326 02r00r00         [24] 1762 	ljmp	__sdcc_banked_ret
+                                   1763 ;------------------------------------------------------------
+                                   1764 ;Allocation info for local variables in function 'udp_socket_send'
+                                   1765 ;------------------------------------------------------------
+                                   1766 ;data                      Allocated to stack - sp -5
+                                   1767 ;datalen                   Allocated to stack - sp -7
+                                   1768 ;c                         Allocated to registers r5 r6 r7 
+                                   1769 ;------------------------------------------------------------
+                                   1770 ;	/opt/contiki/core/net/ip/udp-socket.c:121: udp_socket_send(struct udp_socket *c,
+                                   1771 ;	-----------------------------------------
+                                   1772 ;	 function udp_socket_send
+                                   1773 ;	-----------------------------------------
+      000329                       1774 _udp_socket_send:
+      000329 AD 82            [24] 1775 	mov	r5,dpl
+      00032B AE 83            [24] 1776 	mov	r6,dph
+      00032D AF F0            [24] 1777 	mov	r7,b
+                                   1778 ;	/opt/contiki/core/net/ip/udp-socket.c:124: if(c == NULL || c->udp_conn == NULL) {
+      00032F ED               [12] 1779 	mov	a,r5
+      000330 4E               [12] 1780 	orl	a,r6
+      000331 60 1F            [24] 1781 	jz	00101$
+      000333 74 09            [12] 1782 	mov	a,#0x09
+      000335 2D               [12] 1783 	add	a,r5
+      000336 FD               [12] 1784 	mov	r5,a
+      000337 E4               [12] 1785 	clr	a
+      000338 3E               [12] 1786 	addc	a,r6
+      000339 FE               [12] 1787 	mov	r6,a
+      00033A 8D 82            [24] 1788 	mov	dpl,r5
+      00033C 8E 83            [24] 1789 	mov	dph,r6
+      00033E 8F F0            [24] 1790 	mov	b,r7
+      000340 12r00r00         [24] 1791 	lcall	__gptrget
+      000343 FD               [12] 1792 	mov	r5,a
+      000344 A3               [24] 1793 	inc	dptr
+      000345 12r00r00         [24] 1794 	lcall	__gptrget
+      000348 FE               [12] 1795 	mov	r6,a
+      000349 A3               [24] 1796 	inc	dptr
+      00034A 12r00r00         [24] 1797 	lcall	__gptrget
+      00034D FF               [12] 1798 	mov	r7,a
+      00034E ED               [12] 1799 	mov	a,r5
+      00034F 4E               [12] 1800 	orl	a,r6
+      000350 70 05            [24] 1801 	jnz	00102$
+      000352                       1802 00101$:
+                                   1803 ;	/opt/contiki/core/net/ip/udp-socket.c:125: return -1;
+      000352 90 FF FF         [24] 1804 	mov	dptr,#0xFFFF
+      000355 80 39            [24] 1805 	sjmp	00104$
+      000357                       1806 00102$:
+                                   1807 ;	/opt/contiki/core/net/ip/udp-socket.c:128: uip_udp_packet_send(c->udp_conn, data, datalen);
+      000357 E5 81            [12] 1808 	mov	a,sp
+      000359 24 F9            [12] 1809 	add	a,#0xf9
+      00035B F8               [12] 1810 	mov	r0,a
+      00035C E6               [12] 1811 	mov	a,@r0
+      00035D C0 E0            [24] 1812 	push	acc
+      00035F 08               [12] 1813 	inc	r0
+      000360 E6               [12] 1814 	mov	a,@r0
+      000361 C0 E0            [24] 1815 	push	acc
+      000363 E5 81            [12] 1816 	mov	a,sp
+      000365 24 F9            [12] 1817 	add	a,#0xf9
+      000367 F8               [12] 1818 	mov	r0,a
+      000368 E6               [12] 1819 	mov	a,@r0
+      000369 C0 E0            [24] 1820 	push	acc
+      00036B 08               [12] 1821 	inc	r0
+      00036C E6               [12] 1822 	mov	a,@r0
+      00036D C0 E0            [24] 1823 	push	acc
+      00036F 08               [12] 1824 	inc	r0
+      000370 E6               [12] 1825 	mov	a,@r0
+      000371 C0 E0            [24] 1826 	push	acc
+      000373 8D 82            [24] 1827 	mov	dpl,r5
+      000375 8E 83            [24] 1828 	mov	dph,r6
+      000377 8F F0            [24] 1829 	mov	b,r7
+      000379 78r00            [12] 1830 	mov	r0,#_uip_udp_packet_send
+      00037B 79s00            [12] 1831 	mov	r1,#(_uip_udp_packet_send >> 8)
+      00037D 7As00            [12] 1832 	mov	r2,#(_uip_udp_packet_send >> 16)
+      00037F 12r00r00         [24] 1833 	lcall	__sdcc_banked_call
+      000382 E5 81            [12] 1834 	mov	a,sp
+      000384 24 FB            [12] 1835 	add	a,#0xfb
+                                   1836 ;	/opt/contiki/core/net/ip/udp-socket.c:129: return datalen;
+      000386 F5 81            [12] 1837 	mov	sp,a
+      000388 24 F9            [12] 1838 	add	a,#0xf9
+      00038A F8               [12] 1839 	mov	r0,a
+      00038B 86 82            [24] 1840 	mov	dpl,@r0
+      00038D 08               [12] 1841 	inc	r0
+      00038E 86 83            [24] 1842 	mov	dph,@r0
+      000390                       1843 00104$:
+      000390 02r00r00         [24] 1844 	ljmp	__sdcc_banked_ret
+                                   1845 ;------------------------------------------------------------
+                                   1846 ;Allocation info for local variables in function 'udp_socket_sendto'
+                                   1847 ;------------------------------------------------------------
+                                   1848 ;data                      Allocated to stack - sp -7
+                                   1849 ;datalen                   Allocated to stack - sp -9
+                                   1850 ;to                        Allocated to stack - sp -12
+                                   1851 ;port                      Allocated to stack - sp -14
+                                   1852 ;c                         Allocated to registers r5 r6 r7 
+                                   1853 ;sloc0                     Allocated to stack - sp -1
+                                   1854 ;------------------------------------------------------------
+                                   1855 ;	/opt/contiki/core/net/ip/udp-socket.c:133: udp_socket_sendto(struct udp_socket *c,
+                                   1856 ;	-----------------------------------------
+                                   1857 ;	 function udp_socket_sendto
+                                   1858 ;	-----------------------------------------
+      000393                       1859 _udp_socket_sendto:
+      000393 05 81            [12] 1860 	inc	sp
+      000395 05 81            [12] 1861 	inc	sp
+      000397 AD 82            [24] 1862 	mov	r5,dpl
+      000399 AE 83            [24] 1863 	mov	r6,dph
+      00039B AF F0            [24] 1864 	mov	r7,b
+                                   1865 ;	/opt/contiki/core/net/ip/udp-socket.c:138: if(c == NULL || c->udp_conn == NULL) {
+      00039D ED               [12] 1866 	mov	a,r5
+      00039E 4E               [12] 1867 	orl	a,r6
+      00039F 60 1F            [24] 1868 	jz	00101$
+      0003A1 74 09            [12] 1869 	mov	a,#0x09
+      0003A3 2D               [12] 1870 	add	a,r5
+      0003A4 FD               [12] 1871 	mov	r5,a
+      0003A5 E4               [12] 1872 	clr	a
+      0003A6 3E               [12] 1873 	addc	a,r6
+      0003A7 FE               [12] 1874 	mov	r6,a
+      0003A8 8D 82            [24] 1875 	mov	dpl,r5
+      0003AA 8E 83            [24] 1876 	mov	dph,r6
+      0003AC 8F F0            [24] 1877 	mov	b,r7
+      0003AE 12r00r00         [24] 1878 	lcall	__gptrget
+      0003B1 FD               [12] 1879 	mov	r5,a
+      0003B2 A3               [24] 1880 	inc	dptr
+      0003B3 12r00r00         [24] 1881 	lcall	__gptrget
+      0003B6 FE               [12] 1882 	mov	r6,a
+      0003B7 A3               [24] 1883 	inc	dptr
+      0003B8 12r00r00         [24] 1884 	lcall	__gptrget
+      0003BB FF               [12] 1885 	mov	r7,a
+      0003BC ED               [12] 1886 	mov	a,r5
+      0003BD 4E               [12] 1887 	orl	a,r6
+      0003BE 70 05            [24] 1888 	jnz	00102$
+      0003C0                       1889 00101$:
+                                   1890 ;	/opt/contiki/core/net/ip/udp-socket.c:139: return -1;
+      0003C0 90 FF FF         [24] 1891 	mov	dptr,#0xFFFF
+      0003C3 80 78            [24] 1892 	sjmp	00106$
+      0003C5                       1893 00102$:
+                                   1894 ;	/opt/contiki/core/net/ip/udp-socket.c:142: if(c->udp_conn != NULL) {
+      0003C5 ED               [12] 1895 	mov	a,r5
+      0003C6 4E               [12] 1896 	orl	a,r6
+      0003C7 60 71            [24] 1897 	jz	00105$
+                                   1898 ;	/opt/contiki/core/net/ip/udp-socket.c:144: to, UIP_HTONS(port));
+      0003C9 E5 81            [12] 1899 	mov	a,sp
+      0003CB 24 F2            [12] 1900 	add	a,#0xf2
+      0003CD F8               [12] 1901 	mov	r0,a
+      0003CE A9 81            [24] 1902 	mov	r1,sp
+      0003D0 19               [12] 1903 	dec	r1
+      0003D1 E6               [12] 1904 	mov	a,@r0
+      0003D2 09               [12] 1905 	inc	r1
+      0003D3 F7               [12] 1906 	mov	@r1,a
+      0003D4 19               [12] 1907 	dec	r1
+      0003D5 77 00            [12] 1908 	mov	@r1,#0x00
+      0003D7 E5 81            [12] 1909 	mov	a,sp
+      0003D9 24 F2            [12] 1910 	add	a,#0xf2
+      0003DB F8               [12] 1911 	mov	r0,a
+      0003DC 08               [12] 1912 	inc	r0
+      0003DD 86 02            [24] 1913 	mov	ar2,@r0
+      0003DF 7C 00            [12] 1914 	mov	r4,#0x00
+      0003E1 A8 81            [24] 1915 	mov	r0,sp
+      0003E3 18               [12] 1916 	dec	r0
+      0003E4 E6               [12] 1917 	mov	a,@r0
+      0003E5 42 02            [12] 1918 	orl	ar2,a
+      0003E7 08               [12] 1919 	inc	r0
+      0003E8 E6               [12] 1920 	mov	a,@r0
+      0003E9 42 04            [12] 1921 	orl	ar4,a
+                                   1922 ;	/opt/contiki/core/net/ip/udp-socket.c:143: uip_udp_packet_sendto(c->udp_conn, data, datalen,
+      0003EB C0 02            [24] 1923 	push	ar2
+      0003ED C0 04            [24] 1924 	push	ar4
+      0003EF E5 81            [12] 1925 	mov	a,sp
+      0003F1 24 F2            [12] 1926 	add	a,#0xf2
+      0003F3 F8               [12] 1927 	mov	r0,a
+      0003F4 E6               [12] 1928 	mov	a,@r0
+      0003F5 C0 E0            [24] 1929 	push	acc
+      0003F7 08               [12] 1930 	inc	r0
+      0003F8 E6               [12] 1931 	mov	a,@r0
+      0003F9 C0 E0            [24] 1932 	push	acc
+      0003FB 08               [12] 1933 	inc	r0
+      0003FC E6               [12] 1934 	mov	a,@r0
+      0003FD C0 E0            [24] 1935 	push	acc
+      0003FF E5 81            [12] 1936 	mov	a,sp
+      000401 24 F2            [12] 1937 	add	a,#0xf2
+      000403 F8               [12] 1938 	mov	r0,a
+      000404 E6               [12] 1939 	mov	a,@r0
+      000405 C0 E0            [24] 1940 	push	acc
+      000407 08               [12] 1941 	inc	r0
+      000408 E6               [12] 1942 	mov	a,@r0
+      000409 C0 E0            [24] 1943 	push	acc
+      00040B E5 81            [12] 1944 	mov	a,sp
+      00040D 24 F2            [12] 1945 	add	a,#0xf2
+      00040F F8               [12] 1946 	mov	r0,a
+      000410 E6               [12] 1947 	mov	a,@r0
+      000411 C0 E0            [24] 1948 	push	acc
+      000413 08               [12] 1949 	inc	r0
+      000414 E6               [12] 1950 	mov	a,@r0
+      000415 C0 E0            [24] 1951 	push	acc
+      000417 08               [12] 1952 	inc	r0
+      000418 E6               [12] 1953 	mov	a,@r0
+      000419 C0 E0            [24] 1954 	push	acc
+      00041B 8D 82            [24] 1955 	mov	dpl,r5
+      00041D 8E 83            [24] 1956 	mov	dph,r6
+      00041F 8F F0            [24] 1957 	mov	b,r7
+      000421 78r00            [12] 1958 	mov	r0,#_uip_udp_packet_sendto
+      000423 79s00            [12] 1959 	mov	r1,#(_uip_udp_packet_sendto >> 8)
+      000425 7As00            [12] 1960 	mov	r2,#(_uip_udp_packet_sendto >> 16)
+      000427 12r00r00         [24] 1961 	lcall	__sdcc_banked_call
+      00042A E5 81            [12] 1962 	mov	a,sp
+      00042C 24 F6            [12] 1963 	add	a,#0xf6
+                                   1964 ;	/opt/contiki/core/net/ip/udp-socket.c:145: return datalen;
+      00042E F5 81            [12] 1965 	mov	sp,a
+      000430 24 F7            [12] 1966 	add	a,#0xf7
+      000432 F8               [12] 1967 	mov	r0,a
+      000433 86 82            [24] 1968 	mov	dpl,@r0
+      000435 08               [12] 1969 	inc	r0
+      000436 86 83            [24] 1970 	mov	dph,@r0
+      000438 80 03            [24] 1971 	sjmp	00106$
+      00043A                       1972 00105$:
+                                   1973 ;	/opt/contiki/core/net/ip/udp-socket.c:147: return -1;
+      00043A 90 FF FF         [24] 1974 	mov	dptr,#0xFFFF
+      00043D                       1975 00106$:
+      00043D 15 81            [12] 1976 	dec	sp
+      00043F 15 81            [12] 1977 	dec	sp
+      000441 02r00r00         [24] 1978 	ljmp	__sdcc_banked_ret
+                                   1979 ;------------------------------------------------------------
+                                   1980 ;Allocation info for local variables in function 'process_thread_udp_socket_process'
+                                   1981 ;------------------------------------------------------------
+                                   1982 ;ev                        Allocated to stack - sp -16
+                                   1983 ;data                      Allocated to stack - sp -19
+                                   1984 ;process_pt                Allocated to stack - sp -12
+                                   1985 ;c                         Allocated to stack - sp -5
+                                   1986 ;PT_YIELD_FLAG             Allocated to registers r4 
+                                   1987 ;tmp_current               Allocated to stack - sp -2
+                                   1988 ;sloc0                     Allocated to stack - sp -9
+                                   1989 ;sloc1                     Allocated to stack - sp -7
+                                   1990 ;------------------------------------------------------------
+                                   1991 ;	/opt/contiki/core/net/ip/udp-socket.c:150: PROCESS_THREAD(udp_socket_process, ev, data)
+                                   1992 ;	-----------------------------------------
+                                   1993 ;	 function process_thread_udp_socket_process
+                                   1994 ;	-----------------------------------------
+      000444                       1995 _process_thread_udp_socket_process:
+      000444 C0 82            [24] 1996 	push	dpl
+      000446 C0 83            [24] 1997 	push	dph
+      000448 C0 F0            [24] 1998 	push	b
+      00044A E5 81            [12] 1999 	mov	a,sp
+      00044C 24 0A            [12] 2000 	add	a,#0x0A
+                                   2001 ;	/opt/contiki/core/net/ip/udp-socket.c:153: PROCESS_BEGIN();
+      00044E F5 81            [12] 2002 	mov	sp,a
+      000450 7C 01            [12] 2003 	mov	r4,#0x01
+      000452 24 F4            [12] 2004 	add	a,#0xf4
+      000454 F8               [12] 2005 	mov	r0,a
+      000455 86 82            [24] 2006 	mov	dpl,@r0
+      000457 08               [12] 2007 	inc	r0
+      000458 86 83            [24] 2008 	mov	dph,@r0
+      00045A 08               [12] 2009 	inc	r0
+      00045B 86 F0            [24] 2010 	mov	b,@r0
+      00045D 12r00r00         [24] 2011 	lcall	__gptrget
+      000460 FA               [12] 2012 	mov	r2,a
+      000461 A3               [24] 2013 	inc	dptr
+      000462 12r00r00         [24] 2014 	lcall	__gptrget
+      000465 FB               [12] 2015 	mov	r3,a
+      000466 BA 00 05         [24] 2016 	cjne	r2,#0x00,00146$
+      000469 BB 00 02         [24] 2017 	cjne	r3,#0x00,00146$
+      00046C 80 0B            [24] 2018 	sjmp	00117$
+      00046E                       2019 00146$:
+      00046E BA 9C 05         [24] 2020 	cjne	r2,#0x9C,00147$
+      000471 BB 00 02         [24] 2021 	cjne	r3,#0x00,00147$
+      000474 80 1C            [24] 2022 	sjmp	00102$
+      000476                       2023 00147$:
+      000476 02r06r7A         [24] 2024 	ljmp	00119$
+                                   2025 ;	/opt/contiki/core/net/ip/udp-socket.c:155: while(1) {
+      000479                       2026 00117$:
+                                   2027 ;	/opt/contiki/core/net/ip/udp-socket.c:156: PROCESS_WAIT_EVENT();
+      000479 7C 00            [12] 2028 	mov	r4,#0x00
+      00047B E5 81            [12] 2029 	mov	a,sp
+      00047D 24 F4            [12] 2030 	add	a,#0xf4
+      00047F F8               [12] 2031 	mov	r0,a
+      000480 86 82            [24] 2032 	mov	dpl,@r0
+      000482 08               [12] 2033 	inc	r0
+      000483 86 83            [24] 2034 	mov	dph,@r0
+      000485 08               [12] 2035 	inc	r0
+      000486 86 F0            [24] 2036 	mov	b,@r0
+      000488 74 9C            [12] 2037 	mov	a,#0x9C
+      00048A 12r00r00         [24] 2038 	lcall	__gptrput
+      00048D A3               [24] 2039 	inc	dptr
+      00048E E4               [12] 2040 	clr	a
+      00048F 12r00r00         [24] 2041 	lcall	__gptrput
+      000492                       2042 00102$:
+      000492 EC               [12] 2043 	mov	a,r4
+      000493 70 06            [24] 2044 	jnz	00106$
+      000495 75 82 01         [24] 2045 	mov	dpl,#0x01
+      000498 02r06r92         [24] 2046 	ljmp	00120$
+      00049B                       2047 00106$:
+                                   2048 ;	/opt/contiki/core/net/ip/udp-socket.c:157: if(ev == tcpip_event) {
+      00049B 90r00r00         [24] 2049 	mov	dptr,#_tcpip_event
+      00049E E0               [24] 2050 	movx	a,@dptr
+      00049F FC               [12] 2051 	mov	r4,a
+      0004A0 E5 81            [12] 2052 	mov	a,sp
+      0004A2 24 F0            [12] 2053 	add	a,#0xf0
+      0004A4 F8               [12] 2054 	mov	r0,a
+      0004A5 E6               [12] 2055 	mov	a,@r0
+      0004A6 B5 04 D0         [24] 2056 	cjne	a,ar4,00117$
+                                   2057 ;	/opt/contiki/core/net/ip/udp-socket.c:164: c = (struct udp_socket *)data;
+      0004A9 E5 81            [12] 2058 	mov	a,sp
+      0004AB 24 ED            [12] 2059 	add	a,#0xed
+      0004AD F8               [12] 2060 	mov	r0,a
+      0004AE E5 81            [12] 2061 	mov	a,sp
+      0004B0 24 FB            [12] 2062 	add	a,#0xfb
+      0004B2 F9               [12] 2063 	mov	r1,a
+      0004B3 E6               [12] 2064 	mov	a,@r0
+      0004B4 F7               [12] 2065 	mov	@r1,a
+      0004B5 08               [12] 2066 	inc	r0
+      0004B6 09               [12] 2067 	inc	r1
+      0004B7 E6               [12] 2068 	mov	a,@r0
+      0004B8 F7               [12] 2069 	mov	@r1,a
+      0004B9 08               [12] 2070 	inc	r0
+      0004BA 09               [12] 2071 	inc	r1
+      0004BB E6               [12] 2072 	mov	a,@r0
+      0004BC F7               [12] 2073 	mov	@r1,a
+                                   2074 ;	/opt/contiki/core/net/ip/udp-socket.c:168: if(c != NULL) {
+      0004BD E5 81            [12] 2075 	mov	a,sp
+      0004BF 24 FB            [12] 2076 	add	a,#0xfb
+      0004C1 F8               [12] 2077 	mov	r0,a
+      0004C2 E6               [12] 2078 	mov	a,@r0
+      0004C3 08               [12] 2079 	inc	r0
+      0004C4 46               [12] 2080 	orl	a,@r0
+      0004C5 60 B2            [24] 2081 	jz	00117$
+                                   2082 ;	/opt/contiki/core/net/ip/udp-socket.c:172: if(uip_newdata()) {
+      0004C7 90r00r00         [24] 2083 	mov	dptr,#_uip_flags
+      0004CA E0               [24] 2084 	movx	a,@dptr
+      0004CB FF               [12] 2085 	mov	r7,a
+      0004CC 30 E1 AA         [24] 2086 	jnb	acc.1,00117$
+                                   2087 ;	/opt/contiki/core/net/ip/udp-socket.c:176: memcpy(buf, uip_appdata, uip_datalen());
+      0004CF 90r00r00         [24] 2088 	mov	dptr,#_uip_len
+      0004D2 E0               [24] 2089 	movx	a,@dptr
+      0004D3 C0 E0            [24] 2090 	push	acc
+      0004D5 A3               [24] 2091 	inc	dptr
+      0004D6 E0               [24] 2092 	movx	a,@dptr
+      0004D7 C0 E0            [24] 2093 	push	acc
+      0004D9 90r00r00         [24] 2094 	mov	dptr,#_uip_appdata
+      0004DC E0               [24] 2095 	movx	a,@dptr
+      0004DD C0 E0            [24] 2096 	push	acc
+      0004DF A3               [24] 2097 	inc	dptr
+      0004E0 E0               [24] 2098 	movx	a,@dptr
+      0004E1 C0 E0            [24] 2099 	push	acc
+      0004E3 A3               [24] 2100 	inc	dptr
+      0004E4 E0               [24] 2101 	movx	a,@dptr
+      0004E5 C0 E0            [24] 2102 	push	acc
+      0004E7 90r00r00         [24] 2103 	mov	dptr,#_buf
+      0004EA 75 F0 00         [24] 2104 	mov	b,#0x00
+      0004ED 78r00            [12] 2105 	mov	r0,#_memcpy
+      0004EF 79s00            [12] 2106 	mov	r1,#(_memcpy >> 8)
+      0004F1 7As00            [12] 2107 	mov	r2,#(_memcpy >> 16)
+      0004F3 12r00r00         [24] 2108 	lcall	__sdcc_banked_call
+      0004F6 E5 81            [12] 2109 	mov	a,sp
+      0004F8 24 FB            [12] 2110 	add	a,#0xfb
+                                   2111 ;	/opt/contiki/core/net/ip/udp-socket.c:181: if(c->input_callback != NULL) {
+      0004FA F5 81            [12] 2112 	mov	sp,a
+      0004FC 24 FB            [12] 2113 	add	a,#0xfb
+      0004FE F8               [12] 2114 	mov	r0,a
+      0004FF 86 82            [24] 2115 	mov	dpl,@r0
+      000501 08               [12] 2116 	inc	r0
+      000502 86 83            [24] 2117 	mov	dph,@r0
+      000504 08               [12] 2118 	inc	r0
+      000505 86 F0            [24] 2119 	mov	b,@r0
+      000507 12r00r00         [24] 2120 	lcall	__gptrget
+      00050A FD               [12] 2121 	mov	r5,a
+      00050B A3               [24] 2122 	inc	dptr
+      00050C 12r00r00         [24] 2123 	lcall	__gptrget
+      00050F FE               [12] 2124 	mov	r6,a
+      000510 A3               [24] 2125 	inc	dptr
+      000511 12r00r00         [24] 2126 	lcall	__gptrget
+      000514 FF               [12] 2127 	mov	r7,a
+      000515 ED               [12] 2128 	mov	a,r5
+      000516 4E               [12] 2129 	orl	a,r6
+      000517 70 03            [24] 2130 	jnz	00153$
+      000519 02r04r79         [24] 2131 	ljmp	00117$
+      00051C                       2132 00153$:
+                                   2133 ;	/opt/contiki/core/net/ip/udp-socket.c:182: PROCESS_CONTEXT_BEGIN(c->p);
+      00051C 90r00r00         [24] 2134 	mov	dptr,#_process_current
+      00051F E0               [24] 2135 	movx	a,@dptr
+      000520 FD               [12] 2136 	mov	r5,a
+      000521 A3               [24] 2137 	inc	dptr
+      000522 E0               [24] 2138 	movx	a,@dptr
+      000523 FE               [12] 2139 	mov	r6,a
+      000524 A3               [24] 2140 	inc	dptr
+      000525 E0               [24] 2141 	movx	a,@dptr
+      000526 FF               [12] 2142 	mov	r7,a
+      000527 A8 81            [24] 2143 	mov	r0,sp
+      000529 18               [12] 2144 	dec	r0
+      00052A 18               [12] 2145 	dec	r0
+      00052B A6 05            [24] 2146 	mov	@r0,ar5
+      00052D 08               [12] 2147 	inc	r0
+      00052E A6 06            [24] 2148 	mov	@r0,ar6
+      000530 08               [12] 2149 	inc	r0
+      000531 A6 07            [24] 2150 	mov	@r0,ar7
+      000533 E5 81            [12] 2151 	mov	a,sp
+      000535 24 FB            [12] 2152 	add	a,#0xfb
+      000537 F8               [12] 2153 	mov	r0,a
+      000538 74 06            [12] 2154 	mov	a,#0x06
+      00053A 26               [12] 2155 	add	a,@r0
+      00053B FD               [12] 2156 	mov	r5,a
+      00053C E4               [12] 2157 	clr	a
+      00053D 08               [12] 2158 	inc	r0
+      00053E 36               [12] 2159 	addc	a,@r0
+      00053F FE               [12] 2160 	mov	r6,a
+      000540 08               [12] 2161 	inc	r0
+      000541 86 07            [24] 2162 	mov	ar7,@r0
+      000543 8D 82            [24] 2163 	mov	dpl,r5
+      000545 8E 83            [24] 2164 	mov	dph,r6
+      000547 8F F0            [24] 2165 	mov	b,r7
+      000549 12r00r00         [24] 2166 	lcall	__gptrget
+      00054C FD               [12] 2167 	mov	r5,a
+      00054D A3               [24] 2168 	inc	dptr
+      00054E 12r00r00         [24] 2169 	lcall	__gptrget
+      000551 FE               [12] 2170 	mov	r6,a
+      000552 A3               [24] 2171 	inc	dptr
+      000553 12r00r00         [24] 2172 	lcall	__gptrget
+      000556 FF               [12] 2173 	mov	r7,a
+      000557 90r00r00         [24] 2174 	mov	dptr,#_process_current
+      00055A ED               [12] 2175 	mov	a,r5
+      00055B F0               [24] 2176 	movx	@dptr,a
+      00055C EE               [12] 2177 	mov	a,r6
+      00055D A3               [24] 2178 	inc	dptr
+      00055E F0               [24] 2179 	movx	@dptr,a
+      00055F EF               [12] 2180 	mov	a,r7
+      000560 A3               [24] 2181 	inc	dptr
+      000561 F0               [24] 2182 	movx	@dptr,a
+                                   2183 ;	/opt/contiki/core/net/ip/udp-socket.c:183: c->input_callback(c, c->ptr,
+      000562 E5 81            [12] 2184 	mov	a,sp
+      000564 24 FB            [12] 2185 	add	a,#0xfb
+      000566 F8               [12] 2186 	mov	r0,a
+      000567 86 82            [24] 2187 	mov	dpl,@r0
+      000569 08               [12] 2188 	inc	r0
+      00056A 86 83            [24] 2189 	mov	dph,@r0
+      00056C 08               [12] 2190 	inc	r0
+      00056D 86 F0            [24] 2191 	mov	b,@r0
+      00056F 12r00r00         [24] 2192 	lcall	__gptrget
+      000572 FD               [12] 2193 	mov	r5,a
+      000573 A3               [24] 2194 	inc	dptr
+      000574 12r00r00         [24] 2195 	lcall	__gptrget
+      000577 FE               [12] 2196 	mov	r6,a
+      000578 A3               [24] 2197 	inc	dptr
+      000579 12r00r00         [24] 2198 	lcall	__gptrget
+      00057C FF               [12] 2199 	mov	r7,a
+                                   2200 ;	/opt/contiki/core/net/ip/udp-socket.c:188: buf, uip_datalen());
+                                   2201 ;	/opt/contiki/core/net/ip/udp-socket.c:187: UIP_HTONS(UIP_IP_BUF->destport),
+      00057D 90r00r2A         [24] 2202 	mov	dptr,#(_uip_aligned_buf + 0x002a)
+      000580 E0               [24] 2203 	movx	a,@dptr
+      000581 FB               [12] 2204 	mov	r3,a
+      000582 A3               [24] 2205 	inc	dptr
+      000583 E0               [24] 2206 	movx	a,@dptr
+      000584 E5 81            [12] 2207 	mov	a,sp
+      000586 24 F7            [12] 2208 	add	a,#0xf7
+      000588 F8               [12] 2209 	mov	r0,a
+      000589 08               [12] 2210 	inc	r0
+      00058A A6 03            [24] 2211 	mov	@r0,ar3
+      00058C 18               [12] 2212 	dec	r0
+      00058D 76 00            [12] 2213 	mov	@r0,#0x00
+      00058F 90r00r2A         [24] 2214 	mov	dptr,#(_uip_aligned_buf + 0x002a)
+      000592 E0               [24] 2215 	movx	a,@dptr
+      000593 A3               [24] 2216 	inc	dptr
+      000594 E0               [24] 2217 	movx	a,@dptr
+      000595 FA               [12] 2218 	mov	r2,a
+      000596 7C 00            [12] 2219 	mov	r4,#0x00
+      000598 E5 81            [12] 2220 	mov	a,sp
+      00059A 24 F7            [12] 2221 	add	a,#0xf7
+      00059C F8               [12] 2222 	mov	r0,a
+      00059D EA               [12] 2223 	mov	a,r2
+      00059E 46               [12] 2224 	orl	a,@r0
+      00059F F6               [12] 2225 	mov	@r0,a
+      0005A0 EC               [12] 2226 	mov	a,r4
+      0005A1 08               [12] 2227 	inc	r0
+      0005A2 46               [12] 2228 	orl	a,@r0
+      0005A3 F6               [12] 2229 	mov	@r0,a
+                                   2230 ;	/opt/contiki/core/net/ip/udp-socket.c:186: &(UIP_IP_BUF->destipaddr),
+                                   2231 ;	/opt/contiki/core/net/ip/udp-socket.c:185: UIP_HTONS(UIP_IP_BUF->srcport),
+      0005A4 90r00r28         [24] 2232 	mov	dptr,#(_uip_aligned_buf + 0x0028)
+      0005A7 E0               [24] 2233 	movx	a,@dptr
+      0005A8 FB               [12] 2234 	mov	r3,a
+      0005A9 A3               [24] 2235 	inc	dptr
+      0005AA E0               [24] 2236 	movx	a,@dptr
+      0005AB E5 81            [12] 2237 	mov	a,sp
+      0005AD 24 F9            [12] 2238 	add	a,#0xf9
+      0005AF F8               [12] 2239 	mov	r0,a
+      0005B0 08               [12] 2240 	inc	r0
+      0005B1 A6 03            [24] 2241 	mov	@r0,ar3
+      0005B3 18               [12] 2242 	dec	r0
+      0005B4 76 00            [12] 2243 	mov	@r0,#0x00
+      0005B6 90r00r28         [24] 2244 	mov	dptr,#(_uip_aligned_buf + 0x0028)
+      0005B9 E0               [24] 2245 	movx	a,@dptr
+      0005BA A3               [24] 2246 	inc	dptr
+      0005BB E0               [24] 2247 	movx	a,@dptr
+      0005BC FA               [12] 2248 	mov	r2,a
+      0005BD 7C 00            [12] 2249 	mov	r4,#0x00
+      0005BF E5 81            [12] 2250 	mov	a,sp
+      0005C1 24 F9            [12] 2251 	add	a,#0xf9
+      0005C3 F8               [12] 2252 	mov	r0,a
+      0005C4 EA               [12] 2253 	mov	a,r2
+      0005C5 46               [12] 2254 	orl	a,@r0
+      0005C6 F6               [12] 2255 	mov	@r0,a
+      0005C7 EC               [12] 2256 	mov	a,r4
+      0005C8 08               [12] 2257 	inc	r0
+      0005C9 46               [12] 2258 	orl	a,@r0
+      0005CA F6               [12] 2259 	mov	@r0,a
+                                   2260 ;	/opt/contiki/core/net/ip/udp-socket.c:184: &(UIP_IP_BUF->srcipaddr),
+                                   2261 ;	/opt/contiki/core/net/ip/udp-socket.c:183: c->input_callback(c, c->ptr,
+      0005CB E5 81            [12] 2262 	mov	a,sp
+      0005CD 24 FB            [12] 2263 	add	a,#0xfb
+      0005CF F8               [12] 2264 	mov	r0,a
+      0005D0 74 03            [12] 2265 	mov	a,#0x03
+      0005D2 26               [12] 2266 	add	a,@r0
+      0005D3 FA               [12] 2267 	mov	r2,a
+      0005D4 E4               [12] 2268 	clr	a
+      0005D5 08               [12] 2269 	inc	r0
+      0005D6 36               [12] 2270 	addc	a,@r0
+      0005D7 FB               [12] 2271 	mov	r3,a
+      0005D8 08               [12] 2272 	inc	r0
+      0005D9 86 04            [24] 2273 	mov	ar4,@r0
+      0005DB 8A 82            [24] 2274 	mov	dpl,r2
+      0005DD 8B 83            [24] 2275 	mov	dph,r3
+      0005DF 8C F0            [24] 2276 	mov	b,r4
+      0005E1 12r00r00         [24] 2277 	lcall	__gptrget
+      0005E4 FA               [12] 2278 	mov	r2,a
+      0005E5 A3               [24] 2279 	inc	dptr
+      0005E6 12r00r00         [24] 2280 	lcall	__gptrget
+      0005E9 FB               [12] 2281 	mov	r3,a
+      0005EA A3               [24] 2282 	inc	dptr
+      0005EB 12r00r00         [24] 2283 	lcall	__gptrget
+      0005EE FC               [12] 2284 	mov	r4,a
+      0005EF C0 07            [24] 2285 	push	ar7
+      0005F1 C0 06            [24] 2286 	push	ar6
+      0005F3 C0 05            [24] 2287 	push	ar5
+      0005F5 90r00r00         [24] 2288 	mov	dptr,#_uip_len
+      0005F8 E0               [24] 2289 	movx	a,@dptr
+      0005F9 C0 E0            [24] 2290 	push	acc
+      0005FB A3               [24] 2291 	inc	dptr
+      0005FC E0               [24] 2292 	movx	a,@dptr
+      0005FD C0 E0            [24] 2293 	push	acc
+      0005FF 74r00            [12] 2294 	mov	a,#_buf
+      000601 C0 E0            [24] 2295 	push	acc
+      000603 74s00            [12] 2296 	mov	a,#(_buf >> 8)
+      000605 C0 E0            [24] 2297 	push	acc
+      000607 E4               [12] 2298 	clr	a
+      000608 C0 E0            [24] 2299 	push	acc
+      00060A E5 81            [12] 2300 	mov	a,sp
+      00060C 24 EF            [12] 2301 	add	a,#0xef
+      00060E F8               [12] 2302 	mov	r0,a
+      00060F E6               [12] 2303 	mov	a,@r0
+      000610 C0 E0            [24] 2304 	push	acc
+      000612 08               [12] 2305 	inc	r0
+      000613 E6               [12] 2306 	mov	a,@r0
+      000614 C0 E0            [24] 2307 	push	acc
+      000616 74r18            [12] 2308 	mov	a,#(_uip_aligned_buf + 0x0018)
+      000618 C0 E0            [24] 2309 	push	acc
+      00061A 74s00            [12] 2310 	mov	a,#((_uip_aligned_buf + 0x0018) >> 8)
+      00061C C0 E0            [24] 2311 	push	acc
+      00061E E4               [12] 2312 	clr	a
+      00061F C0 E0            [24] 2313 	push	acc
+      000621 E5 81            [12] 2314 	mov	a,sp
+      000623 24 EC            [12] 2315 	add	a,#0xec
+      000625 F8               [12] 2316 	mov	r0,a
+      000626 E6               [12] 2317 	mov	a,@r0
+      000627 C0 E0            [24] 2318 	push	acc
+      000629 08               [12] 2319 	inc	r0
+      00062A E6               [12] 2320 	mov	a,@r0
+      00062B C0 E0            [24] 2321 	push	acc
+      00062D 74r08            [12] 2322 	mov	a,#(_uip_aligned_buf + 0x0008)
+      00062F C0 E0            [24] 2323 	push	acc
+      000631 74s00            [12] 2324 	mov	a,#((_uip_aligned_buf + 0x0008) >> 8)
+      000633 C0 E0            [24] 2325 	push	acc
+      000635 E4               [12] 2326 	clr	a
+      000636 C0 E0            [24] 2327 	push	acc
+      000638 C0 02            [24] 2328 	push	ar2
+      00063A C0 03            [24] 2329 	push	ar3
+      00063C C0 04            [24] 2330 	push	ar4
+      00063E C0 05            [24] 2331 	push	ar5
+      000640 C0 06            [24] 2332 	push	ar6
+      000642 C0 07            [24] 2333 	push	ar7
+      000644 E5 81            [12] 2334 	mov	a,sp
+      000646 24 E3            [12] 2335 	add	a,#0xe3
+      000648 F8               [12] 2336 	mov	r0,a
+      000649 86 82            [24] 2337 	mov	dpl,@r0
+      00064B 08               [12] 2338 	inc	r0
+      00064C 86 83            [24] 2339 	mov	dph,@r0
+      00064E 08               [12] 2340 	inc	r0
+      00064F 86 F0            [24] 2341 	mov	b,@r0
+      000651 D0 02            [24] 2342 	pop	ar2
+      000653 D0 01            [24] 2343 	pop	ar1
+      000655 D0 00            [24] 2344 	pop	ar0
+      000657 12r00r00         [24] 2345 	lcall	__sdcc_banked_call
+      00065A E5 81            [12] 2346 	mov	a,sp
+      00065C 24 EE            [12] 2347 	add	a,#0xee
+      00065E F5 81            [12] 2348 	mov	sp,a
+      000660 D0 05            [24] 2349 	pop	ar5
+      000662 D0 06            [24] 2350 	pop	ar6
+      000664 D0 07            [24] 2351 	pop	ar7
+                                   2352 ;	/opt/contiki/core/net/ip/udp-socket.c:189: PROCESS_CONTEXT_END();
+      000666 A8 81            [24] 2353 	mov	r0,sp
+      000668 18               [12] 2354 	dec	r0
+      000669 18               [12] 2355 	dec	r0
+      00066A 90r00r00         [24] 2356 	mov	dptr,#_process_current
+      00066D E6               [12] 2357 	mov	a,@r0
+      00066E F0               [24] 2358 	movx	@dptr,a
+      00066F 08               [12] 2359 	inc	r0
+      000670 E6               [12] 2360 	mov	a,@r0
+      000671 A3               [24] 2361 	inc	dptr
+      000672 F0               [24] 2362 	movx	@dptr,a
+      000673 08               [12] 2363 	inc	r0
+      000674 E6               [12] 2364 	mov	a,@r0
+      000675 A3               [24] 2365 	inc	dptr
+      000676 F0               [24] 2366 	movx	@dptr,a
+      000677 02r04r79         [24] 2367 	ljmp	00117$
+                                   2368 ;	/opt/contiki/core/net/ip/udp-socket.c:196: PROCESS_END();
+      00067A                       2369 00119$:
+      00067A E5 81            [12] 2370 	mov	a,sp
+      00067C 24 F4            [12] 2371 	add	a,#0xf4
+      00067E F8               [12] 2372 	mov	r0,a
+      00067F 86 82            [24] 2373 	mov	dpl,@r0
+      000681 08               [12] 2374 	inc	r0
+      000682 86 83            [24] 2375 	mov	dph,@r0
+      000684 08               [12] 2376 	inc	r0
+      000685 86 F0            [24] 2377 	mov	b,@r0
+      000687 E4               [12] 2378 	clr	a
+      000688 12r00r00         [24] 2379 	lcall	__gptrput
+      00068B A3               [24] 2380 	inc	dptr
+      00068C 12r00r00         [24] 2381 	lcall	__gptrput
+      00068F 75 82 03         [24] 2382 	mov	dpl,#0x03
+      000692                       2383 00120$:
+      000692 E5 81            [12] 2384 	mov	a,sp
+      000694 24 F3            [12] 2385 	add	a,#0xF3
+      000696 F5 81            [12] 2386 	mov	sp,a
+      000698 02r00r00         [24] 2387 	ljmp	__sdcc_banked_ret
+                                   2388 	.area CSEG    (CODE)
+                                   2389 	.area CONST   (CODE)
+                                   2390 	.area XINIT   (CODE)
+      000000                       2391 __xinit__udp_socket_process:
+                                   2392 ; generic printIvalPtr
+      000000 00 00 00              2393 	.byte #0x00,#0x00,#0x00
+      000003r44s04s00              2394 	.byte _process_thread_udp_socket_process, (_process_thread_udp_socket_process >> 8), (_process_thread_udp_socket_process >> 16)
+      000006 00 00                 2395 	.byte #0x00, #0x00
+      000008 00                    2396 	.db #0x00	; 0
+      000009 00                    2397 	.db #0x00	; 0
+                                   2398 	.area CABS    (ABS,CODE)

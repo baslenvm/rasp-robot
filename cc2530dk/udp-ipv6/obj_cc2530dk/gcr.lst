@@ -1,0 +1,592 @@
+                                      1 ;--------------------------------------------------------
+                                      2 ; File Created by SDCC : free open source ANSI-C Compiler
+                                      3 ; Version 3.5.5 #9380 (Linux)
+                                      4 ; This file was generated Wed Nov 18 01:47:32 2015
+                                      5 ;--------------------------------------------------------
+                                      6 	.module gcr
+                                      7 	.optsdcc -mmcs51 --model-huge
+                                      8 	
+                                      9 ;--------------------------------------------------------
+                                     10 ; Public variables in this module
+                                     11 ;--------------------------------------------------------
+                                     12 	.globl _gcr_get_decoded
+                                     13 	.globl _gcr_valid
+                                     14 	.globl _gcr_decode
+                                     15 	.globl _gcr_get_encoded
+                                     16 	.globl _gcr_encode
+                                     17 	.globl _gcr_finished
+                                     18 	.globl _gcr_init
+                                     19 ;--------------------------------------------------------
+                                     20 ; special function registers
+                                     21 ;--------------------------------------------------------
+                                     22 	.area RSEG    (ABS,DATA)
+      000000                         23 	.org 0x0000
+                                     24 ;--------------------------------------------------------
+                                     25 ; special function bits
+                                     26 ;--------------------------------------------------------
+                                     27 	.area RSEG    (ABS,DATA)
+      000000                         28 	.org 0x0000
+                                     29 ;--------------------------------------------------------
+                                     30 ; overlayable register banks
+                                     31 ;--------------------------------------------------------
+                                     32 	.area REG_BANK_0	(REL,OVR,DATA)
+      000000                         33 	.ds 8
+                                     34 ;--------------------------------------------------------
+                                     35 ; internal ram data
+                                     36 ;--------------------------------------------------------
+                                     37 	.area DSEG    (DATA)
+                                     38 ;--------------------------------------------------------
+                                     39 ; overlayable items in internal ram 
+                                     40 ;--------------------------------------------------------
+                                     41 ;--------------------------------------------------------
+                                     42 ; indirectly addressable internal ram data
+                                     43 ;--------------------------------------------------------
+                                     44 	.area ISEG    (DATA)
+                                     45 ;--------------------------------------------------------
+                                     46 ; absolute internal ram data
+                                     47 ;--------------------------------------------------------
+                                     48 	.area IABS    (ABS,DATA)
+                                     49 	.area IABS    (ABS,DATA)
+                                     50 ;--------------------------------------------------------
+                                     51 ; bit data
+                                     52 ;--------------------------------------------------------
+                                     53 	.area BSEG    (BIT)
+                                     54 ;--------------------------------------------------------
+                                     55 ; paged external ram data
+                                     56 ;--------------------------------------------------------
+                                     57 	.area PSEG    (PAG,XDATA)
+                                     58 ;--------------------------------------------------------
+                                     59 ; external ram data
+                                     60 ;--------------------------------------------------------
+                                     61 	.area XSEG    (XDATA)
+                                     62 ;--------------------------------------------------------
+                                     63 ; absolute external ram data
+                                     64 ;--------------------------------------------------------
+                                     65 	.area XABS    (ABS,XDATA)
+                                     66 ;--------------------------------------------------------
+                                     67 ; external initialized ram data
+                                     68 ;--------------------------------------------------------
+                                     69 	.area XISEG   (XDATA)
+      000000                         70 _gcr_bits:
+      000000                         71 	.ds 1
+      000001                         72 _gcr_val:
+      000001                         73 	.ds 2
+                                     74 	.area HOME    (CODE)
+                                     75 	.area GSINIT0 (CODE)
+                                     76 	.area GSINIT1 (CODE)
+                                     77 	.area GSINIT2 (CODE)
+                                     78 	.area GSINIT3 (CODE)
+                                     79 	.area GSINIT4 (CODE)
+                                     80 	.area GSINIT5 (CODE)
+                                     81 	.area GSINIT  (CODE)
+                                     82 	.area GSFINAL (CODE)
+                                     83 	.area CSEG    (CODE)
+                                     84 ;--------------------------------------------------------
+                                     85 ; global & static initialisations
+                                     86 ;--------------------------------------------------------
+                                     87 	.area HOME    (CODE)
+                                     88 	.area GSINIT  (CODE)
+                                     89 	.area GSFINAL (CODE)
+                                     90 	.area GSINIT  (CODE)
+                                     91 ;--------------------------------------------------------
+                                     92 ; Home
+                                     93 ;--------------------------------------------------------
+                                     94 	.area HOME    (CODE)
+                                     95 	.area HOME    (CODE)
+                                     96 ;--------------------------------------------------------
+                                     97 ; code
+                                     98 ;--------------------------------------------------------
+                                     99 	.area BANK1   (CODE)
+                                    100 ;------------------------------------------------------------
+                                    101 ;Allocation info for local variables in function 'gcr_init'
+                                    102 ;------------------------------------------------------------
+                                    103 ;	/opt/contiki/core/lib/gcr.c:67: void gcr_init() {
+                                    104 ;	-----------------------------------------
+                                    105 ;	 function gcr_init
+                                    106 ;	-----------------------------------------
+      000000                        107 _gcr_init:
+                           000007   108 	ar7 = 0x07
+                           000006   109 	ar6 = 0x06
+                           000005   110 	ar5 = 0x05
+                           000004   111 	ar4 = 0x04
+                           000003   112 	ar3 = 0x03
+                           000002   113 	ar2 = 0x02
+                           000001   114 	ar1 = 0x01
+                           000000   115 	ar0 = 0x00
+                                    116 ;	/opt/contiki/core/lib/gcr.c:68: gcr_val = 0;
+      000000 90r00r01         [24]  117 	mov	dptr,#_gcr_val
+      000003 E4               [12]  118 	clr	a
+      000004 F0               [24]  119 	movx	@dptr,a
+      000005 A3               [24]  120 	inc	dptr
+      000006 F0               [24]  121 	movx	@dptr,a
+                                    122 ;	/opt/contiki/core/lib/gcr.c:69: gcr_bits = 0;
+      000007 90r00r00         [24]  123 	mov	dptr,#_gcr_bits
+      00000A F0               [24]  124 	movx	@dptr,a
+      00000B 02r00r00         [24]  125 	ljmp	__sdcc_banked_ret
+                                    126 ;------------------------------------------------------------
+                                    127 ;Allocation info for local variables in function 'gcr_finished'
+                                    128 ;------------------------------------------------------------
+                                    129 ;	/opt/contiki/core/lib/gcr.c:73: unsigned char gcr_finished() {
+                                    130 ;	-----------------------------------------
+                                    131 ;	 function gcr_finished
+                                    132 ;	-----------------------------------------
+      00000E                        133 _gcr_finished:
+                                    134 ;	/opt/contiki/core/lib/gcr.c:74: return gcr_bits == 0;
+      00000E 90r00r00         [24]  135 	mov	dptr,#_gcr_bits
+      000011 E0               [24]  136 	movx	a,@dptr
+      000012 FF               [12]  137 	mov	r7,a
+      000013 E4               [12]  138 	clr	a
+      000014 BF 00 01         [24]  139 	cjne	r7,#0x00,00103$
+      000017 04               [12]  140 	inc	a
+      000018                        141 00103$:
+      000018 FF               [12]  142 	mov	r7,a
+      000019 F5 82            [12]  143 	mov	dpl,a
+      00001B 02r00r00         [24]  144 	ljmp	__sdcc_banked_ret
+                                    145 ;------------------------------------------------------------
+                                    146 ;Allocation info for local variables in function 'gcr_encode'
+                                    147 ;------------------------------------------------------------
+                                    148 ;raw_data                  Allocated to registers r7 
+                                    149 ;------------------------------------------------------------
+                                    150 ;	/opt/contiki/core/lib/gcr.c:78: void gcr_encode(unsigned char raw_data) {
+                                    151 ;	-----------------------------------------
+                                    152 ;	 function gcr_encode
+                                    153 ;	-----------------------------------------
+      00001E                        154 _gcr_encode:
+                                    155 ;	/opt/contiki/core/lib/gcr.c:80: ((GCR_encode[raw_data >> 4u] << 5u ) |
+      00001E E5 82            [12]  156 	mov	a,dpl
+      000020 FF               [12]  157 	mov	r7,a
+      000021 C4               [12]  158 	swap	a
+      000022 54 0F            [12]  159 	anl	a,#0x0F
+      000024 90r00r00         [24]  160 	mov	dptr,#_GCR_encode
+      000027 93               [24]  161 	movc	a,@a+dptr
+      000028 FE               [12]  162 	mov	r6,a
+      000029 E4               [12]  163 	clr	a
+      00002A 23               [12]  164 	rl	a
+      00002B 54 E0            [12]  165 	anl	a,#0xE0
+      00002D CE               [12]  166 	xch	a,r6
+      00002E C4               [12]  167 	swap	a
+      00002F 23               [12]  168 	rl	a
+      000030 CE               [12]  169 	xch	a,r6
+      000031 6E               [12]  170 	xrl	a,r6
+      000032 CE               [12]  171 	xch	a,r6
+      000033 54 E0            [12]  172 	anl	a,#0xE0
+      000035 CE               [12]  173 	xch	a,r6
+      000036 6E               [12]  174 	xrl	a,r6
+      000037 FD               [12]  175 	mov	r5,a
+                                    176 ;	/opt/contiki/core/lib/gcr.c:81: GCR_encode[raw_data & 0xf]) << gcr_bits;
+      000038 74 0F            [12]  177 	mov	a,#0x0F
+      00003A 5F               [12]  178 	anl	a,r7
+      00003B 90r00r00         [24]  179 	mov	dptr,#_GCR_encode
+      00003E 93               [24]  180 	movc	a,@a+dptr
+      00003F 7C 00            [12]  181 	mov	r4,#0x00
+      000041 42 06            [12]  182 	orl	ar6,a
+      000043 EC               [12]  183 	mov	a,r4
+      000044 42 05            [12]  184 	orl	ar5,a
+      000046 90r00r00         [24]  185 	mov	dptr,#_gcr_bits
+      000049 E0               [24]  186 	movx	a,@dptr
+      00004A FF               [12]  187 	mov	r7,a
+      00004B 8F F0            [24]  188 	mov	b,r7
+      00004D 05 F0            [12]  189 	inc	b
+      00004F 80 06            [24]  190 	sjmp	00104$
+      000051                        191 00103$:
+      000051 EE               [12]  192 	mov	a,r6
+      000052 2E               [12]  193 	add	a,r6
+      000053 FE               [12]  194 	mov	r6,a
+      000054 ED               [12]  195 	mov	a,r5
+      000055 33               [12]  196 	rlc	a
+      000056 FD               [12]  197 	mov	r5,a
+      000057                        198 00104$:
+      000057 D5 F0 F7         [24]  199 	djnz	b,00103$
+      00005A 90r00r01         [24]  200 	mov	dptr,#_gcr_val
+      00005D E0               [24]  201 	movx	a,@dptr
+      00005E FB               [12]  202 	mov	r3,a
+      00005F A3               [24]  203 	inc	dptr
+      000060 E0               [24]  204 	movx	a,@dptr
+      000061 FC               [12]  205 	mov	r4,a
+      000062 90r00r01         [24]  206 	mov	dptr,#_gcr_val
+      000065 EE               [12]  207 	mov	a,r6
+      000066 4B               [12]  208 	orl	a,r3
+      000067 F0               [24]  209 	movx	@dptr,a
+      000068 ED               [12]  210 	mov	a,r5
+      000069 4C               [12]  211 	orl	a,r4
+      00006A A3               [24]  212 	inc	dptr
+      00006B F0               [24]  213 	movx	@dptr,a
+                                    214 ;	/opt/contiki/core/lib/gcr.c:82: gcr_bits += 10;
+      00006C 90r00r00         [24]  215 	mov	dptr,#_gcr_bits
+      00006F 74 0A            [12]  216 	mov	a,#0x0A
+      000071 2F               [12]  217 	add	a,r7
+      000072 F0               [24]  218 	movx	@dptr,a
+      000073 02r00r00         [24]  219 	ljmp	__sdcc_banked_ret
+                                    220 ;------------------------------------------------------------
+                                    221 ;Allocation info for local variables in function 'gcr_get_encoded'
+                                    222 ;------------------------------------------------------------
+                                    223 ;raw_data                  Allocated to registers r5 r6 r7 
+                                    224 ;------------------------------------------------------------
+                                    225 ;	/opt/contiki/core/lib/gcr.c:86: unsigned char gcr_get_encoded(unsigned char *raw_data) {
+                                    226 ;	-----------------------------------------
+                                    227 ;	 function gcr_get_encoded
+                                    228 ;	-----------------------------------------
+      000076                        229 _gcr_get_encoded:
+      000076 AD 82            [24]  230 	mov	r5,dpl
+      000078 AE 83            [24]  231 	mov	r6,dph
+      00007A AF F0            [24]  232 	mov	r7,b
+                                    233 ;	/opt/contiki/core/lib/gcr.c:87: if (gcr_bits >= 8) {
+      00007C 90r00r00         [24]  234 	mov	dptr,#_gcr_bits
+      00007F E0               [24]  235 	movx	a,@dptr
+      000080 FC               [12]  236 	mov	r4,a
+      000081 BC 08 00         [24]  237 	cjne	r4,#0x08,00108$
+      000084                        238 00108$:
+      000084 40 31            [24]  239 	jc	00102$
+                                    240 ;	/opt/contiki/core/lib/gcr.c:88: *raw_data = (unsigned char) (gcr_val & 0xff);
+      000086 90r00r01         [24]  241 	mov	dptr,#_gcr_val
+      000089 E0               [24]  242 	movx	a,@dptr
+      00008A FB               [12]  243 	mov	r3,a
+      00008B A3               [24]  244 	inc	dptr
+      00008C E0               [24]  245 	movx	a,@dptr
+      00008D 7C 00            [12]  246 	mov	r4,#0x00
+      00008F 8D 82            [24]  247 	mov	dpl,r5
+      000091 8E 83            [24]  248 	mov	dph,r6
+      000093 8F F0            [24]  249 	mov	b,r7
+      000095 EB               [12]  250 	mov	a,r3
+      000096 12r00r00         [24]  251 	lcall	__gptrput
+                                    252 ;	/opt/contiki/core/lib/gcr.c:89: gcr_val = gcr_val >> 8u;
+      000099 90r00r01         [24]  253 	mov	dptr,#_gcr_val
+      00009C E0               [24]  254 	movx	a,@dptr
+      00009D A3               [24]  255 	inc	dptr
+      00009E E0               [24]  256 	movx	a,@dptr
+      00009F FE               [12]  257 	mov	r6,a
+      0000A0 7F 00            [12]  258 	mov	r7,#0x00
+      0000A2 90r00r01         [24]  259 	mov	dptr,#_gcr_val
+      0000A5 EE               [12]  260 	mov	a,r6
+      0000A6 F0               [24]  261 	movx	@dptr,a
+      0000A7 EF               [12]  262 	mov	a,r7
+      0000A8 A3               [24]  263 	inc	dptr
+      0000A9 F0               [24]  264 	movx	@dptr,a
+                                    265 ;	/opt/contiki/core/lib/gcr.c:90: gcr_bits = gcr_bits - 8;
+      0000AA 90r00r00         [24]  266 	mov	dptr,#_gcr_bits
+      0000AD E0               [24]  267 	movx	a,@dptr
+      0000AE FF               [12]  268 	mov	r7,a
+      0000AF 24 F8            [12]  269 	add	a,#0xF8
+      0000B1 F0               [24]  270 	movx	@dptr,a
+                                    271 ;	/opt/contiki/core/lib/gcr.c:91: return 1;
+      0000B2 75 82 01         [24]  272 	mov	dpl,#0x01
+      0000B5 80 03            [24]  273 	sjmp	00103$
+      0000B7                        274 00102$:
+                                    275 ;	/opt/contiki/core/lib/gcr.c:93: return 0;
+      0000B7 75 82 00         [24]  276 	mov	dpl,#0x00
+      0000BA                        277 00103$:
+      0000BA 02r00r00         [24]  278 	ljmp	__sdcc_banked_ret
+                                    279 ;------------------------------------------------------------
+                                    280 ;Allocation info for local variables in function 'gcr_decode'
+                                    281 ;------------------------------------------------------------
+                                    282 ;gcr_data                  Allocated to registers r7 
+                                    283 ;------------------------------------------------------------
+                                    284 ;	/opt/contiki/core/lib/gcr.c:97: void gcr_decode(unsigned char gcr_data) {
+                                    285 ;	-----------------------------------------
+                                    286 ;	 function gcr_decode
+                                    287 ;	-----------------------------------------
+      0000BD                        288 _gcr_decode:
+      0000BD AF 82            [24]  289 	mov	r7,dpl
+                                    290 ;	/opt/contiki/core/lib/gcr.c:98: gcr_val |= gcr_data << gcr_bits;
+      0000BF 7E 00            [12]  291 	mov	r6,#0x00
+      0000C1 90r00r00         [24]  292 	mov	dptr,#_gcr_bits
+      0000C4 E0               [24]  293 	movx	a,@dptr
+      0000C5 FD               [12]  294 	mov	r5,a
+      0000C6 8D F0            [24]  295 	mov	b,r5
+      0000C8 05 F0            [12]  296 	inc	b
+      0000CA 80 06            [24]  297 	sjmp	00104$
+      0000CC                        298 00103$:
+      0000CC EF               [12]  299 	mov	a,r7
+      0000CD 2F               [12]  300 	add	a,r7
+      0000CE FF               [12]  301 	mov	r7,a
+      0000CF EE               [12]  302 	mov	a,r6
+      0000D0 33               [12]  303 	rlc	a
+      0000D1 FE               [12]  304 	mov	r6,a
+      0000D2                        305 00104$:
+      0000D2 D5 F0 F7         [24]  306 	djnz	b,00103$
+      0000D5 90r00r01         [24]  307 	mov	dptr,#_gcr_val
+      0000D8 E0               [24]  308 	movx	a,@dptr
+      0000D9 FB               [12]  309 	mov	r3,a
+      0000DA A3               [24]  310 	inc	dptr
+      0000DB E0               [24]  311 	movx	a,@dptr
+      0000DC FC               [12]  312 	mov	r4,a
+      0000DD 90r00r01         [24]  313 	mov	dptr,#_gcr_val
+      0000E0 EF               [12]  314 	mov	a,r7
+      0000E1 4B               [12]  315 	orl	a,r3
+      0000E2 F0               [24]  316 	movx	@dptr,a
+      0000E3 EE               [12]  317 	mov	a,r6
+      0000E4 4C               [12]  318 	orl	a,r4
+      0000E5 A3               [24]  319 	inc	dptr
+      0000E6 F0               [24]  320 	movx	@dptr,a
+                                    321 ;	/opt/contiki/core/lib/gcr.c:99: gcr_bits += 8;
+      0000E7 90r00r00         [24]  322 	mov	dptr,#_gcr_bits
+      0000EA 74 08            [12]  323 	mov	a,#0x08
+      0000EC 2D               [12]  324 	add	a,r5
+      0000ED F0               [24]  325 	movx	@dptr,a
+      0000EE 02r00r00         [24]  326 	ljmp	__sdcc_banked_ret
+                                    327 ;------------------------------------------------------------
+                                    328 ;Allocation info for local variables in function 'gcr_valid'
+                                    329 ;------------------------------------------------------------
+                                    330 ;val                       Allocated to registers r6 r7 
+                                    331 ;------------------------------------------------------------
+                                    332 ;	/opt/contiki/core/lib/gcr.c:103: unsigned char gcr_valid() {
+                                    333 ;	-----------------------------------------
+                                    334 ;	 function gcr_valid
+                                    335 ;	-----------------------------------------
+      0000F1                        336 _gcr_valid:
+                                    337 ;	/opt/contiki/core/lib/gcr.c:104: if (gcr_bits >= 10) {
+      0000F1 90r00r00         [24]  338 	mov	dptr,#_gcr_bits
+      0000F4 E0               [24]  339 	movx	a,@dptr
+      0000F5 FF               [12]  340 	mov	r7,a
+      0000F6 BF 0A 00         [24]  341 	cjne	r7,#0x0A,00114$
+      0000F9                        342 00114$:
+      0000F9 40 5A            [24]  343 	jc	00105$
+                                    344 ;	/opt/contiki/core/lib/gcr.c:105: unsigned short val = gcr_val & 0x3ff;
+      0000FB 90r00r01         [24]  345 	mov	dptr,#_gcr_val
+      0000FE E0               [24]  346 	movx	a,@dptr
+      0000FF FE               [12]  347 	mov	r6,a
+      000100 A3               [24]  348 	inc	dptr
+      000101 E0               [24]  349 	movx	a,@dptr
+      000102 FF               [12]  350 	mov	r7,a
+      000103 53 07 03         [24]  351 	anl	ar7,#0x03
+                                    352 ;	/opt/contiki/core/lib/gcr.c:106: if ((GCR_decode[val >> 5u] << 4u) == 0xff ||
+      000106 8E 04            [24]  353 	mov	ar4,r6
+      000108 EF               [12]  354 	mov	a,r7
+      000109 C4               [12]  355 	swap	a
+      00010A 03               [12]  356 	rr	a
+      00010B CC               [12]  357 	xch	a,r4
+      00010C C4               [12]  358 	swap	a
+      00010D 03               [12]  359 	rr	a
+      00010E 54 07            [12]  360 	anl	a,#0x07
+      000110 6C               [12]  361 	xrl	a,r4
+      000111 CC               [12]  362 	xch	a,r4
+      000112 54 07            [12]  363 	anl	a,#0x07
+      000114 CC               [12]  364 	xch	a,r4
+      000115 6C               [12]  365 	xrl	a,r4
+      000116 CC               [12]  366 	xch	a,r4
+      000117 FD               [12]  367 	mov	r5,a
+      000118 EC               [12]  368 	mov	a,r4
+      000119 24r10            [12]  369 	add	a,#_GCR_decode
+      00011B F5 82            [12]  370 	mov	dpl,a
+      00011D ED               [12]  371 	mov	a,r5
+      00011E 34s00            [12]  372 	addc	a,#(_GCR_decode >> 8)
+      000120 F5 83            [12]  373 	mov	dph,a
+      000122 E4               [12]  374 	clr	a
+      000123 93               [24]  375 	movc	a,@a+dptr
+      000124 FD               [12]  376 	mov	r5,a
+      000125 E4               [12]  377 	clr	a
+      000126 C4               [12]  378 	swap	a
+      000127 54 F0            [12]  379 	anl	a,#0xF0
+      000129 CD               [12]  380 	xch	a,r5
+      00012A C4               [12]  381 	swap	a
+      00012B CD               [12]  382 	xch	a,r5
+      00012C 6D               [12]  383 	xrl	a,r5
+      00012D CD               [12]  384 	xch	a,r5
+      00012E 54 F0            [12]  385 	anl	a,#0xF0
+      000130 CD               [12]  386 	xch	a,r5
+      000131 6D               [12]  387 	xrl	a,r5
+      000132 FC               [12]  388 	mov	r4,a
+      000133 BD FF 05         [24]  389 	cjne	r5,#0xFF,00116$
+      000136 BC 00 02         [24]  390 	cjne	r4,#0x00,00116$
+      000139 80 15            [24]  391 	sjmp	00101$
+      00013B                        392 00116$:
+                                    393 ;	/opt/contiki/core/lib/gcr.c:107: (GCR_decode[val & 0x1f]) == 0xff) {
+      00013B 53 06 1F         [24]  394 	anl	ar6,#0x1F
+      00013E 7F 00            [12]  395 	mov	r7,#0x00
+      000140 EE               [12]  396 	mov	a,r6
+      000141 24r10            [12]  397 	add	a,#_GCR_decode
+      000143 F5 82            [12]  398 	mov	dpl,a
+      000145 EF               [12]  399 	mov	a,r7
+      000146 34s00            [12]  400 	addc	a,#(_GCR_decode >> 8)
+      000148 F5 83            [12]  401 	mov	dph,a
+      00014A E4               [12]  402 	clr	a
+      00014B 93               [24]  403 	movc	a,@a+dptr
+      00014C FF               [12]  404 	mov	r7,a
+      00014D BF FF 05         [24]  405 	cjne	r7,#0xFF,00105$
+      000150                        406 00101$:
+                                    407 ;	/opt/contiki/core/lib/gcr.c:108: return 0;
+      000150 75 82 00         [24]  408 	mov	dpl,#0x00
+      000153 80 03            [24]  409 	sjmp	00106$
+      000155                        410 00105$:
+                                    411 ;	/opt/contiki/core/lib/gcr.c:111: return 1;
+      000155 75 82 01         [24]  412 	mov	dpl,#0x01
+      000158                        413 00106$:
+      000158 02r00r00         [24]  414 	ljmp	__sdcc_banked_ret
+                                    415 ;------------------------------------------------------------
+                                    416 ;Allocation info for local variables in function 'gcr_get_decoded'
+                                    417 ;------------------------------------------------------------
+                                    418 ;raw_data                  Allocated to registers r5 r6 r7 
+                                    419 ;val                       Allocated to stack - sp -1
+                                    420 ;------------------------------------------------------------
+                                    421 ;	/opt/contiki/core/lib/gcr.c:115: unsigned char gcr_get_decoded(unsigned char *raw_data) {
+                                    422 ;	-----------------------------------------
+                                    423 ;	 function gcr_get_decoded
+                                    424 ;	-----------------------------------------
+      00015B                        425 _gcr_get_decoded:
+      00015B 05 81            [12]  426 	inc	sp
+      00015D 05 81            [12]  427 	inc	sp
+      00015F AD 82            [24]  428 	mov	r5,dpl
+      000161 AE 83            [24]  429 	mov	r6,dph
+      000163 AF F0            [24]  430 	mov	r7,b
+                                    431 ;	/opt/contiki/core/lib/gcr.c:116: if (gcr_bits >= 10) {
+      000165 90r00r00         [24]  432 	mov	dptr,#_gcr_bits
+      000168 E0               [24]  433 	movx	a,@dptr
+      000169 FC               [12]  434 	mov	r4,a
+      00016A BC 0A 00         [24]  435 	cjne	r4,#0x0A,00108$
+      00016D                        436 00108$:
+      00016D 40 7B            [24]  437 	jc	00102$
+                                    438 ;	/opt/contiki/core/lib/gcr.c:117: unsigned short val = gcr_val & 0x3ff;
+      00016F 90r00r01         [24]  439 	mov	dptr,#_gcr_val
+      000172 E0               [24]  440 	movx	a,@dptr
+      000173 FB               [12]  441 	mov	r3,a
+      000174 A3               [24]  442 	inc	dptr
+      000175 E0               [24]  443 	movx	a,@dptr
+      000176 FC               [12]  444 	mov	r4,a
+      000177 A8 81            [24]  445 	mov	r0,sp
+      000179 18               [12]  446 	dec	r0
+      00017A A6 03            [24]  447 	mov	@r0,ar3
+      00017C 74 03            [12]  448 	mov	a,#0x03
+      00017E 5C               [12]  449 	anl	a,r4
+      00017F 08               [12]  450 	inc	r0
+      000180 F6               [12]  451 	mov	@r0,a
+                                    452 ;	/opt/contiki/core/lib/gcr.c:118: *raw_data = (unsigned char) ((GCR_decode[val >> 5] << 4) |
+      000181 A8 81            [24]  453 	mov	r0,sp
+      000183 18               [12]  454 	dec	r0
+      000184 86 02            [24]  455 	mov	ar2,@r0
+      000186 08               [12]  456 	inc	r0
+      000187 E6               [12]  457 	mov	a,@r0
+      000188 C4               [12]  458 	swap	a
+      000189 03               [12]  459 	rr	a
+      00018A CA               [12]  460 	xch	a,r2
+      00018B C4               [12]  461 	swap	a
+      00018C 03               [12]  462 	rr	a
+      00018D 54 07            [12]  463 	anl	a,#0x07
+      00018F 6A               [12]  464 	xrl	a,r2
+      000190 CA               [12]  465 	xch	a,r2
+      000191 54 07            [12]  466 	anl	a,#0x07
+      000193 CA               [12]  467 	xch	a,r2
+      000194 6A               [12]  468 	xrl	a,r2
+      000195 CA               [12]  469 	xch	a,r2
+      000196 FC               [12]  470 	mov	r4,a
+      000197 EA               [12]  471 	mov	a,r2
+      000198 24r10            [12]  472 	add	a,#_GCR_decode
+      00019A F5 82            [12]  473 	mov	dpl,a
+      00019C EC               [12]  474 	mov	a,r4
+      00019D 34s00            [12]  475 	addc	a,#(_GCR_decode >> 8)
+      00019F F5 83            [12]  476 	mov	dph,a
+      0001A1 E4               [12]  477 	clr	a
+      0001A2 93               [24]  478 	movc	a,@a+dptr
+      0001A3 C4               [12]  479 	swap	a
+      0001A4 54 F0            [12]  480 	anl	a,#0xF0
+      0001A6 FC               [12]  481 	mov	r4,a
+                                    482 ;	/opt/contiki/core/lib/gcr.c:119: (GCR_decode[val & 0x1f]));
+      0001A7 A8 81            [24]  483 	mov	r0,sp
+      0001A9 18               [12]  484 	dec	r0
+      0001AA 74 1F            [12]  485 	mov	a,#0x1F
+      0001AC 56               [12]  486 	anl	a,@r0
+      0001AD FA               [12]  487 	mov	r2,a
+      0001AE 7B 00            [12]  488 	mov	r3,#0x00
+      0001B0 24r10            [12]  489 	add	a,#_GCR_decode
+      0001B2 F5 82            [12]  490 	mov	dpl,a
+      0001B4 EB               [12]  491 	mov	a,r3
+      0001B5 34s00            [12]  492 	addc	a,#(_GCR_decode >> 8)
+      0001B7 F5 83            [12]  493 	mov	dph,a
+      0001B9 E4               [12]  494 	clr	a
+      0001BA 93               [24]  495 	movc	a,@a+dptr
+      0001BB FB               [12]  496 	mov	r3,a
+      0001BC 42 04            [12]  497 	orl	ar4,a
+      0001BE 8D 82            [24]  498 	mov	dpl,r5
+      0001C0 8E 83            [24]  499 	mov	dph,r6
+      0001C2 8F F0            [24]  500 	mov	b,r7
+      0001C4 EC               [12]  501 	mov	a,r4
+      0001C5 12r00r00         [24]  502 	lcall	__gptrput
+                                    503 ;	/opt/contiki/core/lib/gcr.c:120: gcr_val = gcr_val >> 10;
+      0001C8 90r00r01         [24]  504 	mov	dptr,#_gcr_val
+      0001CB E0               [24]  505 	movx	a,@dptr
+      0001CC A3               [24]  506 	inc	dptr
+      0001CD E0               [24]  507 	movx	a,@dptr
+      0001CE 03               [12]  508 	rr	a
+      0001CF 03               [12]  509 	rr	a
+      0001D0 54 3F            [12]  510 	anl	a,#0x3F
+      0001D2 FE               [12]  511 	mov	r6,a
+      0001D3 7F 00            [12]  512 	mov	r7,#0x00
+      0001D5 90r00r01         [24]  513 	mov	dptr,#_gcr_val
+      0001D8 EE               [12]  514 	mov	a,r6
+      0001D9 F0               [24]  515 	movx	@dptr,a
+      0001DA EF               [12]  516 	mov	a,r7
+      0001DB A3               [24]  517 	inc	dptr
+      0001DC F0               [24]  518 	movx	@dptr,a
+                                    519 ;	/opt/contiki/core/lib/gcr.c:121: gcr_bits = gcr_bits - 10;
+      0001DD 90r00r00         [24]  520 	mov	dptr,#_gcr_bits
+      0001E0 E0               [24]  521 	movx	a,@dptr
+      0001E1 FF               [12]  522 	mov	r7,a
+      0001E2 24 F6            [12]  523 	add	a,#0xF6
+      0001E4 F0               [24]  524 	movx	@dptr,a
+                                    525 ;	/opt/contiki/core/lib/gcr.c:122: return 1;
+      0001E5 75 82 01         [24]  526 	mov	dpl,#0x01
+      0001E8 80 03            [24]  527 	sjmp	00103$
+      0001EA                        528 00102$:
+                                    529 ;	/opt/contiki/core/lib/gcr.c:124: return 0;
+      0001EA 75 82 00         [24]  530 	mov	dpl,#0x00
+      0001ED                        531 00103$:
+      0001ED 15 81            [12]  532 	dec	sp
+      0001EF 15 81            [12]  533 	dec	sp
+      0001F1 02r00r00         [24]  534 	ljmp	__sdcc_banked_ret
+                                    535 	.area CSEG    (CODE)
+                                    536 	.area CONST   (CODE)
+      000000                        537 _GCR_encode:
+      000000 0A                     538 	.db #0x0A	; 10
+      000001 0B                     539 	.db #0x0B	; 11
+      000002 12                     540 	.db #0x12	; 18
+      000003 13                     541 	.db #0x13	; 19
+      000004 0E                     542 	.db #0x0E	; 14
+      000005 0F                     543 	.db #0x0F	; 15
+      000006 16                     544 	.db #0x16	; 22
+      000007 17                     545 	.db #0x17	; 23
+      000008 09                     546 	.db #0x09	; 9
+      000009 19                     547 	.db #0x19	; 25
+      00000A 1A                     548 	.db #0x1A	; 26
+      00000B 1B                     549 	.db #0x1B	; 27
+      00000C 0D                     550 	.db #0x0D	; 13
+      00000D 1D                     551 	.db #0x1D	; 29
+      00000E 1E                     552 	.db #0x1E	; 30
+      00000F 15                     553 	.db #0x15	; 21
+      000010                        554 _GCR_decode:
+      000010 FF                     555 	.db #0xFF	; 255
+      000011 FF                     556 	.db #0xFF	; 255
+      000012 FF                     557 	.db #0xFF	; 255
+      000013 FF                     558 	.db #0xFF	; 255
+      000014 FF                     559 	.db #0xFF	; 255
+      000015 FF                     560 	.db #0xFF	; 255
+      000016 FF                     561 	.db #0xFF	; 255
+      000017 FF                     562 	.db #0xFF	; 255
+      000018 FF                     563 	.db #0xFF	; 255
+      000019 08                     564 	.db #0x08	; 8
+      00001A 00                     565 	.db #0x00	; 0
+      00001B 01                     566 	.db #0x01	; 1
+      00001C FF                     567 	.db #0xFF	; 255
+      00001D 0C                     568 	.db #0x0C	; 12
+      00001E 04                     569 	.db #0x04	; 4
+      00001F 05                     570 	.db #0x05	; 5
+      000020 FF                     571 	.db #0xFF	; 255
+      000021 FF                     572 	.db #0xFF	; 255
+      000022 02                     573 	.db #0x02	; 2
+      000023 03                     574 	.db #0x03	; 3
+      000024 FF                     575 	.db #0xFF	; 255
+      000025 0F                     576 	.db #0x0F	; 15
+      000026 06                     577 	.db #0x06	; 6
+      000027 07                     578 	.db #0x07	; 7
+      000028 FF                     579 	.db #0xFF	; 255
+      000029 09                     580 	.db #0x09	; 9
+      00002A 0A                     581 	.db #0x0A	; 10
+      00002B 0B                     582 	.db #0x0B	; 11
+      00002C FF                     583 	.db #0xFF	; 255
+      00002D 0D                     584 	.db #0x0D	; 13
+      00002E 0E                     585 	.db #0x0E	; 14
+      00002F FF                     586 	.db #0xFF	; 255
+                                    587 	.area XINIT   (CODE)
+      000000                        588 __xinit__gcr_bits:
+      000000 00                     589 	.db #0x00	; 0
+      000001                        590 __xinit__gcr_val:
+      000001 00 00                  591 	.byte #0x00,#0x00	; 0
+                                    592 	.area CABS    (ABS,CODE)

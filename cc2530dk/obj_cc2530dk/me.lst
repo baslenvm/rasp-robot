@@ -1,0 +1,196 @@
+                                      1 ;--------------------------------------------------------
+                                      2 ; File Created by SDCC : free open source ANSI-C Compiler
+                                      3 ; Version 3.5.5 #9380 (Linux)
+                                      4 ; This file was generated Tue Nov 17 16:52:51 2015
+                                      5 ;--------------------------------------------------------
+                                      6 	.module me
+                                      7 	.optsdcc -mmcs51 --model-large
+                                      8 	
+                                      9 ;--------------------------------------------------------
+                                     10 ; Public variables in this module
+                                     11 ;--------------------------------------------------------
+                                     12 	.globl _me_valid
+                                     13 	.globl _me_decode8
+                                     14 	.globl _me_decode16
+                                     15 	.globl _me_encode
+                                     16 ;--------------------------------------------------------
+                                     17 ; special function registers
+                                     18 ;--------------------------------------------------------
+                                     19 	.area RSEG    (ABS,DATA)
+      000000                         20 	.org 0x0000
+                                     21 ;--------------------------------------------------------
+                                     22 ; special function bits
+                                     23 ;--------------------------------------------------------
+                                     24 	.area RSEG    (ABS,DATA)
+      000000                         25 	.org 0x0000
+                                     26 ;--------------------------------------------------------
+                                     27 ; overlayable register banks
+                                     28 ;--------------------------------------------------------
+                                     29 	.area REG_BANK_0	(REL,OVR,DATA)
+      000000                         30 	.ds 8
+                                     31 ;--------------------------------------------------------
+                                     32 ; internal ram data
+                                     33 ;--------------------------------------------------------
+                                     34 	.area DSEG    (DATA)
+                                     35 ;--------------------------------------------------------
+                                     36 ; overlayable items in internal ram 
+                                     37 ;--------------------------------------------------------
+                                     38 ;--------------------------------------------------------
+                                     39 ; indirectly addressable internal ram data
+                                     40 ;--------------------------------------------------------
+                                     41 	.area ISEG    (DATA)
+                                     42 ;--------------------------------------------------------
+                                     43 ; absolute internal ram data
+                                     44 ;--------------------------------------------------------
+                                     45 	.area IABS    (ABS,DATA)
+                                     46 	.area IABS    (ABS,DATA)
+                                     47 ;--------------------------------------------------------
+                                     48 ; bit data
+                                     49 ;--------------------------------------------------------
+                                     50 	.area BSEG    (BIT)
+                                     51 ;--------------------------------------------------------
+                                     52 ; paged external ram data
+                                     53 ;--------------------------------------------------------
+                                     54 	.area PSEG    (PAG,XDATA)
+                                     55 ;--------------------------------------------------------
+                                     56 ; external ram data
+                                     57 ;--------------------------------------------------------
+                                     58 	.area XSEG    (XDATA)
+                                     59 ;--------------------------------------------------------
+                                     60 ; absolute external ram data
+                                     61 ;--------------------------------------------------------
+                                     62 	.area XABS    (ABS,XDATA)
+                                     63 ;--------------------------------------------------------
+                                     64 ; external initialized ram data
+                                     65 ;--------------------------------------------------------
+                                     66 	.area XISEG   (XDATA)
+                                     67 	.area HOME    (CODE)
+                                     68 	.area GSINIT0 (CODE)
+                                     69 	.area GSINIT1 (CODE)
+                                     70 	.area GSINIT2 (CODE)
+                                     71 	.area GSINIT3 (CODE)
+                                     72 	.area GSINIT4 (CODE)
+                                     73 	.area GSINIT5 (CODE)
+                                     74 	.area GSINIT  (CODE)
+                                     75 	.area GSFINAL (CODE)
+                                     76 	.area CSEG    (CODE)
+                                     77 ;--------------------------------------------------------
+                                     78 ; global & static initialisations
+                                     79 ;--------------------------------------------------------
+                                     80 	.area HOME    (CODE)
+                                     81 	.area GSINIT  (CODE)
+                                     82 	.area GSFINAL (CODE)
+                                     83 	.area GSINIT  (CODE)
+                                     84 ;--------------------------------------------------------
+                                     85 ; Home
+                                     86 ;--------------------------------------------------------
+                                     87 	.area HOME    (CODE)
+                                     88 	.area HOME    (CODE)
+                                     89 ;--------------------------------------------------------
+                                     90 ; code
+                                     91 ;--------------------------------------------------------
+                                     92 	.area CSEG    (CODE)
+                                     93 ;------------------------------------------------------------
+                                     94 ;Allocation info for local variables in function 'me_encode'
+                                     95 ;------------------------------------------------------------
+                                     96 ;c                         Allocated to registers r7 
+                                     97 ;------------------------------------------------------------
+                                     98 ;	/opt/contiki/core/lib/me.c:58: me_encode(unsigned char c)
+                                     99 ;	-----------------------------------------
+                                    100 ;	 function me_encode
+                                    101 ;	-----------------------------------------
+      000000                        102 _me_encode:
+                           000007   103 	ar7 = 0x07
+                           000006   104 	ar6 = 0x06
+                           000005   105 	ar5 = 0x05
+                           000004   106 	ar4 = 0x04
+                           000003   107 	ar3 = 0x03
+                           000002   108 	ar2 = 0x02
+                           000001   109 	ar1 = 0x01
+                           000000   110 	ar0 = 0x00
+                                    111 ;	/opt/contiki/core/lib/me.c:60: return me_encode_tab[c];
+      000000 E5 82            [12]  112 	mov	a,dpl
+      000002 75 F0 02         [24]  113 	mov	b,#0x02
+      000005 A4               [48]  114 	mul	ab
+      000006 24r00            [12]  115 	add	a,#_me_encode_tab
+      000008 F5 82            [12]  116 	mov	dpl,a
+      00000A 74s00            [12]  117 	mov	a,#(_me_encode_tab >> 8)
+      00000C 35 F0            [12]  118 	addc	a,b
+      00000E F5 83            [12]  119 	mov	dph,a
+      000010 E4               [12]  120 	clr	a
+      000011 93               [24]  121 	movc	a,@a+dptr
+      000012 FE               [12]  122 	mov	r6,a
+      000013 A3               [24]  123 	inc	dptr
+      000014 E4               [12]  124 	clr	a
+      000015 93               [24]  125 	movc	a,@a+dptr
+      000016 8E 82            [24]  126 	mov	dpl,r6
+      000018 F5 83            [12]  127 	mov	dph,a
+      00001A 22               [24]  128 	ret
+                                    129 ;------------------------------------------------------------
+                                    130 ;Allocation info for local variables in function 'me_decode16'
+                                    131 ;------------------------------------------------------------
+                                    132 ;m                         Allocated to registers r6 r7 
+                                    133 ;m1                        Allocated to registers r5 
+                                    134 ;m2                        Allocated to registers r6 
+                                    135 ;c                         Allocated to registers r7 
+                                    136 ;------------------------------------------------------------
+                                    137 ;	/opt/contiki/core/lib/me.c:75: me_decode16(unsigned short m)
+                                    138 ;	-----------------------------------------
+                                    139 ;	 function me_decode16
+                                    140 ;	-----------------------------------------
+      00001B                        141 _me_decode16:
+      00001B AE 82            [24]  142 	mov	r6,dpl
+                                    143 ;	/opt/contiki/core/lib/me.c:79: m1 = m >> 8;
+                                    144 ;	/opt/contiki/core/lib/me.c:80: m2 = m & 0xff;
+      00001D AD 83            [24]  145 	mov	r5,dph
+                                    146 ;	/opt/contiki/core/lib/me.c:82: c = (me_decode_tab[m1] << 4) |
+      00001F ED               [12]  147 	mov	a,r5
+      000020 90r00r00         [24]  148 	mov	dptr,#_me_decode_tab
+      000023 93               [24]  149 	movc	a,@a+dptr
+      000024 C4               [12]  150 	swap	a
+      000025 54 F0            [12]  151 	anl	a,#0xF0
+      000027 FF               [12]  152 	mov	r7,a
+                                    153 ;	/opt/contiki/core/lib/me.c:83: me_decode_tab[m2];
+      000028 EE               [12]  154 	mov	a,r6
+      000029 90r00r00         [24]  155 	mov	dptr,#_me_decode_tab
+      00002C 93               [24]  156 	movc	a,@a+dptr
+      00002D 42 07            [12]  157 	orl	ar7,a
+                                    158 ;	/opt/contiki/core/lib/me.c:84: return c;
+      00002F 8F 82            [24]  159 	mov	dpl,r7
+      000031 22               [24]  160 	ret
+                                    161 ;------------------------------------------------------------
+                                    162 ;Allocation info for local variables in function 'me_decode8'
+                                    163 ;------------------------------------------------------------
+                                    164 ;m                         Allocated to registers r7 
+                                    165 ;------------------------------------------------------------
+                                    166 ;	/opt/contiki/core/lib/me.c:99: me_decode8(unsigned char m)
+                                    167 ;	-----------------------------------------
+                                    168 ;	 function me_decode8
+                                    169 ;	-----------------------------------------
+      000032                        170 _me_decode8:
+                                    171 ;	/opt/contiki/core/lib/me.c:101: return  me_decode_tab[m];
+      000032 E5 82            [12]  172 	mov	a,dpl
+      000034 90r00r00         [24]  173 	mov	dptr,#_me_decode_tab
+      000037 93               [24]  174 	movc	a,@a+dptr
+      000038 F5 82            [12]  175 	mov	dpl,a
+      00003A 22               [24]  176 	ret
+                                    177 ;------------------------------------------------------------
+                                    178 ;Allocation info for local variables in function 'me_valid'
+                                    179 ;------------------------------------------------------------
+                                    180 ;m                         Allocated to registers r7 
+                                    181 ;------------------------------------------------------------
+                                    182 ;	/opt/contiki/core/lib/me.c:109: me_valid(unsigned char m)
+                                    183 ;	-----------------------------------------
+                                    184 ;	 function me_valid
+                                    185 ;	-----------------------------------------
+      00003B                        186 _me_valid:
+                                    187 ;	/opt/contiki/core/lib/me.c:111: return me_valid_tab[m];
+      00003B E5 82            [12]  188 	mov	a,dpl
+      00003D 90r00r00         [24]  189 	mov	dptr,#_me_valid_tab
+      000040 93               [24]  190 	movc	a,@a+dptr
+      000041 F5 82            [12]  191 	mov	dpl,a
+      000043 22               [24]  192 	ret
+                                    193 	.area CSEG    (CODE)
+                                    194 	.area CONST   (CODE)
+                                    195 	.area XINIT   (CODE)
+                                    196 	.area CABS    (ABS,CODE)

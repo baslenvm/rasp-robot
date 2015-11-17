@@ -1,0 +1,214 @@
+                                      1 ;--------------------------------------------------------
+                                      2 ; File Created by SDCC : free open source ANSI-C Compiler
+                                      3 ; Version 3.5.5 #9380 (Linux)
+                                      4 ; This file was generated Wed Nov 18 02:57:36 2015
+                                      5 ;--------------------------------------------------------
+                                      6 	.module netstack
+                                      7 	.optsdcc -mmcs51 --model-huge
+                                      8 	
+                                      9 ;--------------------------------------------------------
+                                     10 ; Public variables in this module
+                                     11 ;--------------------------------------------------------
+                                     12 	.globl _netstack_init
+                                     13 ;--------------------------------------------------------
+                                     14 ; special function registers
+                                     15 ;--------------------------------------------------------
+                                     16 	.area RSEG    (ABS,DATA)
+      000000                         17 	.org 0x0000
+                                     18 ;--------------------------------------------------------
+                                     19 ; special function bits
+                                     20 ;--------------------------------------------------------
+                                     21 	.area RSEG    (ABS,DATA)
+      000000                         22 	.org 0x0000
+                                     23 ;--------------------------------------------------------
+                                     24 ; overlayable register banks
+                                     25 ;--------------------------------------------------------
+                                     26 	.area REG_BANK_0	(REL,OVR,DATA)
+      000000                         27 	.ds 8
+                                     28 ;--------------------------------------------------------
+                                     29 ; internal ram data
+                                     30 ;--------------------------------------------------------
+                                     31 	.area DSEG    (DATA)
+                                     32 ;--------------------------------------------------------
+                                     33 ; overlayable items in internal ram 
+                                     34 ;--------------------------------------------------------
+                                     35 ;--------------------------------------------------------
+                                     36 ; indirectly addressable internal ram data
+                                     37 ;--------------------------------------------------------
+                                     38 	.area ISEG    (DATA)
+                                     39 ;--------------------------------------------------------
+                                     40 ; absolute internal ram data
+                                     41 ;--------------------------------------------------------
+                                     42 	.area IABS    (ABS,DATA)
+                                     43 	.area IABS    (ABS,DATA)
+                                     44 ;--------------------------------------------------------
+                                     45 ; bit data
+                                     46 ;--------------------------------------------------------
+                                     47 	.area BSEG    (BIT)
+                                     48 ;--------------------------------------------------------
+                                     49 ; paged external ram data
+                                     50 ;--------------------------------------------------------
+                                     51 	.area PSEG    (PAG,XDATA)
+                                     52 ;--------------------------------------------------------
+                                     53 ; external ram data
+                                     54 ;--------------------------------------------------------
+                                     55 	.area XSEG    (XDATA)
+                                     56 ;--------------------------------------------------------
+                                     57 ; absolute external ram data
+                                     58 ;--------------------------------------------------------
+                                     59 	.area XABS    (ABS,XDATA)
+                                     60 ;--------------------------------------------------------
+                                     61 ; external initialized ram data
+                                     62 ;--------------------------------------------------------
+                                     63 	.area XISEG   (XDATA)
+                                     64 	.area HOME    (CODE)
+                                     65 	.area GSINIT0 (CODE)
+                                     66 	.area GSINIT1 (CODE)
+                                     67 	.area GSINIT2 (CODE)
+                                     68 	.area GSINIT3 (CODE)
+                                     69 	.area GSINIT4 (CODE)
+                                     70 	.area GSINIT5 (CODE)
+                                     71 	.area GSINIT  (CODE)
+                                     72 	.area GSFINAL (CODE)
+                                     73 	.area CSEG    (CODE)
+                                     74 ;--------------------------------------------------------
+                                     75 ; global & static initialisations
+                                     76 ;--------------------------------------------------------
+                                     77 	.area HOME    (CODE)
+                                     78 	.area GSINIT  (CODE)
+                                     79 	.area GSFINAL (CODE)
+                                     80 	.area GSINIT  (CODE)
+                                     81 ;--------------------------------------------------------
+                                     82 ; Home
+                                     83 ;--------------------------------------------------------
+                                     84 	.area HOME    (CODE)
+                                     85 	.area HOME    (CODE)
+                                     86 ;--------------------------------------------------------
+                                     87 ; code
+                                     88 ;--------------------------------------------------------
+                                     89 	.area BANK1   (CODE)
+                                     90 ;------------------------------------------------------------
+                                     91 ;Allocation info for local variables in function 'netstack_init'
+                                     92 ;------------------------------------------------------------
+                                     93 ;	/opt/contiki/core/net/netstack.c:43: netstack_init(void)
+                                     94 ;	-----------------------------------------
+                                     95 ;	 function netstack_init
+                                     96 ;	-----------------------------------------
+      000000                         97 _netstack_init:
+                           000007    98 	ar7 = 0x07
+                           000006    99 	ar6 = 0x06
+                           000005   100 	ar5 = 0x05
+                           000004   101 	ar4 = 0x04
+                           000003   102 	ar3 = 0x03
+                           000002   103 	ar2 = 0x02
+                           000001   104 	ar1 = 0x01
+                           000000   105 	ar0 = 0x00
+                                    106 ;	/opt/contiki/core/net/netstack.c:45: NETSTACK_RADIO.init();
+      000000 90r00r00         [24]  107 	mov	dptr,#_cc2530_rf_driver
+      000003 E4               [12]  108 	clr	a
+      000004 93               [24]  109 	movc	a,@a+dptr
+      000005 FD               [12]  110 	mov	r5,a
+      000006 A3               [24]  111 	inc	dptr
+      000007 E4               [12]  112 	clr	a
+      000008 93               [24]  113 	movc	a,@a+dptr
+      000009 FE               [12]  114 	mov	r6,a
+      00000A A3               [24]  115 	inc	dptr
+      00000B E4               [12]  116 	clr	a
+      00000C 93               [24]  117 	movc	a,@a+dptr
+      00000D FF               [12]  118 	mov	r7,a
+      00000E C0 07            [24]  119 	push	ar7
+      000010 C0 06            [24]  120 	push	ar6
+      000012 C0 05            [24]  121 	push	ar5
+      000014 C0 05            [24]  122 	push	ar5
+      000016 C0 06            [24]  123 	push	ar6
+      000018 C0 07            [24]  124 	push	ar7
+      00001A D0 02            [24]  125 	pop	ar2
+      00001C D0 01            [24]  126 	pop	ar1
+      00001E D0 00            [24]  127 	pop	ar0
+      000020 12r00r00         [24]  128 	lcall	__sdcc_banked_call
+      000023 D0 05            [24]  129 	pop	ar5
+      000025 D0 06            [24]  130 	pop	ar6
+      000027 D0 07            [24]  131 	pop	ar7
+                                    132 ;	/opt/contiki/core/net/netstack.c:46: NETSTACK_RDC.init();
+      000029 90r00r03         [24]  133 	mov	dptr,#(_nullrdc_driver + 0x0003)
+      00002C E4               [12]  134 	clr	a
+      00002D 93               [24]  135 	movc	a,@a+dptr
+      00002E FD               [12]  136 	mov	r5,a
+      00002F A3               [24]  137 	inc	dptr
+      000030 E4               [12]  138 	clr	a
+      000031 93               [24]  139 	movc	a,@a+dptr
+      000032 FE               [12]  140 	mov	r6,a
+      000033 A3               [24]  141 	inc	dptr
+      000034 E4               [12]  142 	clr	a
+      000035 93               [24]  143 	movc	a,@a+dptr
+      000036 FF               [12]  144 	mov	r7,a
+      000037 C0 07            [24]  145 	push	ar7
+      000039 C0 06            [24]  146 	push	ar6
+      00003B C0 05            [24]  147 	push	ar5
+      00003D C0 05            [24]  148 	push	ar5
+      00003F C0 06            [24]  149 	push	ar6
+      000041 C0 07            [24]  150 	push	ar7
+      000043 D0 02            [24]  151 	pop	ar2
+      000045 D0 01            [24]  152 	pop	ar1
+      000047 D0 00            [24]  153 	pop	ar0
+      000049 12r00r00         [24]  154 	lcall	__sdcc_banked_call
+      00004C D0 05            [24]  155 	pop	ar5
+      00004E D0 06            [24]  156 	pop	ar6
+      000050 D0 07            [24]  157 	pop	ar7
+                                    158 ;	/opt/contiki/core/net/netstack.c:47: NETSTACK_MAC.init();
+      000052 90r00r03         [24]  159 	mov	dptr,#(_csma_driver + 0x0003)
+      000055 E4               [12]  160 	clr	a
+      000056 93               [24]  161 	movc	a,@a+dptr
+      000057 FD               [12]  162 	mov	r5,a
+      000058 A3               [24]  163 	inc	dptr
+      000059 E4               [12]  164 	clr	a
+      00005A 93               [24]  165 	movc	a,@a+dptr
+      00005B FE               [12]  166 	mov	r6,a
+      00005C A3               [24]  167 	inc	dptr
+      00005D E4               [12]  168 	clr	a
+      00005E 93               [24]  169 	movc	a,@a+dptr
+      00005F FF               [12]  170 	mov	r7,a
+      000060 C0 07            [24]  171 	push	ar7
+      000062 C0 06            [24]  172 	push	ar6
+      000064 C0 05            [24]  173 	push	ar5
+      000066 C0 05            [24]  174 	push	ar5
+      000068 C0 06            [24]  175 	push	ar6
+      00006A C0 07            [24]  176 	push	ar7
+      00006C D0 02            [24]  177 	pop	ar2
+      00006E D0 01            [24]  178 	pop	ar1
+      000070 D0 00            [24]  179 	pop	ar0
+      000072 12r00r00         [24]  180 	lcall	__sdcc_banked_call
+      000075 D0 05            [24]  181 	pop	ar5
+      000077 D0 06            [24]  182 	pop	ar6
+      000079 D0 07            [24]  183 	pop	ar7
+                                    184 ;	/opt/contiki/core/net/netstack.c:48: NETSTACK_NETWORK.init();
+      00007B 90r00r03         [24]  185 	mov	dptr,#(_sicslowpan_driver + 0x0003)
+      00007E E4               [12]  186 	clr	a
+      00007F 93               [24]  187 	movc	a,@a+dptr
+      000080 FD               [12]  188 	mov	r5,a
+      000081 A3               [24]  189 	inc	dptr
+      000082 E4               [12]  190 	clr	a
+      000083 93               [24]  191 	movc	a,@a+dptr
+      000084 FE               [12]  192 	mov	r6,a
+      000085 A3               [24]  193 	inc	dptr
+      000086 E4               [12]  194 	clr	a
+      000087 93               [24]  195 	movc	a,@a+dptr
+      000088 FF               [12]  196 	mov	r7,a
+      000089 C0 07            [24]  197 	push	ar7
+      00008B C0 06            [24]  198 	push	ar6
+      00008D C0 05            [24]  199 	push	ar5
+      00008F C0 05            [24]  200 	push	ar5
+      000091 C0 06            [24]  201 	push	ar6
+      000093 C0 07            [24]  202 	push	ar7
+      000095 D0 02            [24]  203 	pop	ar2
+      000097 D0 01            [24]  204 	pop	ar1
+      000099 D0 00            [24]  205 	pop	ar0
+      00009B 12r00r00         [24]  206 	lcall	__sdcc_banked_call
+      00009E D0 05            [24]  207 	pop	ar5
+      0000A0 D0 06            [24]  208 	pop	ar6
+      0000A2 D0 07            [24]  209 	pop	ar7
+      0000A4 02r00r00         [24]  210 	ljmp	__sdcc_banked_ret
+                                    211 	.area CSEG    (CODE)
+                                    212 	.area CONST   (CODE)
+                                    213 	.area XINIT   (CODE)
+                                    214 	.area CABS    (ABS,CODE)

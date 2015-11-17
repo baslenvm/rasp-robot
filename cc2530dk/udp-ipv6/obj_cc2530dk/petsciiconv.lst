@@ -1,0 +1,403 @@
+                                      1 ;--------------------------------------------------------
+                                      2 ; File Created by SDCC : free open source ANSI-C Compiler
+                                      3 ; Version 3.5.5 #9380 (Linux)
+                                      4 ; This file was generated Wed Nov 18 01:47:31 2015
+                                      5 ;--------------------------------------------------------
+                                      6 	.module petsciiconv
+                                      7 	.optsdcc -mmcs51 --model-huge
+                                      8 	
+                                      9 ;--------------------------------------------------------
+                                     10 ; Public variables in this module
+                                     11 ;--------------------------------------------------------
+                                     12 	.globl _petsciiconv_topetscii
+                                     13 	.globl _petsciiconv_toascii
+                                     14 ;--------------------------------------------------------
+                                     15 ; special function registers
+                                     16 ;--------------------------------------------------------
+                                     17 	.area RSEG    (ABS,DATA)
+      000000                         18 	.org 0x0000
+                                     19 ;--------------------------------------------------------
+                                     20 ; special function bits
+                                     21 ;--------------------------------------------------------
+                                     22 	.area RSEG    (ABS,DATA)
+      000000                         23 	.org 0x0000
+                                     24 ;--------------------------------------------------------
+                                     25 ; overlayable register banks
+                                     26 ;--------------------------------------------------------
+                                     27 	.area REG_BANK_0	(REL,OVR,DATA)
+      000000                         28 	.ds 8
+                                     29 ;--------------------------------------------------------
+                                     30 ; internal ram data
+                                     31 ;--------------------------------------------------------
+                                     32 	.area DSEG    (DATA)
+                                     33 ;--------------------------------------------------------
+                                     34 ; overlayable items in internal ram 
+                                     35 ;--------------------------------------------------------
+                                     36 ;--------------------------------------------------------
+                                     37 ; indirectly addressable internal ram data
+                                     38 ;--------------------------------------------------------
+                                     39 	.area ISEG    (DATA)
+                                     40 ;--------------------------------------------------------
+                                     41 ; absolute internal ram data
+                                     42 ;--------------------------------------------------------
+                                     43 	.area IABS    (ABS,DATA)
+                                     44 	.area IABS    (ABS,DATA)
+                                     45 ;--------------------------------------------------------
+                                     46 ; bit data
+                                     47 ;--------------------------------------------------------
+                                     48 	.area BSEG    (BIT)
+                                     49 ;--------------------------------------------------------
+                                     50 ; paged external ram data
+                                     51 ;--------------------------------------------------------
+                                     52 	.area PSEG    (PAG,XDATA)
+                                     53 ;--------------------------------------------------------
+                                     54 ; external ram data
+                                     55 ;--------------------------------------------------------
+                                     56 	.area XSEG    (XDATA)
+                                     57 ;--------------------------------------------------------
+                                     58 ; absolute external ram data
+                                     59 ;--------------------------------------------------------
+                                     60 	.area XABS    (ABS,XDATA)
+                                     61 ;--------------------------------------------------------
+                                     62 ; external initialized ram data
+                                     63 ;--------------------------------------------------------
+                                     64 	.area XISEG   (XDATA)
+      000000                         65 _ascii2petscii:
+      000000                         66 	.ds 128
+                                     67 	.area HOME    (CODE)
+                                     68 	.area GSINIT0 (CODE)
+                                     69 	.area GSINIT1 (CODE)
+                                     70 	.area GSINIT2 (CODE)
+                                     71 	.area GSINIT3 (CODE)
+                                     72 	.area GSINIT4 (CODE)
+                                     73 	.area GSINIT5 (CODE)
+                                     74 	.area GSINIT  (CODE)
+                                     75 	.area GSFINAL (CODE)
+                                     76 	.area CSEG    (CODE)
+                                     77 ;--------------------------------------------------------
+                                     78 ; global & static initialisations
+                                     79 ;--------------------------------------------------------
+                                     80 	.area HOME    (CODE)
+                                     81 	.area GSINIT  (CODE)
+                                     82 	.area GSFINAL (CODE)
+                                     83 	.area GSINIT  (CODE)
+                                     84 ;--------------------------------------------------------
+                                     85 ; Home
+                                     86 ;--------------------------------------------------------
+                                     87 	.area HOME    (CODE)
+                                     88 	.area HOME    (CODE)
+                                     89 ;--------------------------------------------------------
+                                     90 ; code
+                                     91 ;--------------------------------------------------------
+                                     92 	.area BANK1   (CODE)
+                                     93 ;------------------------------------------------------------
+                                     94 ;Allocation info for local variables in function 'petsciiconv_toascii'
+                                     95 ;------------------------------------------------------------
+                                     96 ;len                       Allocated to stack - sp -5
+                                     97 ;buf                       Allocated to registers 
+                                     98 ;i                         Allocated to registers 
+                                     99 ;ptr                       Allocated to registers r5 r6 r7 
+                                    100 ;c                         Allocated to registers r2 
+                                    101 ;sloc0                     Allocated to stack - sp +0
+                                    102 ;------------------------------------------------------------
+                                    103 ;	/opt/contiki/core/lib/petsciiconv.c:77: petsciiconv_toascii(char *buf, unsigned int len)
+                                    104 ;	-----------------------------------------
+                                    105 ;	 function petsciiconv_toascii
+                                    106 ;	-----------------------------------------
+      000000                        107 _petsciiconv_toascii:
+                           000007   108 	ar7 = 0x07
+                           000006   109 	ar6 = 0x06
+                           000005   110 	ar5 = 0x05
+                           000004   111 	ar4 = 0x04
+                           000003   112 	ar3 = 0x03
+                           000002   113 	ar2 = 0x02
+                           000001   114 	ar1 = 0x01
+                           000000   115 	ar0 = 0x00
+      000000 05 81            [12]  116 	inc	sp
+      000002 AD 82            [24]  117 	mov	r5,dpl
+      000004 AE 83            [24]  118 	mov	r6,dph
+      000006 AF F0            [24]  119 	mov	r7,b
+                                    120 ;	/opt/contiki/core/lib/petsciiconv.c:84: for(i = len; i > 0; --i) {
+      000008 E5 81            [12]  121 	mov	a,sp
+      00000A 24 FB            [12]  122 	add	a,#0xfb
+      00000C F8               [12]  123 	mov	r0,a
+      00000D 86 03            [24]  124 	mov	ar3,@r0
+      00000F 08               [12]  125 	inc	r0
+      000010 86 04            [24]  126 	mov	ar4,@r0
+      000012                        127 00114$:
+      000012 EB               [12]  128 	mov	a,r3
+      000013 4C               [12]  129 	orl	a,r4
+      000014 70 03            [24]  130 	jnz	00145$
+      000016 02r00r82         [24]  131 	ljmp	00116$
+      000019                        132 00145$:
+                                    133 ;	/opt/contiki/core/lib/petsciiconv.c:85: c = *ptr;
+      000019 8D 82            [24]  134 	mov	dpl,r5
+      00001B 8E 83            [24]  135 	mov	dph,r6
+      00001D 8F F0            [24]  136 	mov	b,r7
+      00001F 12r00r00         [24]  137 	lcall	__gptrget
+      000022 FA               [12]  138 	mov	r2,a
+                                    139 ;	/opt/contiki/core/lib/petsciiconv.c:86: if(c == 0x0a) {
+      000023 BA 0A 04         [24]  140 	cjne	r2,#0x0A,00104$
+                                    141 ;	/opt/contiki/core/lib/petsciiconv.c:87: c = 0x0d;
+      000026 7A 0D            [12]  142 	mov	r2,#0x0D
+      000028 80 05            [24]  143 	sjmp	00105$
+      00002A                        144 00104$:
+                                    145 ;	/opt/contiki/core/lib/petsciiconv.c:88: } else if(c == 0x0d) {
+      00002A BA 0D 02         [24]  146 	cjne	r2,#0x0D,00105$
+                                    147 ;	/opt/contiki/core/lib/petsciiconv.c:89: c = 0x0a;
+      00002D 7A 0A            [12]  148 	mov	r2,#0x0A
+      00002F                        149 00105$:
+                                    150 ;	/opt/contiki/core/lib/petsciiconv.c:91: if(c != 0x40) {
+      00002F BA 40 02         [24]  151 	cjne	r2,#0x40,00150$
+      000032 80 35            [24]  152 	sjmp	00111$
+      000034                        153 00150$:
+                                    154 ;	/opt/contiki/core/lib/petsciiconv.c:92: switch (c & 0xe0) {
+      000034 C0 03            [24]  155 	push	ar3
+      000036 C0 04            [24]  156 	push	ar4
+      000038 8A 04            [24]  157 	mov	ar4,r2
+      00003A A8 81            [24]  158 	mov	r0,sp
+      00003C 18               [12]  159 	dec	r0
+      00003D 18               [12]  160 	dec	r0
+      00003E 74 E0            [12]  161 	mov	a,#0xE0
+      000040 5C               [12]  162 	anl	a,r4
+      000041 F6               [12]  163 	mov	@r0,a
+      000042 A8 81            [24]  164 	mov	r0,sp
+      000044 18               [12]  165 	dec	r0
+      000045 18               [12]  166 	dec	r0
+      000046 B6 40 06         [24]  167 	cjne	@r0,#0x40,00151$
+      000049 D0 04            [24]  168 	pop	ar4
+      00004B D0 03            [24]  169 	pop	ar3
+      00004D 80 12            [24]  170 	sjmp	00107$
+      00004F                        171 00151$:
+      00004F D0 04            [24]  172 	pop	ar4
+      000051 D0 03            [24]  173 	pop	ar3
+      000053 A8 81            [24]  174 	mov	r0,sp
+      000055 B6 60 02         [24]  175 	cjne	@r0,#0x60,00152$
+      000058 80 07            [24]  176 	sjmp	00107$
+      00005A                        177 00152$:
+      00005A A8 81            [24]  178 	mov	r0,sp
+                                    179 ;	/opt/contiki/core/lib/petsciiconv.c:94: case 0x60:
+      00005C B6 C0 0A         [24]  180 	cjne	@r0,#0xC0,00111$
+      00005F 80 05            [24]  181 	sjmp	00108$
+      000061                        182 00107$:
+                                    183 ;	/opt/contiki/core/lib/petsciiconv.c:95: c ^= 0x20;
+      000061 63 02 20         [24]  184 	xrl	ar2,#0x20
+                                    185 ;	/opt/contiki/core/lib/petsciiconv.c:96: break;
+                                    186 ;	/opt/contiki/core/lib/petsciiconv.c:97: case 0xc0:               
+      000064 80 03            [24]  187 	sjmp	00111$
+      000066                        188 00108$:
+                                    189 ;	/opt/contiki/core/lib/petsciiconv.c:98: c ^= 0x80;
+      000066 63 02 80         [24]  190 	xrl	ar2,#0x80
+                                    191 ;	/opt/contiki/core/lib/petsciiconv.c:100: }
+      000069                        192 00111$:
+                                    193 ;	/opt/contiki/core/lib/petsciiconv.c:102: *ptr = c & 0x7f;
+      000069 53 02 7F         [24]  194 	anl	ar2,#0x7F
+      00006C 8D 82            [24]  195 	mov	dpl,r5
+      00006E 8E 83            [24]  196 	mov	dph,r6
+      000070 8F F0            [24]  197 	mov	b,r7
+      000072 EA               [12]  198 	mov	a,r2
+      000073 12r00r00         [24]  199 	lcall	__gptrput
+      000076 A3               [24]  200 	inc	dptr
+      000077 AD 82            [24]  201 	mov	r5,dpl
+      000079 AE 83            [24]  202 	mov	r6,dph
+                                    203 ;	/opt/contiki/core/lib/petsciiconv.c:103: ++ptr;
+                                    204 ;	/opt/contiki/core/lib/petsciiconv.c:84: for(i = len; i > 0; --i) {
+      00007B 1B               [12]  205 	dec	r3
+      00007C BB FF 01         [24]  206 	cjne	r3,#0xFF,00154$
+      00007F 1C               [12]  207 	dec	r4
+      000080                        208 00154$:
+      000080 80 90            [24]  209 	sjmp	00114$
+      000082                        210 00116$:
+      000082 15 81            [12]  211 	dec	sp
+      000084 02r00r00         [24]  212 	ljmp	__sdcc_banked_ret
+                                    213 ;------------------------------------------------------------
+                                    214 ;Allocation info for local variables in function 'petsciiconv_topetscii'
+                                    215 ;------------------------------------------------------------
+                                    216 ;len                       Allocated to stack - sp -4
+                                    217 ;buf                       Allocated to registers 
+                                    218 ;i                         Allocated to registers 
+                                    219 ;ptr                       Allocated to registers r5 r6 r7 
+                                    220 ;------------------------------------------------------------
+                                    221 ;	/opt/contiki/core/lib/petsciiconv.c:108: petsciiconv_topetscii(char *buf, unsigned int len)
+                                    222 ;	-----------------------------------------
+                                    223 ;	 function petsciiconv_topetscii
+                                    224 ;	-----------------------------------------
+      000087                        225 _petsciiconv_topetscii:
+      000087 AD 82            [24]  226 	mov	r5,dpl
+      000089 AE 83            [24]  227 	mov	r6,dph
+      00008B AF F0            [24]  228 	mov	r7,b
+                                    229 ;	/opt/contiki/core/lib/petsciiconv.c:114: for(i = len; i > 0; --i) {
+      00008D E5 81            [12]  230 	mov	a,sp
+      00008F 24 FC            [12]  231 	add	a,#0xfc
+      000091 F8               [12]  232 	mov	r0,a
+      000092 86 03            [24]  233 	mov	ar3,@r0
+      000094 08               [12]  234 	inc	r0
+      000095 86 04            [24]  235 	mov	ar4,@r0
+      000097                        236 00103$:
+      000097 EB               [12]  237 	mov	a,r3
+      000098 4C               [12]  238 	orl	a,r4
+      000099 60 2D            [24]  239 	jz	00105$
+                                    240 ;	/opt/contiki/core/lib/petsciiconv.c:115: *ptr = ascii2petscii[*ptr & 0x7f];
+      00009B 8D 82            [24]  241 	mov	dpl,r5
+      00009D 8E 83            [24]  242 	mov	dph,r6
+      00009F 8F F0            [24]  243 	mov	b,r7
+      0000A1 12r00r00         [24]  244 	lcall	__gptrget
+      0000A4 FA               [12]  245 	mov	r2,a
+      0000A5 74 7F            [12]  246 	mov	a,#0x7F
+      0000A7 5A               [12]  247 	anl	a,r2
+      0000A8 24r00            [12]  248 	add	a,#_ascii2petscii
+      0000AA F5 82            [12]  249 	mov	dpl,a
+      0000AC E4               [12]  250 	clr	a
+      0000AD 34s00            [12]  251 	addc	a,#(_ascii2petscii >> 8)
+      0000AF F5 83            [12]  252 	mov	dph,a
+      0000B1 E0               [24]  253 	movx	a,@dptr
+      0000B2 FA               [12]  254 	mov	r2,a
+      0000B3 8D 82            [24]  255 	mov	dpl,r5
+      0000B5 8E 83            [24]  256 	mov	dph,r6
+      0000B7 8F F0            [24]  257 	mov	b,r7
+      0000B9 12r00r00         [24]  258 	lcall	__gptrput
+      0000BC A3               [24]  259 	inc	dptr
+      0000BD AD 82            [24]  260 	mov	r5,dpl
+      0000BF AE 83            [24]  261 	mov	r6,dph
+                                    262 ;	/opt/contiki/core/lib/petsciiconv.c:116: ++ptr;
+                                    263 ;	/opt/contiki/core/lib/petsciiconv.c:114: for(i = len; i > 0; --i) {
+      0000C1 1B               [12]  264 	dec	r3
+      0000C2 BB FF 01         [24]  265 	cjne	r3,#0xFF,00117$
+      0000C5 1C               [12]  266 	dec	r4
+      0000C6                        267 00117$:
+      0000C6 80 CF            [24]  268 	sjmp	00103$
+      0000C8                        269 00105$:
+      0000C8 02r00r00         [24]  270 	ljmp	__sdcc_banked_ret
+                                    271 	.area CSEG    (CODE)
+                                    272 	.area CONST   (CODE)
+                                    273 	.area XINIT   (CODE)
+      000000                        274 __xinit__ascii2petscii:
+      000000 00                     275 	.db #0x00	; 0
+      000001 01                     276 	.db #0x01	; 1
+      000002 02                     277 	.db #0x02	; 2
+      000003 03                     278 	.db #0x03	; 3
+      000004 04                     279 	.db #0x04	; 4
+      000005 05                     280 	.db #0x05	; 5
+      000006 06                     281 	.db #0x06	; 6
+      000007 07                     282 	.db #0x07	; 7
+      000008 14                     283 	.db #0x14	; 20
+      000009 09                     284 	.db #0x09	; 9
+      00000A 0D                     285 	.db #0x0D	; 13
+      00000B 11                     286 	.db #0x11	; 17
+      00000C 93                     287 	.db #0x93	; 147
+      00000D 0A                     288 	.db #0x0A	; 10
+      00000E 0E                     289 	.db #0x0E	; 14
+      00000F 0F                     290 	.db #0x0F	; 15
+      000010 10                     291 	.db #0x10	; 16
+      000011 0B                     292 	.db #0x0B	; 11
+      000012 12                     293 	.db #0x12	; 18
+      000013 13                     294 	.db #0x13	; 19
+      000014 08                     295 	.db #0x08	; 8
+      000015 15                     296 	.db #0x15	; 21
+      000016 16                     297 	.db #0x16	; 22
+      000017 17                     298 	.db #0x17	; 23
+      000018 18                     299 	.db #0x18	; 24
+      000019 19                     300 	.db #0x19	; 25
+      00001A 1A                     301 	.db #0x1A	; 26
+      00001B 1B                     302 	.db #0x1B	; 27
+      00001C 1C                     303 	.db #0x1C	; 28
+      00001D 1D                     304 	.db #0x1D	; 29
+      00001E 1E                     305 	.db #0x1E	; 30
+      00001F 1F                     306 	.db #0x1F	; 31
+      000020 20                     307 	.db #0x20	; 32
+      000021 21                     308 	.db #0x21	; 33
+      000022 22                     309 	.db #0x22	; 34
+      000023 23                     310 	.db #0x23	; 35
+      000024 24                     311 	.db #0x24	; 36
+      000025 25                     312 	.db #0x25	; 37
+      000026 26                     313 	.db #0x26	; 38
+      000027 27                     314 	.db #0x27	; 39
+      000028 28                     315 	.db #0x28	; 40
+      000029 29                     316 	.db #0x29	; 41
+      00002A 2A                     317 	.db #0x2A	; 42
+      00002B 2B                     318 	.db #0x2B	; 43
+      00002C 2C                     319 	.db #0x2C	; 44
+      00002D 2D                     320 	.db #0x2D	; 45
+      00002E 2E                     321 	.db #0x2E	; 46
+      00002F 2F                     322 	.db #0x2F	; 47
+      000030 30                     323 	.db #0x30	; 48	'0'
+      000031 31                     324 	.db #0x31	; 49	'1'
+      000032 32                     325 	.db #0x32	; 50	'2'
+      000033 33                     326 	.db #0x33	; 51	'3'
+      000034 34                     327 	.db #0x34	; 52	'4'
+      000035 35                     328 	.db #0x35	; 53	'5'
+      000036 36                     329 	.db #0x36	; 54	'6'
+      000037 37                     330 	.db #0x37	; 55	'7'
+      000038 38                     331 	.db #0x38	; 56	'8'
+      000039 39                     332 	.db #0x39	; 57	'9'
+      00003A 3A                     333 	.db #0x3A	; 58
+      00003B 3B                     334 	.db #0x3B	; 59
+      00003C 3C                     335 	.db #0x3C	; 60
+      00003D 3D                     336 	.db #0x3D	; 61
+      00003E 3E                     337 	.db #0x3E	; 62
+      00003F 3F                     338 	.db #0x3F	; 63
+      000040 40                     339 	.db #0x40	; 64
+      000041 C1                     340 	.db #0xC1	; 193
+      000042 C2                     341 	.db #0xC2	; 194
+      000043 C3                     342 	.db #0xC3	; 195
+      000044 C4                     343 	.db #0xC4	; 196
+      000045 C5                     344 	.db #0xC5	; 197
+      000046 C6                     345 	.db #0xC6	; 198
+      000047 C7                     346 	.db #0xC7	; 199
+      000048 C8                     347 	.db #0xC8	; 200
+      000049 C9                     348 	.db #0xC9	; 201
+      00004A CA                     349 	.db #0xCA	; 202
+      00004B CB                     350 	.db #0xCB	; 203
+      00004C CC                     351 	.db #0xCC	; 204
+      00004D CD                     352 	.db #0xCD	; 205
+      00004E CE                     353 	.db #0xCE	; 206
+      00004F CF                     354 	.db #0xCF	; 207
+      000050 D0                     355 	.db #0xD0	; 208
+      000051 D1                     356 	.db #0xD1	; 209
+      000052 D2                     357 	.db #0xD2	; 210
+      000053 D3                     358 	.db #0xD3	; 211
+      000054 D4                     359 	.db #0xD4	; 212
+      000055 D5                     360 	.db #0xD5	; 213
+      000056 D6                     361 	.db #0xD6	; 214
+      000057 D7                     362 	.db #0xD7	; 215
+      000058 D8                     363 	.db #0xD8	; 216
+      000059 D9                     364 	.db #0xD9	; 217
+      00005A DA                     365 	.db #0xDA	; 218
+      00005B 5B                     366 	.db #0x5B	; 91
+      00005C 5C                     367 	.db #0x5C	; 92
+      00005D 5D                     368 	.db #0x5D	; 93
+      00005E 5E                     369 	.db #0x5E	; 94
+      00005F 5F                     370 	.db #0x5F	; 95
+      000060 C0                     371 	.db #0xC0	; 192
+      000061 41                     372 	.db #0x41	; 65	'A'
+      000062 42                     373 	.db #0x42	; 66	'B'
+      000063 43                     374 	.db #0x43	; 67	'C'
+      000064 44                     375 	.db #0x44	; 68	'D'
+      000065 45                     376 	.db #0x45	; 69	'E'
+      000066 46                     377 	.db #0x46	; 70	'F'
+      000067 47                     378 	.db #0x47	; 71	'G'
+      000068 48                     379 	.db #0x48	; 72	'H'
+      000069 49                     380 	.db #0x49	; 73	'I'
+      00006A 4A                     381 	.db #0x4A	; 74	'J'
+      00006B 4B                     382 	.db #0x4B	; 75	'K'
+      00006C 4C                     383 	.db #0x4C	; 76	'L'
+      00006D 4D                     384 	.db #0x4D	; 77	'M'
+      00006E 4E                     385 	.db #0x4E	; 78	'N'
+      00006F 4F                     386 	.db #0x4F	; 79	'O'
+      000070 50                     387 	.db #0x50	; 80	'P'
+      000071 51                     388 	.db #0x51	; 81	'Q'
+      000072 52                     389 	.db #0x52	; 82	'R'
+      000073 53                     390 	.db #0x53	; 83	'S'
+      000074 54                     391 	.db #0x54	; 84	'T'
+      000075 55                     392 	.db #0x55	; 85	'U'
+      000076 56                     393 	.db #0x56	; 86	'V'
+      000077 57                     394 	.db #0x57	; 87	'W'
+      000078 58                     395 	.db #0x58	; 88	'X'
+      000079 59                     396 	.db #0x59	; 89	'Y'
+      00007A 5A                     397 	.db #0x5A	; 90	'Z'
+      00007B DB                     398 	.db #0xDB	; 219
+      00007C DD                     399 	.db #0xDD	; 221
+      00007D DD                     400 	.db #0xDD	; 221
+      00007E 5E                     401 	.db #0x5E	; 94
+      00007F DF                     402 	.db #0xDF	; 223
+                                    403 	.area CABS    (ABS,CODE)

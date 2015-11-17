@@ -1,0 +1,1641 @@
+                                      1 ;--------------------------------------------------------
+                                      2 ; File Created by SDCC : free open source ANSI-C Compiler
+                                      3 ; Version 3.5.5 #9380 (Linux)
+                                      4 ; This file was generated Wed Nov 18 02:57:30 2015
+                                      5 ;--------------------------------------------------------
+                                      6 	.module route
+                                      7 	.optsdcc -mmcs51 --model-huge
+                                      8 	
+                                      9 ;--------------------------------------------------------
+                                     10 ; Public variables in this module
+                                     11 ;--------------------------------------------------------
+                                     12 	.globl _linkaddr_cmp
+                                     13 	.globl _linkaddr_copy
+                                     14 	.globl _ctimer_set
+                                     15 	.globl _memb_free
+                                     16 	.globl _memb_alloc
+                                     17 	.globl _memb_init
+                                     18 	.globl _list_item_next
+                                     19 	.globl _list_remove
+                                     20 	.globl _list_push
+                                     21 	.globl _list_pop
+                                     22 	.globl _list_head
+                                     23 	.globl _list_init
+                                     24 	.globl _route_init
+                                     25 	.globl _route_add
+                                     26 	.globl _route_lookup
+                                     27 	.globl _route_refresh
+                                     28 	.globl _route_decay
+                                     29 	.globl _route_remove
+                                     30 	.globl _route_flush_all
+                                     31 	.globl _route_set_lifetime
+                                     32 	.globl _route_num
+                                     33 	.globl _route_get
+                                     34 ;--------------------------------------------------------
+                                     35 ; special function registers
+                                     36 ;--------------------------------------------------------
+                                     37 	.area RSEG    (ABS,DATA)
+      000000                         38 	.org 0x0000
+                                     39 ;--------------------------------------------------------
+                                     40 ; special function bits
+                                     41 ;--------------------------------------------------------
+                                     42 	.area RSEG    (ABS,DATA)
+      000000                         43 	.org 0x0000
+                                     44 ;--------------------------------------------------------
+                                     45 ; overlayable register banks
+                                     46 ;--------------------------------------------------------
+                                     47 	.area REG_BANK_0	(REL,OVR,DATA)
+      000000                         48 	.ds 8
+                                     49 ;--------------------------------------------------------
+                                     50 ; internal ram data
+                                     51 ;--------------------------------------------------------
+                                     52 	.area DSEG    (DATA)
+                                     53 ;--------------------------------------------------------
+                                     54 ; overlayable items in internal ram 
+                                     55 ;--------------------------------------------------------
+                                     56 ;--------------------------------------------------------
+                                     57 ; indirectly addressable internal ram data
+                                     58 ;--------------------------------------------------------
+                                     59 	.area ISEG    (DATA)
+                                     60 ;--------------------------------------------------------
+                                     61 ; absolute internal ram data
+                                     62 ;--------------------------------------------------------
+                                     63 	.area IABS    (ABS,DATA)
+                                     64 	.area IABS    (ABS,DATA)
+                                     65 ;--------------------------------------------------------
+                                     66 ; bit data
+                                     67 ;--------------------------------------------------------
+                                     68 	.area BSEG    (BIT)
+                                     69 ;--------------------------------------------------------
+                                     70 ; paged external ram data
+                                     71 ;--------------------------------------------------------
+                                     72 	.area PSEG    (PAG,XDATA)
+                                     73 ;--------------------------------------------------------
+                                     74 ; external ram data
+                                     75 ;--------------------------------------------------------
+                                     76 	.area XSEG    (XDATA)
+      000000                         77 _route_mem_memb_count:
+      000000                         78 	.ds 8
+      000008                         79 _route_mem_memb_mem:
+      000008                         80 	.ds 192
+      0000C8                         81 _t:
+      0000C8                         82 	.ds 22
+                                     83 ;--------------------------------------------------------
+                                     84 ; absolute external ram data
+                                     85 ;--------------------------------------------------------
+                                     86 	.area XABS    (ABS,XDATA)
+                                     87 ;--------------------------------------------------------
+                                     88 ; external initialized ram data
+                                     89 ;--------------------------------------------------------
+                                     90 	.area XISEG   (XDATA)
+      000000                         91 _route_table_list:
+      000000                         92 	.ds 3
+      000003                         93 _route_table:
+      000003                         94 	.ds 3
+      000006                         95 _route_mem:
+      000006                         96 	.ds 10
+      000010                         97 _max_time:
+      000010                         98 	.ds 2
+                                     99 	.area HOME    (CODE)
+                                    100 	.area GSINIT0 (CODE)
+                                    101 	.area GSINIT1 (CODE)
+                                    102 	.area GSINIT2 (CODE)
+                                    103 	.area GSINIT3 (CODE)
+                                    104 	.area GSINIT4 (CODE)
+                                    105 	.area GSINIT5 (CODE)
+                                    106 	.area GSINIT  (CODE)
+                                    107 	.area GSFINAL (CODE)
+                                    108 	.area CSEG    (CODE)
+                                    109 ;--------------------------------------------------------
+                                    110 ; global & static initialisations
+                                    111 ;--------------------------------------------------------
+                                    112 	.area HOME    (CODE)
+                                    113 	.area GSINIT  (CODE)
+                                    114 	.area GSFINAL (CODE)
+                                    115 	.area GSINIT  (CODE)
+                                    116 ;--------------------------------------------------------
+                                    117 ; Home
+                                    118 ;--------------------------------------------------------
+                                    119 	.area HOME    (CODE)
+                                    120 	.area HOME    (CODE)
+                                    121 ;--------------------------------------------------------
+                                    122 ; code
+                                    123 ;--------------------------------------------------------
+                                    124 	.area BANK1   (CODE)
+                                    125 ;------------------------------------------------------------
+                                    126 ;Allocation info for local variables in function 'periodic'
+                                    127 ;------------------------------------------------------------
+                                    128 ;ptr                       Allocated to registers 
+                                    129 ;e                         Allocated to stack - sp -2
+                                    130 ;------------------------------------------------------------
+                                    131 ;	/opt/contiki/core/net/rime/route.c:92: periodic(void *ptr)
+                                    132 ;	-----------------------------------------
+                                    133 ;	 function periodic
+                                    134 ;	-----------------------------------------
+      000000                        135 _periodic:
+                           000007   136 	ar7 = 0x07
+                           000006   137 	ar6 = 0x06
+                           000005   138 	ar5 = 0x05
+                           000004   139 	ar4 = 0x04
+                           000003   140 	ar3 = 0x03
+                           000002   141 	ar2 = 0x02
+                           000001   142 	ar1 = 0x01
+                           000000   143 	ar0 = 0x00
+      000000 05 81            [12]  144 	inc	sp
+      000002 05 81            [12]  145 	inc	sp
+      000004 05 81            [12]  146 	inc	sp
+                                    147 ;	/opt/contiki/core/net/rime/route.c:96: for(e = list_head(route_table); e != NULL; e = list_item_next(e)) {
+      000006 90r00r03         [24]  148 	mov	dptr,#_route_table
+      000009 E0               [24]  149 	movx	a,@dptr
+      00000A FD               [12]  150 	mov	r5,a
+      00000B A3               [24]  151 	inc	dptr
+      00000C E0               [24]  152 	movx	a,@dptr
+      00000D FE               [12]  153 	mov	r6,a
+      00000E A3               [24]  154 	inc	dptr
+      00000F E0               [24]  155 	movx	a,@dptr
+      000010 FF               [12]  156 	mov	r7,a
+      000011 8D 82            [24]  157 	mov	dpl,r5
+      000013 8E 83            [24]  158 	mov	dph,r6
+      000015 8F F0            [24]  159 	mov	b,r7
+      000017 78r00            [12]  160 	mov	r0,#_list_head
+      000019 79s00            [12]  161 	mov	r1,#(_list_head >> 8)
+      00001B 7As00            [12]  162 	mov	r2,#(_list_head >> 16)
+      00001D 12r00r00         [24]  163 	lcall	__sdcc_banked_call
+      000020 AD 82            [24]  164 	mov	r5,dpl
+      000022 AE 83            [24]  165 	mov	r6,dph
+      000024 AF F0            [24]  166 	mov	r7,b
+      000026 A8 81            [24]  167 	mov	r0,sp
+      000028 18               [12]  168 	dec	r0
+      000029 18               [12]  169 	dec	r0
+      00002A A6 05            [24]  170 	mov	@r0,ar5
+      00002C 08               [12]  171 	inc	r0
+      00002D A6 06            [24]  172 	mov	@r0,ar6
+      00002F 08               [12]  173 	inc	r0
+      000030 A6 07            [24]  174 	mov	@r0,ar7
+      000032                        175 00105$:
+      000032 A8 81            [24]  176 	mov	r0,sp
+      000034 18               [12]  177 	dec	r0
+      000035 18               [12]  178 	dec	r0
+      000036 E4               [12]  179 	clr	a
+      000037 C0 E0            [24]  180 	push	acc
+      000039 C0 E0            [24]  181 	push	acc
+      00003B C0 E0            [24]  182 	push	acc
+      00003D 86 82            [24]  183 	mov	dpl,@r0
+      00003F 08               [12]  184 	inc	r0
+      000040 86 83            [24]  185 	mov	dph,@r0
+      000042 08               [12]  186 	inc	r0
+      000043 86 F0            [24]  187 	mov	b,@r0
+      000045 12r00r00         [24]  188 	lcall	___gptr_cmp
+      000048 15 81            [12]  189 	dec	sp
+      00004A 15 81            [12]  190 	dec	sp
+      00004C 15 81            [12]  191 	dec	sp
+      00004E 70 03            [24]  192 	jnz	00118$
+      000050 02r01r19         [24]  193 	ljmp	00103$
+      000053                        194 00118$:
+                                    195 ;	/opt/contiki/core/net/rime/route.c:97: e->time++;
+      000053 A8 81            [24]  196 	mov	r0,sp
+      000055 18               [12]  197 	dec	r0
+      000056 18               [12]  198 	dec	r0
+      000057 74 15            [12]  199 	mov	a,#0x15
+      000059 26               [12]  200 	add	a,@r0
+      00005A FA               [12]  201 	mov	r2,a
+      00005B E4               [12]  202 	clr	a
+      00005C 08               [12]  203 	inc	r0
+      00005D 36               [12]  204 	addc	a,@r0
+      00005E FB               [12]  205 	mov	r3,a
+      00005F 08               [12]  206 	inc	r0
+      000060 86 04            [24]  207 	mov	ar4,@r0
+      000062 8A 82            [24]  208 	mov	dpl,r2
+      000064 8B 83            [24]  209 	mov	dph,r3
+      000066 8C F0            [24]  210 	mov	b,r4
+      000068 12r00r00         [24]  211 	lcall	__gptrget
+      00006B FF               [12]  212 	mov	r7,a
+      00006C 0F               [12]  213 	inc	r7
+      00006D 8A 82            [24]  214 	mov	dpl,r2
+      00006F 8B 83            [24]  215 	mov	dph,r3
+      000071 8C F0            [24]  216 	mov	b,r4
+      000073 EF               [12]  217 	mov	a,r7
+      000074 12r00r00         [24]  218 	lcall	__gptrput
+                                    219 ;	/opt/contiki/core/net/rime/route.c:98: if(e->time >= max_time) {
+      000077 90r00r10         [24]  220 	mov	dptr,#_max_time
+      00007A E0               [24]  221 	movx	a,@dptr
+      00007B FD               [12]  222 	mov	r5,a
+      00007C A3               [24]  223 	inc	dptr
+      00007D E0               [24]  224 	movx	a,@dptr
+      00007E FE               [12]  225 	mov	r6,a
+      00007F 7C 00            [12]  226 	mov	r4,#0x00
+      000081 C3               [12]  227 	clr	c
+      000082 EF               [12]  228 	mov	a,r7
+      000083 9D               [12]  229 	subb	a,r5
+      000084 EC               [12]  230 	mov	a,r4
+      000085 64 80            [12]  231 	xrl	a,#0x80
+      000087 8E F0            [24]  232 	mov	b,r6
+      000089 63 F0 80         [24]  233 	xrl	b,#0x80
+      00008C 95 F0            [12]  234 	subb	a,b
+      00008E 40 59            [24]  235 	jc	00106$
+                                    236 ;	/opt/contiki/core/net/rime/route.c:103: list_remove(route_table, e);
+      000090 A8 81            [24]  237 	mov	r0,sp
+      000092 18               [12]  238 	dec	r0
+      000093 18               [12]  239 	dec	r0
+      000094 86 02            [24]  240 	mov	ar2,@r0
+      000096 08               [12]  241 	inc	r0
+      000097 86 03            [24]  242 	mov	ar3,@r0
+      000099 08               [12]  243 	inc	r0
+      00009A 86 04            [24]  244 	mov	ar4,@r0
+      00009C 90r00r03         [24]  245 	mov	dptr,#_route_table
+      00009F E0               [24]  246 	movx	a,@dptr
+      0000A0 FD               [12]  247 	mov	r5,a
+      0000A1 A3               [24]  248 	inc	dptr
+      0000A2 E0               [24]  249 	movx	a,@dptr
+      0000A3 FE               [12]  250 	mov	r6,a
+      0000A4 A3               [24]  251 	inc	dptr
+      0000A5 E0               [24]  252 	movx	a,@dptr
+      0000A6 FF               [12]  253 	mov	r7,a
+      0000A7 C0 02            [24]  254 	push	ar2
+      0000A9 C0 03            [24]  255 	push	ar3
+      0000AB C0 04            [24]  256 	push	ar4
+      0000AD 8D 82            [24]  257 	mov	dpl,r5
+      0000AF 8E 83            [24]  258 	mov	dph,r6
+      0000B1 8F F0            [24]  259 	mov	b,r7
+      0000B3 78r00            [12]  260 	mov	r0,#_list_remove
+      0000B5 79s00            [12]  261 	mov	r1,#(_list_remove >> 8)
+      0000B7 7As00            [12]  262 	mov	r2,#(_list_remove >> 16)
+      0000B9 12r00r00         [24]  263 	lcall	__sdcc_banked_call
+      0000BC 15 81            [12]  264 	dec	sp
+      0000BE 15 81            [12]  265 	dec	sp
+      0000C0 15 81            [12]  266 	dec	sp
+                                    267 ;	/opt/contiki/core/net/rime/route.c:104: memb_free(&route_mem, e);
+      0000C2 A8 81            [24]  268 	mov	r0,sp
+      0000C4 18               [12]  269 	dec	r0
+      0000C5 18               [12]  270 	dec	r0
+      0000C6 86 05            [24]  271 	mov	ar5,@r0
+      0000C8 08               [12]  272 	inc	r0
+      0000C9 86 06            [24]  273 	mov	ar6,@r0
+      0000CB 08               [12]  274 	inc	r0
+      0000CC 86 07            [24]  275 	mov	ar7,@r0
+      0000CE C0 05            [24]  276 	push	ar5
+      0000D0 C0 06            [24]  277 	push	ar6
+      0000D2 C0 07            [24]  278 	push	ar7
+      0000D4 90r00r06         [24]  279 	mov	dptr,#_route_mem
+      0000D7 75 F0 00         [24]  280 	mov	b,#0x00
+      0000DA 78r00            [12]  281 	mov	r0,#_memb_free
+      0000DC 79s00            [12]  282 	mov	r1,#(_memb_free >> 8)
+      0000DE 7As00            [12]  283 	mov	r2,#(_memb_free >> 16)
+      0000E0 12r00r00         [24]  284 	lcall	__sdcc_banked_call
+      0000E3 15 81            [12]  285 	dec	sp
+      0000E5 15 81            [12]  286 	dec	sp
+      0000E7 15 81            [12]  287 	dec	sp
+      0000E9                        288 00106$:
+                                    289 ;	/opt/contiki/core/net/rime/route.c:96: for(e = list_head(route_table); e != NULL; e = list_item_next(e)) {
+      0000E9 A8 81            [24]  290 	mov	r0,sp
+      0000EB 18               [12]  291 	dec	r0
+      0000EC 18               [12]  292 	dec	r0
+      0000ED 86 05            [24]  293 	mov	ar5,@r0
+      0000EF 08               [12]  294 	inc	r0
+      0000F0 86 06            [24]  295 	mov	ar6,@r0
+      0000F2 08               [12]  296 	inc	r0
+      0000F3 86 07            [24]  297 	mov	ar7,@r0
+      0000F5 8D 82            [24]  298 	mov	dpl,r5
+      0000F7 8E 83            [24]  299 	mov	dph,r6
+      0000F9 8F F0            [24]  300 	mov	b,r7
+      0000FB 78r00            [12]  301 	mov	r0,#_list_item_next
+      0000FD 79s00            [12]  302 	mov	r1,#(_list_item_next >> 8)
+      0000FF 7As00            [12]  303 	mov	r2,#(_list_item_next >> 16)
+      000101 12r00r00         [24]  304 	lcall	__sdcc_banked_call
+      000104 AD 82            [24]  305 	mov	r5,dpl
+      000106 AE 83            [24]  306 	mov	r6,dph
+      000108 AF F0            [24]  307 	mov	r7,b
+      00010A A8 81            [24]  308 	mov	r0,sp
+      00010C 18               [12]  309 	dec	r0
+      00010D 18               [12]  310 	dec	r0
+      00010E A6 05            [24]  311 	mov	@r0,ar5
+      000110 08               [12]  312 	inc	r0
+      000111 A6 06            [24]  313 	mov	@r0,ar6
+      000113 08               [12]  314 	inc	r0
+      000114 A6 07            [24]  315 	mov	@r0,ar7
+      000116 02r00r32         [24]  316 	ljmp	00105$
+      000119                        317 00103$:
+                                    318 ;	/opt/contiki/core/net/rime/route.c:108: ctimer_set(&t, CLOCK_SECOND, periodic, NULL);
+      000119 E4               [12]  319 	clr	a
+      00011A C0 E0            [24]  320 	push	acc
+      00011C C0 E0            [24]  321 	push	acc
+      00011E C0 E0            [24]  322 	push	acc
+      000120 74r00            [12]  323 	mov	a,#_periodic
+      000122 C0 E0            [24]  324 	push	acc
+      000124 74s00            [12]  325 	mov	a,#(_periodic >> 8)
+      000126 C0 E0            [24]  326 	push	acc
+      000128 74s00            [12]  327 	mov	a,#(_periodic >> 16)
+      00012A C0 E0            [24]  328 	push	acc
+      00012C 74 80            [12]  329 	mov	a,#0x80
+      00012E C0 E0            [24]  330 	push	acc
+      000130 E4               [12]  331 	clr	a
+      000131 C0 E0            [24]  332 	push	acc
+      000133 90r00rC8         [24]  333 	mov	dptr,#_t
+      000136 75 F0 00         [24]  334 	mov	b,#0x00
+      000139 78r00            [12]  335 	mov	r0,#_ctimer_set
+      00013B 79s00            [12]  336 	mov	r1,#(_ctimer_set >> 8)
+      00013D 7As00            [12]  337 	mov	r2,#(_ctimer_set >> 16)
+      00013F 12r00r00         [24]  338 	lcall	__sdcc_banked_call
+      000142 E5 81            [12]  339 	mov	a,sp
+      000144 24 F8            [12]  340 	add	a,#0xf8
+      000146 F5 81            [12]  341 	mov	sp,a
+      000148 15 81            [12]  342 	dec	sp
+      00014A 15 81            [12]  343 	dec	sp
+      00014C 15 81            [12]  344 	dec	sp
+      00014E 02r00r00         [24]  345 	ljmp	__sdcc_banked_ret
+                                    346 ;------------------------------------------------------------
+                                    347 ;Allocation info for local variables in function 'route_init'
+                                    348 ;------------------------------------------------------------
+                                    349 ;	/opt/contiki/core/net/rime/route.c:112: route_init(void)
+                                    350 ;	-----------------------------------------
+                                    351 ;	 function route_init
+                                    352 ;	-----------------------------------------
+      000151                        353 _route_init:
+                                    354 ;	/opt/contiki/core/net/rime/route.c:114: list_init(route_table);
+      000151 90r00r03         [24]  355 	mov	dptr,#_route_table
+      000154 E0               [24]  356 	movx	a,@dptr
+      000155 FD               [12]  357 	mov	r5,a
+      000156 A3               [24]  358 	inc	dptr
+      000157 E0               [24]  359 	movx	a,@dptr
+      000158 FE               [12]  360 	mov	r6,a
+      000159 A3               [24]  361 	inc	dptr
+      00015A E0               [24]  362 	movx	a,@dptr
+      00015B FF               [12]  363 	mov	r7,a
+      00015C 8D 82            [24]  364 	mov	dpl,r5
+      00015E 8E 83            [24]  365 	mov	dph,r6
+      000160 8F F0            [24]  366 	mov	b,r7
+      000162 78r00            [12]  367 	mov	r0,#_list_init
+      000164 79s00            [12]  368 	mov	r1,#(_list_init >> 8)
+      000166 7As00            [12]  369 	mov	r2,#(_list_init >> 16)
+      000168 12r00r00         [24]  370 	lcall	__sdcc_banked_call
+                                    371 ;	/opt/contiki/core/net/rime/route.c:115: memb_init(&route_mem);
+      00016B 90r00r06         [24]  372 	mov	dptr,#_route_mem
+      00016E 75 F0 00         [24]  373 	mov	b,#0x00
+      000171 78r00            [12]  374 	mov	r0,#_memb_init
+      000173 79s00            [12]  375 	mov	r1,#(_memb_init >> 8)
+      000175 7As00            [12]  376 	mov	r2,#(_memb_init >> 16)
+      000177 12r00r00         [24]  377 	lcall	__sdcc_banked_call
+                                    378 ;	/opt/contiki/core/net/rime/route.c:117: ctimer_set(&t, CLOCK_SECOND, periodic, NULL);
+      00017A E4               [12]  379 	clr	a
+      00017B C0 E0            [24]  380 	push	acc
+      00017D C0 E0            [24]  381 	push	acc
+      00017F C0 E0            [24]  382 	push	acc
+      000181 74r00            [12]  383 	mov	a,#_periodic
+      000183 C0 E0            [24]  384 	push	acc
+      000185 74s00            [12]  385 	mov	a,#(_periodic >> 8)
+      000187 C0 E0            [24]  386 	push	acc
+      000189 74s00            [12]  387 	mov	a,#(_periodic >> 16)
+      00018B C0 E0            [24]  388 	push	acc
+      00018D 74 80            [12]  389 	mov	a,#0x80
+      00018F C0 E0            [24]  390 	push	acc
+      000191 E4               [12]  391 	clr	a
+      000192 C0 E0            [24]  392 	push	acc
+      000194 90r00rC8         [24]  393 	mov	dptr,#_t
+      000197 75 F0 00         [24]  394 	mov	b,#0x00
+      00019A 78r00            [12]  395 	mov	r0,#_ctimer_set
+      00019C 79s00            [12]  396 	mov	r1,#(_ctimer_set >> 8)
+      00019E 7As00            [12]  397 	mov	r2,#(_ctimer_set >> 16)
+      0001A0 12r00r00         [24]  398 	lcall	__sdcc_banked_call
+      0001A3 E5 81            [12]  399 	mov	a,sp
+      0001A5 24 F8            [12]  400 	add	a,#0xf8
+      0001A7 F5 81            [12]  401 	mov	sp,a
+      0001A9 02r00r00         [24]  402 	ljmp	__sdcc_banked_ret
+                                    403 ;------------------------------------------------------------
+                                    404 ;Allocation info for local variables in function 'route_add'
+                                    405 ;------------------------------------------------------------
+                                    406 ;nexthop                   Allocated to stack - sp -14
+                                    407 ;cost                      Allocated to stack - sp -15
+                                    408 ;seqno                     Allocated to stack - sp -16
+                                    409 ;dest                      Allocated to stack - sp -8
+                                    410 ;e                         Allocated to stack - sp -2
+                                    411 ;oldest                    Allocated to stack - sp -5
+                                    412 ;sloc0                     Allocated to stack - sp +1
+                                    413 ;------------------------------------------------------------
+                                    414 ;	/opt/contiki/core/net/rime/route.c:121: route_add(const linkaddr_t *dest, const linkaddr_t *nexthop,
+                                    415 ;	-----------------------------------------
+                                    416 ;	 function route_add
+                                    417 ;	-----------------------------------------
+      0001AC                        418 _route_add:
+      0001AC C0 82            [24]  419 	push	dpl
+      0001AE C0 83            [24]  420 	push	dph
+      0001B0 C0 F0            [24]  421 	push	b
+      0001B2 E5 81            [12]  422 	mov	a,sp
+      0001B4 24 06            [12]  423 	add	a,#0x06
+                                    424 ;	/opt/contiki/core/net/rime/route.c:124: struct route_entry *e, *oldest = NULL;
+      0001B6 F5 81            [12]  425 	mov	sp,a
+      0001B8 24 FB            [12]  426 	add	a,#0xfb
+      0001BA F8               [12]  427 	mov	r0,a
+      0001BB E4               [12]  428 	clr	a
+      0001BC F6               [12]  429 	mov	@r0,a
+      0001BD 08               [12]  430 	inc	r0
+      0001BE F6               [12]  431 	mov	@r0,a
+      0001BF 08               [12]  432 	inc	r0
+      0001C0 76 00            [12]  433 	mov	@r0,#0x00
+                                    434 ;	/opt/contiki/core/net/rime/route.c:127: e = route_lookup(dest);
+      0001C2 E5 81            [12]  435 	mov	a,sp
+      0001C4 24 F8            [12]  436 	add	a,#0xf8
+      0001C6 F8               [12]  437 	mov	r0,a
+      0001C7 86 82            [24]  438 	mov	dpl,@r0
+      0001C9 08               [12]  439 	inc	r0
+      0001CA 86 83            [24]  440 	mov	dph,@r0
+      0001CC 08               [12]  441 	inc	r0
+      0001CD 86 F0            [24]  442 	mov	b,@r0
+      0001CF 78rBC            [12]  443 	mov	r0,#_route_lookup
+      0001D1 79s04            [12]  444 	mov	r1,#(_route_lookup >> 8)
+      0001D3 7As00            [12]  445 	mov	r2,#(_route_lookup >> 16)
+      0001D5 12r00r00         [24]  446 	lcall	__sdcc_banked_call
+      0001D8 AF 82            [24]  447 	mov	r7,dpl
+      0001DA AE 83            [24]  448 	mov	r6,dph
+      0001DC AD F0            [24]  449 	mov	r5,b
+      0001DE A8 81            [24]  450 	mov	r0,sp
+      0001E0 18               [12]  451 	dec	r0
+      0001E1 18               [12]  452 	dec	r0
+      0001E2 A6 07            [24]  453 	mov	@r0,ar7
+      0001E4 08               [12]  454 	inc	r0
+      0001E5 A6 06            [24]  455 	mov	@r0,ar6
+      0001E7 08               [12]  456 	inc	r0
+      0001E8 A6 05            [24]  457 	mov	@r0,ar5
+                                    458 ;	/opt/contiki/core/net/rime/route.c:128: if(e != NULL && linkaddr_cmp(&e->nexthop, nexthop)) {
+      0001EA A8 81            [24]  459 	mov	r0,sp
+      0001EC 18               [12]  460 	dec	r0
+      0001ED 18               [12]  461 	dec	r0
+      0001EE E6               [12]  462 	mov	a,@r0
+      0001EF 08               [12]  463 	inc	r0
+      0001F0 46               [12]  464 	orl	a,@r0
+      0001F1 60 71            [24]  465 	jz	00108$
+      0001F3 A8 81            [24]  466 	mov	r0,sp
+      0001F5 18               [12]  467 	dec	r0
+      0001F6 18               [12]  468 	dec	r0
+      0001F7 74 0B            [12]  469 	mov	a,#0x0B
+      0001F9 26               [12]  470 	add	a,@r0
+      0001FA FA               [12]  471 	mov	r2,a
+      0001FB E4               [12]  472 	clr	a
+      0001FC 08               [12]  473 	inc	r0
+      0001FD 36               [12]  474 	addc	a,@r0
+      0001FE FB               [12]  475 	mov	r3,a
+      0001FF 08               [12]  476 	inc	r0
+      000200 86 04            [24]  477 	mov	ar4,@r0
+      000202 E5 81            [12]  478 	mov	a,sp
+      000204 24 F2            [12]  479 	add	a,#0xf2
+      000206 F8               [12]  480 	mov	r0,a
+      000207 E6               [12]  481 	mov	a,@r0
+      000208 C0 E0            [24]  482 	push	acc
+      00020A 08               [12]  483 	inc	r0
+      00020B E6               [12]  484 	mov	a,@r0
+      00020C C0 E0            [24]  485 	push	acc
+      00020E 08               [12]  486 	inc	r0
+      00020F E6               [12]  487 	mov	a,@r0
+      000210 C0 E0            [24]  488 	push	acc
+      000212 8A 82            [24]  489 	mov	dpl,r2
+      000214 8B 83            [24]  490 	mov	dph,r3
+      000216 8C F0            [24]  491 	mov	b,r4
+      000218 78r00            [12]  492 	mov	r0,#_linkaddr_cmp
+      00021A 79s00            [12]  493 	mov	r1,#(_linkaddr_cmp >> 8)
+      00021C 7As00            [12]  494 	mov	r2,#(_linkaddr_cmp >> 16)
+      00021E 12r00r00         [24]  495 	lcall	__sdcc_banked_call
+      000221 AB 82            [24]  496 	mov	r3,dpl
+      000223 AC 83            [24]  497 	mov	r4,dph
+      000225 15 81            [12]  498 	dec	sp
+      000227 15 81            [12]  499 	dec	sp
+      000229 15 81            [12]  500 	dec	sp
+      00022B EB               [12]  501 	mov	a,r3
+      00022C 4C               [12]  502 	orl	a,r4
+      00022D 60 35            [24]  503 	jz	00108$
+                                    504 ;	/opt/contiki/core/net/rime/route.c:129: list_remove(route_table, e);
+      00022F A8 81            [24]  505 	mov	r0,sp
+      000231 18               [12]  506 	dec	r0
+      000232 18               [12]  507 	dec	r0
+      000233 86 04            [24]  508 	mov	ar4,@r0
+      000235 08               [12]  509 	inc	r0
+      000236 86 03            [24]  510 	mov	ar3,@r0
+      000238 08               [12]  511 	inc	r0
+      000239 86 02            [24]  512 	mov	ar2,@r0
+      00023B 90r00r03         [24]  513 	mov	dptr,#_route_table
+      00023E E0               [24]  514 	movx	a,@dptr
+      00023F FD               [12]  515 	mov	r5,a
+      000240 A3               [24]  516 	inc	dptr
+      000241 E0               [24]  517 	movx	a,@dptr
+      000242 FE               [12]  518 	mov	r6,a
+      000243 A3               [24]  519 	inc	dptr
+      000244 E0               [24]  520 	movx	a,@dptr
+      000245 FF               [12]  521 	mov	r7,a
+      000246 C0 04            [24]  522 	push	ar4
+      000248 C0 03            [24]  523 	push	ar3
+      00024A C0 02            [24]  524 	push	ar2
+      00024C 8D 82            [24]  525 	mov	dpl,r5
+      00024E 8E 83            [24]  526 	mov	dph,r6
+      000250 8F F0            [24]  527 	mov	b,r7
+      000252 78r00            [12]  528 	mov	r0,#_list_remove
+      000254 79s00            [12]  529 	mov	r1,#(_list_remove >> 8)
+      000256 7As00            [12]  530 	mov	r2,#(_list_remove >> 16)
+      000258 12r00r00         [24]  531 	lcall	__sdcc_banked_call
+      00025B 15 81            [12]  532 	dec	sp
+      00025D 15 81            [12]  533 	dec	sp
+      00025F 15 81            [12]  534 	dec	sp
+      000261 02r03rA8         [24]  535 	ljmp	00109$
+      000264                        536 00108$:
+                                    537 ;	/opt/contiki/core/net/rime/route.c:132: e = memb_alloc(&route_mem);
+      000264 90r00r06         [24]  538 	mov	dptr,#_route_mem
+      000267 75 F0 00         [24]  539 	mov	b,#0x00
+      00026A 78r00            [12]  540 	mov	r0,#_memb_alloc
+      00026C 79s00            [12]  541 	mov	r1,#(_memb_alloc >> 8)
+      00026E 7As00            [12]  542 	mov	r2,#(_memb_alloc >> 16)
+      000270 12r00r00         [24]  543 	lcall	__sdcc_banked_call
+      000273 AD 82            [24]  544 	mov	r5,dpl
+      000275 AE 83            [24]  545 	mov	r6,dph
+      000277 AF F0            [24]  546 	mov	r7,b
+      000279 A8 81            [24]  547 	mov	r0,sp
+      00027B 18               [12]  548 	dec	r0
+      00027C 18               [12]  549 	dec	r0
+      00027D A6 05            [24]  550 	mov	@r0,ar5
+      00027F 08               [12]  551 	inc	r0
+      000280 A6 06            [24]  552 	mov	@r0,ar6
+      000282 08               [12]  553 	inc	r0
+      000283 A6 07            [24]  554 	mov	@r0,ar7
+                                    555 ;	/opt/contiki/core/net/rime/route.c:133: if(e == NULL) {
+      000285 A8 81            [24]  556 	mov	r0,sp
+      000287 18               [12]  557 	dec	r0
+      000288 18               [12]  558 	dec	r0
+      000289 E6               [12]  559 	mov	a,@r0
+      00028A 08               [12]  560 	inc	r0
+      00028B 46               [12]  561 	orl	a,@r0
+      00028C 60 03            [24]  562 	jz	00136$
+      00028E 02r03rA8         [24]  563 	ljmp	00109$
+      000291                        564 00136$:
+                                    565 ;	/opt/contiki/core/net/rime/route.c:135: for(e = list_head(route_table); e != NULL; e = list_item_next(e)) {
+      000291 90r00r03         [24]  566 	mov	dptr,#_route_table
+      000294 E0               [24]  567 	movx	a,@dptr
+      000295 FD               [12]  568 	mov	r5,a
+      000296 A3               [24]  569 	inc	dptr
+      000297 E0               [24]  570 	movx	a,@dptr
+      000298 FE               [12]  571 	mov	r6,a
+      000299 A3               [24]  572 	inc	dptr
+      00029A E0               [24]  573 	movx	a,@dptr
+      00029B FF               [12]  574 	mov	r7,a
+      00029C 8D 82            [24]  575 	mov	dpl,r5
+      00029E 8E 83            [24]  576 	mov	dph,r6
+      0002A0 8F F0            [24]  577 	mov	b,r7
+      0002A2 78r00            [12]  578 	mov	r0,#_list_head
+      0002A4 79s00            [12]  579 	mov	r1,#(_list_head >> 8)
+      0002A6 7As00            [12]  580 	mov	r2,#(_list_head >> 16)
+      0002A8 12r00r00         [24]  581 	lcall	__sdcc_banked_call
+      0002AB AD 82            [24]  582 	mov	r5,dpl
+      0002AD AE 83            [24]  583 	mov	r6,dph
+      0002AF AF F0            [24]  584 	mov	r7,b
+      0002B1 A8 81            [24]  585 	mov	r0,sp
+      0002B3 18               [12]  586 	dec	r0
+      0002B4 18               [12]  587 	dec	r0
+      0002B5 A6 05            [24]  588 	mov	@r0,ar5
+      0002B7 08               [12]  589 	inc	r0
+      0002B8 A6 06            [24]  590 	mov	@r0,ar6
+      0002BA 08               [12]  591 	inc	r0
+      0002BB A6 07            [24]  592 	mov	@r0,ar7
+      0002BD                        593 00112$:
+      0002BD A8 81            [24]  594 	mov	r0,sp
+      0002BF 18               [12]  595 	dec	r0
+      0002C0 18               [12]  596 	dec	r0
+      0002C1 E4               [12]  597 	clr	a
+      0002C2 C0 E0            [24]  598 	push	acc
+      0002C4 C0 E0            [24]  599 	push	acc
+      0002C6 C0 E0            [24]  600 	push	acc
+      0002C8 86 82            [24]  601 	mov	dpl,@r0
+      0002CA 08               [12]  602 	inc	r0
+      0002CB 86 83            [24]  603 	mov	dph,@r0
+      0002CD 08               [12]  604 	inc	r0
+      0002CE 86 F0            [24]  605 	mov	b,@r0
+      0002D0 12r00r00         [24]  606 	lcall	___gptr_cmp
+      0002D3 15 81            [12]  607 	dec	sp
+      0002D5 15 81            [12]  608 	dec	sp
+      0002D7 15 81            [12]  609 	dec	sp
+      0002D9 70 03            [24]  610 	jnz	00137$
+      0002DB 02r03r63         [24]  611 	ljmp	00104$
+      0002DE                        612 00137$:
+                                    613 ;	/opt/contiki/core/net/rime/route.c:136: if(oldest == NULL || e->time >= oldest->time) {
+      0002DE E5 81            [12]  614 	mov	a,sp
+      0002E0 24 FB            [12]  615 	add	a,#0xfb
+      0002E2 F8               [12]  616 	mov	r0,a
+      0002E3 E6               [12]  617 	mov	a,@r0
+      0002E4 08               [12]  618 	inc	r0
+      0002E5 46               [12]  619 	orl	a,@r0
+      0002E6 60 38            [24]  620 	jz	00101$
+      0002E8 A8 81            [24]  621 	mov	r0,sp
+      0002EA 18               [12]  622 	dec	r0
+      0002EB 18               [12]  623 	dec	r0
+      0002EC 74 15            [12]  624 	mov	a,#0x15
+      0002EE 26               [12]  625 	add	a,@r0
+      0002EF FD               [12]  626 	mov	r5,a
+      0002F0 E4               [12]  627 	clr	a
+      0002F1 08               [12]  628 	inc	r0
+      0002F2 36               [12]  629 	addc	a,@r0
+      0002F3 FE               [12]  630 	mov	r6,a
+      0002F4 08               [12]  631 	inc	r0
+      0002F5 86 07            [24]  632 	mov	ar7,@r0
+      0002F7 8D 82            [24]  633 	mov	dpl,r5
+      0002F9 8E 83            [24]  634 	mov	dph,r6
+      0002FB 8F F0            [24]  635 	mov	b,r7
+      0002FD 12r00r00         [24]  636 	lcall	__gptrget
+      000300 FD               [12]  637 	mov	r5,a
+      000301 E5 81            [12]  638 	mov	a,sp
+      000303 24 FB            [12]  639 	add	a,#0xfb
+      000305 F8               [12]  640 	mov	r0,a
+      000306 74 15            [12]  641 	mov	a,#0x15
+      000308 26               [12]  642 	add	a,@r0
+      000309 FC               [12]  643 	mov	r4,a
+      00030A E4               [12]  644 	clr	a
+      00030B 08               [12]  645 	inc	r0
+      00030C 36               [12]  646 	addc	a,@r0
+      00030D FE               [12]  647 	mov	r6,a
+      00030E 08               [12]  648 	inc	r0
+      00030F 86 07            [24]  649 	mov	ar7,@r0
+      000311 8C 82            [24]  650 	mov	dpl,r4
+      000313 8E 83            [24]  651 	mov	dph,r6
+      000315 8F F0            [24]  652 	mov	b,r7
+      000317 12r00r00         [24]  653 	lcall	__gptrget
+      00031A FC               [12]  654 	mov	r4,a
+      00031B C3               [12]  655 	clr	c
+      00031C ED               [12]  656 	mov	a,r5
+      00031D 9C               [12]  657 	subb	a,r4
+      00031E 40 13            [24]  658 	jc	00113$
+      000320                        659 00101$:
+                                    660 ;	/opt/contiki/core/net/rime/route.c:137: oldest = e;
+      000320 A8 81            [24]  661 	mov	r0,sp
+      000322 18               [12]  662 	dec	r0
+      000323 18               [12]  663 	dec	r0
+      000324 E5 81            [12]  664 	mov	a,sp
+      000326 24 FB            [12]  665 	add	a,#0xfb
+      000328 F9               [12]  666 	mov	r1,a
+      000329 E6               [12]  667 	mov	a,@r0
+      00032A F7               [12]  668 	mov	@r1,a
+      00032B 08               [12]  669 	inc	r0
+      00032C 09               [12]  670 	inc	r1
+      00032D E6               [12]  671 	mov	a,@r0
+      00032E F7               [12]  672 	mov	@r1,a
+      00032F 08               [12]  673 	inc	r0
+      000330 09               [12]  674 	inc	r1
+      000331 E6               [12]  675 	mov	a,@r0
+      000332 F7               [12]  676 	mov	@r1,a
+      000333                        677 00113$:
+                                    678 ;	/opt/contiki/core/net/rime/route.c:135: for(e = list_head(route_table); e != NULL; e = list_item_next(e)) {
+      000333 A8 81            [24]  679 	mov	r0,sp
+      000335 18               [12]  680 	dec	r0
+      000336 18               [12]  681 	dec	r0
+      000337 86 05            [24]  682 	mov	ar5,@r0
+      000339 08               [12]  683 	inc	r0
+      00033A 86 06            [24]  684 	mov	ar6,@r0
+      00033C 08               [12]  685 	inc	r0
+      00033D 86 07            [24]  686 	mov	ar7,@r0
+      00033F 8D 82            [24]  687 	mov	dpl,r5
+      000341 8E 83            [24]  688 	mov	dph,r6
+      000343 8F F0            [24]  689 	mov	b,r7
+      000345 78r00            [12]  690 	mov	r0,#_list_item_next
+      000347 79s00            [12]  691 	mov	r1,#(_list_item_next >> 8)
+      000349 7As00            [12]  692 	mov	r2,#(_list_item_next >> 16)
+      00034B 12r00r00         [24]  693 	lcall	__sdcc_banked_call
+      00034E AD 82            [24]  694 	mov	r5,dpl
+      000350 AE 83            [24]  695 	mov	r6,dph
+      000352 AF F0            [24]  696 	mov	r7,b
+      000354 A8 81            [24]  697 	mov	r0,sp
+      000356 18               [12]  698 	dec	r0
+      000357 18               [12]  699 	dec	r0
+      000358 A6 05            [24]  700 	mov	@r0,ar5
+      00035A 08               [12]  701 	inc	r0
+      00035B A6 06            [24]  702 	mov	@r0,ar6
+      00035D 08               [12]  703 	inc	r0
+      00035E A6 07            [24]  704 	mov	@r0,ar7
+      000360 02r02rBD         [24]  705 	ljmp	00112$
+      000363                        706 00104$:
+                                    707 ;	/opt/contiki/core/net/rime/route.c:140: e = oldest;
+      000363 E5 81            [12]  708 	mov	a,sp
+      000365 24 FB            [12]  709 	add	a,#0xfb
+      000367 F8               [12]  710 	mov	r0,a
+      000368 A9 81            [24]  711 	mov	r1,sp
+      00036A 19               [12]  712 	dec	r1
+      00036B 19               [12]  713 	dec	r1
+      00036C E6               [12]  714 	mov	a,@r0
+      00036D F7               [12]  715 	mov	@r1,a
+      00036E 08               [12]  716 	inc	r0
+      00036F 09               [12]  717 	inc	r1
+      000370 E6               [12]  718 	mov	a,@r0
+      000371 F7               [12]  719 	mov	@r1,a
+      000372 08               [12]  720 	inc	r0
+      000373 09               [12]  721 	inc	r1
+      000374 E6               [12]  722 	mov	a,@r0
+      000375 F7               [12]  723 	mov	@r1,a
+                                    724 ;	/opt/contiki/core/net/rime/route.c:141: list_remove(route_table, e);
+      000376 A8 81            [24]  725 	mov	r0,sp
+      000378 18               [12]  726 	dec	r0
+      000379 18               [12]  727 	dec	r0
+      00037A 86 05            [24]  728 	mov	ar5,@r0
+      00037C 08               [12]  729 	inc	r0
+      00037D 86 06            [24]  730 	mov	ar6,@r0
+      00037F 08               [12]  731 	inc	r0
+      000380 86 07            [24]  732 	mov	ar7,@r0
+      000382 90r00r03         [24]  733 	mov	dptr,#_route_table
+      000385 E0               [24]  734 	movx	a,@dptr
+      000386 FA               [12]  735 	mov	r2,a
+      000387 A3               [24]  736 	inc	dptr
+      000388 E0               [24]  737 	movx	a,@dptr
+      000389 FB               [12]  738 	mov	r3,a
+      00038A A3               [24]  739 	inc	dptr
+      00038B E0               [24]  740 	movx	a,@dptr
+      00038C FC               [12]  741 	mov	r4,a
+      00038D C0 05            [24]  742 	push	ar5
+      00038F C0 06            [24]  743 	push	ar6
+      000391 C0 07            [24]  744 	push	ar7
+      000393 8A 82            [24]  745 	mov	dpl,r2
+      000395 8B 83            [24]  746 	mov	dph,r3
+      000397 8C F0            [24]  747 	mov	b,r4
+      000399 78r00            [12]  748 	mov	r0,#_list_remove
+      00039B 79s00            [12]  749 	mov	r1,#(_list_remove >> 8)
+      00039D 7As00            [12]  750 	mov	r2,#(_list_remove >> 16)
+      00039F 12r00r00         [24]  751 	lcall	__sdcc_banked_call
+      0003A2 15 81            [12]  752 	dec	sp
+      0003A4 15 81            [12]  753 	dec	sp
+      0003A6 15 81            [12]  754 	dec	sp
+      0003A8                        755 00109$:
+                                    756 ;	/opt/contiki/core/net/rime/route.c:149: linkaddr_copy(&e->dest, dest);
+      0003A8 A8 81            [24]  757 	mov	r0,sp
+      0003AA 18               [12]  758 	dec	r0
+      0003AB 18               [12]  759 	dec	r0
+      0003AC 74 03            [12]  760 	mov	a,#0x03
+      0003AE 26               [12]  761 	add	a,@r0
+      0003AF FD               [12]  762 	mov	r5,a
+      0003B0 E4               [12]  763 	clr	a
+      0003B1 08               [12]  764 	inc	r0
+      0003B2 36               [12]  765 	addc	a,@r0
+      0003B3 FE               [12]  766 	mov	r6,a
+      0003B4 08               [12]  767 	inc	r0
+      0003B5 86 07            [24]  768 	mov	ar7,@r0
+      0003B7 E5 81            [12]  769 	mov	a,sp
+      0003B9 24 F8            [12]  770 	add	a,#0xf8
+      0003BB F8               [12]  771 	mov	r0,a
+      0003BC E6               [12]  772 	mov	a,@r0
+      0003BD C0 E0            [24]  773 	push	acc
+      0003BF 08               [12]  774 	inc	r0
+      0003C0 E6               [12]  775 	mov	a,@r0
+      0003C1 C0 E0            [24]  776 	push	acc
+      0003C3 08               [12]  777 	inc	r0
+      0003C4 E6               [12]  778 	mov	a,@r0
+      0003C5 C0 E0            [24]  779 	push	acc
+      0003C7 8D 82            [24]  780 	mov	dpl,r5
+      0003C9 8E 83            [24]  781 	mov	dph,r6
+      0003CB 8F F0            [24]  782 	mov	b,r7
+      0003CD 78r00            [12]  783 	mov	r0,#_linkaddr_copy
+      0003CF 79s00            [12]  784 	mov	r1,#(_linkaddr_copy >> 8)
+      0003D1 7As00            [12]  785 	mov	r2,#(_linkaddr_copy >> 16)
+      0003D3 12r00r00         [24]  786 	lcall	__sdcc_banked_call
+      0003D6 15 81            [12]  787 	dec	sp
+      0003D8 15 81            [12]  788 	dec	sp
+      0003DA 15 81            [12]  789 	dec	sp
+                                    790 ;	/opt/contiki/core/net/rime/route.c:150: linkaddr_copy(&e->nexthop, nexthop);
+      0003DC A8 81            [24]  791 	mov	r0,sp
+      0003DE 18               [12]  792 	dec	r0
+      0003DF 18               [12]  793 	dec	r0
+      0003E0 74 0B            [12]  794 	mov	a,#0x0B
+      0003E2 26               [12]  795 	add	a,@r0
+      0003E3 FD               [12]  796 	mov	r5,a
+      0003E4 E4               [12]  797 	clr	a
+      0003E5 08               [12]  798 	inc	r0
+      0003E6 36               [12]  799 	addc	a,@r0
+      0003E7 FE               [12]  800 	mov	r6,a
+      0003E8 08               [12]  801 	inc	r0
+      0003E9 86 07            [24]  802 	mov	ar7,@r0
+      0003EB E5 81            [12]  803 	mov	a,sp
+      0003ED 24 F2            [12]  804 	add	a,#0xf2
+      0003EF F8               [12]  805 	mov	r0,a
+      0003F0 E6               [12]  806 	mov	a,@r0
+      0003F1 C0 E0            [24]  807 	push	acc
+      0003F3 08               [12]  808 	inc	r0
+      0003F4 E6               [12]  809 	mov	a,@r0
+      0003F5 C0 E0            [24]  810 	push	acc
+      0003F7 08               [12]  811 	inc	r0
+      0003F8 E6               [12]  812 	mov	a,@r0
+      0003F9 C0 E0            [24]  813 	push	acc
+      0003FB 8D 82            [24]  814 	mov	dpl,r5
+      0003FD 8E 83            [24]  815 	mov	dph,r6
+      0003FF 8F F0            [24]  816 	mov	b,r7
+      000401 78r00            [12]  817 	mov	r0,#_linkaddr_copy
+      000403 79s00            [12]  818 	mov	r1,#(_linkaddr_copy >> 8)
+      000405 7As00            [12]  819 	mov	r2,#(_linkaddr_copy >> 16)
+      000407 12r00r00         [24]  820 	lcall	__sdcc_banked_call
+      00040A 15 81            [12]  821 	dec	sp
+      00040C 15 81            [12]  822 	dec	sp
+      00040E 15 81            [12]  823 	dec	sp
+                                    824 ;	/opt/contiki/core/net/rime/route.c:151: e->cost = cost;
+      000410 A8 81            [24]  825 	mov	r0,sp
+      000412 18               [12]  826 	dec	r0
+      000413 18               [12]  827 	dec	r0
+      000414 74 14            [12]  828 	mov	a,#0x14
+      000416 26               [12]  829 	add	a,@r0
+      000417 FD               [12]  830 	mov	r5,a
+      000418 E4               [12]  831 	clr	a
+      000419 08               [12]  832 	inc	r0
+      00041A 36               [12]  833 	addc	a,@r0
+      00041B FE               [12]  834 	mov	r6,a
+      00041C 08               [12]  835 	inc	r0
+      00041D 86 07            [24]  836 	mov	ar7,@r0
+      00041F 8D 82            [24]  837 	mov	dpl,r5
+      000421 8E 83            [24]  838 	mov	dph,r6
+      000423 8F F0            [24]  839 	mov	b,r7
+      000425 E5 81            [12]  840 	mov	a,sp
+      000427 24 F1            [12]  841 	add	a,#0xf1
+      000429 F8               [12]  842 	mov	r0,a
+      00042A E6               [12]  843 	mov	a,@r0
+      00042B 12r00r00         [24]  844 	lcall	__gptrput
+                                    845 ;	/opt/contiki/core/net/rime/route.c:152: e->seqno = seqno;
+      00042E A8 81            [24]  846 	mov	r0,sp
+      000430 18               [12]  847 	dec	r0
+      000431 18               [12]  848 	dec	r0
+      000432 74 13            [12]  849 	mov	a,#0x13
+      000434 26               [12]  850 	add	a,@r0
+      000435 FD               [12]  851 	mov	r5,a
+      000436 E4               [12]  852 	clr	a
+      000437 08               [12]  853 	inc	r0
+      000438 36               [12]  854 	addc	a,@r0
+      000439 FE               [12]  855 	mov	r6,a
+      00043A 08               [12]  856 	inc	r0
+      00043B 86 07            [24]  857 	mov	ar7,@r0
+      00043D 8D 82            [24]  858 	mov	dpl,r5
+      00043F 8E 83            [24]  859 	mov	dph,r6
+      000441 8F F0            [24]  860 	mov	b,r7
+      000443 E5 81            [12]  861 	mov	a,sp
+      000445 24 F0            [12]  862 	add	a,#0xf0
+      000447 F8               [12]  863 	mov	r0,a
+      000448 E6               [12]  864 	mov	a,@r0
+      000449 12r00r00         [24]  865 	lcall	__gptrput
+                                    866 ;	/opt/contiki/core/net/rime/route.c:153: e->time = 0;
+      00044C A8 81            [24]  867 	mov	r0,sp
+      00044E 18               [12]  868 	dec	r0
+      00044F 18               [12]  869 	dec	r0
+      000450 74 15            [12]  870 	mov	a,#0x15
+      000452 26               [12]  871 	add	a,@r0
+      000453 FD               [12]  872 	mov	r5,a
+      000454 E4               [12]  873 	clr	a
+      000455 08               [12]  874 	inc	r0
+      000456 36               [12]  875 	addc	a,@r0
+      000457 FE               [12]  876 	mov	r6,a
+      000458 08               [12]  877 	inc	r0
+      000459 86 07            [24]  878 	mov	ar7,@r0
+      00045B 8D 82            [24]  879 	mov	dpl,r5
+      00045D 8E 83            [24]  880 	mov	dph,r6
+      00045F 8F F0            [24]  881 	mov	b,r7
+      000461 E4               [12]  882 	clr	a
+      000462 12r00r00         [24]  883 	lcall	__gptrput
+                                    884 ;	/opt/contiki/core/net/rime/route.c:154: e->decay = 0;
+      000465 A8 81            [24]  885 	mov	r0,sp
+      000467 18               [12]  886 	dec	r0
+      000468 18               [12]  887 	dec	r0
+      000469 74 16            [12]  888 	mov	a,#0x16
+      00046B 26               [12]  889 	add	a,@r0
+      00046C FD               [12]  890 	mov	r5,a
+      00046D E4               [12]  891 	clr	a
+      00046E 08               [12]  892 	inc	r0
+      00046F 36               [12]  893 	addc	a,@r0
+      000470 FE               [12]  894 	mov	r6,a
+      000471 08               [12]  895 	inc	r0
+      000472 86 07            [24]  896 	mov	ar7,@r0
+      000474 8D 82            [24]  897 	mov	dpl,r5
+      000476 8E 83            [24]  898 	mov	dph,r6
+      000478 8F F0            [24]  899 	mov	b,r7
+      00047A E4               [12]  900 	clr	a
+      00047B 12r00r00         [24]  901 	lcall	__gptrput
+                                    902 ;	/opt/contiki/core/net/rime/route.c:157: list_push(route_table, e);
+      00047E A8 81            [24]  903 	mov	r0,sp
+      000480 18               [12]  904 	dec	r0
+      000481 18               [12]  905 	dec	r0
+      000482 86 05            [24]  906 	mov	ar5,@r0
+      000484 08               [12]  907 	inc	r0
+      000485 86 06            [24]  908 	mov	ar6,@r0
+      000487 08               [12]  909 	inc	r0
+      000488 86 07            [24]  910 	mov	ar7,@r0
+      00048A 90r00r03         [24]  911 	mov	dptr,#_route_table
+      00048D E0               [24]  912 	movx	a,@dptr
+      00048E FA               [12]  913 	mov	r2,a
+      00048F A3               [24]  914 	inc	dptr
+      000490 E0               [24]  915 	movx	a,@dptr
+      000491 FB               [12]  916 	mov	r3,a
+      000492 A3               [24]  917 	inc	dptr
+      000493 E0               [24]  918 	movx	a,@dptr
+      000494 FC               [12]  919 	mov	r4,a
+      000495 C0 05            [24]  920 	push	ar5
+      000497 C0 06            [24]  921 	push	ar6
+      000499 C0 07            [24]  922 	push	ar7
+      00049B 8A 82            [24]  923 	mov	dpl,r2
+      00049D 8B 83            [24]  924 	mov	dph,r3
+      00049F 8C F0            [24]  925 	mov	b,r4
+      0004A1 78r00            [12]  926 	mov	r0,#_list_push
+      0004A3 79s00            [12]  927 	mov	r1,#(_list_push >> 8)
+      0004A5 7As00            [12]  928 	mov	r2,#(_list_push >> 16)
+      0004A7 12r00r00         [24]  929 	lcall	__sdcc_banked_call
+      0004AA 15 81            [12]  930 	dec	sp
+      0004AC 15 81            [12]  931 	dec	sp
+      0004AE 15 81            [12]  932 	dec	sp
+                                    933 ;	/opt/contiki/core/net/rime/route.c:164: return 0;
+      0004B0 90 00 00         [24]  934 	mov	dptr,#0x0000
+      0004B3 E5 81            [12]  935 	mov	a,sp
+      0004B5 24 F7            [12]  936 	add	a,#0xF7
+      0004B7 F5 81            [12]  937 	mov	sp,a
+      0004B9 02r00r00         [24]  938 	ljmp	__sdcc_banked_ret
+                                    939 ;------------------------------------------------------------
+                                    940 ;Allocation info for local variables in function 'route_lookup'
+                                    941 ;------------------------------------------------------------
+                                    942 ;dest                      Allocated to stack - sp -8
+                                    943 ;e                         Allocated to stack - sp -5
+                                    944 ;lowest_cost               Allocated to registers r4 
+                                    945 ;best_entry                Allocated to stack - sp -2
+                                    946 ;------------------------------------------------------------
+                                    947 ;	/opt/contiki/core/net/rime/route.c:168: route_lookup(const linkaddr_t *dest)
+                                    948 ;	-----------------------------------------
+                                    949 ;	 function route_lookup
+                                    950 ;	-----------------------------------------
+      0004BC                        951 _route_lookup:
+      0004BC C0 82            [24]  952 	push	dpl
+      0004BE C0 83            [24]  953 	push	dph
+      0004C0 C0 F0            [24]  954 	push	b
+      0004C2 E5 81            [12]  955 	mov	a,sp
+      0004C4 24 06            [12]  956 	add	a,#0x06
+      0004C6 F5 81            [12]  957 	mov	sp,a
+                                    958 ;	/opt/contiki/core/net/rime/route.c:174: lowest_cost = -1;
+      0004C8 7C FF            [12]  959 	mov	r4,#0xFF
+                                    960 ;	/opt/contiki/core/net/rime/route.c:175: best_entry = NULL;
+      0004CA A8 81            [24]  961 	mov	r0,sp
+      0004CC 18               [12]  962 	dec	r0
+      0004CD 18               [12]  963 	dec	r0
+      0004CE E4               [12]  964 	clr	a
+      0004CF F6               [12]  965 	mov	@r0,a
+      0004D0 08               [12]  966 	inc	r0
+      0004D1 F6               [12]  967 	mov	@r0,a
+      0004D2 08               [12]  968 	inc	r0
+      0004D3 76 00            [12]  969 	mov	@r0,#0x00
+                                    970 ;	/opt/contiki/core/net/rime/route.c:178: for(e = list_head(route_table); e != NULL; e = list_item_next(e)) {
+      0004D5 90r00r03         [24]  971 	mov	dptr,#_route_table
+      0004D8 E0               [24]  972 	movx	a,@dptr
+      0004D9 FA               [12]  973 	mov	r2,a
+      0004DA A3               [24]  974 	inc	dptr
+      0004DB E0               [24]  975 	movx	a,@dptr
+      0004DC FB               [12]  976 	mov	r3,a
+      0004DD A3               [24]  977 	inc	dptr
+      0004DE E0               [24]  978 	movx	a,@dptr
+      0004DF FF               [12]  979 	mov	r7,a
+      0004E0 8A 82            [24]  980 	mov	dpl,r2
+      0004E2 8B 83            [24]  981 	mov	dph,r3
+      0004E4 8F F0            [24]  982 	mov	b,r7
+      0004E6 C0 04            [24]  983 	push	ar4
+      0004E8 78r00            [12]  984 	mov	r0,#_list_head
+      0004EA 79s00            [12]  985 	mov	r1,#(_list_head >> 8)
+      0004EC 7As00            [12]  986 	mov	r2,#(_list_head >> 16)
+      0004EE 12r00r00         [24]  987 	lcall	__sdcc_banked_call
+      0004F1 AD 82            [24]  988 	mov	r5,dpl
+      0004F3 AE 83            [24]  989 	mov	r6,dph
+      0004F5 AF F0            [24]  990 	mov	r7,b
+      0004F7 D0 04            [24]  991 	pop	ar4
+      0004F9 E5 81            [12]  992 	mov	a,sp
+      0004FB 24 FB            [12]  993 	add	a,#0xfb
+      0004FD F8               [12]  994 	mov	r0,a
+      0004FE A6 05            [24]  995 	mov	@r0,ar5
+      000500 08               [12]  996 	inc	r0
+      000501 A6 06            [24]  997 	mov	@r0,ar6
+      000503 08               [12]  998 	inc	r0
+      000504 A6 07            [24]  999 	mov	@r0,ar7
+      000506                       1000 00107$:
+      000506 E5 81            [12] 1001 	mov	a,sp
+      000508 24 FB            [12] 1002 	add	a,#0xfb
+      00050A F8               [12] 1003 	mov	r0,a
+      00050B E4               [12] 1004 	clr	a
+      00050C C0 E0            [24] 1005 	push	acc
+      00050E C0 E0            [24] 1006 	push	acc
+      000510 C0 E0            [24] 1007 	push	acc
+      000512 86 82            [24] 1008 	mov	dpl,@r0
+      000514 08               [12] 1009 	inc	r0
+      000515 86 83            [24] 1010 	mov	dph,@r0
+      000517 08               [12] 1011 	inc	r0
+      000518 86 F0            [24] 1012 	mov	b,@r0
+      00051A 12r00r00         [24] 1013 	lcall	___gptr_cmp
+      00051D 15 81            [12] 1014 	dec	sp
+      00051F 15 81            [12] 1015 	dec	sp
+      000521 15 81            [12] 1016 	dec	sp
+      000523 70 03            [24] 1017 	jnz	00123$
+      000525 02r05rCF         [24] 1018 	ljmp	00105$
+      000528                       1019 00123$:
+                                   1020 ;	/opt/contiki/core/net/rime/route.c:182: if(linkaddr_cmp(dest, &e->dest)) {
+      000528 C0 04            [24] 1021 	push	ar4
+      00052A E5 81            [12] 1022 	mov	a,sp
+      00052C 24 FA            [12] 1023 	add	a,#0xfa
+      00052E F8               [12] 1024 	mov	r0,a
+      00052F 74 03            [12] 1025 	mov	a,#0x03
+      000531 26               [12] 1026 	add	a,@r0
+      000532 FA               [12] 1027 	mov	r2,a
+      000533 E4               [12] 1028 	clr	a
+      000534 08               [12] 1029 	inc	r0
+      000535 36               [12] 1030 	addc	a,@r0
+      000536 FB               [12] 1031 	mov	r3,a
+      000537 08               [12] 1032 	inc	r0
+      000538 86 04            [24] 1033 	mov	ar4,@r0
+      00053A C0 02            [24] 1034 	push	ar2
+      00053C C0 03            [24] 1035 	push	ar3
+      00053E C0 04            [24] 1036 	push	ar4
+      000540 E5 81            [12] 1037 	mov	a,sp
+      000542 24 F4            [12] 1038 	add	a,#0xf4
+      000544 F8               [12] 1039 	mov	r0,a
+      000545 86 82            [24] 1040 	mov	dpl,@r0
+      000547 08               [12] 1041 	inc	r0
+      000548 86 83            [24] 1042 	mov	dph,@r0
+      00054A 08               [12] 1043 	inc	r0
+      00054B 86 F0            [24] 1044 	mov	b,@r0
+      00054D 78r00            [12] 1045 	mov	r0,#_linkaddr_cmp
+      00054F 79s00            [12] 1046 	mov	r1,#(_linkaddr_cmp >> 8)
+      000551 7As00            [12] 1047 	mov	r2,#(_linkaddr_cmp >> 16)
+      000553 12r00r00         [24] 1048 	lcall	__sdcc_banked_call
+      000556 AB 82            [24] 1049 	mov	r3,dpl
+      000558 AC 83            [24] 1050 	mov	r4,dph
+      00055A 15 81            [12] 1051 	dec	sp
+      00055C 15 81            [12] 1052 	dec	sp
+      00055E 15 81            [12] 1053 	dec	sp
+      000560 EB               [12] 1054 	mov	a,r3
+      000561 4C               [12] 1055 	orl	a,r4
+      000562 D0 04            [24] 1056 	pop	ar4
+      000564 60 33            [24] 1057 	jz	00108$
+                                   1058 ;	/opt/contiki/core/net/rime/route.c:183: if(e->cost < lowest_cost) {
+      000566 E5 81            [12] 1059 	mov	a,sp
+      000568 24 FB            [12] 1060 	add	a,#0xfb
+      00056A F8               [12] 1061 	mov	r0,a
+      00056B 74 14            [12] 1062 	mov	a,#0x14
+      00056D 26               [12] 1063 	add	a,@r0
+      00056E FA               [12] 1064 	mov	r2,a
+      00056F E4               [12] 1065 	clr	a
+      000570 08               [12] 1066 	inc	r0
+      000571 36               [12] 1067 	addc	a,@r0
+      000572 FB               [12] 1068 	mov	r3,a
+      000573 08               [12] 1069 	inc	r0
+      000574 86 07            [24] 1070 	mov	ar7,@r0
+      000576 8A 82            [24] 1071 	mov	dpl,r2
+      000578 8B 83            [24] 1072 	mov	dph,r3
+      00057A 8F F0            [24] 1073 	mov	b,r7
+      00057C 12r00r00         [24] 1074 	lcall	__gptrget
+      00057F FF               [12] 1075 	mov	r7,a
+      000580 C3               [12] 1076 	clr	c
+      000581 9C               [12] 1077 	subb	a,r4
+      000582 50 15            [24] 1078 	jnc	00108$
+                                   1079 ;	/opt/contiki/core/net/rime/route.c:184: best_entry = e;
+      000584 E5 81            [12] 1080 	mov	a,sp
+      000586 24 FB            [12] 1081 	add	a,#0xfb
+      000588 F8               [12] 1082 	mov	r0,a
+      000589 A9 81            [24] 1083 	mov	r1,sp
+      00058B 19               [12] 1084 	dec	r1
+      00058C 19               [12] 1085 	dec	r1
+      00058D E6               [12] 1086 	mov	a,@r0
+      00058E F7               [12] 1087 	mov	@r1,a
+      00058F 08               [12] 1088 	inc	r0
+      000590 09               [12] 1089 	inc	r1
+      000591 E6               [12] 1090 	mov	a,@r0
+      000592 F7               [12] 1091 	mov	@r1,a
+      000593 08               [12] 1092 	inc	r0
+      000594 09               [12] 1093 	inc	r1
+      000595 E6               [12] 1094 	mov	a,@r0
+      000596 F7               [12] 1095 	mov	@r1,a
+                                   1096 ;	/opt/contiki/core/net/rime/route.c:185: lowest_cost = e->cost;
+      000597 8F 04            [24] 1097 	mov	ar4,r7
+      000599                       1098 00108$:
+                                   1099 ;	/opt/contiki/core/net/rime/route.c:178: for(e = list_head(route_table); e != NULL; e = list_item_next(e)) {
+      000599 E5 81            [12] 1100 	mov	a,sp
+      00059B 24 FB            [12] 1101 	add	a,#0xfb
+      00059D F8               [12] 1102 	mov	r0,a
+      00059E 86 05            [24] 1103 	mov	ar5,@r0
+      0005A0 08               [12] 1104 	inc	r0
+      0005A1 86 06            [24] 1105 	mov	ar6,@r0
+      0005A3 08               [12] 1106 	inc	r0
+      0005A4 86 07            [24] 1107 	mov	ar7,@r0
+      0005A6 8D 82            [24] 1108 	mov	dpl,r5
+      0005A8 8E 83            [24] 1109 	mov	dph,r6
+      0005AA 8F F0            [24] 1110 	mov	b,r7
+      0005AC C0 04            [24] 1111 	push	ar4
+      0005AE 78r00            [12] 1112 	mov	r0,#_list_item_next
+      0005B0 79s00            [12] 1113 	mov	r1,#(_list_item_next >> 8)
+      0005B2 7As00            [12] 1114 	mov	r2,#(_list_item_next >> 16)
+      0005B4 12r00r00         [24] 1115 	lcall	__sdcc_banked_call
+      0005B7 AD 82            [24] 1116 	mov	r5,dpl
+      0005B9 AE 83            [24] 1117 	mov	r6,dph
+      0005BB AF F0            [24] 1118 	mov	r7,b
+      0005BD D0 04            [24] 1119 	pop	ar4
+      0005BF E5 81            [12] 1120 	mov	a,sp
+      0005C1 24 FB            [12] 1121 	add	a,#0xfb
+      0005C3 F8               [12] 1122 	mov	r0,a
+      0005C4 A6 05            [24] 1123 	mov	@r0,ar5
+      0005C6 08               [12] 1124 	inc	r0
+      0005C7 A6 06            [24] 1125 	mov	@r0,ar6
+      0005C9 08               [12] 1126 	inc	r0
+      0005CA A6 07            [24] 1127 	mov	@r0,ar7
+      0005CC 02r05r06         [24] 1128 	ljmp	00107$
+      0005CF                       1129 00105$:
+                                   1130 ;	/opt/contiki/core/net/rime/route.c:189: return best_entry;
+      0005CF A8 81            [24] 1131 	mov	r0,sp
+      0005D1 18               [12] 1132 	dec	r0
+      0005D2 18               [12] 1133 	dec	r0
+      0005D3 86 82            [24] 1134 	mov	dpl,@r0
+      0005D5 08               [12] 1135 	inc	r0
+      0005D6 86 83            [24] 1136 	mov	dph,@r0
+      0005D8 08               [12] 1137 	inc	r0
+      0005D9 86 F0            [24] 1138 	mov	b,@r0
+      0005DB C8               [12] 1139 	xch	a,r0
+      0005DC E5 81            [12] 1140 	mov	a,sp
+      0005DE 24 F7            [12] 1141 	add	a,#0xF7
+      0005E0 F5 81            [12] 1142 	mov	sp,a
+      0005E2 C8               [12] 1143 	xch	a,r0
+      0005E3 02r00r00         [24] 1144 	ljmp	__sdcc_banked_ret
+                                   1145 ;------------------------------------------------------------
+                                   1146 ;Allocation info for local variables in function 'route_refresh'
+                                   1147 ;------------------------------------------------------------
+                                   1148 ;e                         Allocated to registers r5 r6 r7 
+                                   1149 ;------------------------------------------------------------
+                                   1150 ;	/opt/contiki/core/net/rime/route.c:193: route_refresh(struct route_entry *e)
+                                   1151 ;	-----------------------------------------
+                                   1152 ;	 function route_refresh
+                                   1153 ;	-----------------------------------------
+      0005E6                       1154 _route_refresh:
+      0005E6 AD 82            [24] 1155 	mov	r5,dpl
+      0005E8 AE 83            [24] 1156 	mov	r6,dph
+      0005EA AF F0            [24] 1157 	mov	r7,b
+                                   1158 ;	/opt/contiki/core/net/rime/route.c:195: if(e != NULL) {
+      0005EC ED               [12] 1159 	mov	a,r5
+      0005ED 4E               [12] 1160 	orl	a,r6
+      0005EE 60 24            [24] 1161 	jz	00103$
+                                   1162 ;	/opt/contiki/core/net/rime/route.c:198: e->time = 0;
+      0005F0 74 15            [12] 1163 	mov	a,#0x15
+      0005F2 2D               [12] 1164 	add	a,r5
+      0005F3 FA               [12] 1165 	mov	r2,a
+      0005F4 E4               [12] 1166 	clr	a
+      0005F5 3E               [12] 1167 	addc	a,r6
+      0005F6 FB               [12] 1168 	mov	r3,a
+      0005F7 8F 04            [24] 1169 	mov	ar4,r7
+      0005F9 8A 82            [24] 1170 	mov	dpl,r2
+      0005FB 8B 83            [24] 1171 	mov	dph,r3
+      0005FD 8C F0            [24] 1172 	mov	b,r4
+      0005FF E4               [12] 1173 	clr	a
+      000600 12r00r00         [24] 1174 	lcall	__gptrput
+                                   1175 ;	/opt/contiki/core/net/rime/route.c:199: e->decay = 0;
+      000603 74 16            [12] 1176 	mov	a,#0x16
+      000605 2D               [12] 1177 	add	a,r5
+      000606 FD               [12] 1178 	mov	r5,a
+      000607 E4               [12] 1179 	clr	a
+      000608 3E               [12] 1180 	addc	a,r6
+      000609 FE               [12] 1181 	mov	r6,a
+      00060A 8D 82            [24] 1182 	mov	dpl,r5
+      00060C 8E 83            [24] 1183 	mov	dph,r6
+      00060E 8F F0            [24] 1184 	mov	b,r7
+      000610 E4               [12] 1185 	clr	a
+      000611 12r00r00         [24] 1186 	lcall	__gptrput
+      000614                       1187 00103$:
+      000614 02r00r00         [24] 1188 	ljmp	__sdcc_banked_ret
+                                   1189 ;------------------------------------------------------------
+                                   1190 ;Allocation info for local variables in function 'route_decay'
+                                   1191 ;------------------------------------------------------------
+                                   1192 ;e                         Allocated to registers r5 r6 r7 
+                                   1193 ;------------------------------------------------------------
+                                   1194 ;	/opt/contiki/core/net/rime/route.c:211: route_decay(struct route_entry *e)
+                                   1195 ;	-----------------------------------------
+                                   1196 ;	 function route_decay
+                                   1197 ;	-----------------------------------------
+      000617                       1198 _route_decay:
+      000617 AD 82            [24] 1199 	mov	r5,dpl
+      000619 AE 83            [24] 1200 	mov	r6,dph
+      00061B AF F0            [24] 1201 	mov	r7,b
+                                   1202 ;	/opt/contiki/core/net/rime/route.c:222: if(e->time != e->time_last_decay) {
+      00061D 74 15            [12] 1203 	mov	a,#0x15
+      00061F 2D               [12] 1204 	add	a,r5
+      000620 FA               [12] 1205 	mov	r2,a
+      000621 E4               [12] 1206 	clr	a
+      000622 3E               [12] 1207 	addc	a,r6
+      000623 FB               [12] 1208 	mov	r3,a
+      000624 8F 04            [24] 1209 	mov	ar4,r7
+      000626 8A 82            [24] 1210 	mov	dpl,r2
+      000628 8B 83            [24] 1211 	mov	dph,r3
+      00062A 8C F0            [24] 1212 	mov	b,r4
+      00062C 12r00r00         [24] 1213 	lcall	__gptrget
+      00062F FC               [12] 1214 	mov	r4,a
+      000630 74 17            [12] 1215 	mov	a,#0x17
+      000632 2D               [12] 1216 	add	a,r5
+      000633 F9               [12] 1217 	mov	r1,a
+      000634 E4               [12] 1218 	clr	a
+      000635 3E               [12] 1219 	addc	a,r6
+      000636 FA               [12] 1220 	mov	r2,a
+      000637 8F 03            [24] 1221 	mov	ar3,r7
+      000639 89 82            [24] 1222 	mov	dpl,r1
+      00063B 8A 83            [24] 1223 	mov	dph,r2
+      00063D 8B F0            [24] 1224 	mov	b,r3
+      00063F 12r00r00         [24] 1225 	lcall	__gptrget
+      000642 F8               [12] 1226 	mov	r0,a
+      000643 EC               [12] 1227 	mov	a,r4
+      000644 B5 00 02         [24] 1228 	cjne	a,ar0,00113$
+      000647 80 3C            [24] 1229 	sjmp	00105$
+      000649                       1230 00113$:
+                                   1231 ;	/opt/contiki/core/net/rime/route.c:224: e->time_last_decay = e->time;
+      000649 89 82            [24] 1232 	mov	dpl,r1
+      00064B 8A 83            [24] 1233 	mov	dph,r2
+      00064D 8B F0            [24] 1234 	mov	b,r3
+      00064F EC               [12] 1235 	mov	a,r4
+      000650 12r00r00         [24] 1236 	lcall	__gptrput
+                                   1237 ;	/opt/contiki/core/net/rime/route.c:225: e->decay++;
+      000653 74 16            [12] 1238 	mov	a,#0x16
+      000655 2D               [12] 1239 	add	a,r5
+      000656 FA               [12] 1240 	mov	r2,a
+      000657 E4               [12] 1241 	clr	a
+      000658 3E               [12] 1242 	addc	a,r6
+      000659 FB               [12] 1243 	mov	r3,a
+      00065A 8F 04            [24] 1244 	mov	ar4,r7
+      00065C 8A 82            [24] 1245 	mov	dpl,r2
+      00065E 8B 83            [24] 1246 	mov	dph,r3
+      000660 8C F0            [24] 1247 	mov	b,r4
+      000662 12r00r00         [24] 1248 	lcall	__gptrget
+      000665 F9               [12] 1249 	mov	r1,a
+      000666 09               [12] 1250 	inc	r1
+      000667 8A 82            [24] 1251 	mov	dpl,r2
+      000669 8B 83            [24] 1252 	mov	dph,r3
+      00066B 8C F0            [24] 1253 	mov	b,r4
+      00066D E9               [12] 1254 	mov	a,r1
+      00066E 12r00r00         [24] 1255 	lcall	__gptrput
+                                   1256 ;	/opt/contiki/core/net/rime/route.c:227: if(e->decay >= DECAY_THRESHOLD) {
+      000671 B9 08 00         [24] 1257 	cjne	r1,#0x08,00114$
+      000674                       1258 00114$:
+      000674 40 0F            [24] 1259 	jc	00105$
+                                   1260 ;	/opt/contiki/core/net/rime/route.c:232: route_remove(e);
+      000676 8D 82            [24] 1261 	mov	dpl,r5
+      000678 8E 83            [24] 1262 	mov	dph,r6
+      00067A 8F F0            [24] 1263 	mov	b,r7
+      00067C 78r88            [12] 1264 	mov	r0,#_route_remove
+      00067E 79s06            [12] 1265 	mov	r1,#(_route_remove >> 8)
+      000680 7As00            [12] 1266 	mov	r2,#(_route_remove >> 16)
+      000682 12r00r00         [24] 1267 	lcall	__sdcc_banked_call
+      000685                       1268 00105$:
+      000685 02r00r00         [24] 1269 	ljmp	__sdcc_banked_ret
+                                   1270 ;------------------------------------------------------------
+                                   1271 ;Allocation info for local variables in function 'route_remove'
+                                   1272 ;------------------------------------------------------------
+                                   1273 ;e                         Allocated to registers r7 r5 r6 
+                                   1274 ;sloc0                     Allocated to stack - sp -2
+                                   1275 ;------------------------------------------------------------
+                                   1276 ;	/opt/contiki/core/net/rime/route.c:238: route_remove(struct route_entry *e)
+                                   1277 ;	-----------------------------------------
+                                   1278 ;	 function route_remove
+                                   1279 ;	-----------------------------------------
+      000688                       1280 _route_remove:
+      000688 05 81            [12] 1281 	inc	sp
+      00068A 05 81            [12] 1282 	inc	sp
+      00068C 05 81            [12] 1283 	inc	sp
+      00068E AF 82            [24] 1284 	mov	r7,dpl
+      000690 AD 83            [24] 1285 	mov	r5,dph
+      000692 AE F0            [24] 1286 	mov	r6,b
+                                   1287 ;	/opt/contiki/core/net/rime/route.c:240: list_remove(route_table, e);
+      000694 8F 02            [24] 1288 	mov	ar2,r7
+      000696 8D 03            [24] 1289 	mov	ar3,r5
+      000698 8E 04            [24] 1290 	mov	ar4,r6
+      00069A 90r00r03         [24] 1291 	mov	dptr,#_route_table
+      00069D A8 81            [24] 1292 	mov	r0,sp
+      00069F 18               [12] 1293 	dec	r0
+      0006A0 18               [12] 1294 	dec	r0
+      0006A1 E0               [24] 1295 	movx	a,@dptr
+      0006A2 F6               [12] 1296 	mov	@r0,a
+      0006A3 A3               [24] 1297 	inc	dptr
+      0006A4 E0               [24] 1298 	movx	a,@dptr
+      0006A5 08               [12] 1299 	inc	r0
+      0006A6 F6               [12] 1300 	mov	@r0,a
+      0006A7 A3               [24] 1301 	inc	dptr
+      0006A8 E0               [24] 1302 	movx	a,@dptr
+      0006A9 08               [12] 1303 	inc	r0
+      0006AA F6               [12] 1304 	mov	@r0,a
+      0006AB C0 07            [24] 1305 	push	ar7
+      0006AD C0 06            [24] 1306 	push	ar6
+      0006AF C0 05            [24] 1307 	push	ar5
+      0006B1 C0 02            [24] 1308 	push	ar2
+      0006B3 C0 03            [24] 1309 	push	ar3
+      0006B5 C0 04            [24] 1310 	push	ar4
+      0006B7 E5 81            [12] 1311 	mov	a,sp
+      0006B9 24 F8            [12] 1312 	add	a,#0xf8
+      0006BB F8               [12] 1313 	mov	r0,a
+      0006BC 86 82            [24] 1314 	mov	dpl,@r0
+      0006BE 08               [12] 1315 	inc	r0
+      0006BF 86 83            [24] 1316 	mov	dph,@r0
+      0006C1 08               [12] 1317 	inc	r0
+      0006C2 86 F0            [24] 1318 	mov	b,@r0
+      0006C4 78r00            [12] 1319 	mov	r0,#_list_remove
+      0006C6 79s00            [12] 1320 	mov	r1,#(_list_remove >> 8)
+      0006C8 7As00            [12] 1321 	mov	r2,#(_list_remove >> 16)
+      0006CA 12r00r00         [24] 1322 	lcall	__sdcc_banked_call
+      0006CD 15 81            [12] 1323 	dec	sp
+      0006CF 15 81            [12] 1324 	dec	sp
+      0006D1 15 81            [12] 1325 	dec	sp
+      0006D3 D0 05            [24] 1326 	pop	ar5
+      0006D5 D0 06            [24] 1327 	pop	ar6
+      0006D7 D0 07            [24] 1328 	pop	ar7
+                                   1329 ;	/opt/contiki/core/net/rime/route.c:241: memb_free(&route_mem, e);
+      0006D9 8F 04            [24] 1330 	mov	ar4,r7
+      0006DB C0 04            [24] 1331 	push	ar4
+      0006DD C0 05            [24] 1332 	push	ar5
+      0006DF C0 06            [24] 1333 	push	ar6
+      0006E1 90r00r06         [24] 1334 	mov	dptr,#_route_mem
+      0006E4 75 F0 00         [24] 1335 	mov	b,#0x00
+      0006E7 78r00            [12] 1336 	mov	r0,#_memb_free
+      0006E9 79s00            [12] 1337 	mov	r1,#(_memb_free >> 8)
+      0006EB 7As00            [12] 1338 	mov	r2,#(_memb_free >> 16)
+      0006ED 12r00r00         [24] 1339 	lcall	__sdcc_banked_call
+      0006F0 15 81            [12] 1340 	dec	sp
+      0006F2 15 81            [12] 1341 	dec	sp
+      0006F4 15 81            [12] 1342 	dec	sp
+      0006F6 15 81            [12] 1343 	dec	sp
+      0006F8 15 81            [12] 1344 	dec	sp
+      0006FA 15 81            [12] 1345 	dec	sp
+      0006FC 02r00r00         [24] 1346 	ljmp	__sdcc_banked_ret
+                                   1347 ;------------------------------------------------------------
+                                   1348 ;Allocation info for local variables in function 'route_flush_all'
+                                   1349 ;------------------------------------------------------------
+                                   1350 ;e                         Allocated to registers r2 r3 r4 
+                                   1351 ;------------------------------------------------------------
+                                   1352 ;	/opt/contiki/core/net/rime/route.c:245: route_flush_all(void)
+                                   1353 ;	-----------------------------------------
+                                   1354 ;	 function route_flush_all
+                                   1355 ;	-----------------------------------------
+      0006FF                       1356 _route_flush_all:
+                                   1357 ;	/opt/contiki/core/net/rime/route.c:249: while(1) {
+      0006FF                       1358 00105$:
+                                   1359 ;	/opt/contiki/core/net/rime/route.c:250: e = list_pop(route_table);
+      0006FF 90r00r03         [24] 1360 	mov	dptr,#_route_table
+      000702 E0               [24] 1361 	movx	a,@dptr
+      000703 FD               [12] 1362 	mov	r5,a
+      000704 A3               [24] 1363 	inc	dptr
+      000705 E0               [24] 1364 	movx	a,@dptr
+      000706 FE               [12] 1365 	mov	r6,a
+      000707 A3               [24] 1366 	inc	dptr
+      000708 E0               [24] 1367 	movx	a,@dptr
+      000709 FF               [12] 1368 	mov	r7,a
+      00070A 8D 82            [24] 1369 	mov	dpl,r5
+      00070C 8E 83            [24] 1370 	mov	dph,r6
+      00070E 8F F0            [24] 1371 	mov	b,r7
+      000710 78r00            [12] 1372 	mov	r0,#_list_pop
+      000712 79s00            [12] 1373 	mov	r1,#(_list_pop >> 8)
+      000714 7As00            [12] 1374 	mov	r2,#(_list_pop >> 16)
+      000716 12r00r00         [24] 1375 	lcall	__sdcc_banked_call
+      000719 AD 82            [24] 1376 	mov	r5,dpl
+      00071B AE 83            [24] 1377 	mov	r6,dph
+      00071D AF F0            [24] 1378 	mov	r7,b
+      00071F 8D 02            [24] 1379 	mov	ar2,r5
+      000721 8E 03            [24] 1380 	mov	ar3,r6
+      000723 8F 04            [24] 1381 	mov	ar4,r7
+                                   1382 ;	/opt/contiki/core/net/rime/route.c:251: if(e != NULL) {
+      000725 ED               [12] 1383 	mov	a,r5
+      000726 4E               [12] 1384 	orl	a,r6
+      000727 60 1D            [24] 1385 	jz	00107$
+                                   1386 ;	/opt/contiki/core/net/rime/route.c:252: memb_free(&route_mem, e);
+      000729 C0 02            [24] 1387 	push	ar2
+      00072B C0 03            [24] 1388 	push	ar3
+      00072D C0 04            [24] 1389 	push	ar4
+      00072F 90r00r06         [24] 1390 	mov	dptr,#_route_mem
+      000732 75 F0 00         [24] 1391 	mov	b,#0x00
+      000735 78r00            [12] 1392 	mov	r0,#_memb_free
+      000737 79s00            [12] 1393 	mov	r1,#(_memb_free >> 8)
+      000739 7As00            [12] 1394 	mov	r2,#(_memb_free >> 16)
+      00073B 12r00r00         [24] 1395 	lcall	__sdcc_banked_call
+      00073E 15 81            [12] 1396 	dec	sp
+      000740 15 81            [12] 1397 	dec	sp
+      000742 15 81            [12] 1398 	dec	sp
+                                   1399 ;	/opt/contiki/core/net/rime/route.c:254: break;
+      000744 80 B9            [24] 1400 	sjmp	00105$
+      000746                       1401 00107$:
+      000746 02r00r00         [24] 1402 	ljmp	__sdcc_banked_ret
+                                   1403 ;------------------------------------------------------------
+                                   1404 ;Allocation info for local variables in function 'route_set_lifetime'
+                                   1405 ;------------------------------------------------------------
+                                   1406 ;seconds                   Allocated to registers 
+                                   1407 ;------------------------------------------------------------
+                                   1408 ;	/opt/contiki/core/net/rime/route.c:260: route_set_lifetime(int seconds)
+                                   1409 ;	-----------------------------------------
+                                   1410 ;	 function route_set_lifetime
+                                   1411 ;	-----------------------------------------
+      000749                       1412 _route_set_lifetime:
+      000749 AF 83            [24] 1413 	mov	r7,dph
+      00074B E5 82            [12] 1414 	mov	a,dpl
+      00074D 90r00r10         [24] 1415 	mov	dptr,#_max_time
+      000750 F0               [24] 1416 	movx	@dptr,a
+      000751 EF               [12] 1417 	mov	a,r7
+      000752 A3               [24] 1418 	inc	dptr
+      000753 F0               [24] 1419 	movx	@dptr,a
+                                   1420 ;	/opt/contiki/core/net/rime/route.c:262: max_time = seconds;
+      000754 02r00r00         [24] 1421 	ljmp	__sdcc_banked_ret
+                                   1422 ;------------------------------------------------------------
+                                   1423 ;Allocation info for local variables in function 'route_num'
+                                   1424 ;------------------------------------------------------------
+                                   1425 ;e                         Allocated to registers r5 r6 r7 
+                                   1426 ;i                         Allocated to stack - sp -1
+                                   1427 ;------------------------------------------------------------
+                                   1428 ;	/opt/contiki/core/net/rime/route.c:266: route_num(void)
+                                   1429 ;	-----------------------------------------
+                                   1430 ;	 function route_num
+                                   1431 ;	-----------------------------------------
+      000757                       1432 _route_num:
+      000757 05 81            [12] 1433 	inc	sp
+      000759 05 81            [12] 1434 	inc	sp
+                                   1435 ;	/opt/contiki/core/net/rime/route.c:271: for(e = list_head(route_table); e != NULL; e = list_item_next(e)) {
+      00075B 90r00r03         [24] 1436 	mov	dptr,#_route_table
+      00075E E0               [24] 1437 	movx	a,@dptr
+      00075F FD               [12] 1438 	mov	r5,a
+      000760 A3               [24] 1439 	inc	dptr
+      000761 E0               [24] 1440 	movx	a,@dptr
+      000762 FE               [12] 1441 	mov	r6,a
+      000763 A3               [24] 1442 	inc	dptr
+      000764 E0               [24] 1443 	movx	a,@dptr
+      000765 FF               [12] 1444 	mov	r7,a
+      000766 8D 82            [24] 1445 	mov	dpl,r5
+      000768 8E 83            [24] 1446 	mov	dph,r6
+      00076A 8F F0            [24] 1447 	mov	b,r7
+      00076C 78r00            [12] 1448 	mov	r0,#_list_head
+      00076E 79s00            [12] 1449 	mov	r1,#(_list_head >> 8)
+      000770 7As00            [12] 1450 	mov	r2,#(_list_head >> 16)
+      000772 12r00r00         [24] 1451 	lcall	__sdcc_banked_call
+      000775 AD 82            [24] 1452 	mov	r5,dpl
+      000777 AE 83            [24] 1453 	mov	r6,dph
+      000779 AF F0            [24] 1454 	mov	r7,b
+      00077B A8 81            [24] 1455 	mov	r0,sp
+      00077D 18               [12] 1456 	dec	r0
+      00077E E4               [12] 1457 	clr	a
+      00077F F6               [12] 1458 	mov	@r0,a
+      000780 08               [12] 1459 	inc	r0
+      000781 F6               [12] 1460 	mov	@r0,a
+      000782                       1461 00103$:
+      000782 E4               [12] 1462 	clr	a
+      000783 C0 E0            [24] 1463 	push	acc
+      000785 C0 E0            [24] 1464 	push	acc
+      000787 C0 E0            [24] 1465 	push	acc
+      000789 8D 82            [24] 1466 	mov	dpl,r5
+      00078B 8E 83            [24] 1467 	mov	dph,r6
+      00078D 8F F0            [24] 1468 	mov	b,r7
+      00078F 12r00r00         [24] 1469 	lcall	___gptr_cmp
+      000792 15 81            [12] 1470 	dec	sp
+      000794 15 81            [12] 1471 	dec	sp
+      000796 15 81            [12] 1472 	dec	sp
+      000798 60 2C            [24] 1473 	jz	00101$
+                                   1474 ;	/opt/contiki/core/net/rime/route.c:272: i++;
+      00079A A8 81            [24] 1475 	mov	r0,sp
+      00079C 18               [12] 1476 	dec	r0
+      00079D 06               [12] 1477 	inc	@r0
+      00079E B6 00 02         [24] 1478 	cjne	@r0,#0x00,00115$
+      0007A1 08               [12] 1479 	inc	r0
+      0007A2 06               [12] 1480 	inc	@r0
+      0007A3                       1481 00115$:
+                                   1482 ;	/opt/contiki/core/net/rime/route.c:271: for(e = list_head(route_table); e != NULL; e = list_item_next(e)) {
+      0007A3 8D 02            [24] 1483 	mov	ar2,r5
+      0007A5 8E 03            [24] 1484 	mov	ar3,r6
+      0007A7 8F 04            [24] 1485 	mov	ar4,r7
+      0007A9 8A 82            [24] 1486 	mov	dpl,r2
+      0007AB 8B 83            [24] 1487 	mov	dph,r3
+      0007AD 8C F0            [24] 1488 	mov	b,r4
+      0007AF 78r00            [12] 1489 	mov	r0,#_list_item_next
+      0007B1 79s00            [12] 1490 	mov	r1,#(_list_item_next >> 8)
+      0007B3 7As00            [12] 1491 	mov	r2,#(_list_item_next >> 16)
+      0007B5 12r00r00         [24] 1492 	lcall	__sdcc_banked_call
+      0007B8 AA 82            [24] 1493 	mov	r2,dpl
+      0007BA AB 83            [24] 1494 	mov	r3,dph
+      0007BC AC F0            [24] 1495 	mov	r4,b
+      0007BE 8A 05            [24] 1496 	mov	ar5,r2
+      0007C0 8B 06            [24] 1497 	mov	ar6,r3
+      0007C2 8C 07            [24] 1498 	mov	ar7,r4
+      0007C4 80 BC            [24] 1499 	sjmp	00103$
+      0007C6                       1500 00101$:
+                                   1501 ;	/opt/contiki/core/net/rime/route.c:274: return i;
+      0007C6 A8 81            [24] 1502 	mov	r0,sp
+      0007C8 18               [12] 1503 	dec	r0
+      0007C9 86 82            [24] 1504 	mov	dpl,@r0
+      0007CB 08               [12] 1505 	inc	r0
+      0007CC 86 83            [24] 1506 	mov	dph,@r0
+      0007CE 15 81            [12] 1507 	dec	sp
+      0007D0 15 81            [12] 1508 	dec	sp
+      0007D2 02r00r00         [24] 1509 	ljmp	__sdcc_banked_ret
+                                   1510 ;------------------------------------------------------------
+                                   1511 ;Allocation info for local variables in function 'route_get'
+                                   1512 ;------------------------------------------------------------
+                                   1513 ;num                       Allocated to stack - sp -3
+                                   1514 ;e                         Allocated to registers r3 r4 r5 
+                                   1515 ;i                         Allocated to stack - sp -1
+                                   1516 ;------------------------------------------------------------
+                                   1517 ;	/opt/contiki/core/net/rime/route.c:278: route_get(int num)
+                                   1518 ;	-----------------------------------------
+                                   1519 ;	 function route_get
+                                   1520 ;	-----------------------------------------
+      0007D5                       1521 _route_get:
+      0007D5 C0 82            [24] 1522 	push	dpl
+      0007D7 C0 83            [24] 1523 	push	dph
+      0007D9 05 81            [12] 1524 	inc	sp
+      0007DB 05 81            [12] 1525 	inc	sp
+                                   1526 ;	/opt/contiki/core/net/rime/route.c:283: for(e = list_head(route_table); e != NULL; e = list_item_next(e)) {
+      0007DD 90r00r03         [24] 1527 	mov	dptr,#_route_table
+      0007E0 E0               [24] 1528 	movx	a,@dptr
+      0007E1 FB               [12] 1529 	mov	r3,a
+      0007E2 A3               [24] 1530 	inc	dptr
+      0007E3 E0               [24] 1531 	movx	a,@dptr
+      0007E4 FC               [12] 1532 	mov	r4,a
+      0007E5 A3               [24] 1533 	inc	dptr
+      0007E6 E0               [24] 1534 	movx	a,@dptr
+      0007E7 FD               [12] 1535 	mov	r5,a
+      0007E8 8B 82            [24] 1536 	mov	dpl,r3
+      0007EA 8C 83            [24] 1537 	mov	dph,r4
+      0007EC 8D F0            [24] 1538 	mov	b,r5
+      0007EE 78r00            [12] 1539 	mov	r0,#_list_head
+      0007F0 79s00            [12] 1540 	mov	r1,#(_list_head >> 8)
+      0007F2 7As00            [12] 1541 	mov	r2,#(_list_head >> 16)
+      0007F4 12r00r00         [24] 1542 	lcall	__sdcc_banked_call
+      0007F7 AB 82            [24] 1543 	mov	r3,dpl
+      0007F9 AC 83            [24] 1544 	mov	r4,dph
+      0007FB AD F0            [24] 1545 	mov	r5,b
+      0007FD A8 81            [24] 1546 	mov	r0,sp
+      0007FF 18               [12] 1547 	dec	r0
+      000800 E4               [12] 1548 	clr	a
+      000801 F6               [12] 1549 	mov	@r0,a
+      000802 08               [12] 1550 	inc	r0
+      000803 F6               [12] 1551 	mov	@r0,a
+      000804                       1552 00105$:
+      000804 E4               [12] 1553 	clr	a
+      000805 C0 E0            [24] 1554 	push	acc
+      000807 C0 E0            [24] 1555 	push	acc
+      000809 C0 E0            [24] 1556 	push	acc
+      00080B 8B 82            [24] 1557 	mov	dpl,r3
+      00080D 8C 83            [24] 1558 	mov	dph,r4
+      00080F 8D F0            [24] 1559 	mov	b,r5
+      000811 12r00r00         [24] 1560 	lcall	___gptr_cmp
+      000814 15 81            [12] 1561 	dec	sp
+      000816 15 81            [12] 1562 	dec	sp
+      000818 15 81            [12] 1563 	dec	sp
+      00081A 60 4E            [24] 1564 	jz	00103$
+                                   1565 ;	/opt/contiki/core/net/rime/route.c:284: if(i == num) {
+      00081C A8 81            [24] 1566 	mov	r0,sp
+      00081E 18               [12] 1567 	dec	r0
+      00081F E5 81            [12] 1568 	mov	a,sp
+      000821 24 FD            [12] 1569 	add	a,#0xfd
+      000823 F9               [12] 1570 	mov	r1,a
+      000824 86 F0            [24] 1571 	mov	b,@r0
+      000826 E7               [12] 1572 	mov	a,@r1
+      000827 B5 F0 0A         [24] 1573 	cjne	a,b,00119$
+      00082A 08               [12] 1574 	inc	r0
+      00082B 86 F0            [24] 1575 	mov	b,@r0
+      00082D 09               [12] 1576 	inc	r1
+      00082E E7               [12] 1577 	mov	a,@r1
+      00082F B5 F0 02         [24] 1578 	cjne	a,b,00119$
+      000832 80 02            [24] 1579 	sjmp	00120$
+      000834                       1580 00119$:
+      000834 80 08            [24] 1581 	sjmp	00102$
+      000836                       1582 00120$:
+                                   1583 ;	/opt/contiki/core/net/rime/route.c:285: return e;
+      000836 8B 82            [24] 1584 	mov	dpl,r3
+      000838 8C 83            [24] 1585 	mov	dph,r4
+      00083A 8D F0            [24] 1586 	mov	b,r5
+      00083C 80 32            [24] 1587 	sjmp	00107$
+      00083E                       1588 00102$:
+                                   1589 ;	/opt/contiki/core/net/rime/route.c:287: i++;
+      00083E A8 81            [24] 1590 	mov	r0,sp
+      000840 18               [12] 1591 	dec	r0
+      000841 06               [12] 1592 	inc	@r0
+      000842 B6 00 02         [24] 1593 	cjne	@r0,#0x00,00121$
+      000845 08               [12] 1594 	inc	r0
+      000846 06               [12] 1595 	inc	@r0
+      000847                       1596 00121$:
+                                   1597 ;	/opt/contiki/core/net/rime/route.c:283: for(e = list_head(route_table); e != NULL; e = list_item_next(e)) {
+      000847 8B 02            [24] 1598 	mov	ar2,r3
+      000849 8C 06            [24] 1599 	mov	ar6,r4
+      00084B 8D 07            [24] 1600 	mov	ar7,r5
+      00084D 8A 82            [24] 1601 	mov	dpl,r2
+      00084F 8E 83            [24] 1602 	mov	dph,r6
+      000851 8F F0            [24] 1603 	mov	b,r7
+      000853 78r00            [12] 1604 	mov	r0,#_list_item_next
+      000855 79s00            [12] 1605 	mov	r1,#(_list_item_next >> 8)
+      000857 7As00            [12] 1606 	mov	r2,#(_list_item_next >> 16)
+      000859 12r00r00         [24] 1607 	lcall	__sdcc_banked_call
+      00085C AA 82            [24] 1608 	mov	r2,dpl
+      00085E AE 83            [24] 1609 	mov	r6,dph
+      000860 AF F0            [24] 1610 	mov	r7,b
+      000862 8A 03            [24] 1611 	mov	ar3,r2
+      000864 8E 04            [24] 1612 	mov	ar4,r6
+      000866 8F 05            [24] 1613 	mov	ar5,r7
+      000868 80 9A            [24] 1614 	sjmp	00105$
+      00086A                       1615 00103$:
+                                   1616 ;	/opt/contiki/core/net/rime/route.c:289: return NULL;
+      00086A 90 00 00         [24] 1617 	mov	dptr,#0x0000
+      00086D 75 F0 00         [24] 1618 	mov	b,#0x00
+      000870                       1619 00107$:
+      000870 C8               [12] 1620 	xch	a,r0
+      000871 E5 81            [12] 1621 	mov	a,sp
+      000873 24 FC            [12] 1622 	add	a,#0xFC
+      000875 F5 81            [12] 1623 	mov	sp,a
+      000877 C8               [12] 1624 	xch	a,r0
+      000878 02r00r00         [24] 1625 	ljmp	__sdcc_banked_ret
+                                   1626 	.area CSEG    (CODE)
+                                   1627 	.area CONST   (CODE)
+                                   1628 	.area XINIT   (CODE)
+      000000                       1629 __xinit__route_table_list:
+                                   1630 ; generic printIvalPtr
+      000000 00 00 00              1631 	.byte #0x00,#0x00,#0x00
+      000003                       1632 __xinit__route_table:
+      000003r00s00 00              1633 	.byte _route_table_list, (_route_table_list >> 8),#0x00
+      000006                       1634 __xinit__route_mem:
+      000006 18 00                 1635 	.byte #0x18,#0x00	; 24
+      000008 08 00                 1636 	.byte #0x08,#0x00	; 8
+      00000Ar00s00 00              1637 	.byte _route_mem_memb_count, (_route_mem_memb_count >> 8),#0x00
+      00000Dr08s00 00              1638 	.byte _route_mem_memb_mem, (_route_mem_memb_mem >> 8),#0x00
+      000010                       1639 __xinit__max_time:
+      000010 3C 00                 1640 	.byte #0x3C,#0x00	;  60
+                                   1641 	.area CABS    (ABS,CODE)

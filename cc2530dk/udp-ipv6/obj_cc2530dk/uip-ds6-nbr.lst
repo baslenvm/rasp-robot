@@ -1,0 +1,3148 @@
+                                      1 ;--------------------------------------------------------
+                                      2 ; File Created by SDCC : free open source ANSI-C Compiler
+                                      3 ; Version 3.5.5 #9380 (Linux)
+                                      4 ; This file was generated Wed Nov 18 02:57:31 2015
+                                      5 ;--------------------------------------------------------
+                                      6 	.module uip_ds6_nbr
+                                      7 	.optsdcc -mmcs51 --model-huge
+                                      8 	
+                                      9 ;--------------------------------------------------------
+                                     10 ; Public variables in this module
+                                     11 ;--------------------------------------------------------
+                                     12 	.globl _rpl_link_neighbor_callback
+                                     13 	.globl _rpl_ipv6_neighbor_callback
+                                     14 	.globl _uip_ds6_defrt_lookup
+                                     15 	.globl _uip_ds6_defrt_rm
+                                     16 	.globl _uip_nd6_ns_output
+                                     17 	.globl _stimer_remaining
+                                     18 	.globl _stimer_expired
+                                     19 	.globl _stimer_set
+                                     20 	.globl _nbr_table_get_lladdr
+                                     21 	.globl _nbr_table_remove
+                                     22 	.globl _nbr_table_get_from_lladdr
+                                     23 	.globl _nbr_table_add_lladdr
+                                     24 	.globl _nbr_table_next
+                                     25 	.globl _nbr_table_head
+                                     26 	.globl _nbr_table_register
+                                     27 	.globl _packetbuf_addr
+                                     28 	.globl _linkaddr_cmp
+                                     29 	.globl _memcmp
+                                     30 	.globl _memcpy
+                                     31 	.globl _ACTIVE
+                                     32 	.globl _TX_BYTE
+                                     33 	.globl _RX_BYTE
+                                     34 	.globl _ERR
+                                     35 	.globl _FE
+                                     36 	.globl _SLAVE
+                                     37 	.globl _RE
+                                     38 	.globl _MODE
+                                     39 	.globl _T3OVFIF
+                                     40 	.globl _T3CH0IF
+                                     41 	.globl _T3CH1IF
+                                     42 	.globl _T4OVFIF
+                                     43 	.globl _T4CH0IF
+                                     44 	.globl _T4CH1IF
+                                     45 	.globl _OVFIM
+                                     46 	.globl _B_0
+                                     47 	.globl _B_1
+                                     48 	.globl _B_2
+                                     49 	.globl _B_3
+                                     50 	.globl _B_4
+                                     51 	.globl _B_5
+                                     52 	.globl _B_6
+                                     53 	.globl _B_7
+                                     54 	.globl _P2IF
+                                     55 	.globl _UTX0IF
+                                     56 	.globl _UTX1IF
+                                     57 	.globl _P1IF
+                                     58 	.globl _WDTIF
+                                     59 	.globl _ACC_0
+                                     60 	.globl _ACC_1
+                                     61 	.globl _ACC_2
+                                     62 	.globl _ACC_3
+                                     63 	.globl _ACC_4
+                                     64 	.globl _ACC_5
+                                     65 	.globl _ACC_6
+                                     66 	.globl _ACC_7
+                                     67 	.globl _P
+                                     68 	.globl _F1
+                                     69 	.globl _OV
+                                     70 	.globl _RS0
+                                     71 	.globl _RS1
+                                     72 	.globl _F0
+                                     73 	.globl _AC
+                                     74 	.globl _CY
+                                     75 	.globl _DMAIF
+                                     76 	.globl _T1IF
+                                     77 	.globl _T2IF
+                                     78 	.globl _T3IF
+                                     79 	.globl _T4IF
+                                     80 	.globl _P0IF
+                                     81 	.globl _STIF
+                                     82 	.globl _DMAIE
+                                     83 	.globl _T1IE
+                                     84 	.globl _T2IE
+                                     85 	.globl _T3IE
+                                     86 	.globl _T4IE
+                                     87 	.globl _P0IE
+                                     88 	.globl _RFERRIE
+                                     89 	.globl _ADCIE
+                                     90 	.globl _URX0IE
+                                     91 	.globl _URX1IE
+                                     92 	.globl _ENCIE
+                                     93 	.globl _STIE
+                                     94 	.globl _EA
+                                     95 	.globl _P2_0
+                                     96 	.globl _P2_1
+                                     97 	.globl _P2_2
+                                     98 	.globl _P2_3
+                                     99 	.globl _P2_4
+                                    100 	.globl _P2_5
+                                    101 	.globl _P2_6
+                                    102 	.globl _P2_7
+                                    103 	.globl _ENCIF_0
+                                    104 	.globl _ENCIF_1
+                                    105 	.globl _P1_0
+                                    106 	.globl _P1_1
+                                    107 	.globl _P1_2
+                                    108 	.globl _P1_3
+                                    109 	.globl _P1_4
+                                    110 	.globl _P1_5
+                                    111 	.globl _P1_6
+                                    112 	.globl _P1_7
+                                    113 	.globl _IT0
+                                    114 	.globl _RFERRIF
+                                    115 	.globl _IT1
+                                    116 	.globl _URX0IF
+                                    117 	.globl _ADCIF
+                                    118 	.globl _URX1IF
+                                    119 	.globl _P0_0
+                                    120 	.globl _P0_1
+                                    121 	.globl _P0_2
+                                    122 	.globl _P0_3
+                                    123 	.globl _P0_4
+                                    124 	.globl _P0_5
+                                    125 	.globl _P0_6
+                                    126 	.globl _P0_7
+                                    127 	.globl _WDCTL
+                                    128 	.globl _U1GCR
+                                    129 	.globl _U1UCR
+                                    130 	.globl _U1BAUD
+                                    131 	.globl _U1DBUF
+                                    132 	.globl _U1CSR
+                                    133 	.globl _U0GCR
+                                    134 	.globl _U0UCR
+                                    135 	.globl _U0BAUD
+                                    136 	.globl _U0DBUF
+                                    137 	.globl _U0CSR
+                                    138 	.globl _TIMIF
+                                    139 	.globl _T4CC1
+                                    140 	.globl _T4CCTL1
+                                    141 	.globl _T4CC0
+                                    142 	.globl _T4CCTL0
+                                    143 	.globl _T4CTL
+                                    144 	.globl _T4CNT
+                                    145 	.globl _T3CC1
+                                    146 	.globl _T3CCTL1
+                                    147 	.globl _T3CC0
+                                    148 	.globl _T3CCTL0
+                                    149 	.globl _T3CTL
+                                    150 	.globl _T3CNT
+                                    151 	.globl _T2MSEL
+                                    152 	.globl _T2IRQM
+                                    153 	.globl _T2MOVF2
+                                    154 	.globl _T2MOVF1
+                                    155 	.globl _T2MOVF0
+                                    156 	.globl _T2M1
+                                    157 	.globl _T2M0
+                                    158 	.globl _T2IRQF
+                                    159 	.globl _T2EVTCFG
+                                    160 	.globl _T2CTRL
+                                    161 	.globl _T1STAT
+                                    162 	.globl _T1CCTL2
+                                    163 	.globl _T1CCTL1
+                                    164 	.globl _T1CCTL0
+                                    165 	.globl _T1CTL
+                                    166 	.globl _T1CNTH
+                                    167 	.globl _T1CNTL
+                                    168 	.globl _T1CC2H
+                                    169 	.globl _T1CC2L
+                                    170 	.globl _T1CC1H
+                                    171 	.globl _T1CC1L
+                                    172 	.globl _T1CC0H
+                                    173 	.globl _T1CC0L
+                                    174 	.globl _CLKCONSTA
+                                    175 	.globl _CLKCONCMD
+                                    176 	.globl _SLEEPSTA
+                                    177 	.globl _SLEEPCMD
+                                    178 	.globl _STLOAD
+                                    179 	.globl _ST2
+                                    180 	.globl _ST1
+                                    181 	.globl _ST0
+                                    182 	.globl _RFERRF
+                                    183 	.globl _RFIRQF0
+                                    184 	.globl _RFST
+                                    185 	.globl _RFD
+                                    186 	.globl _RFIRQF1
+                                    187 	.globl _PSBANK
+                                    188 	.globl _FMAP
+                                    189 	.globl _MEMCTR
+                                    190 	.globl __XPAGE
+                                    191 	.globl _MPAGE
+                                    192 	.globl _PMUX
+                                    193 	.globl _P2DIR
+                                    194 	.globl _P1DIR
+                                    195 	.globl _P0DIR
+                                    196 	.globl _P2INP
+                                    197 	.globl _P1INP
+                                    198 	.globl _P2SEL
+                                    199 	.globl _P1SEL
+                                    200 	.globl _P0SEL
+                                    201 	.globl _APCFG
+                                    202 	.globl _PERCFG
+                                    203 	.globl _P0INP
+                                    204 	.globl _P2IEN
+                                    205 	.globl _P1IEN
+                                    206 	.globl _P0IEN
+                                    207 	.globl _PICTL
+                                    208 	.globl _P2IFG
+                                    209 	.globl _P1IFG
+                                    210 	.globl _P0IFG
+                                    211 	.globl _DMAREQ
+                                    212 	.globl _DMAARM
+                                    213 	.globl _DMA0CFGH
+                                    214 	.globl _DMA0CFGL
+                                    215 	.globl _DMA1CFGH
+                                    216 	.globl _DMA1CFGL
+                                    217 	.globl _DMAIRQ
+                                    218 	.globl _ENCCS
+                                    219 	.globl _ENCDO
+                                    220 	.globl _ENCDI
+                                    221 	.globl _RNDH
+                                    222 	.globl _RNDL
+                                    223 	.globl _ADCH
+                                    224 	.globl _ADCL
+                                    225 	.globl _ADCCON3
+                                    226 	.globl _ADCCON2
+                                    227 	.globl _ADCCON1
+                                    228 	.globl _B
+                                    229 	.globl _IRCON2
+                                    230 	.globl _ACC
+                                    231 	.globl _PSW
+                                    232 	.globl _IRCON
+                                    233 	.globl _IP1
+                                    234 	.globl _IEN1
+                                    235 	.globl _IP0
+                                    236 	.globl _IEN0
+                                    237 	.globl _P2
+                                    238 	.globl _S1CON
+                                    239 	.globl _IEN2
+                                    240 	.globl _S0CON
+                                    241 	.globl _DPS
+                                    242 	.globl _P1
+                                    243 	.globl _TCON
+                                    244 	.globl _PCON
+                                    245 	.globl _DPH1
+                                    246 	.globl _DPL1
+                                    247 	.globl _DPH0
+                                    248 	.globl _DPL0
+                                    249 	.globl _SP
+                                    250 	.globl _P0
+                                    251 	.globl _ds6_neighbors
+                                    252 	.globl _X_IEEE_ADDR
+                                    253 	.globl _X_INFOPAGE
+                                    254 	.globl _X_P2DIR
+                                    255 	.globl _X_P1DIR
+                                    256 	.globl _X_P0DIR
+                                    257 	.globl _X_U1GCR
+                                    258 	.globl _X_U1UCR
+                                    259 	.globl _X_U1BAUD
+                                    260 	.globl _X_U1DBUF
+                                    261 	.globl _X_U1CSR
+                                    262 	.globl _X_P2INP
+                                    263 	.globl _X_P1INP
+                                    264 	.globl _X_P2SEL
+                                    265 	.globl _X_P1SEL
+                                    266 	.globl _X_P0SEL
+                                    267 	.globl _X_APCFG
+                                    268 	.globl _X_PERCFG
+                                    269 	.globl _X_T4CC1
+                                    270 	.globl _X_T4CCTL1
+                                    271 	.globl _X_T4CC0
+                                    272 	.globl _X_T4CCTL0
+                                    273 	.globl _X_T4CTL
+                                    274 	.globl _X_T4CNT
+                                    275 	.globl _X_RFIRQF0
+                                    276 	.globl _X_T1CCTL2
+                                    277 	.globl _X_T1CCTL1
+                                    278 	.globl _X_T1CCTL0
+                                    279 	.globl _X_T1CTL
+                                    280 	.globl _X_T1CNTH
+                                    281 	.globl _X_T1CNTL
+                                    282 	.globl _X_RFST
+                                    283 	.globl _X_T1CC2H
+                                    284 	.globl _X_T1CC2L
+                                    285 	.globl _X_T1CC1H
+                                    286 	.globl _X_T1CC1L
+                                    287 	.globl _X_T1CC0H
+                                    288 	.globl _X_T1CC0L
+                                    289 	.globl _X_RFD
+                                    290 	.globl _X_TIMIF
+                                    291 	.globl _X_DMAREQ
+                                    292 	.globl _X_DMAARM
+                                    293 	.globl _X_DMA0CFGH
+                                    294 	.globl _X_DMA0CFGL
+                                    295 	.globl _X_DMA1CFGH
+                                    296 	.globl _X_DMA1CFGL
+                                    297 	.globl _X_DMAIRQ
+                                    298 	.globl _X_T3CC1
+                                    299 	.globl _X_T3CCTL1
+                                    300 	.globl _X_T3CC0
+                                    301 	.globl _X_T3CCTL0
+                                    302 	.globl _X_T3CTL
+                                    303 	.globl _X_T3CNT
+                                    304 	.globl _X_WDCTL
+                                    305 	.globl _X_MEMCTR
+                                    306 	.globl _X_CLKCONCMD
+                                    307 	.globl _X_U0GCR
+                                    308 	.globl _X_U0UCR
+                                    309 	.globl _X_T2MSEL
+                                    310 	.globl _X_U0BAUD
+                                    311 	.globl _X_U0DBUF
+                                    312 	.globl _X_RFERRF
+                                    313 	.globl _X_SLEEPCMD
+                                    314 	.globl _X_RNDH
+                                    315 	.globl _X_RNDL
+                                    316 	.globl _X_ADCH
+                                    317 	.globl _X_ADCL
+                                    318 	.globl _X_ADCCON3
+                                    319 	.globl _X_ADCCON2
+                                    320 	.globl _X_ADCCON1
+                                    321 	.globl _X_ENCCS
+                                    322 	.globl _X_ENCDO
+                                    323 	.globl _X_ENCDI
+                                    324 	.globl _X_T1STAT
+                                    325 	.globl _X_PMUX
+                                    326 	.globl _X_STLOAD
+                                    327 	.globl _X_P2IEN
+                                    328 	.globl _X_P0IEN
+                                    329 	.globl _X_T2IRQM
+                                    330 	.globl _X_T2MOVF2
+                                    331 	.globl _X_T2MOVF1
+                                    332 	.globl _X_T2MOVF0
+                                    333 	.globl _X_T2M1
+                                    334 	.globl _X_T2M0
+                                    335 	.globl _X_T2IRQF
+                                    336 	.globl _X_P2
+                                    337 	.globl _X_PSBANK
+                                    338 	.globl _X_FMAP
+                                    339 	.globl _X_CLKCONSTA
+                                    340 	.globl _X_SLEEPSTA
+                                    341 	.globl _X_T2EVTCFG
+                                    342 	.globl _X_ST2
+                                    343 	.globl _X_ST1
+                                    344 	.globl _X_ST0
+                                    345 	.globl _X_T2CTRL
+                                    346 	.globl _X__XPAGE
+                                    347 	.globl _X_MPAGE
+                                    348 	.globl _X_RFIRQF1
+                                    349 	.globl _X_P1
+                                    350 	.globl _X_P0INP
+                                    351 	.globl _X_P1IEN
+                                    352 	.globl _X_PICTL
+                                    353 	.globl _X_P2IFG
+                                    354 	.globl _X_P1IFG
+                                    355 	.globl _X_P0IFG
+                                    356 	.globl _X_U0CSR
+                                    357 	.globl _X_P0
+                                    358 	.globl _USBF5
+                                    359 	.globl _USBF4
+                                    360 	.globl _USBF3
+                                    361 	.globl _USBF2
+                                    362 	.globl _USBF1
+                                    363 	.globl _USBF0
+                                    364 	.globl _USBCNTH
+                                    365 	.globl _USBCNTL
+                                    366 	.globl _USBCNT0
+                                    367 	.globl _USBCSOH
+                                    368 	.globl _USBCSOL
+                                    369 	.globl _USBMAXO
+                                    370 	.globl _USBCSIH
+                                    371 	.globl _USBCSIL
+                                    372 	.globl _USBCS0
+                                    373 	.globl _USBMAXI
+                                    374 	.globl _USBCTRL
+                                    375 	.globl _USBINDEX
+                                    376 	.globl _USBFRMH
+                                    377 	.globl _USBFRML
+                                    378 	.globl _USBCIE
+                                    379 	.globl _USBOIE
+                                    380 	.globl _USBIIE
+                                    381 	.globl _USBCIF
+                                    382 	.globl _USBOIF
+                                    383 	.globl _USBIIF
+                                    384 	.globl _USBPOW
+                                    385 	.globl _USBADDR
+                                    386 	.globl _CSPT
+                                    387 	.globl _CSPZ
+                                    388 	.globl _CSPY
+                                    389 	.globl _CSPX
+                                    390 	.globl _CSPSTAT
+                                    391 	.globl _CSPCTRL
+                                    392 	.globl _CSPPROG23
+                                    393 	.globl _CSPPROG22
+                                    394 	.globl _CSPPROG21
+                                    395 	.globl _CSPPROG20
+                                    396 	.globl _CSPPROG19
+                                    397 	.globl _CSPPROG18
+                                    398 	.globl _CSPPROG17
+                                    399 	.globl _CSPPROG16
+                                    400 	.globl _CSPPROG15
+                                    401 	.globl _CSPPROG14
+                                    402 	.globl _CSPPROG13
+                                    403 	.globl _CSPPROG12
+                                    404 	.globl _CSPPROG11
+                                    405 	.globl _CSPPROG10
+                                    406 	.globl _CSPPROG9
+                                    407 	.globl _CSPPROG8
+                                    408 	.globl _CSPPROG7
+                                    409 	.globl _CSPPROG6
+                                    410 	.globl _CSPPROG5
+                                    411 	.globl _CSPPROG4
+                                    412 	.globl _CSPPROG3
+                                    413 	.globl _CSPPROG2
+                                    414 	.globl _CSPPROG1
+                                    415 	.globl _CSPPROG0
+                                    416 	.globl _RFC_OBS_CTRL2
+                                    417 	.globl _RFC_OBS_CTRL1
+                                    418 	.globl _RFC_OBS_CTRL0
+                                    419 	.globl _TXFILTCFG
+                                    420 	.globl _PTEST1
+                                    421 	.globl _PTEST0
+                                    422 	.globl _ATEST
+                                    423 	.globl _DACTEST2
+                                    424 	.globl _DACTEST1
+                                    425 	.globl _DACTEST0
+                                    426 	.globl _MDMTEST1
+                                    427 	.globl _MDMTEST0
+                                    428 	.globl _ADCTEST2
+                                    429 	.globl _ADCTEST1
+                                    430 	.globl _ADCTEST0
+                                    431 	.globl _AGCCTRL3
+                                    432 	.globl _AGCCTRL2
+                                    433 	.globl _AGCCTRL1
+                                    434 	.globl _AGCCTRL0
+                                    435 	.globl _FSCAL3
+                                    436 	.globl _FSCAL2
+                                    437 	.globl _FSCAL1
+                                    438 	.globl _FSCAL0
+                                    439 	.globl _FSCTRL
+                                    440 	.globl _RXCTRL
+                                    441 	.globl _FREQEST
+                                    442 	.globl _MDMCTRL1
+                                    443 	.globl _MDMCTRL0
+                                    444 	.globl _RFRND
+                                    445 	.globl _RFERRM
+                                    446 	.globl _RFIRQM1
+                                    447 	.globl _RFIRQM0
+                                    448 	.globl _TXLAST_PTR
+                                    449 	.globl _TXFIRST_PTR
+                                    450 	.globl _RXP1_PTR
+                                    451 	.globl _RXLAST_PTR
+                                    452 	.globl _RXFIRST_PTR
+                                    453 	.globl _TXFIFOCNT
+                                    454 	.globl _RXFIFOCNT
+                                    455 	.globl _RXFIRST
+                                    456 	.globl _RSSISTAT
+                                    457 	.globl _RSSI
+                                    458 	.globl _CCACTRL1
+                                    459 	.globl _CCACTRL0
+                                    460 	.globl _FSMCTRL
+                                    461 	.globl _FIFOPCTRL
+                                    462 	.globl _FSMSTAT1
+                                    463 	.globl _FSMSTAT0
+                                    464 	.globl _TXCTRL
+                                    465 	.globl _TXPOWER
+                                    466 	.globl _FREQCTRL
+                                    467 	.globl _FREQTUNE
+                                    468 	.globl _RXMASKCLR
+                                    469 	.globl _RXMASKSET
+                                    470 	.globl _RXENABLE
+                                    471 	.globl _FRMCTRL1
+                                    472 	.globl _FRMCTRL0
+                                    473 	.globl _SRCEXTEN2
+                                    474 	.globl _SRCEXTEN1
+                                    475 	.globl _SRCEXTEN0
+                                    476 	.globl _SRCSHORTEN2
+                                    477 	.globl _SRCSHORTEN1
+                                    478 	.globl _SRCSHORTEN0
+                                    479 	.globl _SRCMATCH
+                                    480 	.globl _FRMFILT1
+                                    481 	.globl _FRMFILT0
+                                    482 	.globl _SHORT_ADDR1
+                                    483 	.globl _SHORT_ADDR0
+                                    484 	.globl _PAN_ID1
+                                    485 	.globl _PAN_ID0
+                                    486 	.globl _EXT_ADDR7
+                                    487 	.globl _EXT_ADDR6
+                                    488 	.globl _EXT_ADDR5
+                                    489 	.globl _EXT_ADDR4
+                                    490 	.globl _EXT_ADDR3
+                                    491 	.globl _EXT_ADDR2
+                                    492 	.globl _EXT_ADDR1
+                                    493 	.globl _EXT_ADDR0
+                                    494 	.globl _SRCSHORTPENDEN2
+                                    495 	.globl _SRCSHORTPENDEN1
+                                    496 	.globl _SRCSHORTPENDEN0
+                                    497 	.globl _SRCEXTPENDEN2
+                                    498 	.globl _SRCEXTPENDEN1
+                                    499 	.globl _SRCEXTPENDEN0
+                                    500 	.globl _SRCRESINDEX
+                                    501 	.globl _SRCRESMASK2
+                                    502 	.globl _SRCRESMASK1
+                                    503 	.globl _SRCRESMASK0
+                                    504 	.globl _SRC_ADDR_TABLE
+                                    505 	.globl _TXFIFO
+                                    506 	.globl _RXFIFO
+                                    507 	.globl _RFCORE_RAM
+                                    508 	.globl _CMPCTL
+                                    509 	.globl _OPAMPS
+                                    510 	.globl _OPAMPC
+                                    511 	.globl _STCV2
+                                    512 	.globl _STCV1
+                                    513 	.globl _STCV0
+                                    514 	.globl _STCS
+                                    515 	.globl _STCC
+                                    516 	.globl _T1CC4H
+                                    517 	.globl _T1CC4L
+                                    518 	.globl _T1CC3H
+                                    519 	.globl _T1CC3L
+                                    520 	.globl _XX_T1CC2H
+                                    521 	.globl _XX_T1CC2L
+                                    522 	.globl _XX_T1CC1H
+                                    523 	.globl _XX_T1CC1L
+                                    524 	.globl _XX_T1CC0H
+                                    525 	.globl _XX_T1CC0L
+                                    526 	.globl _T1CCTL4
+                                    527 	.globl _T1CCTL3
+                                    528 	.globl _XX_T1CCTL2
+                                    529 	.globl _XX_T1CCTL1
+                                    530 	.globl _XX_T1CCTL0
+                                    531 	.globl _CLD
+                                    532 	.globl _IRCTL
+                                    533 	.globl _CHIPINFO1
+                                    534 	.globl _CHIPINFO0
+                                    535 	.globl _FWDATA
+                                    536 	.globl _FADDRH
+                                    537 	.globl _FADDRL
+                                    538 	.globl _FCTL
+                                    539 	.globl _IVCTRL
+                                    540 	.globl _BATTMON
+                                    541 	.globl _SRCRC
+                                    542 	.globl _DBGDATA
+                                    543 	.globl _TESTREG0
+                                    544 	.globl _CHIPID
+                                    545 	.globl _CHVER
+                                    546 	.globl _OBSSEL5
+                                    547 	.globl _OBSSEL4
+                                    548 	.globl _OBSSEL3
+                                    549 	.globl _OBSSEL2
+                                    550 	.globl _OBSSEL1
+                                    551 	.globl _OBSSEL0
+                                    552 	.globl _I2CIO
+                                    553 	.globl _I2CWC
+                                    554 	.globl _I2CADDR
+                                    555 	.globl _I2CDATA
+                                    556 	.globl _I2CSTAT
+                                    557 	.globl _I2CCFG
+                                    558 	.globl _OPAMPMC
+                                    559 	.globl _MONMUX
+                                    560 	.globl _uip_ds6_neighbors_init
+                                    561 	.globl _uip_ds6_nbr_add
+                                    562 	.globl _uip_ds6_nbr_rm
+                                    563 	.globl _uip_ds6_nbr_get_ipaddr
+                                    564 	.globl _uip_ds6_nbr_get_ll
+                                    565 	.globl _uip_ds6_nbr_num
+                                    566 	.globl _uip_ds6_nbr_lookup
+                                    567 	.globl _uip_ds6_nbr_ll_lookup
+                                    568 	.globl _uip_ds6_nbr_ipaddr_from_lladdr
+                                    569 	.globl _uip_ds6_nbr_lladdr_from_ipaddr
+                                    570 	.globl _uip_ds6_link_neighbor_callback
+                                    571 	.globl _uip_ds6_neighbor_periodic
+                                    572 	.globl _uip_ds6_get_least_lifetime_neighbor
+                                    573 ;--------------------------------------------------------
+                                    574 ; special function registers
+                                    575 ;--------------------------------------------------------
+                                    576 	.area RSEG    (ABS,DATA)
+      000000                        577 	.org 0x0000
+                           000080   578 _P0	=	0x0080
+                           000081   579 _SP	=	0x0081
+                           000082   580 _DPL0	=	0x0082
+                           000083   581 _DPH0	=	0x0083
+                           000084   582 _DPL1	=	0x0084
+                           000085   583 _DPH1	=	0x0085
+                           000087   584 _PCON	=	0x0087
+                           000088   585 _TCON	=	0x0088
+                           000090   586 _P1	=	0x0090
+                           000092   587 _DPS	=	0x0092
+                           000098   588 _S0CON	=	0x0098
+                           00009A   589 _IEN2	=	0x009a
+                           00009B   590 _S1CON	=	0x009b
+                           0000A0   591 _P2	=	0x00a0
+                           0000A8   592 _IEN0	=	0x00a8
+                           0000A9   593 _IP0	=	0x00a9
+                           0000B8   594 _IEN1	=	0x00b8
+                           0000B9   595 _IP1	=	0x00b9
+                           0000C0   596 _IRCON	=	0x00c0
+                           0000D0   597 _PSW	=	0x00d0
+                           0000E0   598 _ACC	=	0x00e0
+                           0000E8   599 _IRCON2	=	0x00e8
+                           0000F0   600 _B	=	0x00f0
+                           0000B4   601 _ADCCON1	=	0x00b4
+                           0000B5   602 _ADCCON2	=	0x00b5
+                           0000B6   603 _ADCCON3	=	0x00b6
+                           0000BA   604 _ADCL	=	0x00ba
+                           0000BB   605 _ADCH	=	0x00bb
+                           0000BC   606 _RNDL	=	0x00bc
+                           0000BD   607 _RNDH	=	0x00bd
+                           0000B1   608 _ENCDI	=	0x00b1
+                           0000B2   609 _ENCDO	=	0x00b2
+                           0000B3   610 _ENCCS	=	0x00b3
+                           0000D1   611 _DMAIRQ	=	0x00d1
+                           0000D2   612 _DMA1CFGL	=	0x00d2
+                           0000D3   613 _DMA1CFGH	=	0x00d3
+                           0000D4   614 _DMA0CFGL	=	0x00d4
+                           0000D5   615 _DMA0CFGH	=	0x00d5
+                           0000D6   616 _DMAARM	=	0x00d6
+                           0000D7   617 _DMAREQ	=	0x00d7
+                           000089   618 _P0IFG	=	0x0089
+                           00008A   619 _P1IFG	=	0x008a
+                           00008B   620 _P2IFG	=	0x008b
+                           00008C   621 _PICTL	=	0x008c
+                           0000AB   622 _P0IEN	=	0x00ab
+                           00008D   623 _P1IEN	=	0x008d
+                           0000AC   624 _P2IEN	=	0x00ac
+                           00008F   625 _P0INP	=	0x008f
+                           0000F1   626 _PERCFG	=	0x00f1
+                           0000F2   627 _APCFG	=	0x00f2
+                           0000F3   628 _P0SEL	=	0x00f3
+                           0000F4   629 _P1SEL	=	0x00f4
+                           0000F5   630 _P2SEL	=	0x00f5
+                           0000F6   631 _P1INP	=	0x00f6
+                           0000F7   632 _P2INP	=	0x00f7
+                           0000FD   633 _P0DIR	=	0x00fd
+                           0000FE   634 _P1DIR	=	0x00fe
+                           0000FF   635 _P2DIR	=	0x00ff
+                           0000AE   636 _PMUX	=	0x00ae
+                           000093   637 _MPAGE	=	0x0093
+                           000093   638 __XPAGE	=	0x0093
+                           0000C7   639 _MEMCTR	=	0x00c7
+                           00009F   640 _FMAP	=	0x009f
+                           00009F   641 _PSBANK	=	0x009f
+                           000091   642 _RFIRQF1	=	0x0091
+                           0000D9   643 _RFD	=	0x00d9
+                           0000E1   644 _RFST	=	0x00e1
+                           0000E9   645 _RFIRQF0	=	0x00e9
+                           0000BF   646 _RFERRF	=	0x00bf
+                           000095   647 _ST0	=	0x0095
+                           000096   648 _ST1	=	0x0096
+                           000097   649 _ST2	=	0x0097
+                           0000AD   650 _STLOAD	=	0x00ad
+                           0000BE   651 _SLEEPCMD	=	0x00be
+                           00009D   652 _SLEEPSTA	=	0x009d
+                           0000C6   653 _CLKCONCMD	=	0x00c6
+                           00009E   654 _CLKCONSTA	=	0x009e
+                           0000DA   655 _T1CC0L	=	0x00da
+                           0000DB   656 _T1CC0H	=	0x00db
+                           0000DC   657 _T1CC1L	=	0x00dc
+                           0000DD   658 _T1CC1H	=	0x00dd
+                           0000DE   659 _T1CC2L	=	0x00de
+                           0000DF   660 _T1CC2H	=	0x00df
+                           0000E2   661 _T1CNTL	=	0x00e2
+                           0000E3   662 _T1CNTH	=	0x00e3
+                           0000E4   663 _T1CTL	=	0x00e4
+                           0000E5   664 _T1CCTL0	=	0x00e5
+                           0000E6   665 _T1CCTL1	=	0x00e6
+                           0000E7   666 _T1CCTL2	=	0x00e7
+                           0000AF   667 _T1STAT	=	0x00af
+                           000094   668 _T2CTRL	=	0x0094
+                           00009C   669 _T2EVTCFG	=	0x009c
+                           0000A1   670 _T2IRQF	=	0x00a1
+                           0000A2   671 _T2M0	=	0x00a2
+                           0000A3   672 _T2M1	=	0x00a3
+                           0000A4   673 _T2MOVF0	=	0x00a4
+                           0000A5   674 _T2MOVF1	=	0x00a5
+                           0000A6   675 _T2MOVF2	=	0x00a6
+                           0000A7   676 _T2IRQM	=	0x00a7
+                           0000C3   677 _T2MSEL	=	0x00c3
+                           0000CA   678 _T3CNT	=	0x00ca
+                           0000CB   679 _T3CTL	=	0x00cb
+                           0000CC   680 _T3CCTL0	=	0x00cc
+                           0000CD   681 _T3CC0	=	0x00cd
+                           0000CE   682 _T3CCTL1	=	0x00ce
+                           0000CF   683 _T3CC1	=	0x00cf
+                           0000EA   684 _T4CNT	=	0x00ea
+                           0000EB   685 _T4CTL	=	0x00eb
+                           0000EC   686 _T4CCTL0	=	0x00ec
+                           0000ED   687 _T4CC0	=	0x00ed
+                           0000EE   688 _T4CCTL1	=	0x00ee
+                           0000EF   689 _T4CC1	=	0x00ef
+                           0000D8   690 _TIMIF	=	0x00d8
+                           000086   691 _U0CSR	=	0x0086
+                           0000C1   692 _U0DBUF	=	0x00c1
+                           0000C2   693 _U0BAUD	=	0x00c2
+                           0000C4   694 _U0UCR	=	0x00c4
+                           0000C5   695 _U0GCR	=	0x00c5
+                           0000F8   696 _U1CSR	=	0x00f8
+                           0000F9   697 _U1DBUF	=	0x00f9
+                           0000FA   698 _U1BAUD	=	0x00fa
+                           0000FB   699 _U1UCR	=	0x00fb
+                           0000FC   700 _U1GCR	=	0x00fc
+                           0000C9   701 _WDCTL	=	0x00c9
+                                    702 ;--------------------------------------------------------
+                                    703 ; special function bits
+                                    704 ;--------------------------------------------------------
+                                    705 	.area RSEG    (ABS,DATA)
+      000000                        706 	.org 0x0000
+                           000087   707 _P0_7	=	0x0087
+                           000086   708 _P0_6	=	0x0086
+                           000085   709 _P0_5	=	0x0085
+                           000084   710 _P0_4	=	0x0084
+                           000083   711 _P0_3	=	0x0083
+                           000082   712 _P0_2	=	0x0082
+                           000081   713 _P0_1	=	0x0081
+                           000080   714 _P0_0	=	0x0080
+                           00008F   715 _URX1IF	=	0x008f
+                           00008D   716 _ADCIF	=	0x008d
+                           00008B   717 _URX0IF	=	0x008b
+                           00008A   718 _IT1	=	0x008a
+                           000089   719 _RFERRIF	=	0x0089
+                           000088   720 _IT0	=	0x0088
+                           000097   721 _P1_7	=	0x0097
+                           000096   722 _P1_6	=	0x0096
+                           000095   723 _P1_5	=	0x0095
+                           000094   724 _P1_4	=	0x0094
+                           000093   725 _P1_3	=	0x0093
+                           000092   726 _P1_2	=	0x0092
+                           000091   727 _P1_1	=	0x0091
+                           000090   728 _P1_0	=	0x0090
+                           000099   729 _ENCIF_1	=	0x0099
+                           000098   730 _ENCIF_0	=	0x0098
+                           0000A7   731 _P2_7	=	0x00a7
+                           0000A6   732 _P2_6	=	0x00a6
+                           0000A5   733 _P2_5	=	0x00a5
+                           0000A4   734 _P2_4	=	0x00a4
+                           0000A3   735 _P2_3	=	0x00a3
+                           0000A2   736 _P2_2	=	0x00a2
+                           0000A1   737 _P2_1	=	0x00a1
+                           0000A0   738 _P2_0	=	0x00a0
+                           0000AF   739 _EA	=	0x00af
+                           0000AD   740 _STIE	=	0x00ad
+                           0000AC   741 _ENCIE	=	0x00ac
+                           0000AB   742 _URX1IE	=	0x00ab
+                           0000AA   743 _URX0IE	=	0x00aa
+                           0000A9   744 _ADCIE	=	0x00a9
+                           0000A8   745 _RFERRIE	=	0x00a8
+                           0000BD   746 _P0IE	=	0x00bd
+                           0000BC   747 _T4IE	=	0x00bc
+                           0000BB   748 _T3IE	=	0x00bb
+                           0000BA   749 _T2IE	=	0x00ba
+                           0000B9   750 _T1IE	=	0x00b9
+                           0000B8   751 _DMAIE	=	0x00b8
+                           0000C7   752 _STIF	=	0x00c7
+                           0000C5   753 _P0IF	=	0x00c5
+                           0000C4   754 _T4IF	=	0x00c4
+                           0000C3   755 _T3IF	=	0x00c3
+                           0000C2   756 _T2IF	=	0x00c2
+                           0000C1   757 _T1IF	=	0x00c1
+                           0000C0   758 _DMAIF	=	0x00c0
+                           0000D7   759 _CY	=	0x00d7
+                           0000D6   760 _AC	=	0x00d6
+                           0000D5   761 _F0	=	0x00d5
+                           0000D4   762 _RS1	=	0x00d4
+                           0000D3   763 _RS0	=	0x00d3
+                           0000D2   764 _OV	=	0x00d2
+                           0000D1   765 _F1	=	0x00d1
+                           0000D0   766 _P	=	0x00d0
+                           0000E7   767 _ACC_7	=	0x00e7
+                           0000E6   768 _ACC_6	=	0x00e6
+                           0000E5   769 _ACC_5	=	0x00e5
+                           0000E4   770 _ACC_4	=	0x00e4
+                           0000E3   771 _ACC_3	=	0x00e3
+                           0000E2   772 _ACC_2	=	0x00e2
+                           0000E1   773 _ACC_1	=	0x00e1
+                           0000E0   774 _ACC_0	=	0x00e0
+                           0000EC   775 _WDTIF	=	0x00ec
+                           0000EB   776 _P1IF	=	0x00eb
+                           0000EA   777 _UTX1IF	=	0x00ea
+                           0000E9   778 _UTX0IF	=	0x00e9
+                           0000E8   779 _P2IF	=	0x00e8
+                           0000F7   780 _B_7	=	0x00f7
+                           0000F6   781 _B_6	=	0x00f6
+                           0000F5   782 _B_5	=	0x00f5
+                           0000F4   783 _B_4	=	0x00f4
+                           0000F3   784 _B_3	=	0x00f3
+                           0000F2   785 _B_2	=	0x00f2
+                           0000F1   786 _B_1	=	0x00f1
+                           0000F0   787 _B_0	=	0x00f0
+                           0000DE   788 _OVFIM	=	0x00de
+                           0000DD   789 _T4CH1IF	=	0x00dd
+                           0000DC   790 _T4CH0IF	=	0x00dc
+                           0000DB   791 _T4OVFIF	=	0x00db
+                           0000DA   792 _T3CH1IF	=	0x00da
+                           0000D9   793 _T3CH0IF	=	0x00d9
+                           0000D8   794 _T3OVFIF	=	0x00d8
+                           0000FF   795 _MODE	=	0x00ff
+                           0000FE   796 _RE	=	0x00fe
+                           0000FD   797 _SLAVE	=	0x00fd
+                           0000FC   798 _FE	=	0x00fc
+                           0000FB   799 _ERR	=	0x00fb
+                           0000FA   800 _RX_BYTE	=	0x00fa
+                           0000F9   801 _TX_BYTE	=	0x00f9
+                           0000F8   802 _ACTIVE	=	0x00f8
+                                    803 ;--------------------------------------------------------
+                                    804 ; overlayable register banks
+                                    805 ;--------------------------------------------------------
+                                    806 	.area REG_BANK_0	(REL,OVR,DATA)
+      000000                        807 	.ds 8
+                                    808 ;--------------------------------------------------------
+                                    809 ; internal ram data
+                                    810 ;--------------------------------------------------------
+                                    811 	.area DSEG    (DATA)
+                                    812 ;--------------------------------------------------------
+                                    813 ; overlayable items in internal ram 
+                                    814 ;--------------------------------------------------------
+                                    815 ;--------------------------------------------------------
+                                    816 ; indirectly addressable internal ram data
+                                    817 ;--------------------------------------------------------
+                                    818 	.area ISEG    (DATA)
+                                    819 ;--------------------------------------------------------
+                                    820 ; absolute internal ram data
+                                    821 ;--------------------------------------------------------
+                                    822 	.area IABS    (ABS,DATA)
+                                    823 	.area IABS    (ABS,DATA)
+                                    824 ;--------------------------------------------------------
+                                    825 ; bit data
+                                    826 ;--------------------------------------------------------
+                                    827 	.area BSEG    (BIT)
+                                    828 ;--------------------------------------------------------
+                                    829 ; paged external ram data
+                                    830 ;--------------------------------------------------------
+                                    831 	.area PSEG    (PAG,XDATA)
+                                    832 ;--------------------------------------------------------
+                                    833 ; external ram data
+                                    834 ;--------------------------------------------------------
+                                    835 	.area XSEG    (XDATA)
+                           0061A6   836 _MONMUX	=	0x61a6
+                           0061A6   837 _OPAMPMC	=	0x61a6
+                           006230   838 _I2CCFG	=	0x6230
+                           006231   839 _I2CSTAT	=	0x6231
+                           006232   840 _I2CDATA	=	0x6232
+                           006233   841 _I2CADDR	=	0x6233
+                           006234   842 _I2CWC	=	0x6234
+                           006235   843 _I2CIO	=	0x6235
+                           006243   844 _OBSSEL0	=	0x6243
+                           006244   845 _OBSSEL1	=	0x6244
+                           006245   846 _OBSSEL2	=	0x6245
+                           006246   847 _OBSSEL3	=	0x6246
+                           006247   848 _OBSSEL4	=	0x6247
+                           006248   849 _OBSSEL5	=	0x6248
+                           006249   850 _CHVER	=	0x6249
+                           00624A   851 _CHIPID	=	0x624a
+                           00624B   852 _TESTREG0	=	0x624b
+                           006260   853 _DBGDATA	=	0x6260
+                           006262   854 _SRCRC	=	0x6262
+                           006264   855 _BATTMON	=	0x6264
+                           006265   856 _IVCTRL	=	0x6265
+                           006270   857 _FCTL	=	0x6270
+                           006271   858 _FADDRL	=	0x6271
+                           006272   859 _FADDRH	=	0x6272
+                           006273   860 _FWDATA	=	0x6273
+                           006276   861 _CHIPINFO0	=	0x6276
+                           006277   862 _CHIPINFO1	=	0x6277
+                           006281   863 _IRCTL	=	0x6281
+                           006290   864 _CLD	=	0x6290
+                           0062A0   865 _XX_T1CCTL0	=	0x62a0
+                           0062A1   866 _XX_T1CCTL1	=	0x62a1
+                           0062A2   867 _XX_T1CCTL2	=	0x62a2
+                           0062A3   868 _T1CCTL3	=	0x62a3
+                           0062A4   869 _T1CCTL4	=	0x62a4
+                           0062A6   870 _XX_T1CC0L	=	0x62a6
+                           0062A7   871 _XX_T1CC0H	=	0x62a7
+                           0062A8   872 _XX_T1CC1L	=	0x62a8
+                           0062A9   873 _XX_T1CC1H	=	0x62a9
+                           0062AA   874 _XX_T1CC2L	=	0x62aa
+                           0062AB   875 _XX_T1CC2H	=	0x62ab
+                           0062AC   876 _T1CC3L	=	0x62ac
+                           0062AD   877 _T1CC3H	=	0x62ad
+                           0062AE   878 _T1CC4L	=	0x62ae
+                           0062AF   879 _T1CC4H	=	0x62af
+                           0062B0   880 _STCC	=	0x62b0
+                           0062B1   881 _STCS	=	0x62b1
+                           0062B2   882 _STCV0	=	0x62b2
+                           0062B3   883 _STCV1	=	0x62b3
+                           0062B4   884 _STCV2	=	0x62b4
+                           0062C0   885 _OPAMPC	=	0x62c0
+                           0062C1   886 _OPAMPS	=	0x62c1
+                           0062D0   887 _CMPCTL	=	0x62d0
+                           006000   888 _RFCORE_RAM	=	0x6000
+                           006000   889 _RXFIFO	=	0x6000
+                           006080   890 _TXFIFO	=	0x6080
+                           006100   891 _SRC_ADDR_TABLE	=	0x6100
+                           006160   892 _SRCRESMASK0	=	0x6160
+                           006161   893 _SRCRESMASK1	=	0x6161
+                           006162   894 _SRCRESMASK2	=	0x6162
+                           006163   895 _SRCRESINDEX	=	0x6163
+                           006164   896 _SRCEXTPENDEN0	=	0x6164
+                           006165   897 _SRCEXTPENDEN1	=	0x6165
+                           006166   898 _SRCEXTPENDEN2	=	0x6166
+                           006167   899 _SRCSHORTPENDEN0	=	0x6167
+                           006168   900 _SRCSHORTPENDEN1	=	0x6168
+                           006169   901 _SRCSHORTPENDEN2	=	0x6169
+                           00616A   902 _EXT_ADDR0	=	0x616a
+                           00616B   903 _EXT_ADDR1	=	0x616b
+                           00616C   904 _EXT_ADDR2	=	0x616c
+                           00616D   905 _EXT_ADDR3	=	0x616d
+                           00616E   906 _EXT_ADDR4	=	0x616e
+                           00616F   907 _EXT_ADDR5	=	0x616f
+                           006170   908 _EXT_ADDR6	=	0x6170
+                           006171   909 _EXT_ADDR7	=	0x6171
+                           006172   910 _PAN_ID0	=	0x6172
+                           006173   911 _PAN_ID1	=	0x6173
+                           006174   912 _SHORT_ADDR0	=	0x6174
+                           006175   913 _SHORT_ADDR1	=	0x6175
+                           006180   914 _FRMFILT0	=	0x6180
+                           006181   915 _FRMFILT1	=	0x6181
+                           006182   916 _SRCMATCH	=	0x6182
+                           006183   917 _SRCSHORTEN0	=	0x6183
+                           006184   918 _SRCSHORTEN1	=	0x6184
+                           006185   919 _SRCSHORTEN2	=	0x6185
+                           006186   920 _SRCEXTEN0	=	0x6186
+                           006187   921 _SRCEXTEN1	=	0x6187
+                           006188   922 _SRCEXTEN2	=	0x6188
+                           006189   923 _FRMCTRL0	=	0x6189
+                           00618A   924 _FRMCTRL1	=	0x618a
+                           00618B   925 _RXENABLE	=	0x618b
+                           00618C   926 _RXMASKSET	=	0x618c
+                           00618D   927 _RXMASKCLR	=	0x618d
+                           00618E   928 _FREQTUNE	=	0x618e
+                           00618F   929 _FREQCTRL	=	0x618f
+                           006190   930 _TXPOWER	=	0x6190
+                           006191   931 _TXCTRL	=	0x6191
+                           006192   932 _FSMSTAT0	=	0x6192
+                           006193   933 _FSMSTAT1	=	0x6193
+                           006194   934 _FIFOPCTRL	=	0x6194
+                           006195   935 _FSMCTRL	=	0x6195
+                           006196   936 _CCACTRL0	=	0x6196
+                           006197   937 _CCACTRL1	=	0x6197
+                           006198   938 _RSSI	=	0x6198
+                           006199   939 _RSSISTAT	=	0x6199
+                           00619A   940 _RXFIRST	=	0x619a
+                           00619B   941 _RXFIFOCNT	=	0x619b
+                           00619C   942 _TXFIFOCNT	=	0x619c
+                           00619D   943 _RXFIRST_PTR	=	0x619d
+                           00619E   944 _RXLAST_PTR	=	0x619e
+                           00619F   945 _RXP1_PTR	=	0x619f
+                           0061A1   946 _TXFIRST_PTR	=	0x61a1
+                           0061A2   947 _TXLAST_PTR	=	0x61a2
+                           0061A3   948 _RFIRQM0	=	0x61a3
+                           0061A4   949 _RFIRQM1	=	0x61a4
+                           0061A5   950 _RFERRM	=	0x61a5
+                           0061A7   951 _RFRND	=	0x61a7
+                           0061A8   952 _MDMCTRL0	=	0x61a8
+                           0061A9   953 _MDMCTRL1	=	0x61a9
+                           0061AA   954 _FREQEST	=	0x61aa
+                           0061AB   955 _RXCTRL	=	0x61ab
+                           0061AC   956 _FSCTRL	=	0x61ac
+                           0061AD   957 _FSCAL0	=	0x61ad
+                           0061AE   958 _FSCAL1	=	0x61ae
+                           0061AF   959 _FSCAL2	=	0x61af
+                           0061B0   960 _FSCAL3	=	0x61b0
+                           0061B1   961 _AGCCTRL0	=	0x61b1
+                           0061B2   962 _AGCCTRL1	=	0x61b2
+                           0061B3   963 _AGCCTRL2	=	0x61b3
+                           0061B4   964 _AGCCTRL3	=	0x61b4
+                           0061B5   965 _ADCTEST0	=	0x61b5
+                           0061B6   966 _ADCTEST1	=	0x61b6
+                           0061B7   967 _ADCTEST2	=	0x61b7
+                           0061B8   968 _MDMTEST0	=	0x61b8
+                           0061B9   969 _MDMTEST1	=	0x61b9
+                           0061BA   970 _DACTEST0	=	0x61ba
+                           0061BB   971 _DACTEST1	=	0x61bb
+                           0061BC   972 _DACTEST2	=	0x61bc
+                           0061BD   973 _ATEST	=	0x61bd
+                           0061BE   974 _PTEST0	=	0x61be
+                           0061BF   975 _PTEST1	=	0x61bf
+                           0061FA   976 _TXFILTCFG	=	0x61fa
+                           0061EB   977 _RFC_OBS_CTRL0	=	0x61eb
+                           0061EC   978 _RFC_OBS_CTRL1	=	0x61ec
+                           0061ED   979 _RFC_OBS_CTRL2	=	0x61ed
+                           0061C0   980 _CSPPROG0	=	0x61c0
+                           0061C1   981 _CSPPROG1	=	0x61c1
+                           0061C2   982 _CSPPROG2	=	0x61c2
+                           0061C3   983 _CSPPROG3	=	0x61c3
+                           0061C4   984 _CSPPROG4	=	0x61c4
+                           0061C5   985 _CSPPROG5	=	0x61c5
+                           0061C6   986 _CSPPROG6	=	0x61c6
+                           0061C7   987 _CSPPROG7	=	0x61c7
+                           0061C8   988 _CSPPROG8	=	0x61c8
+                           0061C9   989 _CSPPROG9	=	0x61c9
+                           0061CA   990 _CSPPROG10	=	0x61ca
+                           0061CB   991 _CSPPROG11	=	0x61cb
+                           0061CC   992 _CSPPROG12	=	0x61cc
+                           0061CD   993 _CSPPROG13	=	0x61cd
+                           0061CE   994 _CSPPROG14	=	0x61ce
+                           0061CF   995 _CSPPROG15	=	0x61cf
+                           0061D0   996 _CSPPROG16	=	0x61d0
+                           0061D1   997 _CSPPROG17	=	0x61d1
+                           0061D2   998 _CSPPROG18	=	0x61d2
+                           0061D3   999 _CSPPROG19	=	0x61d3
+                           0061D4  1000 _CSPPROG20	=	0x61d4
+                           0061D5  1001 _CSPPROG21	=	0x61d5
+                           0061D6  1002 _CSPPROG22	=	0x61d6
+                           0061D7  1003 _CSPPROG23	=	0x61d7
+                           0061E0  1004 _CSPCTRL	=	0x61e0
+                           0061E1  1005 _CSPSTAT	=	0x61e1
+                           0061E2  1006 _CSPX	=	0x61e2
+                           0061E3  1007 _CSPY	=	0x61e3
+                           0061E4  1008 _CSPZ	=	0x61e4
+                           0061E5  1009 _CSPT	=	0x61e5
+                           006200  1010 _USBADDR	=	0x6200
+                           006201  1011 _USBPOW	=	0x6201
+                           006202  1012 _USBIIF	=	0x6202
+                           006204  1013 _USBOIF	=	0x6204
+                           006206  1014 _USBCIF	=	0x6206
+                           006207  1015 _USBIIE	=	0x6207
+                           006209  1016 _USBOIE	=	0x6209
+                           00620B  1017 _USBCIE	=	0x620b
+                           00620C  1018 _USBFRML	=	0x620c
+                           00620D  1019 _USBFRMH	=	0x620d
+                           00620E  1020 _USBINDEX	=	0x620e
+                           00620F  1021 _USBCTRL	=	0x620f
+                           006210  1022 _USBMAXI	=	0x6210
+                           006211  1023 _USBCS0	=	0x6211
+                           006211  1024 _USBCSIL	=	0x6211
+                           006212  1025 _USBCSIH	=	0x6212
+                           006213  1026 _USBMAXO	=	0x6213
+                           006214  1027 _USBCSOL	=	0x6214
+                           006215  1028 _USBCSOH	=	0x6215
+                           006216  1029 _USBCNT0	=	0x6216
+                           006216  1030 _USBCNTL	=	0x6216
+                           006217  1031 _USBCNTH	=	0x6217
+                           006220  1032 _USBF0	=	0x6220
+                           006222  1033 _USBF1	=	0x6222
+                           006224  1034 _USBF2	=	0x6224
+                           006226  1035 _USBF3	=	0x6226
+                           006228  1036 _USBF4	=	0x6228
+                           00622A  1037 _USBF5	=	0x622a
+                           007080  1038 _X_P0	=	0x7080
+                           007086  1039 _X_U0CSR	=	0x7086
+                           007089  1040 _X_P0IFG	=	0x7089
+                           00708A  1041 _X_P1IFG	=	0x708a
+                           00708B  1042 _X_P2IFG	=	0x708b
+                           00708C  1043 _X_PICTL	=	0x708c
+                           00708D  1044 _X_P1IEN	=	0x708d
+                           00708F  1045 _X_P0INP	=	0x708f
+                           007090  1046 _X_P1	=	0x7090
+                           007091  1047 _X_RFIRQF1	=	0x7091
+                           007093  1048 _X_MPAGE	=	0x7093
+                           007093  1049 _X__XPAGE	=	0x7093
+                           007094  1050 _X_T2CTRL	=	0x7094
+                           007095  1051 _X_ST0	=	0x7095
+                           007096  1052 _X_ST1	=	0x7096
+                           007097  1053 _X_ST2	=	0x7097
+                           00709C  1054 _X_T2EVTCFG	=	0x709c
+                           00709D  1055 _X_SLEEPSTA	=	0x709d
+                           00709E  1056 _X_CLKCONSTA	=	0x709e
+                           00709F  1057 _X_FMAP	=	0x709f
+                           00709F  1058 _X_PSBANK	=	0x709f
+                           0070A0  1059 _X_P2	=	0x70a0
+                           0070A1  1060 _X_T2IRQF	=	0x70a1
+                           0070A2  1061 _X_T2M0	=	0x70a2
+                           0070A3  1062 _X_T2M1	=	0x70a3
+                           0070A4  1063 _X_T2MOVF0	=	0x70a4
+                           0070A5  1064 _X_T2MOVF1	=	0x70a5
+                           0070A6  1065 _X_T2MOVF2	=	0x70a6
+                           0070A7  1066 _X_T2IRQM	=	0x70a7
+                           0070AB  1067 _X_P0IEN	=	0x70ab
+                           0070AC  1068 _X_P2IEN	=	0x70ac
+                           0070AD  1069 _X_STLOAD	=	0x70ad
+                           0070AE  1070 _X_PMUX	=	0x70ae
+                           0070AF  1071 _X_T1STAT	=	0x70af
+                           0070B1  1072 _X_ENCDI	=	0x70b1
+                           0070B2  1073 _X_ENCDO	=	0x70b2
+                           0070B3  1074 _X_ENCCS	=	0x70b3
+                           0070B4  1075 _X_ADCCON1	=	0x70b4
+                           0070B5  1076 _X_ADCCON2	=	0x70b5
+                           0070B6  1077 _X_ADCCON3	=	0x70b6
+                           0070BA  1078 _X_ADCL	=	0x70ba
+                           0070BB  1079 _X_ADCH	=	0x70bb
+                           0070BC  1080 _X_RNDL	=	0x70bc
+                           0070BD  1081 _X_RNDH	=	0x70bd
+                           0070BE  1082 _X_SLEEPCMD	=	0x70be
+                           0070BF  1083 _X_RFERRF	=	0x70bf
+                           0070C1  1084 _X_U0DBUF	=	0x70c1
+                           0070C2  1085 _X_U0BAUD	=	0x70c2
+                           0070C3  1086 _X_T2MSEL	=	0x70c3
+                           0070C4  1087 _X_U0UCR	=	0x70c4
+                           0070C5  1088 _X_U0GCR	=	0x70c5
+                           0070C6  1089 _X_CLKCONCMD	=	0x70c6
+                           0070C7  1090 _X_MEMCTR	=	0x70c7
+                           0070C9  1091 _X_WDCTL	=	0x70c9
+                           0070CA  1092 _X_T3CNT	=	0x70ca
+                           0070CB  1093 _X_T3CTL	=	0x70cb
+                           0070CC  1094 _X_T3CCTL0	=	0x70cc
+                           0070CD  1095 _X_T3CC0	=	0x70cd
+                           0070CE  1096 _X_T3CCTL1	=	0x70ce
+                           0070CF  1097 _X_T3CC1	=	0x70cf
+                           0070D1  1098 _X_DMAIRQ	=	0x70d1
+                           0070D2  1099 _X_DMA1CFGL	=	0x70d2
+                           0070D3  1100 _X_DMA1CFGH	=	0x70d3
+                           0070D4  1101 _X_DMA0CFGL	=	0x70d4
+                           0070D5  1102 _X_DMA0CFGH	=	0x70d5
+                           0070D6  1103 _X_DMAARM	=	0x70d6
+                           0070D7  1104 _X_DMAREQ	=	0x70d7
+                           0070D8  1105 _X_TIMIF	=	0x70d8
+                           0070D9  1106 _X_RFD	=	0x70d9
+                           0070DA  1107 _X_T1CC0L	=	0x70da
+                           0070DB  1108 _X_T1CC0H	=	0x70db
+                           0070DC  1109 _X_T1CC1L	=	0x70dc
+                           0070DD  1110 _X_T1CC1H	=	0x70dd
+                           0070DE  1111 _X_T1CC2L	=	0x70de
+                           0070DF  1112 _X_T1CC2H	=	0x70df
+                           0070E1  1113 _X_RFST	=	0x70e1
+                           0070E2  1114 _X_T1CNTL	=	0x70e2
+                           0070E3  1115 _X_T1CNTH	=	0x70e3
+                           0070E4  1116 _X_T1CTL	=	0x70e4
+                           0070E5  1117 _X_T1CCTL0	=	0x70e5
+                           0070E6  1118 _X_T1CCTL1	=	0x70e6
+                           0070E7  1119 _X_T1CCTL2	=	0x70e7
+                           0070E9  1120 _X_RFIRQF0	=	0x70e9
+                           0070EA  1121 _X_T4CNT	=	0x70ea
+                           0070EB  1122 _X_T4CTL	=	0x70eb
+                           0070EC  1123 _X_T4CCTL0	=	0x70ec
+                           0070ED  1124 _X_T4CC0	=	0x70ed
+                           0070EE  1125 _X_T4CCTL1	=	0x70ee
+                           0070EF  1126 _X_T4CC1	=	0x70ef
+                           0070F1  1127 _X_PERCFG	=	0x70f1
+                           0070F2  1128 _X_APCFG	=	0x70f2
+                           0070F3  1129 _X_P0SEL	=	0x70f3
+                           0070F4  1130 _X_P1SEL	=	0x70f4
+                           0070F5  1131 _X_P2SEL	=	0x70f5
+                           0070F6  1132 _X_P1INP	=	0x70f6
+                           0070F7  1133 _X_P2INP	=	0x70f7
+                           0070F8  1134 _X_U1CSR	=	0x70f8
+                           0070F9  1135 _X_U1DBUF	=	0x70f9
+                           0070FA  1136 _X_U1BAUD	=	0x70fa
+                           0070FB  1137 _X_U1UCR	=	0x70fb
+                           0070FC  1138 _X_U1GCR	=	0x70fc
+                           0070FD  1139 _X_P0DIR	=	0x70fd
+                           0070FE  1140 _X_P1DIR	=	0x70fe
+                           0070FF  1141 _X_P2DIR	=	0x70ff
+                           007800  1142 _X_INFOPAGE	=	0x7800
+                           00780C  1143 _X_IEEE_ADDR	=	0x780c
+      000000                       1144 __ds6_neighbors_mem:
+      000000                       1145 	.ds 148
+                                   1146 ;--------------------------------------------------------
+                                   1147 ; absolute external ram data
+                                   1148 ;--------------------------------------------------------
+                                   1149 	.area XABS    (ABS,XDATA)
+                                   1150 ;--------------------------------------------------------
+                                   1151 ; external initialized ram data
+                                   1152 ;--------------------------------------------------------
+                                   1153 	.area XISEG   (XDATA)
+      000000                       1154 _ds6_neighbors_struct:
+      000000                       1155 	.ds 10
+      00000A                       1156 _ds6_neighbors::
+      00000A                       1157 	.ds 3
+                                   1158 	.area HOME    (CODE)
+                                   1159 	.area GSINIT0 (CODE)
+                                   1160 	.area GSINIT1 (CODE)
+                                   1161 	.area GSINIT2 (CODE)
+                                   1162 	.area GSINIT3 (CODE)
+                                   1163 	.area GSINIT4 (CODE)
+                                   1164 	.area GSINIT5 (CODE)
+                                   1165 	.area GSINIT  (CODE)
+                                   1166 	.area GSFINAL (CODE)
+                                   1167 	.area CSEG    (CODE)
+                                   1168 ;--------------------------------------------------------
+                                   1169 ; global & static initialisations
+                                   1170 ;--------------------------------------------------------
+                                   1171 	.area HOME    (CODE)
+                                   1172 	.area GSINIT  (CODE)
+                                   1173 	.area GSFINAL (CODE)
+                                   1174 	.area GSINIT  (CODE)
+                                   1175 ;--------------------------------------------------------
+                                   1176 ; Home
+                                   1177 ;--------------------------------------------------------
+                                   1178 	.area HOME    (CODE)
+                                   1179 	.area HOME    (CODE)
+                                   1180 ;--------------------------------------------------------
+                                   1181 ; code
+                                   1182 ;--------------------------------------------------------
+                                   1183 	.area BANK1   (CODE)
+                                   1184 ;------------------------------------------------------------
+                                   1185 ;Allocation info for local variables in function 'uip_ds6_neighbors_init'
+                                   1186 ;------------------------------------------------------------
+                                   1187 ;	/opt/contiki/core/net/ipv6/uip-ds6-nbr.c:75: uip_ds6_neighbors_init(void)
+                                   1188 ;	-----------------------------------------
+                                   1189 ;	 function uip_ds6_neighbors_init
+                                   1190 ;	-----------------------------------------
+      000000                       1191 _uip_ds6_neighbors_init:
+                           000007  1192 	ar7 = 0x07
+                           000006  1193 	ar6 = 0x06
+                           000005  1194 	ar5 = 0x05
+                           000004  1195 	ar4 = 0x04
+                           000003  1196 	ar3 = 0x03
+                           000002  1197 	ar2 = 0x02
+                           000001  1198 	ar1 = 0x01
+                           000000  1199 	ar0 = 0x00
+                                   1200 ;	/opt/contiki/core/net/ipv6/uip-ds6-nbr.c:77: nbr_table_register(ds6_neighbors, (nbr_table_callback *)uip_ds6_nbr_rm);
+      000000 7DrAA            [12] 1201 	mov	r5,#_uip_ds6_nbr_rm
+      000002 7Es01            [12] 1202 	mov	r6,#(_uip_ds6_nbr_rm >> 8)
+      000004 7Fs00            [12] 1203 	mov	r7,#(_uip_ds6_nbr_rm >> 16)
+      000006 90r00r0A         [24] 1204 	mov	dptr,#_ds6_neighbors
+      000009 E0               [24] 1205 	movx	a,@dptr
+      00000A FA               [12] 1206 	mov	r2,a
+      00000B A3               [24] 1207 	inc	dptr
+      00000C E0               [24] 1208 	movx	a,@dptr
+      00000D FB               [12] 1209 	mov	r3,a
+      00000E A3               [24] 1210 	inc	dptr
+      00000F E0               [24] 1211 	movx	a,@dptr
+      000010 FC               [12] 1212 	mov	r4,a
+      000011 C0 05            [24] 1213 	push	ar5
+      000013 C0 06            [24] 1214 	push	ar6
+      000015 C0 07            [24] 1215 	push	ar7
+      000017 8A 82            [24] 1216 	mov	dpl,r2
+      000019 8B 83            [24] 1217 	mov	dph,r3
+      00001B 8C F0            [24] 1218 	mov	b,r4
+      00001D 78r00            [12] 1219 	mov	r0,#_nbr_table_register
+      00001F 79s00            [12] 1220 	mov	r1,#(_nbr_table_register >> 8)
+      000021 7As00            [12] 1221 	mov	r2,#(_nbr_table_register >> 16)
+      000023 12r00r00         [24] 1222 	lcall	__sdcc_banked_call
+      000026 15 81            [12] 1223 	dec	sp
+      000028 15 81            [12] 1224 	dec	sp
+      00002A 15 81            [12] 1225 	dec	sp
+      00002C 02r00r00         [24] 1226 	ljmp	__sdcc_banked_ret
+                                   1227 ;------------------------------------------------------------
+                                   1228 ;Allocation info for local variables in function 'uip_ds6_nbr_add'
+                                   1229 ;------------------------------------------------------------
+                                   1230 ;lladdr                    Allocated to stack - sp -11
+                                   1231 ;isrouter                  Allocated to stack - sp -12
+                                   1232 ;state                     Allocated to stack - sp -13
+                                   1233 ;ipaddr                    Allocated to stack - sp -5
+                                   1234 ;nbr                       Allocated to stack - sp -2
+                                   1235 ;------------------------------------------------------------
+                                   1236 ;	/opt/contiki/core/net/ipv6/uip-ds6-nbr.c:81: uip_ds6_nbr_add(const uip_ipaddr_t *ipaddr, const uip_lladdr_t *lladdr,
+                                   1237 ;	-----------------------------------------
+                                   1238 ;	 function uip_ds6_nbr_add
+                                   1239 ;	-----------------------------------------
+      00002F                       1240 _uip_ds6_nbr_add:
+      00002F C0 82            [24] 1241 	push	dpl
+      000031 C0 83            [24] 1242 	push	dph
+      000033 C0 F0            [24] 1243 	push	b
+      000035 05 81            [12] 1244 	inc	sp
+      000037 05 81            [12] 1245 	inc	sp
+      000039 05 81            [12] 1246 	inc	sp
+                                   1247 ;	/opt/contiki/core/net/ipv6/uip-ds6-nbr.c:84: uip_ds6_nbr_t *nbr = nbr_table_add_lladdr(ds6_neighbors, (linkaddr_t*)lladdr);
+      00003B E5 81            [12] 1248 	mov	a,sp
+      00003D 24 F5            [12] 1249 	add	a,#0xf5
+      00003F F8               [12] 1250 	mov	r0,a
+      000040 86 02            [24] 1251 	mov	ar2,@r0
+      000042 08               [12] 1252 	inc	r0
+      000043 86 03            [24] 1253 	mov	ar3,@r0
+      000045 08               [12] 1254 	inc	r0
+      000046 86 04            [24] 1255 	mov	ar4,@r0
+      000048 90r00r0A         [24] 1256 	mov	dptr,#_ds6_neighbors
+      00004B E0               [24] 1257 	movx	a,@dptr
+      00004C FD               [12] 1258 	mov	r5,a
+      00004D A3               [24] 1259 	inc	dptr
+      00004E E0               [24] 1260 	movx	a,@dptr
+      00004F FE               [12] 1261 	mov	r6,a
+      000050 A3               [24] 1262 	inc	dptr
+      000051 E0               [24] 1263 	movx	a,@dptr
+      000052 FF               [12] 1264 	mov	r7,a
+      000053 C0 02            [24] 1265 	push	ar2
+      000055 C0 03            [24] 1266 	push	ar3
+      000057 C0 04            [24] 1267 	push	ar4
+      000059 8D 82            [24] 1268 	mov	dpl,r5
+      00005B 8E 83            [24] 1269 	mov	dph,r6
+      00005D 8F F0            [24] 1270 	mov	b,r7
+      00005F 78r00            [12] 1271 	mov	r0,#_nbr_table_add_lladdr
+      000061 79s00            [12] 1272 	mov	r1,#(_nbr_table_add_lladdr >> 8)
+      000063 7As00            [12] 1273 	mov	r2,#(_nbr_table_add_lladdr >> 16)
+      000065 12r00r00         [24] 1274 	lcall	__sdcc_banked_call
+      000068 AD 82            [24] 1275 	mov	r5,dpl
+      00006A AE 83            [24] 1276 	mov	r6,dph
+      00006C AF F0            [24] 1277 	mov	r7,b
+      00006E 15 81            [12] 1278 	dec	sp
+      000070 15 81            [12] 1279 	dec	sp
+      000072 15 81            [12] 1280 	dec	sp
+      000074 A8 81            [24] 1281 	mov	r0,sp
+      000076 18               [12] 1282 	dec	r0
+      000077 18               [12] 1283 	dec	r0
+      000078 A6 05            [24] 1284 	mov	@r0,ar5
+      00007A 08               [12] 1285 	inc	r0
+      00007B A6 06            [24] 1286 	mov	@r0,ar6
+      00007D 08               [12] 1287 	inc	r0
+      00007E A6 07            [24] 1288 	mov	@r0,ar7
+                                   1289 ;	/opt/contiki/core/net/ipv6/uip-ds6-nbr.c:85: if(nbr) {
+      000080 A8 81            [24] 1290 	mov	r0,sp
+      000082 18               [12] 1291 	dec	r0
+      000083 18               [12] 1292 	dec	r0
+      000084 E6               [12] 1293 	mov	a,@r0
+      000085 08               [12] 1294 	inc	r0
+      000086 46               [12] 1295 	orl	a,@r0
+      000087 70 03            [24] 1296 	jnz	00109$
+      000089 02r01r99         [24] 1297 	ljmp	00102$
+      00008C                       1298 00109$:
+                                   1299 ;	/opt/contiki/core/net/ipv6/uip-ds6-nbr.c:86: uip_ipaddr_copy(&nbr->ipaddr, ipaddr);
+      00008C E5 81            [12] 1300 	mov	a,sp
+      00008E 24 FB            [12] 1301 	add	a,#0xfb
+      000090 F8               [12] 1302 	mov	r0,a
+      000091 86 02            [24] 1303 	mov	ar2,@r0
+      000093 08               [12] 1304 	inc	r0
+      000094 86 03            [24] 1305 	mov	ar3,@r0
+      000096 08               [12] 1306 	inc	r0
+      000097 86 04            [24] 1307 	mov	ar4,@r0
+      000099 A8 81            [24] 1308 	mov	r0,sp
+      00009B 18               [12] 1309 	dec	r0
+      00009C 18               [12] 1310 	dec	r0
+      00009D 86 05            [24] 1311 	mov	ar5,@r0
+      00009F 08               [12] 1312 	inc	r0
+      0000A0 86 06            [24] 1313 	mov	ar6,@r0
+      0000A2 08               [12] 1314 	inc	r0
+      0000A3 86 07            [24] 1315 	mov	ar7,@r0
+      0000A5 74 10            [12] 1316 	mov	a,#0x10
+      0000A7 C0 E0            [24] 1317 	push	acc
+      0000A9 E4               [12] 1318 	clr	a
+      0000AA C0 E0            [24] 1319 	push	acc
+      0000AC C0 02            [24] 1320 	push	ar2
+      0000AE C0 03            [24] 1321 	push	ar3
+      0000B0 C0 04            [24] 1322 	push	ar4
+      0000B2 8D 82            [24] 1323 	mov	dpl,r5
+      0000B4 8E 83            [24] 1324 	mov	dph,r6
+      0000B6 8F F0            [24] 1325 	mov	b,r7
+      0000B8 78r00            [12] 1326 	mov	r0,#_memcpy
+      0000BA 79s00            [12] 1327 	mov	r1,#(_memcpy >> 8)
+      0000BC 7As00            [12] 1328 	mov	r2,#(_memcpy >> 16)
+      0000BE 12r00r00         [24] 1329 	lcall	__sdcc_banked_call
+      0000C1 E5 81            [12] 1330 	mov	a,sp
+      0000C3 24 FB            [12] 1331 	add	a,#0xfb
+      0000C5 F5 81            [12] 1332 	mov	sp,a
+                                   1333 ;	/opt/contiki/core/net/ipv6/uip-ds6-nbr.c:87: nbr->isrouter = isrouter;
+      0000C7 A8 81            [24] 1334 	mov	r0,sp
+      0000C9 18               [12] 1335 	dec	r0
+      0000CA 18               [12] 1336 	dec	r0
+      0000CB 74 21            [12] 1337 	mov	a,#0x21
+      0000CD 26               [12] 1338 	add	a,@r0
+      0000CE FD               [12] 1339 	mov	r5,a
+      0000CF E4               [12] 1340 	clr	a
+      0000D0 08               [12] 1341 	inc	r0
+      0000D1 36               [12] 1342 	addc	a,@r0
+      0000D2 FE               [12] 1343 	mov	r6,a
+      0000D3 08               [12] 1344 	inc	r0
+      0000D4 86 07            [24] 1345 	mov	ar7,@r0
+      0000D6 8D 82            [24] 1346 	mov	dpl,r5
+      0000D8 8E 83            [24] 1347 	mov	dph,r6
+      0000DA 8F F0            [24] 1348 	mov	b,r7
+      0000DC E5 81            [12] 1349 	mov	a,sp
+      0000DE 24 F4            [12] 1350 	add	a,#0xf4
+      0000E0 F8               [12] 1351 	mov	r0,a
+      0000E1 E6               [12] 1352 	mov	a,@r0
+      0000E2 12r00r00         [24] 1353 	lcall	__gptrput
+                                   1354 ;	/opt/contiki/core/net/ipv6/uip-ds6-nbr.c:88: nbr->state = state;
+      0000E5 A8 81            [24] 1355 	mov	r0,sp
+      0000E7 18               [12] 1356 	dec	r0
+      0000E8 18               [12] 1357 	dec	r0
+      0000E9 74 22            [12] 1358 	mov	a,#0x22
+      0000EB 26               [12] 1359 	add	a,@r0
+      0000EC FD               [12] 1360 	mov	r5,a
+      0000ED E4               [12] 1361 	clr	a
+      0000EE 08               [12] 1362 	inc	r0
+      0000EF 36               [12] 1363 	addc	a,@r0
+      0000F0 FE               [12] 1364 	mov	r6,a
+      0000F1 08               [12] 1365 	inc	r0
+      0000F2 86 07            [24] 1366 	mov	ar7,@r0
+      0000F4 8D 82            [24] 1367 	mov	dpl,r5
+      0000F6 8E 83            [24] 1368 	mov	dph,r6
+      0000F8 8F F0            [24] 1369 	mov	b,r7
+      0000FA E5 81            [12] 1370 	mov	a,sp
+      0000FC 24 F3            [12] 1371 	add	a,#0xf3
+      0000FE F8               [12] 1372 	mov	r0,a
+      0000FF E6               [12] 1373 	mov	a,@r0
+      000100 12r00r00         [24] 1374 	lcall	__gptrput
+                                   1375 ;	/opt/contiki/core/net/ipv6/uip-ds6-nbr.c:93: stimer_set(&nbr->reachable, 0);
+      000103 A8 81            [24] 1376 	mov	r0,sp
+      000105 18               [12] 1377 	dec	r0
+      000106 18               [12] 1378 	dec	r0
+      000107 74 10            [12] 1379 	mov	a,#0x10
+      000109 26               [12] 1380 	add	a,@r0
+      00010A FD               [12] 1381 	mov	r5,a
+      00010B E4               [12] 1382 	clr	a
+      00010C 08               [12] 1383 	inc	r0
+      00010D 36               [12] 1384 	addc	a,@r0
+      00010E FE               [12] 1385 	mov	r6,a
+      00010F 08               [12] 1386 	inc	r0
+      000110 86 07            [24] 1387 	mov	ar7,@r0
+      000112 E4               [12] 1388 	clr	a
+      000113 C0 E0            [24] 1389 	push	acc
+      000115 C0 E0            [24] 1390 	push	acc
+      000117 C0 E0            [24] 1391 	push	acc
+      000119 C0 E0            [24] 1392 	push	acc
+      00011B 8D 82            [24] 1393 	mov	dpl,r5
+      00011D 8E 83            [24] 1394 	mov	dph,r6
+      00011F 8F F0            [24] 1395 	mov	b,r7
+      000121 78r00            [12] 1396 	mov	r0,#_stimer_set
+      000123 79s00            [12] 1397 	mov	r1,#(_stimer_set >> 8)
+      000125 7As00            [12] 1398 	mov	r2,#(_stimer_set >> 16)
+      000127 12r00r00         [24] 1399 	lcall	__sdcc_banked_call
+      00012A E5 81            [12] 1400 	mov	a,sp
+      00012C 24 FC            [12] 1401 	add	a,#0xfc
+      00012E F5 81            [12] 1402 	mov	sp,a
+                                   1403 ;	/opt/contiki/core/net/ipv6/uip-ds6-nbr.c:94: stimer_set(&nbr->sendns, 0);
+      000130 A8 81            [24] 1404 	mov	r0,sp
+      000132 18               [12] 1405 	dec	r0
+      000133 18               [12] 1406 	dec	r0
+      000134 74 18            [12] 1407 	mov	a,#0x18
+      000136 26               [12] 1408 	add	a,@r0
+      000137 FD               [12] 1409 	mov	r5,a
+      000138 E4               [12] 1410 	clr	a
+      000139 08               [12] 1411 	inc	r0
+      00013A 36               [12] 1412 	addc	a,@r0
+      00013B FE               [12] 1413 	mov	r6,a
+      00013C 08               [12] 1414 	inc	r0
+      00013D 86 07            [24] 1415 	mov	ar7,@r0
+      00013F E4               [12] 1416 	clr	a
+      000140 C0 E0            [24] 1417 	push	acc
+      000142 C0 E0            [24] 1418 	push	acc
+      000144 C0 E0            [24] 1419 	push	acc
+      000146 C0 E0            [24] 1420 	push	acc
+      000148 8D 82            [24] 1421 	mov	dpl,r5
+      00014A 8E 83            [24] 1422 	mov	dph,r6
+      00014C 8F F0            [24] 1423 	mov	b,r7
+      00014E 78r00            [12] 1424 	mov	r0,#_stimer_set
+      000150 79s00            [12] 1425 	mov	r1,#(_stimer_set >> 8)
+      000152 7As00            [12] 1426 	mov	r2,#(_stimer_set >> 16)
+      000154 12r00r00         [24] 1427 	lcall	__sdcc_banked_call
+      000157 E5 81            [12] 1428 	mov	a,sp
+      000159 24 FC            [12] 1429 	add	a,#0xfc
+      00015B F5 81            [12] 1430 	mov	sp,a
+                                   1431 ;	/opt/contiki/core/net/ipv6/uip-ds6-nbr.c:95: nbr->nscount = 0;
+      00015D A8 81            [24] 1432 	mov	r0,sp
+      00015F 18               [12] 1433 	dec	r0
+      000160 18               [12] 1434 	dec	r0
+      000161 74 20            [12] 1435 	mov	a,#0x20
+      000163 26               [12] 1436 	add	a,@r0
+      000164 FD               [12] 1437 	mov	r5,a
+      000165 E4               [12] 1438 	clr	a
+      000166 08               [12] 1439 	inc	r0
+      000167 36               [12] 1440 	addc	a,@r0
+      000168 FE               [12] 1441 	mov	r6,a
+      000169 08               [12] 1442 	inc	r0
+      00016A 86 07            [24] 1443 	mov	ar7,@r0
+      00016C 8D 82            [24] 1444 	mov	dpl,r5
+      00016E 8E 83            [24] 1445 	mov	dph,r6
+      000170 8F F0            [24] 1446 	mov	b,r7
+      000172 E4               [12] 1447 	clr	a
+      000173 12r00r00         [24] 1448 	lcall	__gptrput
+                                   1449 ;	/opt/contiki/core/net/ipv6/uip-ds6-nbr.c:101: NEIGHBOR_STATE_CHANGED(nbr);
+      000176 A8 81            [24] 1450 	mov	r0,sp
+      000178 18               [12] 1451 	dec	r0
+      000179 18               [12] 1452 	dec	r0
+      00017A 86 82            [24] 1453 	mov	dpl,@r0
+      00017C 08               [12] 1454 	inc	r0
+      00017D 86 83            [24] 1455 	mov	dph,@r0
+      00017F 08               [12] 1456 	inc	r0
+      000180 86 F0            [24] 1457 	mov	b,@r0
+      000182 78r00            [12] 1458 	mov	r0,#_rpl_ipv6_neighbor_callback
+      000184 79s00            [12] 1459 	mov	r1,#(_rpl_ipv6_neighbor_callback >> 8)
+      000186 7As00            [12] 1460 	mov	r2,#(_rpl_ipv6_neighbor_callback >> 16)
+      000188 12r00r00         [24] 1461 	lcall	__sdcc_banked_call
+                                   1462 ;	/opt/contiki/core/net/ipv6/uip-ds6-nbr.c:102: return nbr;
+      00018B A8 81            [24] 1463 	mov	r0,sp
+      00018D 18               [12] 1464 	dec	r0
+      00018E 18               [12] 1465 	dec	r0
+      00018F 86 82            [24] 1466 	mov	dpl,@r0
+      000191 08               [12] 1467 	inc	r0
+      000192 86 83            [24] 1468 	mov	dph,@r0
+      000194 08               [12] 1469 	inc	r0
+      000195 86 F0            [24] 1470 	mov	b,@r0
+      000197 80 06            [24] 1471 	sjmp	00104$
+      000199                       1472 00102$:
+                                   1473 ;	/opt/contiki/core/net/ipv6/uip-ds6-nbr.c:109: return NULL;
+      000199 90 00 00         [24] 1474 	mov	dptr,#0x0000
+      00019C 75 F0 00         [24] 1475 	mov	b,#0x00
+      00019F                       1476 00104$:
+      00019F C8               [12] 1477 	xch	a,r0
+      0001A0 E5 81            [12] 1478 	mov	a,sp
+      0001A2 24 FA            [12] 1479 	add	a,#0xFA
+      0001A4 F5 81            [12] 1480 	mov	sp,a
+      0001A6 C8               [12] 1481 	xch	a,r0
+      0001A7 02r00r00         [24] 1482 	ljmp	__sdcc_banked_ret
+                                   1483 ;------------------------------------------------------------
+                                   1484 ;Allocation info for local variables in function 'uip_ds6_nbr_rm'
+                                   1485 ;------------------------------------------------------------
+                                   1486 ;nbr                       Allocated to registers r5 r6 r7 
+                                   1487 ;------------------------------------------------------------
+                                   1488 ;	/opt/contiki/core/net/ipv6/uip-ds6-nbr.c:115: uip_ds6_nbr_rm(uip_ds6_nbr_t *nbr)
+                                   1489 ;	-----------------------------------------
+                                   1490 ;	 function uip_ds6_nbr_rm
+                                   1491 ;	-----------------------------------------
+      0001AA                       1492 _uip_ds6_nbr_rm:
+      0001AA AD 82            [24] 1493 	mov	r5,dpl
+      0001AC AE 83            [24] 1494 	mov	r6,dph
+      0001AE AF F0            [24] 1495 	mov	r7,b
+                                   1496 ;	/opt/contiki/core/net/ipv6/uip-ds6-nbr.c:117: if(nbr != NULL) {
+      0001B0 ED               [12] 1497 	mov	a,r5
+      0001B1 4E               [12] 1498 	orl	a,r6
+      0001B2 60 41            [24] 1499 	jz	00102$
+                                   1500 ;	/opt/contiki/core/net/ipv6/uip-ds6-nbr.c:121: NEIGHBOR_STATE_CHANGED(nbr);
+      0001B4 8D 82            [24] 1501 	mov	dpl,r5
+      0001B6 8E 83            [24] 1502 	mov	dph,r6
+      0001B8 8F F0            [24] 1503 	mov	b,r7
+      0001BA C0 07            [24] 1504 	push	ar7
+      0001BC C0 06            [24] 1505 	push	ar6
+      0001BE C0 05            [24] 1506 	push	ar5
+      0001C0 78r00            [12] 1507 	mov	r0,#_rpl_ipv6_neighbor_callback
+      0001C2 79s00            [12] 1508 	mov	r1,#(_rpl_ipv6_neighbor_callback >> 8)
+      0001C4 7As00            [12] 1509 	mov	r2,#(_rpl_ipv6_neighbor_callback >> 16)
+      0001C6 12r00r00         [24] 1510 	lcall	__sdcc_banked_call
+      0001C9 D0 05            [24] 1511 	pop	ar5
+      0001CB D0 06            [24] 1512 	pop	ar6
+      0001CD D0 07            [24] 1513 	pop	ar7
+                                   1514 ;	/opt/contiki/core/net/ipv6/uip-ds6-nbr.c:122: nbr_table_remove(ds6_neighbors, nbr);
+      0001CF 90r00r0A         [24] 1515 	mov	dptr,#_ds6_neighbors
+      0001D2 E0               [24] 1516 	movx	a,@dptr
+      0001D3 FA               [12] 1517 	mov	r2,a
+      0001D4 A3               [24] 1518 	inc	dptr
+      0001D5 E0               [24] 1519 	movx	a,@dptr
+      0001D6 FB               [12] 1520 	mov	r3,a
+      0001D7 A3               [24] 1521 	inc	dptr
+      0001D8 E0               [24] 1522 	movx	a,@dptr
+      0001D9 FC               [12] 1523 	mov	r4,a
+      0001DA C0 05            [24] 1524 	push	ar5
+      0001DC C0 06            [24] 1525 	push	ar6
+      0001DE C0 07            [24] 1526 	push	ar7
+      0001E0 8A 82            [24] 1527 	mov	dpl,r2
+      0001E2 8B 83            [24] 1528 	mov	dph,r3
+      0001E4 8C F0            [24] 1529 	mov	b,r4
+      0001E6 78r00            [12] 1530 	mov	r0,#_nbr_table_remove
+      0001E8 79s00            [12] 1531 	mov	r1,#(_nbr_table_remove >> 8)
+      0001EA 7As00            [12] 1532 	mov	r2,#(_nbr_table_remove >> 16)
+      0001EC 12r00r00         [24] 1533 	lcall	__sdcc_banked_call
+      0001EF 15 81            [12] 1534 	dec	sp
+      0001F1 15 81            [12] 1535 	dec	sp
+      0001F3 15 81            [12] 1536 	dec	sp
+      0001F5                       1537 00102$:
+                                   1538 ;	/opt/contiki/core/net/ipv6/uip-ds6-nbr.c:124: return;
+      0001F5 02r00r00         [24] 1539 	ljmp	__sdcc_banked_ret
+                                   1540 ;------------------------------------------------------------
+                                   1541 ;Allocation info for local variables in function 'uip_ds6_nbr_get_ipaddr'
+                                   1542 ;------------------------------------------------------------
+                                   1543 ;nbr                       Allocated to registers r5 r6 r7 
+                                   1544 ;------------------------------------------------------------
+                                   1545 ;	/opt/contiki/core/net/ipv6/uip-ds6-nbr.c:129: uip_ds6_nbr_get_ipaddr(const uip_ds6_nbr_t *nbr)
+                                   1546 ;	-----------------------------------------
+                                   1547 ;	 function uip_ds6_nbr_get_ipaddr
+                                   1548 ;	-----------------------------------------
+      0001F8                       1549 _uip_ds6_nbr_get_ipaddr:
+      0001F8 AD 82            [24] 1550 	mov	r5,dpl
+      0001FA AE 83            [24] 1551 	mov	r6,dph
+      0001FC AF F0            [24] 1552 	mov	r7,b
+                                   1553 ;	/opt/contiki/core/net/ipv6/uip-ds6-nbr.c:131: return (nbr != NULL) ? &nbr->ipaddr : NULL;
+      0001FE ED               [12] 1554 	mov	a,r5
+      0001FF 4E               [12] 1555 	orl	a,r6
+      000200 60 02            [24] 1556 	jz	00103$
+      000202 80 06            [24] 1557 	sjmp	00104$
+      000204                       1558 00103$:
+      000204 7D 00            [12] 1559 	mov	r5,#0x00
+      000206 7E 00            [12] 1560 	mov	r6,#0x00
+      000208 7F 00            [12] 1561 	mov	r7,#0x00
+      00020A                       1562 00104$:
+      00020A 8D 82            [24] 1563 	mov	dpl,r5
+      00020C 8E 83            [24] 1564 	mov	dph,r6
+      00020E 8F F0            [24] 1565 	mov	b,r7
+      000210 02r00r00         [24] 1566 	ljmp	__sdcc_banked_ret
+                                   1567 ;------------------------------------------------------------
+                                   1568 ;Allocation info for local variables in function 'uip_ds6_nbr_get_ll'
+                                   1569 ;------------------------------------------------------------
+                                   1570 ;nbr                       Allocated to registers r5 r6 r7 
+                                   1571 ;------------------------------------------------------------
+                                   1572 ;	/opt/contiki/core/net/ipv6/uip-ds6-nbr.c:136: uip_ds6_nbr_get_ll(const uip_ds6_nbr_t *nbr)
+                                   1573 ;	-----------------------------------------
+                                   1574 ;	 function uip_ds6_nbr_get_ll
+                                   1575 ;	-----------------------------------------
+      000213                       1576 _uip_ds6_nbr_get_ll:
+      000213 AD 82            [24] 1577 	mov	r5,dpl
+      000215 AE 83            [24] 1578 	mov	r6,dph
+      000217 AF F0            [24] 1579 	mov	r7,b
+                                   1580 ;	/opt/contiki/core/net/ipv6/uip-ds6-nbr.c:138: return (const uip_lladdr_t *)nbr_table_get_lladdr(ds6_neighbors, nbr);
+      000219 90r00r0A         [24] 1581 	mov	dptr,#_ds6_neighbors
+      00021C E0               [24] 1582 	movx	a,@dptr
+      00021D FA               [12] 1583 	mov	r2,a
+      00021E A3               [24] 1584 	inc	dptr
+      00021F E0               [24] 1585 	movx	a,@dptr
+      000220 FB               [12] 1586 	mov	r3,a
+      000221 A3               [24] 1587 	inc	dptr
+      000222 E0               [24] 1588 	movx	a,@dptr
+      000223 FC               [12] 1589 	mov	r4,a
+      000224 C0 05            [24] 1590 	push	ar5
+      000226 C0 06            [24] 1591 	push	ar6
+      000228 C0 07            [24] 1592 	push	ar7
+      00022A 8A 82            [24] 1593 	mov	dpl,r2
+      00022C 8B 83            [24] 1594 	mov	dph,r3
+      00022E 8C F0            [24] 1595 	mov	b,r4
+      000230 78r00            [12] 1596 	mov	r0,#_nbr_table_get_lladdr
+      000232 79s00            [12] 1597 	mov	r1,#(_nbr_table_get_lladdr >> 8)
+      000234 7As00            [12] 1598 	mov	r2,#(_nbr_table_get_lladdr >> 16)
+      000236 12r00r00         [24] 1599 	lcall	__sdcc_banked_call
+      000239 AD 82            [24] 1600 	mov	r5,dpl
+      00023B AE 83            [24] 1601 	mov	r6,dph
+      00023D AF F0            [24] 1602 	mov	r7,b
+      00023F 15 81            [12] 1603 	dec	sp
+      000241 15 81            [12] 1604 	dec	sp
+      000243 15 81            [12] 1605 	dec	sp
+      000245 8D 82            [24] 1606 	mov	dpl,r5
+      000247 8E 83            [24] 1607 	mov	dph,r6
+      000249 8F F0            [24] 1608 	mov	b,r7
+      00024B 02r00r00         [24] 1609 	ljmp	__sdcc_banked_ret
+                                   1610 ;------------------------------------------------------------
+                                   1611 ;Allocation info for local variables in function 'uip_ds6_nbr_num'
+                                   1612 ;------------------------------------------------------------
+                                   1613 ;nbr                       Allocated to registers r5 r6 r7 
+                                   1614 ;num                       Allocated to stack - sp -1
+                                   1615 ;sloc0                     Allocated to stack - sp -4
+                                   1616 ;------------------------------------------------------------
+                                   1617 ;	/opt/contiki/core/net/ipv6/uip-ds6-nbr.c:142: uip_ds6_nbr_num(void)
+                                   1618 ;	-----------------------------------------
+                                   1619 ;	 function uip_ds6_nbr_num
+                                   1620 ;	-----------------------------------------
+      00024E                       1621 _uip_ds6_nbr_num:
+      00024E E5 81            [12] 1622 	mov	a,sp
+      000250 24 05            [12] 1623 	add	a,#0x05
+      000252 F5 81            [12] 1624 	mov	sp,a
+                                   1625 ;	/opt/contiki/core/net/ipv6/uip-ds6-nbr.c:148: for(nbr = nbr_table_head(ds6_neighbors);
+      000254 90r00r0A         [24] 1626 	mov	dptr,#_ds6_neighbors
+      000257 E0               [24] 1627 	movx	a,@dptr
+      000258 FD               [12] 1628 	mov	r5,a
+      000259 A3               [24] 1629 	inc	dptr
+      00025A E0               [24] 1630 	movx	a,@dptr
+      00025B FE               [12] 1631 	mov	r6,a
+      00025C A3               [24] 1632 	inc	dptr
+      00025D E0               [24] 1633 	movx	a,@dptr
+      00025E FF               [12] 1634 	mov	r7,a
+      00025F 8D 82            [24] 1635 	mov	dpl,r5
+      000261 8E 83            [24] 1636 	mov	dph,r6
+      000263 8F F0            [24] 1637 	mov	b,r7
+      000265 78r00            [12] 1638 	mov	r0,#_nbr_table_head
+      000267 79s00            [12] 1639 	mov	r1,#(_nbr_table_head >> 8)
+      000269 7As00            [12] 1640 	mov	r2,#(_nbr_table_head >> 16)
+      00026B 12r00r00         [24] 1641 	lcall	__sdcc_banked_call
+      00026E AD 82            [24] 1642 	mov	r5,dpl
+      000270 AE 83            [24] 1643 	mov	r6,dph
+      000272 AF F0            [24] 1644 	mov	r7,b
+      000274 A8 81            [24] 1645 	mov	r0,sp
+      000276 18               [12] 1646 	dec	r0
+      000277 E4               [12] 1647 	clr	a
+      000278 F6               [12] 1648 	mov	@r0,a
+      000279 08               [12] 1649 	inc	r0
+      00027A F6               [12] 1650 	mov	@r0,a
+      00027B                       1651 00103$:
+                                   1652 ;	/opt/contiki/core/net/ipv6/uip-ds6-nbr.c:149: nbr != NULL;
+      00027B E4               [12] 1653 	clr	a
+      00027C C0 E0            [24] 1654 	push	acc
+      00027E C0 E0            [24] 1655 	push	acc
+      000280 C0 E0            [24] 1656 	push	acc
+      000282 8D 82            [24] 1657 	mov	dpl,r5
+      000284 8E 83            [24] 1658 	mov	dph,r6
+      000286 8F F0            [24] 1659 	mov	b,r7
+      000288 12r00r00         [24] 1660 	lcall	___gptr_cmp
+      00028B 15 81            [12] 1661 	dec	sp
+      00028D 15 81            [12] 1662 	dec	sp
+      00028F 15 81            [12] 1663 	dec	sp
+      000291 60 54            [24] 1664 	jz	00101$
+                                   1665 ;	/opt/contiki/core/net/ipv6/uip-ds6-nbr.c:151: num++;
+      000293 A8 81            [24] 1666 	mov	r0,sp
+      000295 18               [12] 1667 	dec	r0
+      000296 06               [12] 1668 	inc	@r0
+      000297 B6 00 02         [24] 1669 	cjne	@r0,#0x00,00115$
+      00029A 08               [12] 1670 	inc	r0
+      00029B 06               [12] 1671 	inc	@r0
+      00029C                       1672 00115$:
+                                   1673 ;	/opt/contiki/core/net/ipv6/uip-ds6-nbr.c:150: nbr = nbr_table_next(ds6_neighbors, nbr)) {
+      00029C E5 81            [12] 1674 	mov	a,sp
+      00029E 24 FC            [12] 1675 	add	a,#0xfc
+      0002A0 F8               [12] 1676 	mov	r0,a
+      0002A1 A6 05            [24] 1677 	mov	@r0,ar5
+      0002A3 08               [12] 1678 	inc	r0
+      0002A4 A6 06            [24] 1679 	mov	@r0,ar6
+      0002A6 08               [12] 1680 	inc	r0
+      0002A7 A6 07            [24] 1681 	mov	@r0,ar7
+      0002A9 90r00r0A         [24] 1682 	mov	dptr,#_ds6_neighbors
+      0002AC E0               [24] 1683 	movx	a,@dptr
+      0002AD FA               [12] 1684 	mov	r2,a
+      0002AE A3               [24] 1685 	inc	dptr
+      0002AF E0               [24] 1686 	movx	a,@dptr
+      0002B0 FB               [12] 1687 	mov	r3,a
+      0002B1 A3               [24] 1688 	inc	dptr
+      0002B2 E0               [24] 1689 	movx	a,@dptr
+      0002B3 FC               [12] 1690 	mov	r4,a
+      0002B4 E5 81            [12] 1691 	mov	a,sp
+      0002B6 24 FC            [12] 1692 	add	a,#0xfc
+      0002B8 F8               [12] 1693 	mov	r0,a
+      0002B9 E6               [12] 1694 	mov	a,@r0
+      0002BA C0 E0            [24] 1695 	push	acc
+      0002BC 08               [12] 1696 	inc	r0
+      0002BD E6               [12] 1697 	mov	a,@r0
+      0002BE C0 E0            [24] 1698 	push	acc
+      0002C0 08               [12] 1699 	inc	r0
+      0002C1 E6               [12] 1700 	mov	a,@r0
+      0002C2 C0 E0            [24] 1701 	push	acc
+      0002C4 8A 82            [24] 1702 	mov	dpl,r2
+      0002C6 8B 83            [24] 1703 	mov	dph,r3
+      0002C8 8C F0            [24] 1704 	mov	b,r4
+      0002CA 78r00            [12] 1705 	mov	r0,#_nbr_table_next
+      0002CC 79s00            [12] 1706 	mov	r1,#(_nbr_table_next >> 8)
+      0002CE 7As00            [12] 1707 	mov	r2,#(_nbr_table_next >> 16)
+      0002D0 12r00r00         [24] 1708 	lcall	__sdcc_banked_call
+      0002D3 AA 82            [24] 1709 	mov	r2,dpl
+      0002D5 AB 83            [24] 1710 	mov	r3,dph
+      0002D7 AC F0            [24] 1711 	mov	r4,b
+      0002D9 15 81            [12] 1712 	dec	sp
+      0002DB 15 81            [12] 1713 	dec	sp
+      0002DD 15 81            [12] 1714 	dec	sp
+      0002DF 8A 05            [24] 1715 	mov	ar5,r2
+      0002E1 8B 06            [24] 1716 	mov	ar6,r3
+      0002E3 8C 07            [24] 1717 	mov	ar7,r4
+      0002E5 80 94            [24] 1718 	sjmp	00103$
+      0002E7                       1719 00101$:
+                                   1720 ;	/opt/contiki/core/net/ipv6/uip-ds6-nbr.c:153: return num;
+      0002E7 A8 81            [24] 1721 	mov	r0,sp
+      0002E9 18               [12] 1722 	dec	r0
+      0002EA 86 82            [24] 1723 	mov	dpl,@r0
+      0002EC 08               [12] 1724 	inc	r0
+      0002ED 86 83            [24] 1725 	mov	dph,@r0
+      0002EF E5 81            [12] 1726 	mov	a,sp
+      0002F1 24 FB            [12] 1727 	add	a,#0xFB
+      0002F3 F5 81            [12] 1728 	mov	sp,a
+      0002F5 02r00r00         [24] 1729 	ljmp	__sdcc_banked_ret
+                                   1730 ;------------------------------------------------------------
+                                   1731 ;Allocation info for local variables in function 'uip_ds6_nbr_lookup'
+                                   1732 ;------------------------------------------------------------
+                                   1733 ;ipaddr                    Allocated to stack - sp -5
+                                   1734 ;nbr                       Allocated to stack - sp -2
+                                   1735 ;------------------------------------------------------------
+                                   1736 ;	/opt/contiki/core/net/ipv6/uip-ds6-nbr.c:157: uip_ds6_nbr_lookup(const uip_ipaddr_t *ipaddr)
+                                   1737 ;	-----------------------------------------
+                                   1738 ;	 function uip_ds6_nbr_lookup
+                                   1739 ;	-----------------------------------------
+      0002F8                       1740 _uip_ds6_nbr_lookup:
+      0002F8 C0 82            [24] 1741 	push	dpl
+      0002FA C0 83            [24] 1742 	push	dph
+      0002FC C0 F0            [24] 1743 	push	b
+      0002FE 05 81            [12] 1744 	inc	sp
+      000300 05 81            [12] 1745 	inc	sp
+      000302 05 81            [12] 1746 	inc	sp
+                                   1747 ;	/opt/contiki/core/net/ipv6/uip-ds6-nbr.c:159: uip_ds6_nbr_t *nbr = nbr_table_head(ds6_neighbors);
+      000304 90r00r0A         [24] 1748 	mov	dptr,#_ds6_neighbors
+      000307 E0               [24] 1749 	movx	a,@dptr
+      000308 FA               [12] 1750 	mov	r2,a
+      000309 A3               [24] 1751 	inc	dptr
+      00030A E0               [24] 1752 	movx	a,@dptr
+      00030B FB               [12] 1753 	mov	r3,a
+      00030C A3               [24] 1754 	inc	dptr
+      00030D E0               [24] 1755 	movx	a,@dptr
+      00030E FC               [12] 1756 	mov	r4,a
+      00030F 8A 82            [24] 1757 	mov	dpl,r2
+      000311 8B 83            [24] 1758 	mov	dph,r3
+      000313 8C F0            [24] 1759 	mov	b,r4
+      000315 78r00            [12] 1760 	mov	r0,#_nbr_table_head
+      000317 79s00            [12] 1761 	mov	r1,#(_nbr_table_head >> 8)
+      000319 7As00            [12] 1762 	mov	r2,#(_nbr_table_head >> 16)
+      00031B 12r00r00         [24] 1763 	lcall	__sdcc_banked_call
+      00031E AA 82            [24] 1764 	mov	r2,dpl
+      000320 AB 83            [24] 1765 	mov	r3,dph
+      000322 AC F0            [24] 1766 	mov	r4,b
+      000324 A8 81            [24] 1767 	mov	r0,sp
+      000326 18               [12] 1768 	dec	r0
+      000327 18               [12] 1769 	dec	r0
+      000328 A6 02            [24] 1770 	mov	@r0,ar2
+      00032A 08               [12] 1771 	inc	r0
+      00032B A6 03            [24] 1772 	mov	@r0,ar3
+      00032D 08               [12] 1773 	inc	r0
+      00032E A6 04            [24] 1774 	mov	@r0,ar4
+                                   1775 ;	/opt/contiki/core/net/ipv6/uip-ds6-nbr.c:160: if(ipaddr != NULL) {
+      000330 E5 81            [12] 1776 	mov	a,sp
+      000332 24 FB            [12] 1777 	add	a,#0xfb
+      000334 F8               [12] 1778 	mov	r0,a
+      000335 E6               [12] 1779 	mov	a,@r0
+      000336 08               [12] 1780 	inc	r0
+      000337 46               [12] 1781 	orl	a,@r0
+      000338 70 03            [24] 1782 	jnz	00119$
+      00033A 02r03rE1         [24] 1783 	ljmp	00107$
+      00033D                       1784 00119$:
+                                   1785 ;	/opt/contiki/core/net/ipv6/uip-ds6-nbr.c:161: while(nbr != NULL) {
+      00033D                       1786 00103$:
+      00033D A8 81            [24] 1787 	mov	r0,sp
+      00033F 18               [12] 1788 	dec	r0
+      000340 18               [12] 1789 	dec	r0
+      000341 E6               [12] 1790 	mov	a,@r0
+      000342 08               [12] 1791 	inc	r0
+      000343 46               [12] 1792 	orl	a,@r0
+      000344 70 03            [24] 1793 	jnz	00120$
+      000346 02r03rE1         [24] 1794 	ljmp	00107$
+      000349                       1795 00120$:
+                                   1796 ;	/opt/contiki/core/net/ipv6/uip-ds6-nbr.c:162: if(uip_ipaddr_cmp(&nbr->ipaddr, ipaddr)) {
+      000349 E5 81            [12] 1797 	mov	a,sp
+      00034B 24 FB            [12] 1798 	add	a,#0xfb
+      00034D F8               [12] 1799 	mov	r0,a
+      00034E 86 05            [24] 1800 	mov	ar5,@r0
+      000350 08               [12] 1801 	inc	r0
+      000351 86 06            [24] 1802 	mov	ar6,@r0
+      000353 08               [12] 1803 	inc	r0
+      000354 86 07            [24] 1804 	mov	ar7,@r0
+      000356 A8 81            [24] 1805 	mov	r0,sp
+      000358 18               [12] 1806 	dec	r0
+      000359 18               [12] 1807 	dec	r0
+      00035A 86 02            [24] 1808 	mov	ar2,@r0
+      00035C 08               [12] 1809 	inc	r0
+      00035D 86 03            [24] 1810 	mov	ar3,@r0
+      00035F 08               [12] 1811 	inc	r0
+      000360 86 04            [24] 1812 	mov	ar4,@r0
+      000362 74 10            [12] 1813 	mov	a,#0x10
+      000364 C0 E0            [24] 1814 	push	acc
+      000366 E4               [12] 1815 	clr	a
+      000367 C0 E0            [24] 1816 	push	acc
+      000369 C0 05            [24] 1817 	push	ar5
+      00036B C0 06            [24] 1818 	push	ar6
+      00036D C0 07            [24] 1819 	push	ar7
+      00036F 8A 82            [24] 1820 	mov	dpl,r2
+      000371 8B 83            [24] 1821 	mov	dph,r3
+      000373 8C F0            [24] 1822 	mov	b,r4
+      000375 78r00            [12] 1823 	mov	r0,#_memcmp
+      000377 79s00            [12] 1824 	mov	r1,#(_memcmp >> 8)
+      000379 7As00            [12] 1825 	mov	r2,#(_memcmp >> 16)
+      00037B 12r00r00         [24] 1826 	lcall	__sdcc_banked_call
+      00037E AE 82            [24] 1827 	mov	r6,dpl
+      000380 AF 83            [24] 1828 	mov	r7,dph
+      000382 E5 81            [12] 1829 	mov	a,sp
+      000384 24 FB            [12] 1830 	add	a,#0xfb
+      000386 F5 81            [12] 1831 	mov	sp,a
+      000388 EE               [12] 1832 	mov	a,r6
+      000389 4F               [12] 1833 	orl	a,r7
+      00038A 70 0E            [24] 1834 	jnz	00102$
+                                   1835 ;	/opt/contiki/core/net/ipv6/uip-ds6-nbr.c:163: return nbr;
+      00038C A8 81            [24] 1836 	mov	r0,sp
+      00038E 18               [12] 1837 	dec	r0
+      00038F 18               [12] 1838 	dec	r0
+      000390 86 82            [24] 1839 	mov	dpl,@r0
+      000392 08               [12] 1840 	inc	r0
+      000393 86 83            [24] 1841 	mov	dph,@r0
+      000395 08               [12] 1842 	inc	r0
+      000396 86 F0            [24] 1843 	mov	b,@r0
+      000398 80 4D            [24] 1844 	sjmp	00108$
+      00039A                       1845 00102$:
+                                   1846 ;	/opt/contiki/core/net/ipv6/uip-ds6-nbr.c:165: nbr = nbr_table_next(ds6_neighbors, nbr);
+      00039A A8 81            [24] 1847 	mov	r0,sp
+      00039C 18               [12] 1848 	dec	r0
+      00039D 18               [12] 1849 	dec	r0
+      00039E 86 02            [24] 1850 	mov	ar2,@r0
+      0003A0 08               [12] 1851 	inc	r0
+      0003A1 86 03            [24] 1852 	mov	ar3,@r0
+      0003A3 08               [12] 1853 	inc	r0
+      0003A4 86 04            [24] 1854 	mov	ar4,@r0
+      0003A6 90r00r0A         [24] 1855 	mov	dptr,#_ds6_neighbors
+      0003A9 E0               [24] 1856 	movx	a,@dptr
+      0003AA FD               [12] 1857 	mov	r5,a
+      0003AB A3               [24] 1858 	inc	dptr
+      0003AC E0               [24] 1859 	movx	a,@dptr
+      0003AD FE               [12] 1860 	mov	r6,a
+      0003AE A3               [24] 1861 	inc	dptr
+      0003AF E0               [24] 1862 	movx	a,@dptr
+      0003B0 FF               [12] 1863 	mov	r7,a
+      0003B1 C0 02            [24] 1864 	push	ar2
+      0003B3 C0 03            [24] 1865 	push	ar3
+      0003B5 C0 04            [24] 1866 	push	ar4
+      0003B7 8D 82            [24] 1867 	mov	dpl,r5
+      0003B9 8E 83            [24] 1868 	mov	dph,r6
+      0003BB 8F F0            [24] 1869 	mov	b,r7
+      0003BD 78r00            [12] 1870 	mov	r0,#_nbr_table_next
+      0003BF 79s00            [12] 1871 	mov	r1,#(_nbr_table_next >> 8)
+      0003C1 7As00            [12] 1872 	mov	r2,#(_nbr_table_next >> 16)
+      0003C3 12r00r00         [24] 1873 	lcall	__sdcc_banked_call
+      0003C6 AD 82            [24] 1874 	mov	r5,dpl
+      0003C8 AE 83            [24] 1875 	mov	r6,dph
+      0003CA AF F0            [24] 1876 	mov	r7,b
+      0003CC 15 81            [12] 1877 	dec	sp
+      0003CE 15 81            [12] 1878 	dec	sp
+      0003D0 15 81            [12] 1879 	dec	sp
+      0003D2 A8 81            [24] 1880 	mov	r0,sp
+      0003D4 18               [12] 1881 	dec	r0
+      0003D5 18               [12] 1882 	dec	r0
+      0003D6 A6 05            [24] 1883 	mov	@r0,ar5
+      0003D8 08               [12] 1884 	inc	r0
+      0003D9 A6 06            [24] 1885 	mov	@r0,ar6
+      0003DB 08               [12] 1886 	inc	r0
+      0003DC A6 07            [24] 1887 	mov	@r0,ar7
+      0003DE 02r03r3D         [24] 1888 	ljmp	00103$
+      0003E1                       1889 00107$:
+                                   1890 ;	/opt/contiki/core/net/ipv6/uip-ds6-nbr.c:168: return NULL;
+      0003E1 90 00 00         [24] 1891 	mov	dptr,#0x0000
+      0003E4 75 F0 00         [24] 1892 	mov	b,#0x00
+      0003E7                       1893 00108$:
+      0003E7 C8               [12] 1894 	xch	a,r0
+      0003E8 E5 81            [12] 1895 	mov	a,sp
+      0003EA 24 FA            [12] 1896 	add	a,#0xFA
+      0003EC F5 81            [12] 1897 	mov	sp,a
+      0003EE C8               [12] 1898 	xch	a,r0
+      0003EF 02r00r00         [24] 1899 	ljmp	__sdcc_banked_ret
+                                   1900 ;------------------------------------------------------------
+                                   1901 ;Allocation info for local variables in function 'uip_ds6_nbr_ll_lookup'
+                                   1902 ;------------------------------------------------------------
+                                   1903 ;lladdr                    Allocated to registers r5 r6 r7 
+                                   1904 ;------------------------------------------------------------
+                                   1905 ;	/opt/contiki/core/net/ipv6/uip-ds6-nbr.c:172: uip_ds6_nbr_ll_lookup(const uip_lladdr_t *lladdr)
+                                   1906 ;	-----------------------------------------
+                                   1907 ;	 function uip_ds6_nbr_ll_lookup
+                                   1908 ;	-----------------------------------------
+      0003F2                       1909 _uip_ds6_nbr_ll_lookup:
+      0003F2 AD 82            [24] 1910 	mov	r5,dpl
+      0003F4 AE 83            [24] 1911 	mov	r6,dph
+      0003F6 AF F0            [24] 1912 	mov	r7,b
+                                   1913 ;	/opt/contiki/core/net/ipv6/uip-ds6-nbr.c:174: return nbr_table_get_from_lladdr(ds6_neighbors, (linkaddr_t*)lladdr);
+      0003F8 90r00r0A         [24] 1914 	mov	dptr,#_ds6_neighbors
+      0003FB E0               [24] 1915 	movx	a,@dptr
+      0003FC FA               [12] 1916 	mov	r2,a
+      0003FD A3               [24] 1917 	inc	dptr
+      0003FE E0               [24] 1918 	movx	a,@dptr
+      0003FF FB               [12] 1919 	mov	r3,a
+      000400 A3               [24] 1920 	inc	dptr
+      000401 E0               [24] 1921 	movx	a,@dptr
+      000402 FC               [12] 1922 	mov	r4,a
+      000403 C0 05            [24] 1923 	push	ar5
+      000405 C0 06            [24] 1924 	push	ar6
+      000407 C0 07            [24] 1925 	push	ar7
+      000409 8A 82            [24] 1926 	mov	dpl,r2
+      00040B 8B 83            [24] 1927 	mov	dph,r3
+      00040D 8C F0            [24] 1928 	mov	b,r4
+      00040F 78r00            [12] 1929 	mov	r0,#_nbr_table_get_from_lladdr
+      000411 79s00            [12] 1930 	mov	r1,#(_nbr_table_get_from_lladdr >> 8)
+      000413 7As00            [12] 1931 	mov	r2,#(_nbr_table_get_from_lladdr >> 16)
+      000415 12r00r00         [24] 1932 	lcall	__sdcc_banked_call
+      000418 AD 82            [24] 1933 	mov	r5,dpl
+      00041A AE 83            [24] 1934 	mov	r6,dph
+      00041C AF F0            [24] 1935 	mov	r7,b
+      00041E 15 81            [12] 1936 	dec	sp
+      000420 15 81            [12] 1937 	dec	sp
+      000422 15 81            [12] 1938 	dec	sp
+      000424 8D 82            [24] 1939 	mov	dpl,r5
+      000426 8E 83            [24] 1940 	mov	dph,r6
+      000428 8F F0            [24] 1941 	mov	b,r7
+      00042A 02r00r00         [24] 1942 	ljmp	__sdcc_banked_ret
+                                   1943 ;------------------------------------------------------------
+                                   1944 ;Allocation info for local variables in function 'uip_ds6_nbr_ipaddr_from_lladdr'
+                                   1945 ;------------------------------------------------------------
+                                   1946 ;lladdr                    Allocated to registers r5 r6 r7 
+                                   1947 ;nbr                       Allocated to registers r2 r3 r4 
+                                   1948 ;------------------------------------------------------------
+                                   1949 ;	/opt/contiki/core/net/ipv6/uip-ds6-nbr.c:179: uip_ds6_nbr_ipaddr_from_lladdr(const uip_lladdr_t *lladdr)
+                                   1950 ;	-----------------------------------------
+                                   1951 ;	 function uip_ds6_nbr_ipaddr_from_lladdr
+                                   1952 ;	-----------------------------------------
+      00042D                       1953 _uip_ds6_nbr_ipaddr_from_lladdr:
+                                   1954 ;	/opt/contiki/core/net/ipv6/uip-ds6-nbr.c:181: uip_ds6_nbr_t *nbr = uip_ds6_nbr_ll_lookup(lladdr);
+      00042D 78rF2            [12] 1955 	mov	r0,#_uip_ds6_nbr_ll_lookup
+      00042F 79s03            [12] 1956 	mov	r1,#(_uip_ds6_nbr_ll_lookup >> 8)
+      000431 7As00            [12] 1957 	mov	r2,#(_uip_ds6_nbr_ll_lookup >> 16)
+      000433 12r00r00         [24] 1958 	lcall	__sdcc_banked_call
+      000436 AD 82            [24] 1959 	mov	r5,dpl
+      000438 AE 83            [24] 1960 	mov	r6,dph
+      00043A AF F0            [24] 1961 	mov	r7,b
+      00043C 8D 02            [24] 1962 	mov	ar2,r5
+      00043E 8E 03            [24] 1963 	mov	ar3,r6
+      000440 8F 04            [24] 1964 	mov	ar4,r7
+                                   1965 ;	/opt/contiki/core/net/ipv6/uip-ds6-nbr.c:182: return nbr ? &nbr->ipaddr : NULL;
+      000442 ED               [12] 1966 	mov	a,r5
+      000443 4E               [12] 1967 	orl	a,r6
+      000444 60 08            [24] 1968 	jz	00103$
+      000446 8A 05            [24] 1969 	mov	ar5,r2
+      000448 8B 06            [24] 1970 	mov	ar6,r3
+      00044A 8C 07            [24] 1971 	mov	ar7,r4
+      00044C 80 06            [24] 1972 	sjmp	00104$
+      00044E                       1973 00103$:
+      00044E 7D 00            [12] 1974 	mov	r5,#0x00
+      000450 7E 00            [12] 1975 	mov	r6,#0x00
+      000452 7F 00            [12] 1976 	mov	r7,#0x00
+      000454                       1977 00104$:
+      000454 8D 82            [24] 1978 	mov	dpl,r5
+      000456 8E 83            [24] 1979 	mov	dph,r6
+      000458 8F F0            [24] 1980 	mov	b,r7
+      00045A 02r00r00         [24] 1981 	ljmp	__sdcc_banked_ret
+                                   1982 ;------------------------------------------------------------
+                                   1983 ;Allocation info for local variables in function 'uip_ds6_nbr_lladdr_from_ipaddr'
+                                   1984 ;------------------------------------------------------------
+                                   1985 ;ipaddr                    Allocated to registers r5 r6 r7 
+                                   1986 ;nbr                       Allocated to registers r2 r3 r4 
+                                   1987 ;------------------------------------------------------------
+                                   1988 ;	/opt/contiki/core/net/ipv6/uip-ds6-nbr.c:187: uip_ds6_nbr_lladdr_from_ipaddr(const uip_ipaddr_t *ipaddr)
+                                   1989 ;	-----------------------------------------
+                                   1990 ;	 function uip_ds6_nbr_lladdr_from_ipaddr
+                                   1991 ;	-----------------------------------------
+      00045D                       1992 _uip_ds6_nbr_lladdr_from_ipaddr:
+                                   1993 ;	/opt/contiki/core/net/ipv6/uip-ds6-nbr.c:189: uip_ds6_nbr_t *nbr = uip_ds6_nbr_lookup(ipaddr);
+      00045D 78rF8            [12] 1994 	mov	r0,#_uip_ds6_nbr_lookup
+      00045F 79s02            [12] 1995 	mov	r1,#(_uip_ds6_nbr_lookup >> 8)
+      000461 7As00            [12] 1996 	mov	r2,#(_uip_ds6_nbr_lookup >> 16)
+      000463 12r00r00         [24] 1997 	lcall	__sdcc_banked_call
+      000466 AD 82            [24] 1998 	mov	r5,dpl
+      000468 AE 83            [24] 1999 	mov	r6,dph
+      00046A AF F0            [24] 2000 	mov	r7,b
+      00046C 8D 02            [24] 2001 	mov	ar2,r5
+      00046E 8E 03            [24] 2002 	mov	ar3,r6
+      000470 8F 04            [24] 2003 	mov	ar4,r7
+                                   2004 ;	/opt/contiki/core/net/ipv6/uip-ds6-nbr.c:190: return nbr ? uip_ds6_nbr_get_ll(nbr) : NULL;
+      000472 ED               [12] 2005 	mov	a,r5
+      000473 4E               [12] 2006 	orl	a,r6
+      000474 60 17            [24] 2007 	jz	00103$
+      000476 8A 82            [24] 2008 	mov	dpl,r2
+      000478 8B 83            [24] 2009 	mov	dph,r3
+      00047A 8C F0            [24] 2010 	mov	b,r4
+      00047C 78r13            [12] 2011 	mov	r0,#_uip_ds6_nbr_get_ll
+      00047E 79s02            [12] 2012 	mov	r1,#(_uip_ds6_nbr_get_ll >> 8)
+      000480 7As00            [12] 2013 	mov	r2,#(_uip_ds6_nbr_get_ll >> 16)
+      000482 12r00r00         [24] 2014 	lcall	__sdcc_banked_call
+      000485 AD 82            [24] 2015 	mov	r5,dpl
+      000487 AE 83            [24] 2016 	mov	r6,dph
+      000489 AF F0            [24] 2017 	mov	r7,b
+      00048B 80 06            [24] 2018 	sjmp	00104$
+      00048D                       2019 00103$:
+      00048D 7D 00            [12] 2020 	mov	r5,#0x00
+      00048F 7E 00            [12] 2021 	mov	r6,#0x00
+      000491 7F 00            [12] 2022 	mov	r7,#0x00
+      000493                       2023 00104$:
+      000493 8D 82            [24] 2024 	mov	dpl,r5
+      000495 8E 83            [24] 2025 	mov	dph,r6
+      000497 8F F0            [24] 2026 	mov	b,r7
+      000499 02r00r00         [24] 2027 	ljmp	__sdcc_banked_ret
+                                   2028 ;------------------------------------------------------------
+                                   2029 ;Allocation info for local variables in function 'uip_ds6_link_neighbor_callback'
+                                   2030 ;------------------------------------------------------------
+                                   2031 ;numtx                     Allocated to stack - sp -6
+                                   2032 ;status                    Allocated to stack - sp -1
+                                   2033 ;dest                      Allocated to registers r3 r4 r5 
+                                   2034 ;------------------------------------------------------------
+                                   2035 ;	/opt/contiki/core/net/ipv6/uip-ds6-nbr.c:194: uip_ds6_link_neighbor_callback(int status, int numtx)
+                                   2036 ;	-----------------------------------------
+                                   2037 ;	 function uip_ds6_link_neighbor_callback
+                                   2038 ;	-----------------------------------------
+      00049C                       2039 _uip_ds6_link_neighbor_callback:
+      00049C C0 82            [24] 2040 	push	dpl
+      00049E C0 83            [24] 2041 	push	dph
+                                   2042 ;	/opt/contiki/core/net/ipv6/uip-ds6-nbr.c:196: const linkaddr_t *dest = packetbuf_addr(PACKETBUF_ADDR_RECEIVER);
+      0004A0 75 82 1B         [24] 2043 	mov	dpl,#0x1B
+      0004A3 78r00            [12] 2044 	mov	r0,#_packetbuf_addr
+      0004A5 79s00            [12] 2045 	mov	r1,#(_packetbuf_addr >> 8)
+      0004A7 7As00            [12] 2046 	mov	r2,#(_packetbuf_addr >> 16)
+      0004A9 12r00r00         [24] 2047 	lcall	__sdcc_banked_call
+      0004AC AB 82            [24] 2048 	mov	r3,dpl
+      0004AE AC 83            [24] 2049 	mov	r4,dph
+      0004B0 AD F0            [24] 2050 	mov	r5,b
+                                   2051 ;	/opt/contiki/core/net/ipv6/uip-ds6-nbr.c:197: if(linkaddr_cmp(dest, &linkaddr_null)) {
+      0004B2 C0 05            [24] 2052 	push	ar5
+      0004B4 C0 04            [24] 2053 	push	ar4
+      0004B6 C0 03            [24] 2054 	push	ar3
+      0004B8 74r00            [12] 2055 	mov	a,#_linkaddr_null
+      0004BA C0 E0            [24] 2056 	push	acc
+      0004BC 74s00            [12] 2057 	mov	a,#(_linkaddr_null >> 8)
+      0004BE C0 E0            [24] 2058 	push	acc
+      0004C0 74 80            [12] 2059 	mov	a,#0x80
+      0004C2 C0 E0            [24] 2060 	push	acc
+      0004C4 8B 82            [24] 2061 	mov	dpl,r3
+      0004C6 8C 83            [24] 2062 	mov	dph,r4
+      0004C8 8D F0            [24] 2063 	mov	b,r5
+      0004CA 78r00            [12] 2064 	mov	r0,#_linkaddr_cmp
+      0004CC 79s00            [12] 2065 	mov	r1,#(_linkaddr_cmp >> 8)
+      0004CE 7As00            [12] 2066 	mov	r2,#(_linkaddr_cmp >> 16)
+      0004D0 12r00r00         [24] 2067 	lcall	__sdcc_banked_call
+      0004D3 AA 82            [24] 2068 	mov	r2,dpl
+      0004D5 AF 83            [24] 2069 	mov	r7,dph
+      0004D7 15 81            [12] 2070 	dec	sp
+      0004D9 15 81            [12] 2071 	dec	sp
+      0004DB 15 81            [12] 2072 	dec	sp
+      0004DD D0 03            [24] 2073 	pop	ar3
+      0004DF D0 04            [24] 2074 	pop	ar4
+      0004E1 D0 05            [24] 2075 	pop	ar5
+      0004E3 EA               [12] 2076 	mov	a,r2
+      0004E4 4F               [12] 2077 	orl	a,r7
+      0004E5 60 02            [24] 2078 	jz	00102$
+                                   2079 ;	/opt/contiki/core/net/ipv6/uip-ds6-nbr.c:198: return;
+      0004E7 80 2D            [24] 2080 	sjmp	00103$
+      0004E9                       2081 00102$:
+                                   2082 ;	/opt/contiki/core/net/ipv6/uip-ds6-nbr.c:201: LINK_NEIGHBOR_CALLBACK(dest, status, numtx);
+      0004E9 E5 81            [12] 2083 	mov	a,sp
+      0004EB 24 FA            [12] 2084 	add	a,#0xfa
+      0004ED F8               [12] 2085 	mov	r0,a
+      0004EE E6               [12] 2086 	mov	a,@r0
+      0004EF C0 E0            [24] 2087 	push	acc
+      0004F1 08               [12] 2088 	inc	r0
+      0004F2 E6               [12] 2089 	mov	a,@r0
+      0004F3 C0 E0            [24] 2090 	push	acc
+      0004F5 E5 81            [12] 2091 	mov	a,sp
+      0004F7 24 FD            [12] 2092 	add	a,#0xfd
+      0004F9 F8               [12] 2093 	mov	r0,a
+      0004FA E6               [12] 2094 	mov	a,@r0
+      0004FB C0 E0            [24] 2095 	push	acc
+      0004FD 08               [12] 2096 	inc	r0
+      0004FE E6               [12] 2097 	mov	a,@r0
+      0004FF C0 E0            [24] 2098 	push	acc
+      000501 8B 82            [24] 2099 	mov	dpl,r3
+      000503 8C 83            [24] 2100 	mov	dph,r4
+      000505 8D F0            [24] 2101 	mov	b,r5
+      000507 78r00            [12] 2102 	mov	r0,#_rpl_link_neighbor_callback
+      000509 79s00            [12] 2103 	mov	r1,#(_rpl_link_neighbor_callback >> 8)
+      00050B 7As00            [12] 2104 	mov	r2,#(_rpl_link_neighbor_callback >> 16)
+      00050D 12r00r00         [24] 2105 	lcall	__sdcc_banked_call
+      000510 E5 81            [12] 2106 	mov	a,sp
+      000512 24 FC            [12] 2107 	add	a,#0xfc
+      000514 F5 81            [12] 2108 	mov	sp,a
+      000516                       2109 00103$:
+      000516 15 81            [12] 2110 	dec	sp
+      000518 15 81            [12] 2111 	dec	sp
+      00051A 02r00r00         [24] 2112 	ljmp	__sdcc_banked_ret
+                                   2113 ;------------------------------------------------------------
+                                   2114 ;Allocation info for local variables in function 'uip_ds6_neighbor_periodic'
+                                   2115 ;------------------------------------------------------------
+                                   2116 ;nbr                       Allocated to stack - sp -2
+                                   2117 ;locdefrt                  Allocated to registers r7 r6 r5 
+                                   2118 ;sloc0                     Allocated to stack - sp +0
+                                   2119 ;sloc1                     Allocated to stack - sp +1
+                                   2120 ;sloc2                     Allocated to stack - sp -6
+                                   2121 ;------------------------------------------------------------
+                                   2122 ;	/opt/contiki/core/net/ipv6/uip-ds6-nbr.c:235: uip_ds6_neighbor_periodic(void)
+                                   2123 ;	-----------------------------------------
+                                   2124 ;	 function uip_ds6_neighbor_periodic
+                                   2125 ;	-----------------------------------------
+      00051D                       2126 _uip_ds6_neighbor_periodic:
+      00051D E5 81            [12] 2127 	mov	a,sp
+      00051F 24 07            [12] 2128 	add	a,#0x07
+      000521 F5 81            [12] 2129 	mov	sp,a
+                                   2130 ;	/opt/contiki/core/net/ipv6/uip-ds6-nbr.c:238: uip_ds6_nbr_t *nbr = nbr_table_head(ds6_neighbors);
+      000523 90r00r0A         [24] 2131 	mov	dptr,#_ds6_neighbors
+      000526 E0               [24] 2132 	movx	a,@dptr
+      000527 FD               [12] 2133 	mov	r5,a
+      000528 A3               [24] 2134 	inc	dptr
+      000529 E0               [24] 2135 	movx	a,@dptr
+      00052A FE               [12] 2136 	mov	r6,a
+      00052B A3               [24] 2137 	inc	dptr
+      00052C E0               [24] 2138 	movx	a,@dptr
+      00052D FF               [12] 2139 	mov	r7,a
+      00052E 8D 82            [24] 2140 	mov	dpl,r5
+      000530 8E 83            [24] 2141 	mov	dph,r6
+      000532 8F F0            [24] 2142 	mov	b,r7
+      000534 78r00            [12] 2143 	mov	r0,#_nbr_table_head
+      000536 79s00            [12] 2144 	mov	r1,#(_nbr_table_head >> 8)
+      000538 7As00            [12] 2145 	mov	r2,#(_nbr_table_head >> 16)
+      00053A 12r00r00         [24] 2146 	lcall	__sdcc_banked_call
+      00053D AD 82            [24] 2147 	mov	r5,dpl
+      00053F AE 83            [24] 2148 	mov	r6,dph
+      000541 AF F0            [24] 2149 	mov	r7,b
+      000543 A8 81            [24] 2150 	mov	r0,sp
+      000545 18               [12] 2151 	dec	r0
+      000546 18               [12] 2152 	dec	r0
+      000547 A6 05            [24] 2153 	mov	@r0,ar5
+      000549 08               [12] 2154 	inc	r0
+      00054A A6 06            [24] 2155 	mov	@r0,ar6
+      00054C 08               [12] 2156 	inc	r0
+      00054D A6 07            [24] 2157 	mov	@r0,ar7
+                                   2158 ;	/opt/contiki/core/net/ipv6/uip-ds6-nbr.c:239: while(nbr != NULL) {
+      00054F                       2159 00130$:
+      00054F A8 81            [24] 2160 	mov	r0,sp
+      000551 18               [12] 2161 	dec	r0
+      000552 18               [12] 2162 	dec	r0
+      000553 E6               [12] 2163 	mov	a,@r0
+      000554 08               [12] 2164 	inc	r0
+      000555 46               [12] 2165 	orl	a,@r0
+      000556 70 03            [24] 2166 	jnz	00186$
+      000558 02r09rE1         [24] 2167 	ljmp	00133$
+      00055B                       2168 00186$:
+                                   2169 ;	/opt/contiki/core/net/ipv6/uip-ds6-nbr.c:240: switch(nbr->state) {
+      00055B A8 81            [24] 2170 	mov	r0,sp
+      00055D 18               [12] 2171 	dec	r0
+      00055E 18               [12] 2172 	dec	r0
+      00055F 74 22            [12] 2173 	mov	a,#0x22
+      000561 26               [12] 2174 	add	a,@r0
+      000562 FA               [12] 2175 	mov	r2,a
+      000563 E4               [12] 2176 	clr	a
+      000564 08               [12] 2177 	inc	r0
+      000565 36               [12] 2178 	addc	a,@r0
+      000566 FB               [12] 2179 	mov	r3,a
+      000567 08               [12] 2180 	inc	r0
+      000568 86 04            [24] 2181 	mov	ar4,@r0
+      00056A 8A 82            [24] 2182 	mov	dpl,r2
+      00056C 8B 83            [24] 2183 	mov	dph,r3
+      00056E 8C F0            [24] 2184 	mov	b,r4
+      000570 12r00r00         [24] 2185 	lcall	__gptrget
+      000573 FF               [12] 2186 	mov	r7,a
+      000574 BF 00 03         [24] 2187 	cjne	r7,#0x00,00187$
+      000577 02r06r60         [24] 2188 	ljmp	00107$
+      00057A                       2189 00187$:
+      00057A BF 01 02         [24] 2190 	cjne	r7,#0x01,00188$
+      00057D 80 0F            [24] 2191 	sjmp	00101$
+      00057F                       2192 00188$:
+      00057F BF 03 03         [24] 2193 	cjne	r7,#0x03,00189$
+      000582 02r07r91         [24] 2194 	ljmp	00114$
+      000585                       2195 00189$:
+      000585 BF 04 03         [24] 2196 	cjne	r7,#0x04,00190$
+      000588 02r08r1B         [24] 2197 	ljmp	00117$
+      00058B                       2198 00190$:
+      00058B 02r09r9A         [24] 2199 	ljmp	00129$
+                                   2200 ;	/opt/contiki/core/net/ipv6/uip-ds6-nbr.c:241: case NBR_REACHABLE:
+      00058E                       2201 00101$:
+                                   2202 ;	/opt/contiki/core/net/ipv6/uip-ds6-nbr.c:242: if(stimer_expired(&nbr->reachable)) {
+      00058E C0 02            [24] 2203 	push	ar2
+      000590 C0 03            [24] 2204 	push	ar3
+      000592 C0 04            [24] 2205 	push	ar4
+      000594 E5 81            [12] 2206 	mov	a,sp
+      000596 24 FB            [12] 2207 	add	a,#0xfb
+      000598 F8               [12] 2208 	mov	r0,a
+      000599 74 10            [12] 2209 	mov	a,#0x10
+      00059B 26               [12] 2210 	add	a,@r0
+      00059C FA               [12] 2211 	mov	r2,a
+      00059D E4               [12] 2212 	clr	a
+      00059E 08               [12] 2213 	inc	r0
+      00059F 36               [12] 2214 	addc	a,@r0
+      0005A0 FB               [12] 2215 	mov	r3,a
+      0005A1 08               [12] 2216 	inc	r0
+      0005A2 86 04            [24] 2217 	mov	ar4,@r0
+      0005A4 8A 82            [24] 2218 	mov	dpl,r2
+      0005A6 8B 83            [24] 2219 	mov	dph,r3
+      0005A8 8C F0            [24] 2220 	mov	b,r4
+      0005AA C0 04            [24] 2221 	push	ar4
+      0005AC C0 03            [24] 2222 	push	ar3
+      0005AE C0 02            [24] 2223 	push	ar2
+      0005B0 78r00            [12] 2224 	mov	r0,#_stimer_expired
+      0005B2 79s00            [12] 2225 	mov	r1,#(_stimer_expired >> 8)
+      0005B4 7As00            [12] 2226 	mov	r2,#(_stimer_expired >> 16)
+      0005B6 12r00r00         [24] 2227 	lcall	__sdcc_banked_call
+      0005B9 E5 82            [12] 2228 	mov	a,dpl
+      0005BB 85 83 F0         [24] 2229 	mov	b,dph
+      0005BE D0 02            [24] 2230 	pop	ar2
+      0005C0 D0 03            [24] 2231 	pop	ar3
+      0005C2 D0 04            [24] 2232 	pop	ar4
+      0005C4 D0 04            [24] 2233 	pop	ar4
+      0005C6 D0 03            [24] 2234 	pop	ar3
+      0005C8 D0 02            [24] 2235 	pop	ar2
+      0005CA 45 F0            [12] 2236 	orl	a,b
+      0005CC 70 03            [24] 2237 	jnz	00191$
+      0005CE 02r09r9A         [24] 2238 	ljmp	00129$
+      0005D1                       2239 00191$:
+                                   2240 ;	/opt/contiki/core/net/ipv6/uip-ds6-nbr.c:250: if(uip_ds6_defrt_lookup(&nbr->ipaddr) != NULL) {
+      0005D1 A8 81            [24] 2241 	mov	r0,sp
+      0005D3 18               [12] 2242 	dec	r0
+      0005D4 18               [12] 2243 	dec	r0
+      0005D5 86 82            [24] 2244 	mov	dpl,@r0
+      0005D7 08               [12] 2245 	inc	r0
+      0005D8 86 83            [24] 2246 	mov	dph,@r0
+      0005DA 08               [12] 2247 	inc	r0
+      0005DB 86 F0            [24] 2248 	mov	b,@r0
+      0005DD C0 04            [24] 2249 	push	ar4
+      0005DF C0 03            [24] 2250 	push	ar3
+      0005E1 C0 02            [24] 2251 	push	ar2
+      0005E3 78r00            [12] 2252 	mov	r0,#_uip_ds6_defrt_lookup
+      0005E5 79s00            [12] 2253 	mov	r1,#(_uip_ds6_defrt_lookup >> 8)
+      0005E7 7As00            [12] 2254 	mov	r2,#(_uip_ds6_defrt_lookup >> 16)
+      0005E9 12r00r00         [24] 2255 	lcall	__sdcc_banked_call
+      0005EC AD 82            [24] 2256 	mov	r5,dpl
+      0005EE AE 83            [24] 2257 	mov	r6,dph
+      0005F0 AF F0            [24] 2258 	mov	r7,b
+      0005F2 D0 02            [24] 2259 	pop	ar2
+      0005F4 D0 03            [24] 2260 	pop	ar3
+      0005F6 D0 04            [24] 2261 	pop	ar4
+      0005F8 ED               [12] 2262 	mov	a,r5
+      0005F9 4E               [12] 2263 	orl	a,r6
+      0005FA 60 56            [24] 2264 	jz	00103$
+                                   2265 ;	/opt/contiki/core/net/ipv6/uip-ds6-nbr.c:254: nbr->state = NBR_DELAY;
+      0005FC 8A 82            [24] 2266 	mov	dpl,r2
+      0005FE 8B 83            [24] 2267 	mov	dph,r3
+      000600 8C F0            [24] 2268 	mov	b,r4
+      000602 74 03            [12] 2269 	mov	a,#0x03
+      000604 12r00r00         [24] 2270 	lcall	__gptrput
+                                   2271 ;	/opt/contiki/core/net/ipv6/uip-ds6-nbr.c:255: stimer_set(&nbr->reachable, UIP_ND6_DELAY_FIRST_PROBE_TIME);
+      000607 A8 81            [24] 2272 	mov	r0,sp
+      000609 18               [12] 2273 	dec	r0
+      00060A 18               [12] 2274 	dec	r0
+      00060B 74 10            [12] 2275 	mov	a,#0x10
+      00060D 26               [12] 2276 	add	a,@r0
+      00060E FD               [12] 2277 	mov	r5,a
+      00060F E4               [12] 2278 	clr	a
+      000610 08               [12] 2279 	inc	r0
+      000611 36               [12] 2280 	addc	a,@r0
+      000612 FE               [12] 2281 	mov	r6,a
+      000613 08               [12] 2282 	inc	r0
+      000614 86 07            [24] 2283 	mov	ar7,@r0
+      000616 74 05            [12] 2284 	mov	a,#0x05
+      000618 C0 E0            [24] 2285 	push	acc
+      00061A E4               [12] 2286 	clr	a
+      00061B C0 E0            [24] 2287 	push	acc
+      00061D C0 E0            [24] 2288 	push	acc
+      00061F C0 E0            [24] 2289 	push	acc
+      000621 8D 82            [24] 2290 	mov	dpl,r5
+      000623 8E 83            [24] 2291 	mov	dph,r6
+      000625 8F F0            [24] 2292 	mov	b,r7
+      000627 78r00            [12] 2293 	mov	r0,#_stimer_set
+      000629 79s00            [12] 2294 	mov	r1,#(_stimer_set >> 8)
+      00062B 7As00            [12] 2295 	mov	r2,#(_stimer_set >> 16)
+      00062D 12r00r00         [24] 2296 	lcall	__sdcc_banked_call
+      000630 E5 81            [12] 2297 	mov	a,sp
+      000632 24 FC            [12] 2298 	add	a,#0xfc
+      000634 F5 81            [12] 2299 	mov	sp,a
+                                   2300 ;	/opt/contiki/core/net/ipv6/uip-ds6-nbr.c:256: nbr->nscount = 0;
+      000636 A8 81            [24] 2301 	mov	r0,sp
+      000638 18               [12] 2302 	dec	r0
+      000639 18               [12] 2303 	dec	r0
+      00063A 74 20            [12] 2304 	mov	a,#0x20
+      00063C 26               [12] 2305 	add	a,@r0
+      00063D FD               [12] 2306 	mov	r5,a
+      00063E E4               [12] 2307 	clr	a
+      00063F 08               [12] 2308 	inc	r0
+      000640 36               [12] 2309 	addc	a,@r0
+      000641 FE               [12] 2310 	mov	r6,a
+      000642 08               [12] 2311 	inc	r0
+      000643 86 07            [24] 2312 	mov	ar7,@r0
+      000645 8D 82            [24] 2313 	mov	dpl,r5
+      000647 8E 83            [24] 2314 	mov	dph,r6
+      000649 8F F0            [24] 2315 	mov	b,r7
+      00064B E4               [12] 2316 	clr	a
+      00064C 12r00r00         [24] 2317 	lcall	__gptrput
+      00064F 02r09r9A         [24] 2318 	ljmp	00129$
+      000652                       2319 00103$:
+                                   2320 ;	/opt/contiki/core/net/ipv6/uip-ds6-nbr.c:261: nbr->state = NBR_STALE;
+      000652 8A 82            [24] 2321 	mov	dpl,r2
+      000654 8B 83            [24] 2322 	mov	dph,r3
+      000656 8C F0            [24] 2323 	mov	b,r4
+      000658 74 02            [12] 2324 	mov	a,#0x02
+      00065A 12r00r00         [24] 2325 	lcall	__gptrput
+                                   2326 ;	/opt/contiki/core/net/ipv6/uip-ds6-nbr.c:270: break;
+      00065D 02r09r9A         [24] 2327 	ljmp	00129$
+                                   2328 ;	/opt/contiki/core/net/ipv6/uip-ds6-nbr.c:272: case NBR_INCOMPLETE:
+      000660                       2329 00107$:
+                                   2330 ;	/opt/contiki/core/net/ipv6/uip-ds6-nbr.c:273: if(nbr->nscount >= UIP_ND6_MAX_MULTICAST_SOLICIT) {
+      000660 A8 81            [24] 2331 	mov	r0,sp
+      000662 18               [12] 2332 	dec	r0
+      000663 18               [12] 2333 	dec	r0
+      000664 74 20            [12] 2334 	mov	a,#0x20
+      000666 26               [12] 2335 	add	a,@r0
+      000667 FC               [12] 2336 	mov	r4,a
+      000668 E4               [12] 2337 	clr	a
+      000669 08               [12] 2338 	inc	r0
+      00066A 36               [12] 2339 	addc	a,@r0
+      00066B FB               [12] 2340 	mov	r3,a
+      00066C 08               [12] 2341 	inc	r0
+      00066D 86 02            [24] 2342 	mov	ar2,@r0
+      00066F 8C 82            [24] 2343 	mov	dpl,r4
+      000671 8B 83            [24] 2344 	mov	dph,r3
+      000673 8A F0            [24] 2345 	mov	b,r2
+      000675 12r00r00         [24] 2346 	lcall	__gptrget
+      000678 FF               [12] 2347 	mov	r7,a
+      000679 BF 03 00         [24] 2348 	cjne	r7,#0x03,00193$
+      00067C                       2349 00193$:
+      00067C 40 18            [24] 2350 	jc	00112$
+                                   2351 ;	/opt/contiki/core/net/ipv6/uip-ds6-nbr.c:274: uip_ds6_nbr_rm(nbr);
+      00067E A8 81            [24] 2352 	mov	r0,sp
+      000680 18               [12] 2353 	dec	r0
+      000681 18               [12] 2354 	dec	r0
+      000682 86 82            [24] 2355 	mov	dpl,@r0
+      000684 08               [12] 2356 	inc	r0
+      000685 86 83            [24] 2357 	mov	dph,@r0
+      000687 08               [12] 2358 	inc	r0
+      000688 86 F0            [24] 2359 	mov	b,@r0
+      00068A 78rAA            [12] 2360 	mov	r0,#_uip_ds6_nbr_rm
+      00068C 79s01            [12] 2361 	mov	r1,#(_uip_ds6_nbr_rm >> 8)
+      00068E 7As00            [12] 2362 	mov	r2,#(_uip_ds6_nbr_rm >> 16)
+      000690 12r00r00         [24] 2363 	lcall	__sdcc_banked_call
+      000693 02r09r9A         [24] 2364 	ljmp	00129$
+      000696                       2365 00112$:
+                                   2366 ;	/opt/contiki/core/net/ipv6/uip-ds6-nbr.c:275: } else if(stimer_expired(&nbr->sendns) && (uip_len == 0)) {
+      000696 A8 81            [24] 2367 	mov	r0,sp
+      000698 18               [12] 2368 	dec	r0
+      000699 18               [12] 2369 	dec	r0
+      00069A 74 18            [12] 2370 	mov	a,#0x18
+      00069C 26               [12] 2371 	add	a,@r0
+      00069D FD               [12] 2372 	mov	r5,a
+      00069E E4               [12] 2373 	clr	a
+      00069F 08               [12] 2374 	inc	r0
+      0006A0 36               [12] 2375 	addc	a,@r0
+      0006A1 FE               [12] 2376 	mov	r6,a
+      0006A2 08               [12] 2377 	inc	r0
+      0006A3 86 07            [24] 2378 	mov	ar7,@r0
+      0006A5 8D 82            [24] 2379 	mov	dpl,r5
+      0006A7 8E 83            [24] 2380 	mov	dph,r6
+      0006A9 8F F0            [24] 2381 	mov	b,r7
+      0006AB C0 04            [24] 2382 	push	ar4
+      0006AD C0 03            [24] 2383 	push	ar3
+      0006AF C0 02            [24] 2384 	push	ar2
+      0006B1 78r00            [12] 2385 	mov	r0,#_stimer_expired
+      0006B3 79s00            [12] 2386 	mov	r1,#(_stimer_expired >> 8)
+      0006B5 7As00            [12] 2387 	mov	r2,#(_stimer_expired >> 16)
+      0006B7 12r00r00         [24] 2388 	lcall	__sdcc_banked_call
+      0006BA E5 82            [12] 2389 	mov	a,dpl
+      0006BC 85 83 F0         [24] 2390 	mov	b,dph
+      0006BF D0 02            [24] 2391 	pop	ar2
+      0006C1 D0 03            [24] 2392 	pop	ar3
+      0006C3 D0 04            [24] 2393 	pop	ar4
+      0006C5 45 F0            [12] 2394 	orl	a,b
+      0006C7 70 03            [24] 2395 	jnz	00195$
+      0006C9 02r09r9A         [24] 2396 	ljmp	00129$
+      0006CC                       2397 00195$:
+      0006CC 90r00r00         [24] 2398 	mov	dptr,#_uip_len
+      0006CF E0               [24] 2399 	movx	a,@dptr
+      0006D0 F5 F0            [12] 2400 	mov	b,a
+      0006D2 A3               [24] 2401 	inc	dptr
+      0006D3 E0               [24] 2402 	movx	a,@dptr
+      0006D4 45 F0            [12] 2403 	orl	a,b
+      0006D6 60 03            [24] 2404 	jz	00196$
+      0006D8 02r09r9A         [24] 2405 	ljmp	00129$
+      0006DB                       2406 00196$:
+                                   2407 ;	/opt/contiki/core/net/ipv6/uip-ds6-nbr.c:276: nbr->nscount++;
+      0006DB 8C 82            [24] 2408 	mov	dpl,r4
+      0006DD 8B 83            [24] 2409 	mov	dph,r3
+      0006DF 8A F0            [24] 2410 	mov	b,r2
+      0006E1 12r00r00         [24] 2411 	lcall	__gptrget
+      0006E4 FF               [12] 2412 	mov	r7,a
+      0006E5 0F               [12] 2413 	inc	r7
+      0006E6 8C 82            [24] 2414 	mov	dpl,r4
+      0006E8 8B 83            [24] 2415 	mov	dph,r3
+      0006EA 8A F0            [24] 2416 	mov	b,r2
+      0006EC EF               [12] 2417 	mov	a,r7
+      0006ED 12r00r00         [24] 2418 	lcall	__gptrput
+                                   2419 ;	/opt/contiki/core/net/ipv6/uip-ds6-nbr.c:278: uip_nd6_ns_output(NULL, NULL, &nbr->ipaddr);
+      0006F0 A8 81            [24] 2420 	mov	r0,sp
+      0006F2 18               [12] 2421 	dec	r0
+      0006F3 18               [12] 2422 	dec	r0
+      0006F4 E6               [12] 2423 	mov	a,@r0
+      0006F5 C0 E0            [24] 2424 	push	acc
+      0006F7 08               [12] 2425 	inc	r0
+      0006F8 E6               [12] 2426 	mov	a,@r0
+      0006F9 C0 E0            [24] 2427 	push	acc
+      0006FB 08               [12] 2428 	inc	r0
+      0006FC E6               [12] 2429 	mov	a,@r0
+      0006FD C0 E0            [24] 2430 	push	acc
+      0006FF E4               [12] 2431 	clr	a
+      000700 C0 E0            [24] 2432 	push	acc
+      000702 C0 E0            [24] 2433 	push	acc
+      000704 C0 E0            [24] 2434 	push	acc
+      000706 90 00 00         [24] 2435 	mov	dptr,#0x0000
+      000709 75 F0 00         [24] 2436 	mov	b,#0x00
+      00070C 78r00            [12] 2437 	mov	r0,#_uip_nd6_ns_output
+      00070E 79s00            [12] 2438 	mov	r1,#(_uip_nd6_ns_output >> 8)
+      000710 7As00            [12] 2439 	mov	r2,#(_uip_nd6_ns_output >> 16)
+      000712 12r00r00         [24] 2440 	lcall	__sdcc_banked_call
+      000715 E5 81            [12] 2441 	mov	a,sp
+      000717 24 FA            [12] 2442 	add	a,#0xfa
+      000719 F5 81            [12] 2443 	mov	sp,a
+                                   2444 ;	/opt/contiki/core/net/ipv6/uip-ds6-nbr.c:279: stimer_set(&nbr->sendns, uip_ds6_if.retrans_timer / 1000);
+      00071B 90r00r0D         [24] 2445 	mov	dptr,#(_uip_ds6_if + 0x000d)
+      00071E E0               [24] 2446 	movx	a,@dptr
+      00071F FF               [12] 2447 	mov	r7,a
+      000720 A3               [24] 2448 	inc	dptr
+      000721 E0               [24] 2449 	movx	a,@dptr
+      000722 FE               [12] 2450 	mov	r6,a
+      000723 A3               [24] 2451 	inc	dptr
+      000724 E0               [24] 2452 	movx	a,@dptr
+      000725 FD               [12] 2453 	mov	r5,a
+      000726 A3               [24] 2454 	inc	dptr
+      000727 E0               [24] 2455 	movx	a,@dptr
+      000728 FC               [12] 2456 	mov	r4,a
+      000729 74 E8            [12] 2457 	mov	a,#0xE8
+      00072B C0 E0            [24] 2458 	push	acc
+      00072D 74 03            [12] 2459 	mov	a,#0x03
+      00072F C0 E0            [24] 2460 	push	acc
+      000731 E4               [12] 2461 	clr	a
+      000732 C0 E0            [24] 2462 	push	acc
+      000734 C0 E0            [24] 2463 	push	acc
+      000736 8F 82            [24] 2464 	mov	dpl,r7
+      000738 8E 83            [24] 2465 	mov	dph,r6
+      00073A 8D F0            [24] 2466 	mov	b,r5
+      00073C EC               [12] 2467 	mov	a,r4
+      00073D 12r00r00         [24] 2468 	lcall	__divulong
+      000740 C8               [12] 2469 	xch	a,r0
+      000741 E5 81            [12] 2470 	mov	a,sp
+      000743 24 F6            [12] 2471 	add	a,#0xf6
+      000745 C8               [12] 2472 	xch	a,r0
+      000746 A6 82            [24] 2473 	mov	@r0,dpl
+      000748 08               [12] 2474 	inc	r0
+      000749 A6 83            [24] 2475 	mov	@r0,dph
+      00074B 08               [12] 2476 	inc	r0
+      00074C A6 F0            [24] 2477 	mov	@r0,b
+      00074E 08               [12] 2478 	inc	r0
+      00074F F6               [12] 2479 	mov	@r0,a
+      000750 E5 81            [12] 2480 	mov	a,sp
+      000752 24 FC            [12] 2481 	add	a,#0xfc
+      000754 F5 81            [12] 2482 	mov	sp,a
+      000756 A8 81            [24] 2483 	mov	r0,sp
+      000758 18               [12] 2484 	dec	r0
+      000759 18               [12] 2485 	dec	r0
+      00075A 74 18            [12] 2486 	mov	a,#0x18
+      00075C 26               [12] 2487 	add	a,@r0
+      00075D FD               [12] 2488 	mov	r5,a
+      00075E E4               [12] 2489 	clr	a
+      00075F 08               [12] 2490 	inc	r0
+      000760 36               [12] 2491 	addc	a,@r0
+      000761 FE               [12] 2492 	mov	r6,a
+      000762 08               [12] 2493 	inc	r0
+      000763 86 07            [24] 2494 	mov	ar7,@r0
+      000765 E5 81            [12] 2495 	mov	a,sp
+      000767 24 FA            [12] 2496 	add	a,#0xfa
+      000769 F8               [12] 2497 	mov	r0,a
+      00076A E6               [12] 2498 	mov	a,@r0
+      00076B C0 E0            [24] 2499 	push	acc
+      00076D 08               [12] 2500 	inc	r0
+      00076E E6               [12] 2501 	mov	a,@r0
+      00076F C0 E0            [24] 2502 	push	acc
+      000771 08               [12] 2503 	inc	r0
+      000772 E6               [12] 2504 	mov	a,@r0
+      000773 C0 E0            [24] 2505 	push	acc
+      000775 08               [12] 2506 	inc	r0
+      000776 E6               [12] 2507 	mov	a,@r0
+      000777 C0 E0            [24] 2508 	push	acc
+      000779 8D 82            [24] 2509 	mov	dpl,r5
+      00077B 8E 83            [24] 2510 	mov	dph,r6
+      00077D 8F F0            [24] 2511 	mov	b,r7
+      00077F 78r00            [12] 2512 	mov	r0,#_stimer_set
+      000781 79s00            [12] 2513 	mov	r1,#(_stimer_set >> 8)
+      000783 7As00            [12] 2514 	mov	r2,#(_stimer_set >> 16)
+      000785 12r00r00         [24] 2515 	lcall	__sdcc_banked_call
+      000788 E5 81            [12] 2516 	mov	a,sp
+      00078A 24 FC            [12] 2517 	add	a,#0xfc
+      00078C F5 81            [12] 2518 	mov	sp,a
+                                   2519 ;	/opt/contiki/core/net/ipv6/uip-ds6-nbr.c:281: break;
+      00078E 02r09r9A         [24] 2520 	ljmp	00129$
+                                   2521 ;	/opt/contiki/core/net/ipv6/uip-ds6-nbr.c:282: case NBR_DELAY:
+      000791                       2522 00114$:
+                                   2523 ;	/opt/contiki/core/net/ipv6/uip-ds6-nbr.c:283: if(stimer_expired(&nbr->reachable)) {
+      000791 A8 81            [24] 2524 	mov	r0,sp
+      000793 18               [12] 2525 	dec	r0
+      000794 18               [12] 2526 	dec	r0
+      000795 74 10            [12] 2527 	mov	a,#0x10
+      000797 26               [12] 2528 	add	a,@r0
+      000798 FD               [12] 2529 	mov	r5,a
+      000799 E4               [12] 2530 	clr	a
+      00079A 08               [12] 2531 	inc	r0
+      00079B 36               [12] 2532 	addc	a,@r0
+      00079C FE               [12] 2533 	mov	r6,a
+      00079D 08               [12] 2534 	inc	r0
+      00079E 86 07            [24] 2535 	mov	ar7,@r0
+      0007A0 8D 82            [24] 2536 	mov	dpl,r5
+      0007A2 8E 83            [24] 2537 	mov	dph,r6
+      0007A4 8F F0            [24] 2538 	mov	b,r7
+      0007A6 C0 04            [24] 2539 	push	ar4
+      0007A8 C0 03            [24] 2540 	push	ar3
+      0007AA C0 02            [24] 2541 	push	ar2
+      0007AC 78r00            [12] 2542 	mov	r0,#_stimer_expired
+      0007AE 79s00            [12] 2543 	mov	r1,#(_stimer_expired >> 8)
+      0007B0 7As00            [12] 2544 	mov	r2,#(_stimer_expired >> 16)
+      0007B2 12r00r00         [24] 2545 	lcall	__sdcc_banked_call
+      0007B5 E5 82            [12] 2546 	mov	a,dpl
+      0007B7 85 83 F0         [24] 2547 	mov	b,dph
+      0007BA D0 02            [24] 2548 	pop	ar2
+      0007BC D0 03            [24] 2549 	pop	ar3
+      0007BE D0 04            [24] 2550 	pop	ar4
+      0007C0 45 F0            [12] 2551 	orl	a,b
+      0007C2 70 03            [24] 2552 	jnz	00197$
+      0007C4 02r09r9A         [24] 2553 	ljmp	00129$
+      0007C7                       2554 00197$:
+                                   2555 ;	/opt/contiki/core/net/ipv6/uip-ds6-nbr.c:284: nbr->state = NBR_PROBE;
+      0007C7 8A 82            [24] 2556 	mov	dpl,r2
+      0007C9 8B 83            [24] 2557 	mov	dph,r3
+      0007CB 8C F0            [24] 2558 	mov	b,r4
+      0007CD 74 04            [12] 2559 	mov	a,#0x04
+      0007CF 12r00r00         [24] 2560 	lcall	__gptrput
+                                   2561 ;	/opt/contiki/core/net/ipv6/uip-ds6-nbr.c:285: nbr->nscount = 0;
+      0007D2 A8 81            [24] 2562 	mov	r0,sp
+      0007D4 18               [12] 2563 	dec	r0
+      0007D5 18               [12] 2564 	dec	r0
+      0007D6 74 20            [12] 2565 	mov	a,#0x20
+      0007D8 26               [12] 2566 	add	a,@r0
+      0007D9 FD               [12] 2567 	mov	r5,a
+      0007DA E4               [12] 2568 	clr	a
+      0007DB 08               [12] 2569 	inc	r0
+      0007DC 36               [12] 2570 	addc	a,@r0
+      0007DD FE               [12] 2571 	mov	r6,a
+      0007DE 08               [12] 2572 	inc	r0
+      0007DF 86 07            [24] 2573 	mov	ar7,@r0
+      0007E1 8D 82            [24] 2574 	mov	dpl,r5
+      0007E3 8E 83            [24] 2575 	mov	dph,r6
+      0007E5 8F F0            [24] 2576 	mov	b,r7
+      0007E7 E4               [12] 2577 	clr	a
+      0007E8 12r00r00         [24] 2578 	lcall	__gptrput
+                                   2579 ;	/opt/contiki/core/net/ipv6/uip-ds6-nbr.c:287: stimer_set(&nbr->sendns, 0);
+      0007EB A8 81            [24] 2580 	mov	r0,sp
+      0007ED 18               [12] 2581 	dec	r0
+      0007EE 18               [12] 2582 	dec	r0
+      0007EF 74 18            [12] 2583 	mov	a,#0x18
+      0007F1 26               [12] 2584 	add	a,@r0
+      0007F2 FD               [12] 2585 	mov	r5,a
+      0007F3 E4               [12] 2586 	clr	a
+      0007F4 08               [12] 2587 	inc	r0
+      0007F5 36               [12] 2588 	addc	a,@r0
+      0007F6 FE               [12] 2589 	mov	r6,a
+      0007F7 08               [12] 2590 	inc	r0
+      0007F8 86 07            [24] 2591 	mov	ar7,@r0
+      0007FA E4               [12] 2592 	clr	a
+      0007FB C0 E0            [24] 2593 	push	acc
+      0007FD C0 E0            [24] 2594 	push	acc
+      0007FF C0 E0            [24] 2595 	push	acc
+      000801 C0 E0            [24] 2596 	push	acc
+      000803 8D 82            [24] 2597 	mov	dpl,r5
+      000805 8E 83            [24] 2598 	mov	dph,r6
+      000807 8F F0            [24] 2599 	mov	b,r7
+      000809 78r00            [12] 2600 	mov	r0,#_stimer_set
+      00080B 79s00            [12] 2601 	mov	r1,#(_stimer_set >> 8)
+      00080D 7As00            [12] 2602 	mov	r2,#(_stimer_set >> 16)
+      00080F 12r00r00         [24] 2603 	lcall	__sdcc_banked_call
+      000812 E5 81            [12] 2604 	mov	a,sp
+      000814 24 FC            [12] 2605 	add	a,#0xfc
+      000816 F5 81            [12] 2606 	mov	sp,a
+                                   2607 ;	/opt/contiki/core/net/ipv6/uip-ds6-nbr.c:289: break;
+      000818 02r09r9A         [24] 2608 	ljmp	00129$
+                                   2609 ;	/opt/contiki/core/net/ipv6/uip-ds6-nbr.c:290: case NBR_PROBE:
+      00081B                       2610 00117$:
+                                   2611 ;	/opt/contiki/core/net/ipv6/uip-ds6-nbr.c:291: if(nbr->nscount >= UIP_ND6_MAX_UNICAST_SOLICIT) {
+      00081B A8 81            [24] 2612 	mov	r0,sp
+      00081D 18               [12] 2613 	dec	r0
+      00081E 18               [12] 2614 	dec	r0
+      00081F 74 20            [12] 2615 	mov	a,#0x20
+      000821 26               [12] 2616 	add	a,@r0
+      000822 FD               [12] 2617 	mov	r5,a
+      000823 E4               [12] 2618 	clr	a
+      000824 08               [12] 2619 	inc	r0
+      000825 36               [12] 2620 	addc	a,@r0
+      000826 FE               [12] 2621 	mov	r6,a
+      000827 08               [12] 2622 	inc	r0
+      000828 86 07            [24] 2623 	mov	ar7,@r0
+      00082A 8D 82            [24] 2624 	mov	dpl,r5
+      00082C 8E 83            [24] 2625 	mov	dph,r6
+      00082E 8F F0            [24] 2626 	mov	b,r7
+      000830 12r00r00         [24] 2627 	lcall	__gptrget
+      000833 FC               [12] 2628 	mov	r4,a
+      000834 BC 03 00         [24] 2629 	cjne	r4,#0x03,00198$
+      000837                       2630 00198$:
+      000837 40 60            [24] 2631 	jc	00126$
+                                   2632 ;	/opt/contiki/core/net/ipv6/uip-ds6-nbr.c:294: if((locdefrt = uip_ds6_defrt_lookup(&nbr->ipaddr)) != NULL) {
+      000839 A8 81            [24] 2633 	mov	r0,sp
+      00083B 18               [12] 2634 	dec	r0
+      00083C 18               [12] 2635 	dec	r0
+      00083D 86 82            [24] 2636 	mov	dpl,@r0
+      00083F 08               [12] 2637 	inc	r0
+      000840 86 83            [24] 2638 	mov	dph,@r0
+      000842 08               [12] 2639 	inc	r0
+      000843 86 F0            [24] 2640 	mov	b,@r0
+      000845 78r00            [12] 2641 	mov	r0,#_uip_ds6_defrt_lookup
+      000847 79s00            [12] 2642 	mov	r1,#(_uip_ds6_defrt_lookup >> 8)
+      000849 7As00            [12] 2643 	mov	r2,#(_uip_ds6_defrt_lookup >> 16)
+      00084B 12r00r00         [24] 2644 	lcall	__sdcc_banked_call
+      00084E AC 82            [24] 2645 	mov	r4,dpl
+      000850 AB 83            [24] 2646 	mov	r3,dph
+      000852 AA F0            [24] 2647 	mov	r2,b
+      000854 8C 07            [24] 2648 	mov	ar7,r4
+      000856 8B 06            [24] 2649 	mov	ar6,r3
+      000858 8A 05            [24] 2650 	mov	ar5,r2
+      00085A EC               [12] 2651 	mov	a,r4
+      00085B 4B               [12] 2652 	orl	a,r3
+      00085C 60 23            [24] 2653 	jz	00121$
+                                   2654 ;	/opt/contiki/core/net/ipv6/uip-ds6-nbr.c:295: if (!locdefrt->isinfinite) {
+      00085E 74 1B            [12] 2655 	mov	a,#0x1B
+      000860 2F               [12] 2656 	add	a,r7
+      000861 FA               [12] 2657 	mov	r2,a
+      000862 E4               [12] 2658 	clr	a
+      000863 3E               [12] 2659 	addc	a,r6
+      000864 FB               [12] 2660 	mov	r3,a
+      000865 8D 04            [24] 2661 	mov	ar4,r5
+      000867 8A 82            [24] 2662 	mov	dpl,r2
+      000869 8B 83            [24] 2663 	mov	dph,r3
+      00086B 8C F0            [24] 2664 	mov	b,r4
+      00086D 12r00r00         [24] 2665 	lcall	__gptrget
+      000870 70 0F            [24] 2666 	jnz	00121$
+                                   2667 ;	/opt/contiki/core/net/ipv6/uip-ds6-nbr.c:296: uip_ds6_defrt_rm(locdefrt);
+      000872 8F 82            [24] 2668 	mov	dpl,r7
+      000874 8E 83            [24] 2669 	mov	dph,r6
+      000876 8D F0            [24] 2670 	mov	b,r5
+      000878 78r00            [12] 2671 	mov	r0,#_uip_ds6_defrt_rm
+      00087A 79s00            [12] 2672 	mov	r1,#(_uip_ds6_defrt_rm >> 8)
+      00087C 7As00            [12] 2673 	mov	r2,#(_uip_ds6_defrt_rm >> 16)
+      00087E 12r00r00         [24] 2674 	lcall	__sdcc_banked_call
+      000881                       2675 00121$:
+                                   2676 ;	/opt/contiki/core/net/ipv6/uip-ds6-nbr.c:299: uip_ds6_nbr_rm(nbr);
+      000881 A8 81            [24] 2677 	mov	r0,sp
+      000883 18               [12] 2678 	dec	r0
+      000884 18               [12] 2679 	dec	r0
+      000885 86 82            [24] 2680 	mov	dpl,@r0
+      000887 08               [12] 2681 	inc	r0
+      000888 86 83            [24] 2682 	mov	dph,@r0
+      00088A 08               [12] 2683 	inc	r0
+      00088B 86 F0            [24] 2684 	mov	b,@r0
+      00088D 78rAA            [12] 2685 	mov	r0,#_uip_ds6_nbr_rm
+      00088F 79s01            [12] 2686 	mov	r1,#(_uip_ds6_nbr_rm >> 8)
+      000891 7As00            [12] 2687 	mov	r2,#(_uip_ds6_nbr_rm >> 16)
+      000893 12r00r00         [24] 2688 	lcall	__sdcc_banked_call
+      000896 02r09r9A         [24] 2689 	ljmp	00129$
+      000899                       2690 00126$:
+                                   2691 ;	/opt/contiki/core/net/ipv6/uip-ds6-nbr.c:300: } else if(stimer_expired(&nbr->sendns) && (uip_len == 0)) {
+      000899 A8 81            [24] 2692 	mov	r0,sp
+      00089B 18               [12] 2693 	dec	r0
+      00089C 18               [12] 2694 	dec	r0
+      00089D 74 18            [12] 2695 	mov	a,#0x18
+      00089F 26               [12] 2696 	add	a,@r0
+      0008A0 FA               [12] 2697 	mov	r2,a
+      0008A1 E4               [12] 2698 	clr	a
+      0008A2 08               [12] 2699 	inc	r0
+      0008A3 36               [12] 2700 	addc	a,@r0
+      0008A4 FB               [12] 2701 	mov	r3,a
+      0008A5 08               [12] 2702 	inc	r0
+      0008A6 86 04            [24] 2703 	mov	ar4,@r0
+      0008A8 8A 82            [24] 2704 	mov	dpl,r2
+      0008AA 8B 83            [24] 2705 	mov	dph,r3
+      0008AC 8C F0            [24] 2706 	mov	b,r4
+      0008AE C0 07            [24] 2707 	push	ar7
+      0008B0 C0 06            [24] 2708 	push	ar6
+      0008B2 C0 05            [24] 2709 	push	ar5
+      0008B4 78r00            [12] 2710 	mov	r0,#_stimer_expired
+      0008B6 79s00            [12] 2711 	mov	r1,#(_stimer_expired >> 8)
+      0008B8 7As00            [12] 2712 	mov	r2,#(_stimer_expired >> 16)
+      0008BA 12r00r00         [24] 2713 	lcall	__sdcc_banked_call
+      0008BD E5 82            [12] 2714 	mov	a,dpl
+      0008BF 85 83 F0         [24] 2715 	mov	b,dph
+      0008C2 D0 05            [24] 2716 	pop	ar5
+      0008C4 D0 06            [24] 2717 	pop	ar6
+      0008C6 D0 07            [24] 2718 	pop	ar7
+      0008C8 45 F0            [12] 2719 	orl	a,b
+      0008CA 70 03            [24] 2720 	jnz	00202$
+      0008CC 02r09r9A         [24] 2721 	ljmp	00129$
+      0008CF                       2722 00202$:
+      0008CF 90r00r00         [24] 2723 	mov	dptr,#_uip_len
+      0008D2 E0               [24] 2724 	movx	a,@dptr
+      0008D3 F5 F0            [12] 2725 	mov	b,a
+      0008D5 A3               [24] 2726 	inc	dptr
+      0008D6 E0               [24] 2727 	movx	a,@dptr
+      0008D7 45 F0            [12] 2728 	orl	a,b
+      0008D9 60 03            [24] 2729 	jz	00203$
+      0008DB 02r09r9A         [24] 2730 	ljmp	00129$
+      0008DE                       2731 00203$:
+                                   2732 ;	/opt/contiki/core/net/ipv6/uip-ds6-nbr.c:301: nbr->nscount++;
+      0008DE 8D 82            [24] 2733 	mov	dpl,r5
+      0008E0 8E 83            [24] 2734 	mov	dph,r6
+      0008E2 8F F0            [24] 2735 	mov	b,r7
+      0008E4 12r00r00         [24] 2736 	lcall	__gptrget
+      0008E7 FC               [12] 2737 	mov	r4,a
+      0008E8 0C               [12] 2738 	inc	r4
+      0008E9 8D 82            [24] 2739 	mov	dpl,r5
+      0008EB 8E 83            [24] 2740 	mov	dph,r6
+      0008ED 8F F0            [24] 2741 	mov	b,r7
+      0008EF EC               [12] 2742 	mov	a,r4
+      0008F0 12r00r00         [24] 2743 	lcall	__gptrput
+                                   2744 ;	/opt/contiki/core/net/ipv6/uip-ds6-nbr.c:303: uip_nd6_ns_output(NULL, &nbr->ipaddr, &nbr->ipaddr);
+      0008F3 A8 81            [24] 2745 	mov	r0,sp
+      0008F5 18               [12] 2746 	dec	r0
+      0008F6 18               [12] 2747 	dec	r0
+      0008F7 E6               [12] 2748 	mov	a,@r0
+      0008F8 C0 E0            [24] 2749 	push	acc
+      0008FA 08               [12] 2750 	inc	r0
+      0008FB E6               [12] 2751 	mov	a,@r0
+      0008FC C0 E0            [24] 2752 	push	acc
+      0008FE 08               [12] 2753 	inc	r0
+      0008FF E6               [12] 2754 	mov	a,@r0
+      000900 C0 E0            [24] 2755 	push	acc
+      000902 E5 81            [12] 2756 	mov	a,sp
+      000904 24 FB            [12] 2757 	add	a,#0xfb
+      000906 F8               [12] 2758 	mov	r0,a
+      000907 E6               [12] 2759 	mov	a,@r0
+      000908 C0 E0            [24] 2760 	push	acc
+      00090A 08               [12] 2761 	inc	r0
+      00090B E6               [12] 2762 	mov	a,@r0
+      00090C C0 E0            [24] 2763 	push	acc
+      00090E 08               [12] 2764 	inc	r0
+      00090F E6               [12] 2765 	mov	a,@r0
+      000910 C0 E0            [24] 2766 	push	acc
+      000912 90 00 00         [24] 2767 	mov	dptr,#0x0000
+      000915 75 F0 00         [24] 2768 	mov	b,#0x00
+      000918 78r00            [12] 2769 	mov	r0,#_uip_nd6_ns_output
+      00091A 79s00            [12] 2770 	mov	r1,#(_uip_nd6_ns_output >> 8)
+      00091C 7As00            [12] 2771 	mov	r2,#(_uip_nd6_ns_output >> 16)
+      00091E 12r00r00         [24] 2772 	lcall	__sdcc_banked_call
+      000921 E5 81            [12] 2773 	mov	a,sp
+      000923 24 FA            [12] 2774 	add	a,#0xfa
+      000925 F5 81            [12] 2775 	mov	sp,a
+                                   2776 ;	/opt/contiki/core/net/ipv6/uip-ds6-nbr.c:304: stimer_set(&nbr->sendns, uip_ds6_if.retrans_timer / 1000);
+      000927 90r00r0D         [24] 2777 	mov	dptr,#(_uip_ds6_if + 0x000d)
+      00092A E0               [24] 2778 	movx	a,@dptr
+      00092B FC               [12] 2779 	mov	r4,a
+      00092C A3               [24] 2780 	inc	dptr
+      00092D E0               [24] 2781 	movx	a,@dptr
+      00092E FD               [12] 2782 	mov	r5,a
+      00092F A3               [24] 2783 	inc	dptr
+      000930 E0               [24] 2784 	movx	a,@dptr
+      000931 FE               [12] 2785 	mov	r6,a
+      000932 A3               [24] 2786 	inc	dptr
+      000933 E0               [24] 2787 	movx	a,@dptr
+      000934 FF               [12] 2788 	mov	r7,a
+      000935 74 E8            [12] 2789 	mov	a,#0xE8
+      000937 C0 E0            [24] 2790 	push	acc
+      000939 74 03            [12] 2791 	mov	a,#0x03
+      00093B C0 E0            [24] 2792 	push	acc
+      00093D E4               [12] 2793 	clr	a
+      00093E C0 E0            [24] 2794 	push	acc
+      000940 C0 E0            [24] 2795 	push	acc
+      000942 8C 82            [24] 2796 	mov	dpl,r4
+      000944 8D 83            [24] 2797 	mov	dph,r5
+      000946 8E F0            [24] 2798 	mov	b,r6
+      000948 EF               [12] 2799 	mov	a,r7
+      000949 12r00r00         [24] 2800 	lcall	__divulong
+      00094C C8               [12] 2801 	xch	a,r0
+      00094D E5 81            [12] 2802 	mov	a,sp
+      00094F 24 F6            [12] 2803 	add	a,#0xf6
+      000951 C8               [12] 2804 	xch	a,r0
+      000952 A6 82            [24] 2805 	mov	@r0,dpl
+      000954 08               [12] 2806 	inc	r0
+      000955 A6 83            [24] 2807 	mov	@r0,dph
+      000957 08               [12] 2808 	inc	r0
+      000958 A6 F0            [24] 2809 	mov	@r0,b
+      00095A 08               [12] 2810 	inc	r0
+      00095B F6               [12] 2811 	mov	@r0,a
+      00095C E5 81            [12] 2812 	mov	a,sp
+      00095E 24 FC            [12] 2813 	add	a,#0xfc
+      000960 F5 81            [12] 2814 	mov	sp,a
+      000962 A8 81            [24] 2815 	mov	r0,sp
+      000964 18               [12] 2816 	dec	r0
+      000965 18               [12] 2817 	dec	r0
+      000966 74 18            [12] 2818 	mov	a,#0x18
+      000968 26               [12] 2819 	add	a,@r0
+      000969 FA               [12] 2820 	mov	r2,a
+      00096A E4               [12] 2821 	clr	a
+      00096B 08               [12] 2822 	inc	r0
+      00096C 36               [12] 2823 	addc	a,@r0
+      00096D FB               [12] 2824 	mov	r3,a
+      00096E 08               [12] 2825 	inc	r0
+      00096F 86 07            [24] 2826 	mov	ar7,@r0
+      000971 E5 81            [12] 2827 	mov	a,sp
+      000973 24 FA            [12] 2828 	add	a,#0xfa
+      000975 F8               [12] 2829 	mov	r0,a
+      000976 E6               [12] 2830 	mov	a,@r0
+      000977 C0 E0            [24] 2831 	push	acc
+      000979 08               [12] 2832 	inc	r0
+      00097A E6               [12] 2833 	mov	a,@r0
+      00097B C0 E0            [24] 2834 	push	acc
+      00097D 08               [12] 2835 	inc	r0
+      00097E E6               [12] 2836 	mov	a,@r0
+      00097F C0 E0            [24] 2837 	push	acc
+      000981 08               [12] 2838 	inc	r0
+      000982 E6               [12] 2839 	mov	a,@r0
+      000983 C0 E0            [24] 2840 	push	acc
+      000985 8A 82            [24] 2841 	mov	dpl,r2
+      000987 8B 83            [24] 2842 	mov	dph,r3
+      000989 8F F0            [24] 2843 	mov	b,r7
+      00098B 78r00            [12] 2844 	mov	r0,#_stimer_set
+      00098D 79s00            [12] 2845 	mov	r1,#(_stimer_set >> 8)
+      00098F 7As00            [12] 2846 	mov	r2,#(_stimer_set >> 16)
+      000991 12r00r00         [24] 2847 	lcall	__sdcc_banked_call
+      000994 E5 81            [12] 2848 	mov	a,sp
+      000996 24 FC            [12] 2849 	add	a,#0xfc
+      000998 F5 81            [12] 2850 	mov	sp,a
+                                   2851 ;	/opt/contiki/core/net/ipv6/uip-ds6-nbr.c:310: }
+      00099A                       2852 00129$:
+                                   2853 ;	/opt/contiki/core/net/ipv6/uip-ds6-nbr.c:311: nbr = nbr_table_next(ds6_neighbors, nbr);
+      00099A A8 81            [24] 2854 	mov	r0,sp
+      00099C 18               [12] 2855 	dec	r0
+      00099D 18               [12] 2856 	dec	r0
+      00099E 86 05            [24] 2857 	mov	ar5,@r0
+      0009A0 08               [12] 2858 	inc	r0
+      0009A1 86 06            [24] 2859 	mov	ar6,@r0
+      0009A3 08               [12] 2860 	inc	r0
+      0009A4 86 07            [24] 2861 	mov	ar7,@r0
+      0009A6 90r00r0A         [24] 2862 	mov	dptr,#_ds6_neighbors
+      0009A9 E0               [24] 2863 	movx	a,@dptr
+      0009AA FA               [12] 2864 	mov	r2,a
+      0009AB A3               [24] 2865 	inc	dptr
+      0009AC E0               [24] 2866 	movx	a,@dptr
+      0009AD FB               [12] 2867 	mov	r3,a
+      0009AE A3               [24] 2868 	inc	dptr
+      0009AF E0               [24] 2869 	movx	a,@dptr
+      0009B0 FC               [12] 2870 	mov	r4,a
+      0009B1 C0 05            [24] 2871 	push	ar5
+      0009B3 C0 06            [24] 2872 	push	ar6
+      0009B5 C0 07            [24] 2873 	push	ar7
+      0009B7 8A 82            [24] 2874 	mov	dpl,r2
+      0009B9 8B 83            [24] 2875 	mov	dph,r3
+      0009BB 8C F0            [24] 2876 	mov	b,r4
+      0009BD 78r00            [12] 2877 	mov	r0,#_nbr_table_next
+      0009BF 79s00            [12] 2878 	mov	r1,#(_nbr_table_next >> 8)
+      0009C1 7As00            [12] 2879 	mov	r2,#(_nbr_table_next >> 16)
+      0009C3 12r00r00         [24] 2880 	lcall	__sdcc_banked_call
+      0009C6 AD 82            [24] 2881 	mov	r5,dpl
+      0009C8 AE 83            [24] 2882 	mov	r6,dph
+      0009CA AF F0            [24] 2883 	mov	r7,b
+      0009CC 15 81            [12] 2884 	dec	sp
+      0009CE 15 81            [12] 2885 	dec	sp
+      0009D0 15 81            [12] 2886 	dec	sp
+      0009D2 A8 81            [24] 2887 	mov	r0,sp
+      0009D4 18               [12] 2888 	dec	r0
+      0009D5 18               [12] 2889 	dec	r0
+      0009D6 A6 05            [24] 2890 	mov	@r0,ar5
+      0009D8 08               [12] 2891 	inc	r0
+      0009D9 A6 06            [24] 2892 	mov	@r0,ar6
+      0009DB 08               [12] 2893 	inc	r0
+      0009DC A6 07            [24] 2894 	mov	@r0,ar7
+      0009DE 02r05r4F         [24] 2895 	ljmp	00130$
+      0009E1                       2896 00133$:
+      0009E1 E5 81            [12] 2897 	mov	a,sp
+      0009E3 24 F9            [12] 2898 	add	a,#0xF9
+      0009E5 F5 81            [12] 2899 	mov	sp,a
+      0009E7 02r00r00         [24] 2900 	ljmp	__sdcc_banked_ret
+                                   2901 ;------------------------------------------------------------
+                                   2902 ;Allocation info for local variables in function 'uip_ds6_get_least_lifetime_neighbor'
+                                   2903 ;------------------------------------------------------------
+                                   2904 ;nbr                       Allocated to stack - sp -2
+                                   2905 ;nbr_expiring              Allocated to registers r2 r3 r4 
+                                   2906 ;curr                      Allocated to registers r2 r3 
+                                   2907 ;sloc0                     Allocated to stack - sp -6
+                                   2908 ;------------------------------------------------------------
+                                   2909 ;	/opt/contiki/core/net/ipv6/uip-ds6-nbr.c:316: uip_ds6_get_least_lifetime_neighbor(void)
+                                   2910 ;	-----------------------------------------
+                                   2911 ;	 function uip_ds6_get_least_lifetime_neighbor
+                                   2912 ;	-----------------------------------------
+      0009EA                       2913 _uip_ds6_get_least_lifetime_neighbor:
+      0009EA E5 81            [12] 2914 	mov	a,sp
+      0009EC 24 07            [12] 2915 	add	a,#0x07
+      0009EE F5 81            [12] 2916 	mov	sp,a
+                                   2917 ;	/opt/contiki/core/net/ipv6/uip-ds6-nbr.c:318: uip_ds6_nbr_t *nbr = nbr_table_head(ds6_neighbors);
+      0009F0 90r00r0A         [24] 2918 	mov	dptr,#_ds6_neighbors
+      0009F3 E0               [24] 2919 	movx	a,@dptr
+      0009F4 FD               [12] 2920 	mov	r5,a
+      0009F5 A3               [24] 2921 	inc	dptr
+      0009F6 E0               [24] 2922 	movx	a,@dptr
+      0009F7 FE               [12] 2923 	mov	r6,a
+      0009F8 A3               [24] 2924 	inc	dptr
+      0009F9 E0               [24] 2925 	movx	a,@dptr
+      0009FA FF               [12] 2926 	mov	r7,a
+      0009FB 8D 82            [24] 2927 	mov	dpl,r5
+      0009FD 8E 83            [24] 2928 	mov	dph,r6
+      0009FF 8F F0            [24] 2929 	mov	b,r7
+      000A01 78r00            [12] 2930 	mov	r0,#_nbr_table_head
+      000A03 79s00            [12] 2931 	mov	r1,#(_nbr_table_head >> 8)
+      000A05 7As00            [12] 2932 	mov	r2,#(_nbr_table_head >> 16)
+      000A07 12r00r00         [24] 2933 	lcall	__sdcc_banked_call
+      000A0A AD 82            [24] 2934 	mov	r5,dpl
+      000A0C AE 83            [24] 2935 	mov	r6,dph
+      000A0E AF F0            [24] 2936 	mov	r7,b
+      000A10 A8 81            [24] 2937 	mov	r0,sp
+      000A12 18               [12] 2938 	dec	r0
+      000A13 18               [12] 2939 	dec	r0
+      000A14 A6 05            [24] 2940 	mov	@r0,ar5
+      000A16 08               [12] 2941 	inc	r0
+      000A17 A6 06            [24] 2942 	mov	@r0,ar6
+      000A19 08               [12] 2943 	inc	r0
+      000A1A A6 07            [24] 2944 	mov	@r0,ar7
+                                   2945 ;	/opt/contiki/core/net/ipv6/uip-ds6-nbr.c:319: uip_ds6_nbr_t *nbr_expiring = NULL;
+      000A1C 7A 00            [12] 2946 	mov	r2,#0x00
+      000A1E 7B 00            [12] 2947 	mov	r3,#0x00
+      000A20 7C 00            [12] 2948 	mov	r4,#0x00
+                                   2949 ;	/opt/contiki/core/net/ipv6/uip-ds6-nbr.c:320: while(nbr != NULL) {
+      000A22                       2950 00106$:
+      000A22 A8 81            [24] 2951 	mov	r0,sp
+      000A24 18               [12] 2952 	dec	r0
+      000A25 18               [12] 2953 	dec	r0
+      000A26 E6               [12] 2954 	mov	a,@r0
+      000A27 08               [12] 2955 	inc	r0
+      000A28 46               [12] 2956 	orl	a,@r0
+      000A29 70 03            [24] 2957 	jnz	00123$
+      000A2B 02r0Br32         [24] 2958 	ljmp	00108$
+      000A2E                       2959 00123$:
+                                   2960 ;	/opt/contiki/core/net/ipv6/uip-ds6-nbr.c:321: if(nbr_expiring != NULL) {
+      000A2E EA               [12] 2961 	mov	a,r2
+      000A2F 4B               [12] 2962 	orl	a,r3
+      000A30 70 03            [24] 2963 	jnz	00124$
+      000A32 02r0ArC5         [24] 2964 	ljmp	00104$
+      000A35                       2965 00124$:
+                                   2966 ;	/opt/contiki/core/net/ipv6/uip-ds6-nbr.c:322: clock_time_t curr = stimer_remaining(&nbr->reachable);
+      000A35 C0 02            [24] 2967 	push	ar2
+      000A37 C0 03            [24] 2968 	push	ar3
+      000A39 C0 04            [24] 2969 	push	ar4
+      000A3B E5 81            [12] 2970 	mov	a,sp
+      000A3D 24 FB            [12] 2971 	add	a,#0xfb
+      000A3F F8               [12] 2972 	mov	r0,a
+      000A40 74 10            [12] 2973 	mov	a,#0x10
+      000A42 26               [12] 2974 	add	a,@r0
+      000A43 FA               [12] 2975 	mov	r2,a
+      000A44 E4               [12] 2976 	clr	a
+      000A45 08               [12] 2977 	inc	r0
+      000A46 36               [12] 2978 	addc	a,@r0
+      000A47 FB               [12] 2979 	mov	r3,a
+      000A48 08               [12] 2980 	inc	r0
+      000A49 86 04            [24] 2981 	mov	ar4,@r0
+      000A4B 8A 82            [24] 2982 	mov	dpl,r2
+      000A4D 8B 83            [24] 2983 	mov	dph,r3
+      000A4F 8C F0            [24] 2984 	mov	b,r4
+      000A51 78r00            [12] 2985 	mov	r0,#_stimer_remaining
+      000A53 79s00            [12] 2986 	mov	r1,#(_stimer_remaining >> 8)
+      000A55 7As00            [12] 2987 	mov	r2,#(_stimer_remaining >> 16)
+      000A57 12r00r00         [24] 2988 	lcall	__sdcc_banked_call
+      000A5A AA 82            [24] 2989 	mov	r2,dpl
+      000A5C AB 83            [24] 2990 	mov	r3,dph
+      000A5E AC F0            [24] 2991 	mov	r4,b
+                                   2992 ;	/opt/contiki/core/net/ipv6/uip-ds6-nbr.c:323: if(curr < stimer_remaining(&nbr->reachable)) {
+      000A60 E5 81            [12] 2993 	mov	a,sp
+      000A62 24 FB            [12] 2994 	add	a,#0xfb
+      000A64 F8               [12] 2995 	mov	r0,a
+      000A65 74 10            [12] 2996 	mov	a,#0x10
+      000A67 26               [12] 2997 	add	a,@r0
+      000A68 FD               [12] 2998 	mov	r5,a
+      000A69 E4               [12] 2999 	clr	a
+      000A6A 08               [12] 3000 	inc	r0
+      000A6B 36               [12] 3001 	addc	a,@r0
+      000A6C FE               [12] 3002 	mov	r6,a
+      000A6D 08               [12] 3003 	inc	r0
+      000A6E 86 07            [24] 3004 	mov	ar7,@r0
+      000A70 8D 82            [24] 3005 	mov	dpl,r5
+      000A72 8E 83            [24] 3006 	mov	dph,r6
+      000A74 8F F0            [24] 3007 	mov	b,r7
+      000A76 C0 04            [24] 3008 	push	ar4
+      000A78 C0 03            [24] 3009 	push	ar3
+      000A7A C0 02            [24] 3010 	push	ar2
+      000A7C 78r00            [12] 3011 	mov	r0,#_stimer_remaining
+      000A7E 79s00            [12] 3012 	mov	r1,#(_stimer_remaining >> 8)
+      000A80 7As00            [12] 3013 	mov	r2,#(_stimer_remaining >> 16)
+      000A82 12r00r00         [24] 3014 	lcall	__sdcc_banked_call
+      000A85 C8               [12] 3015 	xch	a,r0
+      000A86 E5 81            [12] 3016 	mov	a,sp
+      000A88 24 F4            [12] 3017 	add	a,#0xf4
+      000A8A C8               [12] 3018 	xch	a,r0
+      000A8B A6 82            [24] 3019 	mov	@r0,dpl
+      000A8D 08               [12] 3020 	inc	r0
+      000A8E A6 83            [24] 3021 	mov	@r0,dph
+      000A90 08               [12] 3022 	inc	r0
+      000A91 A6 F0            [24] 3023 	mov	@r0,b
+      000A93 08               [12] 3024 	inc	r0
+      000A94 F6               [12] 3025 	mov	@r0,a
+      000A95 D0 02            [24] 3026 	pop	ar2
+      000A97 D0 03            [24] 3027 	pop	ar3
+      000A99 D0 04            [24] 3028 	pop	ar4
+      000A9B E4               [12] 3029 	clr	a
+      000A9C FE               [12] 3030 	mov	r6,a
+      000A9D FF               [12] 3031 	mov	r7,a
+      000A9E E5 81            [12] 3032 	mov	a,sp
+      000AA0 24 F7            [12] 3033 	add	a,#0xf7
+      000AA2 F8               [12] 3034 	mov	r0,a
+      000AA3 C3               [12] 3035 	clr	c
+      000AA4 EA               [12] 3036 	mov	a,r2
+      000AA5 96               [12] 3037 	subb	a,@r0
+      000AA6 EB               [12] 3038 	mov	a,r3
+      000AA7 08               [12] 3039 	inc	r0
+      000AA8 96               [12] 3040 	subb	a,@r0
+      000AA9 EE               [12] 3041 	mov	a,r6
+      000AAA 08               [12] 3042 	inc	r0
+      000AAB 96               [12] 3043 	subb	a,@r0
+      000AAC EF               [12] 3044 	mov	a,r7
+      000AAD 08               [12] 3045 	inc	r0
+      000AAE 96               [12] 3046 	subb	a,@r0
+      000AAF D0 04            [24] 3047 	pop	ar4
+      000AB1 D0 03            [24] 3048 	pop	ar3
+      000AB3 D0 02            [24] 3049 	pop	ar2
+      000AB5 50 1A            [24] 3050 	jnc	00105$
+                                   3051 ;	/opt/contiki/core/net/ipv6/uip-ds6-nbr.c:324: nbr_expiring = nbr;
+      000AB7 A8 81            [24] 3052 	mov	r0,sp
+      000AB9 18               [12] 3053 	dec	r0
+      000ABA 18               [12] 3054 	dec	r0
+      000ABB 86 02            [24] 3055 	mov	ar2,@r0
+      000ABD 08               [12] 3056 	inc	r0
+      000ABE 86 03            [24] 3057 	mov	ar3,@r0
+      000AC0 08               [12] 3058 	inc	r0
+      000AC1 86 04            [24] 3059 	mov	ar4,@r0
+      000AC3 80 0C            [24] 3060 	sjmp	00105$
+      000AC5                       3061 00104$:
+                                   3062 ;	/opt/contiki/core/net/ipv6/uip-ds6-nbr.c:327: nbr_expiring = nbr;
+      000AC5 A8 81            [24] 3063 	mov	r0,sp
+      000AC7 18               [12] 3064 	dec	r0
+      000AC8 18               [12] 3065 	dec	r0
+      000AC9 86 02            [24] 3066 	mov	ar2,@r0
+      000ACB 08               [12] 3067 	inc	r0
+      000ACC 86 03            [24] 3068 	mov	ar3,@r0
+      000ACE 08               [12] 3069 	inc	r0
+      000ACF 86 04            [24] 3070 	mov	ar4,@r0
+      000AD1                       3071 00105$:
+                                   3072 ;	/opt/contiki/core/net/ipv6/uip-ds6-nbr.c:329: nbr = nbr_table_next(ds6_neighbors, nbr);
+      000AD1 C0 02            [24] 3073 	push	ar2
+      000AD3 C0 03            [24] 3074 	push	ar3
+      000AD5 C0 04            [24] 3075 	push	ar4
+      000AD7 E5 81            [12] 3076 	mov	a,sp
+      000AD9 24 FB            [12] 3077 	add	a,#0xfb
+      000ADB F8               [12] 3078 	mov	r0,a
+      000ADC 86 05            [24] 3079 	mov	ar5,@r0
+      000ADE 08               [12] 3080 	inc	r0
+      000ADF 86 06            [24] 3081 	mov	ar6,@r0
+      000AE1 08               [12] 3082 	inc	r0
+      000AE2 86 07            [24] 3083 	mov	ar7,@r0
+      000AE4 90r00r0A         [24] 3084 	mov	dptr,#_ds6_neighbors
+      000AE7 E0               [24] 3085 	movx	a,@dptr
+      000AE8 FA               [12] 3086 	mov	r2,a
+      000AE9 A3               [24] 3087 	inc	dptr
+      000AEA E0               [24] 3088 	movx	a,@dptr
+      000AEB FB               [12] 3089 	mov	r3,a
+      000AEC A3               [24] 3090 	inc	dptr
+      000AED E0               [24] 3091 	movx	a,@dptr
+      000AEE FC               [12] 3092 	mov	r4,a
+      000AEF C0 04            [24] 3093 	push	ar4
+      000AF1 C0 03            [24] 3094 	push	ar3
+      000AF3 C0 02            [24] 3095 	push	ar2
+      000AF5 C0 05            [24] 3096 	push	ar5
+      000AF7 C0 06            [24] 3097 	push	ar6
+      000AF9 C0 07            [24] 3098 	push	ar7
+      000AFB 8A 82            [24] 3099 	mov	dpl,r2
+      000AFD 8B 83            [24] 3100 	mov	dph,r3
+      000AFF 8C F0            [24] 3101 	mov	b,r4
+      000B01 78r00            [12] 3102 	mov	r0,#_nbr_table_next
+      000B03 79s00            [12] 3103 	mov	r1,#(_nbr_table_next >> 8)
+      000B05 7As00            [12] 3104 	mov	r2,#(_nbr_table_next >> 16)
+      000B07 12r00r00         [24] 3105 	lcall	__sdcc_banked_call
+      000B0A AD 82            [24] 3106 	mov	r5,dpl
+      000B0C AE 83            [24] 3107 	mov	r6,dph
+      000B0E AF F0            [24] 3108 	mov	r7,b
+      000B10 15 81            [12] 3109 	dec	sp
+      000B12 15 81            [12] 3110 	dec	sp
+      000B14 15 81            [12] 3111 	dec	sp
+      000B16 D0 02            [24] 3112 	pop	ar2
+      000B18 D0 03            [24] 3113 	pop	ar3
+      000B1A D0 04            [24] 3114 	pop	ar4
+      000B1C E5 81            [12] 3115 	mov	a,sp
+      000B1E 24 FB            [12] 3116 	add	a,#0xfb
+      000B20 F8               [12] 3117 	mov	r0,a
+      000B21 A6 05            [24] 3118 	mov	@r0,ar5
+      000B23 08               [12] 3119 	inc	r0
+      000B24 A6 06            [24] 3120 	mov	@r0,ar6
+      000B26 08               [12] 3121 	inc	r0
+      000B27 A6 07            [24] 3122 	mov	@r0,ar7
+      000B29 D0 04            [24] 3123 	pop	ar4
+      000B2B D0 03            [24] 3124 	pop	ar3
+      000B2D D0 02            [24] 3125 	pop	ar2
+      000B2F 02r0Ar22         [24] 3126 	ljmp	00106$
+      000B32                       3127 00108$:
+                                   3128 ;	/opt/contiki/core/net/ipv6/uip-ds6-nbr.c:331: return nbr_expiring;
+      000B32 8A 82            [24] 3129 	mov	dpl,r2
+      000B34 8B 83            [24] 3130 	mov	dph,r3
+      000B36 8C F0            [24] 3131 	mov	b,r4
+      000B38 C8               [12] 3132 	xch	a,r0
+      000B39 E5 81            [12] 3133 	mov	a,sp
+      000B3B 24 F9            [12] 3134 	add	a,#0xF9
+      000B3D F5 81            [12] 3135 	mov	sp,a
+      000B3F C8               [12] 3136 	xch	a,r0
+      000B40 02r00r00         [24] 3137 	ljmp	__sdcc_banked_ret
+                                   3138 	.area CSEG    (CODE)
+                                   3139 	.area CONST   (CODE)
+                                   3140 	.area XINIT   (CODE)
+      000000                       3141 __xinit__ds6_neighbors_struct:
+      000000 00 00                 3142 	.byte #0x00,#0x00	;  0
+      000002 25 00                 3143 	.byte #0x25,#0x00	;  37
+      000004 00 00 00              3144 	.byte #0x00,#0x00,#0x00
+      000007r00s00 00              3145 	.byte __ds6_neighbors_mem, (__ds6_neighbors_mem >> 8),#0x00
+      00000A                       3146 __xinit__ds6_neighbors:
+      00000Ar00s00 00              3147 	.byte _ds6_neighbors_struct, (_ds6_neighbors_struct >> 8),#0x00
+                                   3148 	.area CABS    (ABS,CODE)
