@@ -1,0 +1,7 @@
+Product Description
+
+This popular sensor made by Sharp produces an analog output that varies from 3.1V at 4cm to 0.3V at 30cm.
+Based on "typical values" from Sharp, the formula to translate SensorValue into Distance (the formula is only valid for a SensorValue between 80 to 530) is:
+Distance (cm) = 2076/(SensorValue - 11)
+This sensor can find the distance to objects that present a very narrow edge such as a wall at a very sharp angle.
+Note: The output of this sensor will vary from unit to unit, and based on the characteristics of the target (reflectance, size, direction of motion, object alignment, ...). If you find that you are not getting good results with the standard formulas, you may want to derive your own formula to better characterize your situation.

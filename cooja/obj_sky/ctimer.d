@@ -6,7 +6,8 @@ obj_sky/ctimer.o: /opt/contiki/core/sys/ctimer.c \
  /opt/contiki/cpu/msp430/./msp430def.h /opt/contiki/core/./sys/process.h \
  /opt/contiki/core/./sys/pt.h /opt/contiki/core/./sys/lc.h \
  /opt/contiki/core/./sys/lc-switch.h /opt/contiki/core/./sys/cc.h \
- /opt/contiki/core/./contiki.h /opt/contiki/core/./contiki-version.h \
+ /opt/contiki/core/./sys/cc-gcc.h /opt/contiki/core/./contiki.h \
+ /opt/contiki/core/./contiki-version.h \
  /opt/contiki/core/./contiki-default-conf.h \
  /opt/contiki/core/./sys/process.h /opt/contiki/core/./sys/autostart.h \
  /opt/contiki/core/./sys/timer.h /opt/contiki/core/./sys/ctimer.h \
@@ -23,7 +24,8 @@ obj_sky/ctimer.o: /opt/contiki/core/sys/ctimer.c \
  /opt/contiki/cpu/msp430/./msp430def.h /opt/contiki/core/./sys/process.h :
  /opt/contiki/core/./sys/pt.h /opt/contiki/core/./sys/lc.h :
  /opt/contiki/core/./sys/lc-switch.h /opt/contiki/core/./sys/cc.h :
- /opt/contiki/core/./contiki.h /opt/contiki/core/./contiki-version.h :
+ /opt/contiki/core/./sys/cc-gcc.h /opt/contiki/core/./contiki.h :
+ /opt/contiki/core/./contiki-version.h :
  /opt/contiki/core/./contiki-default-conf.h :
  /opt/contiki/core/./sys/process.h /opt/contiki/core/./sys/autostart.h :
  /opt/contiki/core/./sys/timer.h /opt/contiki/core/./sys/ctimer.h :

@@ -13,7 +13,8 @@ obj_sky/print-stats.o: /opt/contiki/core/lib/print-stats.c \
  /opt/contiki/core/./sys/timer.h /opt/contiki/core/./sys/clock.h \
  /opt/contiki/core/./sys/process.h /opt/contiki/core/./sys/pt.h \
  /opt/contiki/core/./sys/lc.h /opt/contiki/core/./sys/lc-switch.h \
- /opt/contiki/core/./sys/cc.h /opt/contiki/core/./net/rime/unicast.h \
+ /opt/contiki/core/./sys/cc.h /opt/contiki/core/./sys/cc-gcc.h \
+ /opt/contiki/core/./net/rime/unicast.h \
  /opt/contiki/core/./net/rime/broadcast.h \
  /opt/contiki/core/./net/rime/abc.h /opt/contiki/core/./net/packetbuf.h \
  /opt/contiki/core/./net/llsec/llsec802154.h \
@@ -29,6 +30,7 @@ obj_sky/print-stats.o: /opt/contiki/core/lib/print-stats.c \
  /opt/contiki/core/./sys/pt.h /opt/contiki/core/./sys/procinit.h \
  /opt/contiki/core/./sys/loader.h /opt/contiki/core/./sys/clock.h \
  /opt/contiki/core/./sys/energest.h \
+ /opt/contiki/core/./net/mac/tsch/tsch-conf.h \
  /opt/contiki/core/./net/rime/channel.h \
  /opt/contiki/core/./net/rime/chameleon.h \
  /opt/contiki/core/./net/queuebuf.h \
@@ -66,7 +68,8 @@ obj_sky/print-stats.o: /opt/contiki/core/lib/print-stats.c \
  /opt/contiki/core/./sys/timer.h /opt/contiki/core/./sys/clock.h :
  /opt/contiki/core/./sys/process.h /opt/contiki/core/./sys/pt.h :
  /opt/contiki/core/./sys/lc.h /opt/contiki/core/./sys/lc-switch.h :
- /opt/contiki/core/./sys/cc.h /opt/contiki/core/./net/rime/unicast.h :
+ /opt/contiki/core/./sys/cc.h /opt/contiki/core/./sys/cc-gcc.h :
+ /opt/contiki/core/./net/rime/unicast.h :
  /opt/contiki/core/./net/rime/broadcast.h :
  /opt/contiki/core/./net/rime/abc.h /opt/contiki/core/./net/packetbuf.h :
  /opt/contiki/core/./net/llsec/llsec802154.h :
@@ -82,6 +85,7 @@ obj_sky/print-stats.o: /opt/contiki/core/lib/print-stats.c \
  /opt/contiki/core/./sys/pt.h /opt/contiki/core/./sys/procinit.h :
  /opt/contiki/core/./sys/loader.h /opt/contiki/core/./sys/clock.h :
  /opt/contiki/core/./sys/energest.h :
+ /opt/contiki/core/./net/mac/tsch/tsch-conf.h :
  /opt/contiki/core/./net/rime/channel.h :
  /opt/contiki/core/./net/rime/chameleon.h :
  /opt/contiki/core/./net/queuebuf.h :

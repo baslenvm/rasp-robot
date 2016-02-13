@@ -7,7 +7,7 @@ obj_sky/trickle-timer.o: /opt/contiki/core/lib/trickle-timer.c \
  /opt/contiki/core/./sys/clock.h /opt/contiki/core/./sys/process.h \
  /opt/contiki/core/./sys/pt.h /opt/contiki/core/./sys/lc.h \
  /opt/contiki/core/./sys/lc-switch.h /opt/contiki/core/./sys/cc.h \
- /opt/contiki/core/./lib/random.h
+ /opt/contiki/core/./sys/cc-gcc.h /opt/contiki/core/./lib/random.h
 /opt/contiki/core/lib/trickle-timer.c :
  /opt/contiki/platform/sky/./contiki-conf.h :
  /opt/contiki/platform/sky/./platform-conf.h :
@@ -17,4 +17,4 @@ obj_sky/trickle-timer.o: /opt/contiki/core/lib/trickle-timer.c \
  /opt/contiki/core/./sys/clock.h /opt/contiki/core/./sys/process.h :
  /opt/contiki/core/./sys/pt.h /opt/contiki/core/./sys/lc.h :
  /opt/contiki/core/./sys/lc-switch.h /opt/contiki/core/./sys/cc.h :
- /opt/contiki/core/./lib/random.h :
+ /opt/contiki/core/./sys/cc-gcc.h /opt/contiki/core/./lib/random.h :

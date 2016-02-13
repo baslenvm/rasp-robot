@@ -6,10 +6,10 @@ obj_sky/phase.o: /opt/contiki/core/net/mac/phase.c \
  /opt/contiki/core/./sys/clock.h /opt/contiki/core/./sys/rtimer.h \
  /opt/contiki/cpu/msp430/./rtimer-arch.h /opt/contiki/core/./lib/list.h \
  /opt/contiki/core/./lib/memb.h /opt/contiki/core/./sys/cc.h \
- /opt/contiki/core/./net/netstack.h /opt/contiki/core/./net/llsec/llsec.h \
- /opt/contiki/core/./net/mac/mac.h /opt/contiki/core/./dev/radio.h \
- /opt/contiki/core/./net/mac/rdc.h /opt/contiki/core/./net/mac/framer.h \
- /opt/contiki/core/./net/packetbuf.h \
+ /opt/contiki/core/./sys/cc-gcc.h /opt/contiki/core/./net/netstack.h \
+ /opt/contiki/core/./net/llsec/llsec.h /opt/contiki/core/./net/mac/mac.h \
+ /opt/contiki/core/./dev/radio.h /opt/contiki/core/./net/mac/rdc.h \
+ /opt/contiki/core/./net/mac/framer.h /opt/contiki/core/./net/packetbuf.h \
  /opt/contiki/core/./net/llsec/llsec802154.h \
  /opt/contiki/core/./net/mac/frame802154.h \
  /opt/contiki/core/./net/ip/uip.h /opt/contiki/core/./net/ip/uipopt.h \
@@ -24,6 +24,7 @@ obj_sky/phase.o: /opt/contiki/core/net/mac/phase.c \
  /opt/contiki/core/./sys/rtimer.h /opt/contiki/core/./sys/pt.h \
  /opt/contiki/core/./sys/procinit.h /opt/contiki/core/./sys/loader.h \
  /opt/contiki/core/./sys/clock.h /opt/contiki/core/./sys/energest.h \
+ /opt/contiki/core/./net/mac/tsch/tsch-conf.h \
  /opt/contiki/core/./sys/ctimer.h /opt/contiki/core/./net/queuebuf.h \
  /opt/contiki/core/./net/nbr-table.h
 /opt/contiki/core/net/mac/phase.c :
@@ -34,10 +35,10 @@ obj_sky/phase.o: /opt/contiki/core/net/mac/phase.c \
  /opt/contiki/core/./sys/clock.h /opt/contiki/core/./sys/rtimer.h :
  /opt/contiki/cpu/msp430/./rtimer-arch.h /opt/contiki/core/./lib/list.h :
  /opt/contiki/core/./lib/memb.h /opt/contiki/core/./sys/cc.h :
- /opt/contiki/core/./net/netstack.h /opt/contiki/core/./net/llsec/llsec.h :
- /opt/contiki/core/./net/mac/mac.h /opt/contiki/core/./dev/radio.h :
- /opt/contiki/core/./net/mac/rdc.h /opt/contiki/core/./net/mac/framer.h :
- /opt/contiki/core/./net/packetbuf.h :
+ /opt/contiki/core/./sys/cc-gcc.h /opt/contiki/core/./net/netstack.h :
+ /opt/contiki/core/./net/llsec/llsec.h /opt/contiki/core/./net/mac/mac.h :
+ /opt/contiki/core/./dev/radio.h /opt/contiki/core/./net/mac/rdc.h :
+ /opt/contiki/core/./net/mac/framer.h /opt/contiki/core/./net/packetbuf.h :
  /opt/contiki/core/./net/llsec/llsec802154.h :
  /opt/contiki/core/./net/mac/frame802154.h :
  /opt/contiki/core/./net/ip/uip.h /opt/contiki/core/./net/ip/uipopt.h :
@@ -52,5 +53,6 @@ obj_sky/phase.o: /opt/contiki/core/net/mac/phase.c \
  /opt/contiki/core/./sys/rtimer.h /opt/contiki/core/./sys/pt.h :
  /opt/contiki/core/./sys/procinit.h /opt/contiki/core/./sys/loader.h :
  /opt/contiki/core/./sys/clock.h /opt/contiki/core/./sys/energest.h :
+ /opt/contiki/core/./net/mac/tsch/tsch-conf.h :
  /opt/contiki/core/./sys/ctimer.h /opt/contiki/core/./net/queuebuf.h :
  /opt/contiki/core/./net/nbr-table.h :

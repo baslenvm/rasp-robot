@@ -1,8 +1,9 @@
 obj_sky/frame802154.o: /opt/contiki/core/net/mac/frame802154.c \
  /opt/contiki/core/./sys/cc.h /opt/contiki/platform/sky/./contiki-conf.h \
  /opt/contiki/platform/sky/./platform-conf.h \
- /opt/contiki/cpu/msp430/./msp430def.h \
+ /opt/contiki/cpu/msp430/./msp430def.h /opt/contiki/core/./sys/cc-gcc.h \
  /opt/contiki/core/./net/mac/frame802154.h \
+ /opt/contiki/core/./net/linkaddr.h \
  /opt/contiki/core/./net/llsec/llsec802154.h \
  /opt/contiki/core/./net/ip/uip.h /opt/contiki/core/./net/ip/uipopt.h \
  /opt/contiki/core/./net/ip/tcpip.h /opt/contiki/core/./contiki.h \
@@ -17,13 +18,13 @@ obj_sky/frame802154.o: /opt/contiki/core/net/mac/frame802154.c \
  /opt/contiki/core/./sys/rtimer.h /opt/contiki/cpu/msp430/./rtimer-arch.h \
  /opt/contiki/core/./sys/rtimer.h /opt/contiki/core/./sys/pt.h \
  /opt/contiki/core/./sys/procinit.h /opt/contiki/core/./sys/loader.h \
- /opt/contiki/core/./sys/clock.h /opt/contiki/core/./sys/energest.h \
- /opt/contiki/core/./net/linkaddr.h
+ /opt/contiki/core/./sys/clock.h /opt/contiki/core/./sys/energest.h
 /opt/contiki/core/net/mac/frame802154.c :
  /opt/contiki/core/./sys/cc.h /opt/contiki/platform/sky/./contiki-conf.h :
  /opt/contiki/platform/sky/./platform-conf.h :
- /opt/contiki/cpu/msp430/./msp430def.h :
+ /opt/contiki/cpu/msp430/./msp430def.h /opt/contiki/core/./sys/cc-gcc.h :
  /opt/contiki/core/./net/mac/frame802154.h :
+ /opt/contiki/core/./net/linkaddr.h :
  /opt/contiki/core/./net/llsec/llsec802154.h :
  /opt/contiki/core/./net/ip/uip.h /opt/contiki/core/./net/ip/uipopt.h :
  /opt/contiki/core/./net/ip/tcpip.h /opt/contiki/core/./contiki.h :
@@ -39,4 +40,3 @@ obj_sky/frame802154.o: /opt/contiki/core/net/mac/frame802154.c \
  /opt/contiki/core/./sys/rtimer.h /opt/contiki/core/./sys/pt.h :
  /opt/contiki/core/./sys/procinit.h /opt/contiki/core/./sys/loader.h :
  /opt/contiki/core/./sys/clock.h /opt/contiki/core/./sys/energest.h :
- /opt/contiki/core/./net/linkaddr.h :

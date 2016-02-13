@@ -1,7 +1,6 @@
-DEFINES+=PROJECT_CONF_H=\"project-conf.h\"
-CONTIKI_PROJECT = uart1_hello
-all: $(CONTIKI_PROJECT)
+CONTIKI_PROJECT = hello-world blink-hello timer-test sensors-demo
 
-CONTIKI = /opt/contiki
-CONTIKI_WITH_RIME = 1
+all: $(CONTIKI_PROJECT) 
+
+CONTIKI = /mnt/Data/contiki-2.6
 include $(CONTIKI)/Makefile.include
