@@ -12,10 +12,11 @@
 #include "dev/cc2430_rf.h"
 #include "dev/watchdog.h"
 #include "dev/lpm.h"
-#include "net/rime.h"
+#include "net/rime/rime.h"
 #include "net/netstack.h"
 #include "net/mac/frame802154.h"
 #include "debug.h"
+#include "stack.h"
 #include "dev/watchdog-cc2430.h"
 #include "dev/sensinode-sensors.h"
 #include "disco.h"
@@ -33,7 +34,7 @@ PROCESS_NAME(batmon_process);
 #endif
 
 #if NETSTACK_CONF_SHORTCUTS
-static __data int len;
+static CC_AT_DATA uint16_t len;
 #endif
 
 #ifdef STARTUP_CONF_VERBOSE
@@ -55,11 +56,10 @@ static __data int len;
 #endif
 
 #if CLOCK_CONF_STACK_FRIENDLY
-extern volatile __bit sleep_flag;
+extern volatile uint8_t sleep_flag;
 #endif
 
-extern rimeaddr_t rimeaddr_node_addr;
-static __data int r;
+extern linkaddr_t linkaddr_node_addr;
 #if ENERGEST_CONF_ON
 static unsigned long irq_energest = 0;
 #define ENERGEST_IRQ_SAVE(a) do { \
@@ -77,7 +77,7 @@ fade(int l) CC_NON_BANKED
   volatile int i, a;
   int k, j;
   for(k = 0; k < 400; ++k) {
-    j = k > 200? 400 - k: k;
+    j = k > 200 ? 400 - k : k;
 
     leds_on(l);
     for(i = 0; i < j; ++i) {
@@ -96,10 +96,10 @@ set_rime_addr(void) CC_NON_BANKED
   uint8_t *addr_long = NULL;
   uint16_t addr_short = 0;
   char i;
-  __code unsigned char * macp;
+  __code unsigned char *macp;
 
   PUTSTRING("Rime is 0x");
-  PUTHEX(sizeof(rimeaddr_t));
+  PUTHEX(sizeof(linkaddr_t));
   PUTSTRING(" bytes long\n");
 
   if(node_id == 0) {
@@ -119,10 +119,10 @@ set_rime_addr(void) CC_NON_BANKED
     FMAP = 3;
 
     /* Set our pointer to the correct address and fetch 8 bytes of MAC */
-    macp = (__code unsigned char *) 0xFFF8;
+    macp = (__code unsigned char *)0xFFF8;
 
-    for(i = (RIMEADDR_SIZE - 1); i >= 0; --i) {
-      rimeaddr_node_addr.u8[i] = *macp;
+    for(i = (LINKADDR_SIZE - 1); i >= 0; --i) {
+      linkaddr_node_addr.u8[i] = *macp;
       macp++;
     }
 
@@ -132,27 +132,27 @@ set_rime_addr(void) CC_NON_BANKED
 
   } else {
     PUTSTRING("Setting manual address from node_id\n");
-    rimeaddr_node_addr.u8[RIMEADDR_SIZE - 1] = node_id >> 8;
-    rimeaddr_node_addr.u8[RIMEADDR_SIZE - 2] = node_id & 0xff;
+    linkaddr_node_addr.u8[LINKADDR_SIZE - 1] = node_id >> 8;
+    linkaddr_node_addr.u8[LINKADDR_SIZE - 2] = node_id & 0xff;
   }
 
   /* Now the address is stored MSB first */
 #if STARTUP_VERBOSE
   PUTSTRING("Rime configured with address ");
-  for(i = 0; i < RIMEADDR_SIZE - 1; i++) {
-    PUTHEX(rimeaddr_node_addr.u8[i]);
+  for(i = 0; i < LINKADDR_SIZE - 1; i++) {
+    PUTHEX(linkaddr_node_addr.u8[i]);
     PUTCHAR(':');
   }
-  PUTHEX(rimeaddr_node_addr.u8[i]);
+  PUTHEX(linkaddr_node_addr.u8[i]);
   PUTCHAR('\n');
 #endif
 
   /* Set the cc2430 RF addresses */
-#if (RIMEADDR_SIZE==8)
-  addr_short = (rimeaddr_node_addr.u8[6] * 256) + rimeaddr_node_addr.u8[7];
-  addr_long = (uint8_t *) &rimeaddr_node_addr;
+#if (LINKADDR_SIZE==8)
+  addr_short = (linkaddr_node_addr.u8[6] * 256) + linkaddr_node_addr.u8[7];
+  addr_long = (uint8_t *) &linkaddr_node_addr;
 #else
-  addr_short = (rimeaddr_node_addr.u8[0] * 256) + rimeaddr_node_addr.u8[1];
+  addr_short = (linkaddr_node_addr.u8[0] * 256) + linkaddr_node_addr.u8[1];
 #endif
   cc2430_rf_set_addr(IEEE802154_PANID, addr_short, addr_long);
 }
@@ -164,6 +164,8 @@ main(void)
   /* Hardware initialization */
   bus_init();
   rtimer_init();
+
+  stack_poison();
 
   /* model-specific h/w init. */
   model_init();
@@ -243,8 +245,8 @@ main(void)
   sensinode_sensors_activate();
 #endif
 
-#if UIP_CONF_IPV6
-  memcpy(&uip_lladdr.addr, &rimeaddr_node_addr, sizeof(uip_lladdr.addr));
+#if NETSTACK_CONF_WITH_IPV6
+  memcpy(&uip_lladdr.addr, &linkaddr_node_addr, sizeof(uip_lladdr.addr));
   queuebuf_init();
   process_start(&tcpip_process, NULL);
 
@@ -265,7 +267,7 @@ main(void)
     uip_ds6_addr_add(&ipaddr, 0, ADDR_TENTATIVE);
   }
 #endif /* UIP_CONF_IPV6_RPL */
-#endif /* UIP_CONF_IPV6 */
+#endif /* NETSTACK_CONF_WITH_IPV6 */
 
   /*
    * Acknowledge the UART1 RX interrupt
@@ -287,6 +289,7 @@ main(void)
   watchdog_start();
 
   while(1) {
+    uint8_t r;
     do {
       /* Reset watchdog and handle polls and events */
       watchdog_periodic();
@@ -340,11 +343,10 @@ main(void)
       nop
     __endasm;
 
-    if (SLEEP & SLEEP_MODE0) {
+    if(SLEEP & SLEEP_MODE0) {
 #endif /* LPM_MODE==LPM_MODE_PM2 */
 
-      ENERGEST_OFF(ENERGEST_TYPE_CPU);
-      ENERGEST_ON(ENERGEST_TYPE_LPM);
+      ENERGEST_SWITCH(ENERGEST_TYPE_CPU, ENERGEST_TYPE_LPM);
 
       /* We are only interested in IRQ energest while idle or in LPM */
       ENERGEST_IRQ_RESTORE(irq_energest);
@@ -360,8 +362,7 @@ main(void)
       /* Remember energest IRQ for next pass */
       ENERGEST_IRQ_SAVE(irq_energest);
 
-      ENERGEST_ON(ENERGEST_TYPE_CPU);
-      ENERGEST_OFF(ENERGEST_TYPE_LPM);
+      ENERGEST_SWITCH(ENERGEST_TYPE_LPM, ENERGEST_TYPE_CPU);
 
 #if (LPM_MODE==LPM_MODE_PM2)
       SLEEP &= ~OSC_PD;            /* Make sure both HS OSCs are on */

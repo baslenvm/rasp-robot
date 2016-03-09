@@ -9,8 +9,8 @@
  *	   (recent updates for the sensinode/cc2430 port)
  */
 
-#ifndef __8051_DEF_H__
-#define __8051_DEF_H__
+#ifndef E051_DEF_H_
+#define E051_DEF_H_
 
 #include <stdint.h>
 
@@ -38,7 +38,6 @@
 #endif
 
 #define CC_CONF_FUNCTION_POINTER_ARGS	1
-#define CC_CONF_FASTCALL
 #define CC_CONF_VA_ARGS		1
 #define CC_CONF_UNSIGNED_CHAR_BUGS	0
 #define CC_CONF_REGISTER_ARGS		0
@@ -49,6 +48,26 @@
 #define CC_NON_BANKED __nonbanked
 #else
 #define CC_NON_BANKED
+#endif
+
+/*
+ * Max Stack Depth manipulation. It is possible to get up to 247 bytes
+ * allocated for the stack if:
+ * - You set this to 1 and
+ * - You have a patched toolchain and
+ * - You don't use __bit variables
+ * - You do not link libraries using BIT registers (e.g. printf_large)
+ * Enabling this will mean ISRs will NOT push bits (#pragma exclude bits) so
+ * make sure you know what you're doing
+ *
+ * More information on the wiki
+ */
+#define CC_CONF_OPTIMIZE_STACK_SIZE 0
+
+#if CC_CONF_OPTIMIZE_STACK_SIZE
+#define CC_AT_DATA
+#else
+#define CC_AT_DATA __data
 #endif
 
 /* Generic types. */
@@ -90,4 +109,4 @@ typedef unsigned short clock_time_t;
 #define uip_ipaddr_copy(dest, src)		\
     memcpy(dest, src, sizeof(*dest))
 
-#endif /* __8051_DEF_H__ */
+#endif /* E051_DEF_H_ */

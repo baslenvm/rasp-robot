@@ -30,7 +30,6 @@
  * 
  * Author: Oliver Schmidt <ol.sc@web.de>
  *
- * $Id: config.c,v 1.7 2010/09/29 21:48:54 oliverschmidt Exp $
  */
 
 #include <stdlib.h>
@@ -44,7 +43,7 @@
 
 /*-----------------------------------------------------------------------------------*/
 #if LOG_CONF_ENABLED
-static char * CC_FASTCALL
+static char *
 ipaddrtoa(uip_ipaddr_t *ipaddr, char *buffer)
 {
   char *ptr = buffer;
@@ -60,7 +59,7 @@ ipaddrtoa(uip_ipaddr_t *ipaddr, char *buffer)
 }
 #endif /* LOG_CONF_ENABLED */
 /*-----------------------------------------------------------------------------------*/
-struct ethernet_config * CC_FASTCALL
+struct ethernet_config *
 config_read(char *filename)
 {
   static struct {
@@ -79,7 +78,7 @@ config_read(char *filename)
   }
 
   if(cfs_read(file, &config, sizeof(config)) < sizeof(config)
-					     - sizeof(config.ethernetcfg.name)) {
+                                             - sizeof(config.ethernetcfg.name)) {
     log_message(filename, ": No config file");
     error_exit();
   }
@@ -106,7 +105,7 @@ config_read(char *filename)
   uip_setnetmask(&config.netmask);
   uip_setdraddr(&config.draddr);
 #if WITH_DNS
-  resolv_conf(&config.resolvaddr);
+  uip_nameserver_update(&config.resolvaddr, UIP_NAMESERVER_INFINITE_LIFETIME);
 #endif /* WITH_DNS */
 
   return &config.ethernetcfg;

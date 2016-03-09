@@ -38,8 +38,8 @@
  *         David Kopf <dak664@embarqmail.com>
  */
 
-#ifndef __CONTIKI_CONF_H__
-#define __CONTIKI_CONF_H__
+#ifndef CONTIKI_CONF_H_
+#define CONTIKI_CONF_H_
 
 /* Platform name, type, and MCU clock rate */
 #define PLATFORM_NAME  "RFA1"
@@ -137,13 +137,13 @@ typedef unsigned short uip_stats_t;
 /* Network setup */
 /* TX routine passes the cca/ack result in the return parameter */
 #define RDC_CONF_HARDWARE_ACK    1
-/* TX routine does automatic cca and optional backoff */
+/* TX routine does automatic cca and optional backoffs */
 #define RDC_CONF_HARDWARE_CSMA   1
 /* Allow MCU sleeping between channel checks */
 #define RDC_CONF_MCU_SLEEP         1
 
-#if UIP_CONF_IPV6
-#define RIMEADDR_CONF_SIZE        8
+#if NETSTACK_CONF_WITH_IPV6
+#define LINKADDR_CONF_SIZE        8
 #define UIP_CONF_ICMP6            1
 #define UIP_CONF_UDP              1
 #define UIP_CONF_TCP              1
@@ -151,7 +151,7 @@ typedef unsigned short uip_stats_t;
 #define SICSLOWPAN_CONF_COMPRESSION SICSLOWPAN_COMPRESSION_HC06
 #else
 /* ip4 should build but is largely untested */
-#define RIMEADDR_CONF_SIZE        2
+#define LINKADDR_CONF_SIZE        2
 #define NETSTACK_CONF_NETWORK     rime_driver
 #endif
 
@@ -191,10 +191,10 @@ typedef unsigned short uip_stats_t;
 #define CHANNEL_802_15_4          26
 /* AUTOACK receive mode gives better rssi measurements, even if ACK is never requested */
 #define RF230_CONF_AUTOACK        1
-/* Request 802.15.4 ACK on all packets sent (else autoretry). This is primarily for testing. */
-#define SICSLOWPAN_CONF_ACK_ALL   0
-/* Number of auto retry attempts 0-15 (0 implies don't use extended TX_ARET_ON mode with CCA) */
-#define RF230_CONF_AUTORETRIES    2
+/* 1 + Number of auto retry attempts 0-15 (0 implies don't use extended TX_ARET_ON mode) */
+#define RF230_CONF_FRAME_RETRIES    2
+/* Number of csma retry attempts 0-5 in extended tx mode (7 does immediate tx with no csma) */
+#define RF230_CONF_CSMA_RETRIES   5
 /* Default is one RAM buffer for received packets. More than one may benefit multiple TCP connections or ports */
 #define RF230_CONF_RX_BUFFERS     3
 #define SICSLOWPAN_CONF_FRAG      1
@@ -219,10 +219,10 @@ typedef unsigned short uip_stats_t;
 /* 25 bytes per UDP connection */
 #define UIP_CONF_UDP_CONNS       10
 /* See uip-ds6.h */
-#define UIP_CONF_DS6_NBR_NBU      20
+#define NBR_TABLE_CONF_MAX_NEIGHBORS      20
 #define UIP_CONF_DS6_DEFRT_NBU    2
 #define UIP_CONF_DS6_PREFIX_NBU   3
-#define UIP_CONF_DS6_ROUTE_NBU    20
+#define UIP_CONF_MAX_ROUTES    20
 #define UIP_CONF_DS6_ADDR_NBU     3
 #define UIP_CONF_DS6_MADDR_NBU    0
 #define UIP_CONF_DS6_AADDR_NBU    0
@@ -235,24 +235,29 @@ typedef unsigned short uip_stats_t;
 #define NETSTACK_CONF_RDC         contikimac_driver
 /* Default is two CCA separated by 500 usec */
 #define NETSTACK_CONF_RDC_CHANNEL_CHECK_RATE   8
-/* Wireshark won't decode with the header, but padded packets will fail ipv6 checksum */
-#define CONTIKIMAC_CONF_WITH_CONTIKIMAC_HEADER 0
 /* So without the header this needed for RPL mesh to form */
-#define CONTIKIMAC_CONF_SHORTEST_PACKET_SIZE   43-18  //multicast RPL DIS length
+#define CONTIKIMAC_FRAMER_CONF_SHORTEST_PACKET_SIZE   43-18  //multicast RPL DIS length
 /* Not tested much yet */
 #define WITH_PHASE_OPTIMIZATION                0
 #define CONTIKIMAC_CONF_COMPOWER               1
-#define RIMESTATS_CONF_ON                      1
-#define NETSTACK_CONF_FRAMER      framer_802154
+#define RIMESTATS_CONF_ENABLED                 1
+
+#if NETSTACK_CONF_WITH_IPV6
+#define NETSTACK_CONF_FRAMER      framer802154
+#else /* NETSTACK_CONF_WITH_IPV6 */
+#define NETSTACK_CONF_FRAMER      contikimac_framer
+#endif /* NETSTACK_CONF_WITH_IPV6 */
+
 #define NETSTACK_CONF_RADIO       rf230_driver
 #define CHANNEL_802_15_4          26
 /* The radio needs to interrupt during an rtimer interrupt */
 #define RTIMER_CONF_NESTED_INTERRUPTS 1
 #define RF230_CONF_AUTOACK        1
 /* A 0 here means non-extended mode; 1 means extended mode with no retry, >1 for retrys */
-#define RF230_CONF_AUTORETRIES    1
-/* A 0 here means no cca; 1 means extended mode with cca but no retry, >1 for backoff retrys */
-#define RF230_CONF_CSMARETRIES    1
+/* Contikimac strobes on its own, but hardware retries are faster */
+#define RF230_CONF_FRAME_RETRIES  1
+/* Long csma backoffs will compromise radio cycling; set to 0 for 1 csma */
+#define RF230_CONF_CSMA_RETRIES   0
 #define SICSLOWPAN_CONF_FRAG      1
 #define SICSLOWPAN_CONF_MAXAGE    3
 /* 211 bytes per queue buffer. Contikimac burst mode needs 15 for a 1280 byte MTU */
@@ -263,10 +268,10 @@ typedef unsigned short uip_stats_t;
 #define UIP_CONF_MAX_CONNECTIONS  2
 #define UIP_CONF_MAX_LISTENPORTS  4
 #define UIP_CONF_UDP_CONNS        5
-#define UIP_CONF_DS6_NBR_NBU      4
+#define NBR_TABLE_CONF_MAX_NEIGHBORS      20
 #define UIP_CONF_DS6_DEFRT_NBU    2
 #define UIP_CONF_DS6_PREFIX_NBU   3
-#define UIP_CONF_DS6_ROUTE_NBU    4
+#define UIP_CONF_MAX_ROUTES    4
 #define UIP_CONF_DS6_ADDR_NBU     3
 #define UIP_CONF_DS6_MADDR_NBU    0
 #define UIP_CONF_DS6_AADDR_NBU    0
@@ -274,8 +279,10 @@ typedef unsigned short uip_stats_t;
 
 #elif 1  /* cx-mac radio cycling */
 /* RF230 does clear-channel assessment in extended mode (autoretries>0) */
-#define RF230_CONF_AUTORETRIES    1
-#if RF230_CONF_AUTORETRIES
+/* These values are guesses */
+#define RF230_CONF_FRAME_RETRIES  10
+#define RF230_CONF_CSMA_RETRIES   2
+#if RF230_CONF_CSMA_RETRIES
 #define NETSTACK_CONF_MAC         nullmac_driver
 #else
 #define NETSTACK_CONF_MAC         csma_driver
@@ -297,10 +304,10 @@ typedef unsigned short uip_stats_t;
 #define UIP_CONF_MAX_CONNECTIONS  2
 #define UIP_CONF_MAX_LISTENPORTS  4
 #define UIP_CONF_UDP_CONNS        5
-#define UIP_CONF_DS6_NBR_NBU      4
+#define NBR_TABLE_CONF_MAX_NEIGHBORS      4
 #define UIP_CONF_DS6_DEFRT_NBU    2
 #define UIP_CONF_DS6_PREFIX_NBU   3
-#define UIP_CONF_DS6_ROUTE_NBU    4
+#define UIP_CONF_MAX_ROUTES    4
 #define UIP_CONF_DS6_ADDR_NBU     3
 #define UIP_CONF_DS6_MADDR_NBU    0
 #define UIP_CONF_DS6_AADDR_NBU    0
@@ -336,6 +343,9 @@ typedef unsigned short uip_stats_t;
 
 #define CCIF
 #define CLIF
+#ifndef CC_CONF_INLINE
+#define CC_CONF_INLINE inline
+#endif
 
 /* include the project config */
 /* PROJECT_CONF_H might be defined in the project Makefile */
@@ -343,4 +353,4 @@ typedef unsigned short uip_stats_t;
 #include PROJECT_CONF_H
 #endif
 
-#endif /* __CONTIKI_CONF_H__ */
+#endif /* CONTIKI_CONF_H_ */
