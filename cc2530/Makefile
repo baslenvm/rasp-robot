@@ -1,0 +1,20 @@
+DEFINES+=PROJECT_CONF_H=\"project-conf.h\"
+
+HAVE_BANKING=1
+UIP_CONF_IPV6=1
+#UIP_CONF_RPL=1
+UIP_CONF_ROUTER=0
+#CFLAGS+= -DUIP_CONF_IPV6_RPL
+UIP_CONF_IPV6_RPL=1
+#APPS+=powertrace
+#DUSE_FLOATS=1
+
+#PROJECT_SOURCEFILES += ping6.c
+
+CONTIKI_PROJECT = robot server
+
+all: $(CONTIKI_PROJECT) 
+
+CONTIKI = ../contiki-cc2530dk
+
+include $(CONTIKI)/Makefile.include 
