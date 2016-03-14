@@ -2,16 +2,17 @@
 #include "contiki-lib.h"
 #include "contiki-net.h"
 #include "net/rpl/rpl.h"
-#include <cc253x.h>
-#include <stdio.h> /* For printf() */
-#include "dev/leds.h"
-#include "debug.h"
-#include "uip.h"
-#include "net/uip-debug.h"
 #include "dev/uart0.h"
 #include "dev/uart1.h"
 
 #define DEBUG DEBUG_PRINT
+#include <string.h> /* For printf() */
+#include <cc253x.h>
+#include "dev/leds.h"
+#include "debug.h"
+#include "net/uip-debug.h"
+
+
 
 #define SEND_INTERVAL (3 * CLOCK_SECOND)//ตั้งค่าหน่วงเวลาส่ง
 #define MAX_PAYLOAD_LEN		66
@@ -42,7 +43,7 @@ static void delay(unsigned char n)          //delay  n  us
     for(i = 0; i < n; i++)	  ASM(nop);
 }
 /*---------------------------------------------------------------------------*/
-static void w_uart(char uart,char* text, int count)
+static void w_uart(unsigned char uart,unsigned char *text, int count)
 {
   if(count<MAX_PAYLOAD_LEN)
   {
@@ -68,12 +69,12 @@ tcpip_handler(void)
 {
   leds_on(LEDS_GREEN);
   if(uip_newdata()) {
-    putstring("0x");
-    puthex(uip_datalen());
-    putstring(" bytes response=0x");
-    puthex((*(uint16_t *) uip_appdata) >> 8);
-    puthex((*(uint16_t *) uip_appdata) & 0xFF);
-    putchar('\n');
+    leds_on(LEDS_RED);
+    len = uip_datalen();
+    memset(buf, 0, MAX_PAYLOAD_LEN);
+    memcpy(buf, uip_appdata, len);
+    wr_uart(0,buf);
+    leds_off(LEDS_RED);
   }
   leds_off(LEDS_GREEN);
   return;
@@ -99,13 +100,13 @@ timeout_handler(void)
   //  }
   //}
 
-    PRINTF("Client to: ");
-    PRINT6ADDR(&this_conn->ripaddr);
+    //PRINTF("Client to: ");
+    //PRINT6ADDR(&this_conn->ripaddr);
 
     memcpy(buf, &seq_id, sizeof(seq_id));
 
-    PRINTF(" Remote Port %u,", UIP_HTONS(this_conn->rport));
-    PRINTF(" (msg=0x%04x), %u bytes\n", *(uint16_t *) buf, sizeof(seq_id));
+    //PRINTF(" Remote Port %u,", UIP_HTONS(this_conn->rport));
+    //PRINTF(" (msg=0x%04x), %u bytes\n", *(uint16_t *) buf, sizeof(seq_id));
 
     uip_udp_packet_send(this_conn, buf, sizeof(seq_id));
     leds_off(LEDS_RED);

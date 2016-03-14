@@ -35,16 +35,12 @@ AUTOSTART_PROCESSES(&udp_server_process);
 int uart0_rx_callback(unsigned char words)
 {
   leds_on(LEDS_GREEN);
-  leds_on(LEDS_RED);
   memset(buf, 0, MAX_PAYLOAD_LEN);
-  uip_ip6addr(&server_conn->ripaddr, 0xaaaa, 0, 0, 0 ,0212, 0x4b00, 0x0146, 0xfdf9);
-  server_conn->rport = 3001;
   buf[MAX_PAYLOAD_LEN-1]=0;
   buf[MAX_PAYLOAD_LEN-2]='\r';
   buf[0]=0;
   buf[1]=1;
   buf[2]=2;
-  /* Restore server connection to allow data from any node */
   switch (words) {
     case 'w':
     PRINTF("Forward\r\n");
@@ -64,8 +60,13 @@ int uart0_rx_callback(unsigned char words)
     break;
     default:
   }
+  leds_on(LEDS_RED);
   leds_off(LEDS_GREEN);
+  uip_ip6addr(&server_conn->ripaddr, 0xaaaa, 0, 0, 0 ,0x0212, 0x4b00, 0x0146, 0xfdf9);
+  server_conn->rport = UIP_HTONS(3001);
   uip_udp_packet_send(server_conn, buf, MAX_PAYLOAD_LEN);
+  uip_create_unspecified(&server_conn->ripaddr);
+  server_conn->rport = 0;
   leds_off(LEDS_RED);
   return 1;
 }
@@ -81,7 +82,7 @@ tcpip_handler(void)
     PRINTF("%u bytes from [", len);
     PRINT6ADDR(&UIP_IP_BUF->srcipaddr);
     PRINTF("]:%u\n", UIP_HTONS(UIP_UDP_BUF->srcport));
-    PRINTF("Data is [%s]\n\r",buf);
+    PRINTF("Data is [%i]\n\r",buf);
     leds_off(LEDS_GREEN);
 
 //#if SERVER_REPLY
