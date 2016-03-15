@@ -22,7 +22,7 @@ int uart0_filestream = -1;
 char buff_rx[MAX_PAYLOAD_LEN], buff_tx[MAX_PAYLOAD_LEN];
 bool uart_r = true;
 // Compass
-char *compass_p = (char *)"/dev/i2c-0";
+char *compass_p = (char *)"/dev/i2c-1";
 const int HMC5883L_I2C_ADDR = 0x1E;
 /*----------------------------------------------------------------------------*/
 void selectI2C(int fd, int addr, char *name) {
@@ -202,5 +202,8 @@ void *recUart(void *t) {
 int main() {
   pthread_t uart_rx_t, uart_tx_t, compass_t;
   pthread_create(&compass_t, NULL, compass, NULL);
+	while(true){
+
+}
   return 0;
 }
