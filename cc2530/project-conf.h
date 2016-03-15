@@ -1,7 +1,7 @@
 #ifndef PROJECT_CONF_H_
 #define PROJECT_CONF_H_
 
-#define UART0_CONF_ENABLE  1
+#define UART0_CONF_ENABLE 1
 #define UART0_CONF_WITH_INPUT 1
 
 #endif /* PROJECT_CONF_H_ */

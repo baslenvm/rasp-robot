@@ -1,20 +1,20 @@
-//uint16_t dag_id[] = {0x1111, 0x1100, 0, 0, 0, 0, 0, 0x0011};
-#include "contiki.h"
+// uint16_t dag_id[] = {0x1111, 0x1100, 0, 0, 0, 0, 0, 0x0011};
 #include "contiki-lib.h"
 #include "contiki-net.h"
+#include "contiki.h"
 #include "dev/uart0.h"
 
 #include <string.h>
 
 #define DEBUG DEBUG_PRINT
-#include "net/uip-debug.h"
-#include "dev/watchdog.h"
-#include "dev/leds.h"
-#include "net/rpl/rpl.h"
-#include "dev/button-sensor.h"
 #include "debug.h"
-#define UIP_IP_BUF   ((struct uip_ip_hdr *)&uip_buf[UIP_LLH_LEN])
-#define UIP_UDP_BUF  ((struct uip_udp_hdr *)&uip_buf[uip_l2_l3_hdr_len])
+#include "dev/button-sensor.h"
+#include "dev/leds.h"
+#include "dev/watchdog.h"
+#include "net/rpl/rpl.h"
+#include "net/uip-debug.h"
+#define UIP_IP_BUF ((struct uip_ip_hdr *)&uip_buf[UIP_LLH_LEN])
+#define UIP_UDP_BUF ((struct uip_udp_hdr *)&uip_buf[uip_l2_l3_hdr_len])
 
 #define MAX_PAYLOAD_LEN 66
 
@@ -23,7 +23,7 @@ static char buf[MAX_PAYLOAD_LEN];
 static uint16_t len;
 
 /* Should we act as RPL root? */
-#define SERVER_RPL_ROOT       1
+#define SERVER_RPL_ROOT 1
 
 #if SERVER_RPL_ROOT
 static uip_ipaddr_t ipaddr;
@@ -32,37 +32,37 @@ static uip_ipaddr_t ipaddr;
 PROCESS(udp_server_process, "UDP server process");
 AUTOSTART_PROCESSES(&udp_server_process);
 /*---------------------------------------------------------------------------*/
-int uart0_rx_callback(unsigned char words)
-{
+int uart0_rx_callback(unsigned char words) {
   leds_on(LEDS_GREEN);
   memset(buf, 0, MAX_PAYLOAD_LEN);
-  buf[MAX_PAYLOAD_LEN-1]=0;
-  buf[MAX_PAYLOAD_LEN-2]='\r';
-  buf[0]=0;
-  buf[1]=1;
-  buf[2]=2;
+  buf[MAX_PAYLOAD_LEN - 1] = 0;
+  buf[MAX_PAYLOAD_LEN - 2] = '\r';
+  buf[0] = 0;
+  buf[1] = 1;
+  buf[2] = 2;
   switch (words) {
-    case 'w':
+  case 'w':
     PRINTF("Forward\r\n");
-    buf[3]=0;
+    buf[3] = 0;
     break;
-    case 's':
+  case 's':
     PRINTF("Backward\r\n");
-    buf[3]=1;
+    buf[3] = 1;
     break;
-    case 'a':
+  case 'a':
     PRINTF("Left\r\n");
-    buf[3]=2;
+    buf[3] = 2;
     break;
-    case 'd':
+  case 'd':
     PRINTF("Right\r\n");
-    buf[3]=3;
+    buf[3] = 3;
     break;
-    default:
+  default:
   }
   leds_on(LEDS_RED);
   leds_off(LEDS_GREEN);
-  uip_ip6addr(&server_conn->ripaddr, 0xaaaa, 0, 0, 0 ,0x0212, 0x4b00, 0x0146, 0xfdf9);
+  uip_ip6addr(&server_conn->ripaddr, 0xaaaa, 0, 0, 0, 0x0212, 0x4b00, 0x0146,
+              0xfdf9);
   server_conn->rport = UIP_HTONS(3001);
   uip_udp_packet_send(server_conn, buf, MAX_PAYLOAD_LEN);
   uip_create_unspecified(&server_conn->ripaddr);
@@ -71,46 +71,47 @@ int uart0_rx_callback(unsigned char words)
   return 1;
 }
 /*---------------------------------------------------------------------------*/
-static void
-tcpip_handler(void)
-{
+static void tcpip_handler(void) {
+  int i;
   leds_on(LEDS_GREEN);
   memset(buf, 0, MAX_PAYLOAD_LEN);
-  if(uip_newdata()) {
+  if (uip_newdata()) {
     len = uip_datalen();
     memcpy(buf, uip_appdata, len);
     PRINTF("%u bytes from [", len);
     PRINT6ADDR(&UIP_IP_BUF->srcipaddr);
     PRINTF("]:%u\n", UIP_HTONS(UIP_UDP_BUF->srcport));
-    PRINTF("Data is [%i]\n\r",buf);
+    PRINTF("Data is [");
+    for (i = 0; i < MAX_PAYLOAD_LEN; i++) {
+      PRINTF(" %u", buf[i]);
+    }
+    PRINTF("]\n\r");
     leds_off(LEDS_GREEN);
 
-//#if SERVER_REPLY
-//    leds_on(LEDS_RED);
-//    uip_ipaddr_copy(&server_conn->ripaddr, &UIP_IP_BUF->srcipaddr);
-//    server_conn->rport = UIP_UDP_BUF->srcport;
-//
-//    uip_udp_packet_send(server_conn, buf, len);
-//    /* Restore server connection to allow data from any node */
-//    uip_create_unspecified(&server_conn->ripaddr);
-//    server_conn->rport = 0;
-//    leds_off(LEDS_RED);
-//#endif
+    //#if SERVER_REPLY
+    //    leds_on(LEDS_RED);
+    //    uip_ipaddr_copy(&server_conn->ripaddr, &UIP_IP_BUF->srcipaddr);
+    //    server_conn->rport = UIP_UDP_BUF->srcport;
+    //
+    //    uip_udp_packet_send(server_conn, buf, len);
+    //    /* Restore server connection to allow data from any node */
+    //    uip_create_unspecified(&server_conn->ripaddr);
+    //    server_conn->rport = 0;
+    //    leds_off(LEDS_RED);
+    //#endif
   }
   return;
 }
 /*---------------------------------------------------------------------------*/
-static void
-print_local_addresses(void)
-{
+static void print_local_addresses(void) {
   int i;
   uint8_t state;
 
   PRINTF("Server IPv6 addresses:\n");
-  for(i = 0; i < UIP_DS6_ADDR_NB; i++) {
+  for (i = 0; i < UIP_DS6_ADDR_NB; i++) {
     state = uip_ds6_if.addr_list[i].state;
-    if(uip_ds6_if.addr_list[i].isused && (state == ADDR_TENTATIVE || state
-        == ADDR_PREFERRED)) {
+    if (uip_ds6_if.addr_list[i].isused &&
+        (state == ADDR_TENTATIVE || state == ADDR_PREFERRED)) {
       PRINTF("  ");
       PRINT6ADDR(&uip_ds6_if.addr_list[i].ipaddr);
       PRINTF("\n");
@@ -122,9 +123,7 @@ print_local_addresses(void)
 }
 /*---------------------------------------------------------------------------*/
 #if SERVER_RPL_ROOT
-void
-create_dag()
-{
+void create_dag() {
   rpl_dag_t *dag;
   leds_on(LEDS_YELLOW);
 
@@ -134,8 +133,9 @@ create_dag()
 
   print_local_addresses();
 
-  dag = rpl_set_root(RPL_DEFAULT_INSTANCE, &uip_ds6_get_global(ADDR_PREFERRED)->ipaddr);
-  if(dag != NULL) {
+  dag = rpl_set_root(RPL_DEFAULT_INSTANCE,
+                     &uip_ds6_get_global(ADDR_PREFERRED)->ipaddr);
+  if (dag != NULL) {
     uip_ip6addr(&ipaddr, 0xaaaa, 0, 0, 0, 0, 0, 0, 0);
     rpl_set_prefix(dag, &ipaddr, 64);
     PRINTF("Created a new RPL dag with ID: ");
@@ -150,12 +150,10 @@ create_dag()
 }
 #endif /* SERVER_RPL_ROOT */
 /*---------------------------------------------------------------------------*/
-PROCESS_THREAD(udp_server_process, ev, data)
-{
+PROCESS_THREAD(udp_server_process, ev, data) {
 
   PROCESS_BEGIN();
   putstring("Starting UDP server\n");
-
 
 #if SERVER_RPL_ROOT
   create_dag();
@@ -167,12 +165,12 @@ PROCESS_THREAD(udp_server_process, ev, data)
   PRINTF("Listen port: 3000, TTL=%u\n", server_conn->ttl);
   uart0_init();
   uart0_set_input(uart0_rx_callback);
-  while(1) {
+  while (1) {
     PROCESS_YIELD();
-    if(ev == tcpip_event) {
+    if (ev == tcpip_event) {
       tcpip_handler();
+    }
   }
-}
 
   PROCESS_END();
 }
